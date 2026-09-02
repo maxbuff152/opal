@@ -23,6 +23,8 @@ $buildText = [IO.File]::ReadAllText($buildScript)
 Assert-True ($sourceText -notmatch 'RunAdaptiveDock|TryHandleAdaptiveDockCommand') 'Telemetry core still invokes the retired Adaptive Dock.'
 Assert-True ($buildText -notmatch 'AdaptiveDock(?:Services)?\.cpp') 'Telemetry build still compiles the retired Adaptive Dock.'
 Assert-True ($buildText -notmatch '-l(?:dwmapi|d2d1|dwrite|gdiplus|oleacc|winmm|windowscodecs|winhttp)') 'Telemetry build still links a retired UI/media dependency.'
+Assert-True ($sourceText -match 'wttr\.in' -and $sourceText -match 'Maxwell.Shell.Weather') 'Telemetry core does not fetch wttr.in weather for the clock.'
+Assert-True ($buildText -match '-lwininet') 'Weather fetch is not linked with WinINet in Maxwell.Shell.Core.'
 
 foreach ($retired in @(
     'native\Maxwell.Shell.Core\AdaptiveDock.cpp',
@@ -82,7 +84,7 @@ $result = [ordered]@{
     passed = $failures.Count -eq 0
     assertions = $assertions
     failures = @($failures)
-    surface = 'telemetry-only'
+    surface = 'telemetry-and-weather'
     processId = if ($ownedProcess.Count) { $ownedProcess[0].ProcessId } else { $null }
     checkedAt = [DateTimeOffset]::Now.ToString('o')
 }

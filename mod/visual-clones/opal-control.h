@@ -2,6 +2,7 @@
 
 #include <cwchar>
 #include <string>
+#include <vector>
 
 // Small helpers shared by Opal's internal Media and Performance components.
 // Windhawk itself owns all user settings; this file contains no second control
@@ -25,6 +26,7 @@ struct QuarantineState {
 struct TaskbarWindows {
     HWND primary = nullptr;
     HWND secondary = nullptr;
+    std::vector<HWND> secondaries;
 };
 
 inline TaskbarWindows CurrentProcessTaskbars() {
@@ -41,9 +43,9 @@ inline TaskbarWindows CurrentProcessTaskbars() {
             }
             if (_wcsicmp(className, L"Shell_TrayWnd") == 0) {
                 result->primary = window;
-            } else if (_wcsicmp(className, L"Shell_SecondaryTrayWnd") == 0 &&
-                       !result->secondary) {
-                result->secondary = window;
+            } else if (_wcsicmp(className, L"Shell_SecondaryTrayWnd") == 0) {
+                result->secondaries.push_back(window);
+                if (!result->secondary) result->secondary = window;
             }
             return TRUE;
         },
@@ -61,12 +63,26 @@ inline HWND FullViewWindow(MonitorTarget target, bool preferSecondaryForBoth) {
     return windows.primary ? windows.primary : windows.secondary;
 }
 
-inline HWND MirrorViewWindow(MonitorTarget target, HWND fullWindow) {
-    if (target != MonitorTarget::Both) return nullptr;
+inline std::vector<HWND> OtherTaskbarWindows(MonitorTarget target, HWND fullWindow) {
+    std::vector<HWND> result;
+    if (target != MonitorTarget::Both || !fullWindow) return result;
     const auto windows = CurrentProcessTaskbars();
-    if (windows.primary && windows.primary != fullWindow) return windows.primary;
-    if (windows.secondary && windows.secondary != fullWindow) return windows.secondary;
-    return nullptr;
+    auto consider = [&](HWND window) {
+        if (window && window != fullWindow) {
+            for (HWND existing : result) {
+                if (existing == window) return;
+            }
+            result.push_back(window);
+        }
+    };
+    consider(windows.primary);
+    for (HWND secondary : windows.secondaries) consider(secondary);
+    return result;
+}
+
+inline HWND MirrorViewWindow(MonitorTarget target, HWND fullWindow) {
+    const auto others = OtherTaskbarWindows(target, fullWindow);
+    return others.empty() ? nullptr : others.front();
 }
 
 inline bool BuildLocalAppDataPath(const wchar_t* leaf, std::wstring* path) {

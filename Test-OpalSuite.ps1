@@ -58,6 +58,8 @@ Assert-Opal (-not (Test-Path -LiteralPath (Join-Path $buildRoot 'Opal-Control.ex
 Assert-Opal (-not (Test-Path -LiteralPath (Join-Path $PSScriptRoot 'native\Opal.Control\OpalControl.cpp'))) 'Standalone controller source returned.'
 
 $shell = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-shell.wh.cpp'))
+$rules = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-shell-rules.h'))
+$apply = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-shell-apply.h'))
 $media = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-opal-media.wh.cpp'))
 $performance = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-taskbar-system-info.wh.cpp'))
 $builder = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Build-OpalSuite.ps1'))
@@ -71,6 +73,16 @@ Assert-Opal ($performance -match 'Wh_GetIntSetting\(L"performance\.performanceEn
 Assert-Opal ($media -match 'stream\.Close\(\)' -and $media -match 'targetPixels') 'Media artwork allocation improvements are missing.'
 Assert-Opal ($performance -match 'PdhCollectQueryDataEx' -and $performance -match 'PerformanceSuspensionReason') 'Event-driven or suspension-aware performance sampling is missing.'
 Assert-Opal ($performance -match 'ResetCommandCenterView\(\)' -and $performance -match 'g_commandCenterFlyout = nullptr') 'Command center is not destroyed on close.'
+Assert-Opal ($media -match 'OtherTaskbarWindows' -and $performance -match 'OtherTaskbarWindows') 'Both-display mode does not inject compact mirrors on every other taskbar.'
+Assert-Opal ($rules -match 'Grid#ToastPeekRegion' -and $rules -match 'TranslateTransform X=\\"0\\" Y=\\"0\\"' -and $apply -match 'name == L"Clip"') 'Toast peek region does not reset leftover cutoff transforms.'
+Assert-Opal ($rules -notmatch 'ScaleX=\\"3.3\\"' -and $rules -notmatch 'Morganite' -and $rules -notmatch 'Y=\\"-250\\"') 'Start menu still applies leftover imported-theme scale, font, or media shift hacks.'
+Assert-Opal ([IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-shell-owned-overrides.h')) -match 'kOverlayIcon' -and [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-shell-owned-overrides.h')) -match 'kAppBadge') 'Taskbar overlay icons and numeric badges are not given an unclipped slot.'
+$iconSource = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\opal-addon-icons.h'))
+Assert-Opal ($iconSource -match 'g_iconGeometryFailSoft' -and $iconSource -match 'fail-soft stock icon geometry') 'Icon hooks do not fail soft to stock 16/24/32 posture sizes when symbols move.'
+$clockSource = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\opal-addon-clock.h'))
+Assert-Opal ($clockSource -match '%weather%' -and $clockSource -match 'TryWeatherFromCore' -and $clockSource -match 'GetUrlContent') 'Clock weather no longer prefers Maxwell.Shell.Core with an in-process fallback.'
+$coreSource = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'native\Maxwell.Shell.Core\MaxwellShellCore.cpp'))
+Assert-Opal ($coreSource -match 'wttr.in' -and $coreSource -match 'WeatherLoop') 'Maxwell.Shell.Core does not own the wttr.in fetch.'
 
 $live = $null
 if (-not $StaticOnly) {

@@ -347,6 +347,17 @@ inline bool ApplyProperty(const wux::DependencyObject& obj,
         if (ui && t) { ui.RenderTransform(t); return true; }
         return false;
     }
+    if (name == L"Clip") {
+        if (!ui) { return false; }
+        if (value.empty() || value == L"None" || value == L"null") {
+            ui.Clip(wuxm::RectangleGeometry{nullptr});
+            return true;
+        }
+        auto geometry = ParseXaml<wuxm::RectangleGeometry>(value);
+        if (!geometry) { return false; }
+        ui.Clip(geometry);
+        return true;
+    }
     if (name == L"RenderTransformOrigin") {
         const auto n = ParseNumbers(value);
         if (ui && n.size() >= 2) {

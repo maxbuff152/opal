@@ -16,6 +16,7 @@ inline constexpr Prop kIconOnlyButton[] = {
     { L"MinWidth", nullptr, L"50", false },
     { L"MaxWidth", nullptr, L"50", false },
     { L"Padding", nullptr, L"0", false },
+    { L"Clip", nullptr, L"None", false },
 };
 
 inline constexpr Prop kIconOnlyPanel[] = {
@@ -25,6 +26,7 @@ inline constexpr Prop kIconOnlyPanel[] = {
     { L"Padding", nullptr, L"0", false },
     { L"Margin", nullptr, L"0", false },
     { L"HorizontalAlignment", nullptr, L"Center", false },
+    { L"Clip", nullptr, L"None", false },
 };
 
 inline constexpr Prop kHideAppLabel[] = {
@@ -93,6 +95,7 @@ inline constexpr Prop kFloatingTaskbarRoot[] = {
     { L"BorderThickness", nullptr, L"0", false },
     { L"BorderBrush", nullptr, L"Transparent", false },
     { L"CornerRadius", nullptr, L"0", false },
+    { L"Clip", nullptr, L"None", false },
 };
 
 inline constexpr Prop kHiddenTaskbarBackground[] = {
@@ -175,6 +178,46 @@ inline constexpr Prop kClockDateWeather[] = {
     { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"0\" />", true },
 };
 
+inline constexpr Prop kOverlayIcon[] = {
+    { L"Width", nullptr, L"16", false },
+    { L"Height", nullptr, L"16", false },
+    { L"MaxWidth", nullptr, L"16", false },
+    { L"MaxHeight", nullptr, L"16", false },
+    { L"MinWidth", nullptr, L"16", false },
+    { L"MinHeight", nullptr, L"16", false },
+    { L"HorizontalAlignment", nullptr, L"Right", false },
+    { L"VerticalAlignment", nullptr, L"Bottom", false },
+    { L"Margin", nullptr, L"0,0,2,2", false },
+    { L"Canvas.ZIndex", nullptr, L"6", false },
+    { L"Clip", nullptr, L"None", false },
+    { L"Stretch", nullptr, L"Uniform", false },
+};
+
+inline constexpr Prop kAppBadge[] = {
+    { L"MinWidth", nullptr, L"18", false },
+    { L"Width", nullptr, L"Auto", false },
+    { L"Height", nullptr, L"18", false },
+    { L"MinHeight", nullptr, L"18", false },
+    { L"Padding", nullptr, L"3,0,3,0", false },
+    { L"Margin", nullptr, L"0,1,1,0", false },
+    { L"CornerRadius", nullptr, L"9", false },
+    { L"HorizontalAlignment", nullptr, L"Right", false },
+    { L"VerticalAlignment", nullptr, L"Top", false },
+    { L"Canvas.ZIndex", nullptr, L"7", false },
+    { L"Clip", nullptr, L"None", false },
+    { L"Background", nullptr, L"<SolidColorBrush Color=\"#16181D\" Opacity=\"0.96\" />", true },
+    { L"Foreground", nullptr, L"<SolidColorBrush Color=\"#F5F5F7\" />", true },
+    { L"BorderThickness", nullptr, L"0", false },
+};
+
+inline constexpr Prop kAppBadgeText[] = {
+    { L"FontFamily", nullptr, L"Segoe UI Variable Text", false },
+    { L"FontSize", nullptr, L"10", false },
+    { L"FontWeight", nullptr, L"SemiBold", false },
+    { L"Padding", nullptr, L"0", false },
+    { L"Margin", nullptr, L"0", false },
+};
+
 inline constexpr Rule kRules[] = {
     { Host::Explorer, L"Taskbar.TaskListButton#TaskListButton", kIconOnlyButton, static_cast<int>(std::size(kIconOnlyButton)) },
     { Host::Explorer, L"Taskbar.TaskListButton#TaskListButton > Taskbar.TaskListLabeledButtonPanel#IconPanel", kIconOnlyPanel, static_cast<int>(std::size(kIconOnlyPanel)) },
@@ -198,7 +241,10 @@ inline constexpr Rule kRules[] = {
     { Host::Explorer, L"Taskbar.AugmentedEntryPointButton#AugmentedEntryPointButton > Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel", kBorderlessContainer, static_cast<int>(std::size(kBorderlessContainer)) },
     { Host::Explorer, L"StackPanel#SystemTrayFrameGrid", kFrostedTraySurface, static_cast<int>(std::size(kFrostedTraySurface)) },
     { Host::Explorer, L"Grid#SystemTrayFrameGrid", kFrostedTraySurface, static_cast<int>(std::size(kFrostedTraySurface)) },
+    { Host::Explorer, L"Grid#OpalSystemInfo", kFrostedHardwareSurface, static_cast<int>(std::size(kFrostedHardwareSurface)) },
+    { Host::Explorer, L"Grid#OpalSystemInfoMirror", kFrostedHardwareSurface, static_cast<int>(std::size(kFrostedHardwareSurface)) },
     { Host::Explorer, L"Grid#WindhawkTaskbarSystemInfo", kFrostedHardwareSurface, static_cast<int>(std::size(kFrostedHardwareSurface)) },
+    { Host::Explorer, L"Grid#WindhawkTaskbarSystemInfoMirror", kFrostedHardwareSurface, static_cast<int>(std::size(kFrostedHardwareSurface)) },
     { Host::Explorer, L"Border#OpalMediaGlass", kFrostedMediaSurface, static_cast<int>(std::size(kFrostedMediaSurface)) },
     { Host::Explorer, L"SystemTray.DateTimeIconContent > Grid#ContainerGrid", kClockContainer, static_cast<int>(std::size(kClockContainer)) },
     { Host::Explorer, L"TextBlock#TimeInnerTextBlock", kClockTime, static_cast<int>(std::size(kClockTime)) },
@@ -207,6 +253,14 @@ inline constexpr Rule kRules[] = {
     { Host::Explorer, L"SystemTray.NotifyIconView > Grid#ContainerGrid@CommonStates > Border#BackgroundBorder", kBorderlessTraySurface, static_cast<int>(std::size(kBorderlessTraySurface)) },
     { Host::Explorer, L"SystemTray.IconView#SystemTrayIcon > Grid#ContainerGrid@CommonStates > Border#BackgroundBorder", kBorderlessTraySurface, static_cast<int>(std::size(kBorderlessTraySurface)) },
     { Host::Explorer, L"SystemTray.OmniButton > Grid@CommonStates > Border#BackgroundBorder", kBorderlessTraySurface, static_cast<int>(std::size(kBorderlessTraySurface)) },
+    { Host::Explorer, L"Grid#IconPanel > Image#OverlayIcon", kOverlayIcon, static_cast<int>(std::size(kOverlayIcon)) },
+    { Host::Explorer, L"Taskbar.TaskListLabeledButtonPanel#IconPanel > Image#OverlayIcon", kOverlayIcon, static_cast<int>(std::size(kOverlayIcon)) },
+    { Host::Explorer, L"Grid#IconPanel > Windows.UI.Xaml.Controls.Image#OverlayIcon", kOverlayIcon, static_cast<int>(std::size(kOverlayIcon)) },
+    { Host::Explorer, L"Taskbar.TaskListLabeledButtonPanel#IconPanel > Windows.UI.Xaml.Controls.Image#OverlayIcon", kOverlayIcon, static_cast<int>(std::size(kOverlayIcon)) },
+    { Host::Explorer, L"Grid#IconPanel > Taskbar.Badge#BadgeControl", kAppBadge, static_cast<int>(std::size(kAppBadge)) },
+    { Host::Explorer, L"Taskbar.TaskListLabeledButtonPanel#IconPanel > Taskbar.Badge#BadgeControl", kAppBadge, static_cast<int>(std::size(kAppBadge)) },
+    { Host::Explorer, L"Grid#IconPanel > Taskbar.Badge#BadgeControl > Grid > TextBlock#BadgeText", kAppBadgeText, static_cast<int>(std::size(kAppBadgeText)) },
+    { Host::Explorer, L"Taskbar.TaskListLabeledButtonPanel#IconPanel > Taskbar.Badge#BadgeControl > Grid > TextBlock#BadgeText", kAppBadgeText, static_cast<int>(std::size(kAppBadgeText)) },
 };
 
 inline constexpr int kRuleCount = static_cast<int>(std::size(kRules));

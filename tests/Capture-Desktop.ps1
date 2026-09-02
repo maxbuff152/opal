@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$Name,
-    [string]$CaptureRoot = 'C:\Users\maxwe\.codex\tmp\capture-cache\source-owned-windhawk-popups',
+    [string]$CaptureRoot = [IO.Path]::Combine([IO.Path]::GetTempPath(), 'Opal', 'qa-captures'),
     [int]$MonitorIndex = -1,
     [ValidateRange(0, 1080)][int]$BottomPixels = 0
 )

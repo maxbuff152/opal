@@ -1,12 +1,14 @@
 # Opal Start Here
 
-Use this friendly path for navigation:
+Run Opal commands from the repository root. On Maxwell's development machine,
+the stable local alias is:
 
 `D:\Opal`
 
-It is a Windows junction, not a copy. The durable source owner remains:
-
-`D:\CODEX SPINE, PLUGINS AND AGENTS\06-LOCAL TOOLS\Windhawk ChatGPT Guard`
+That alias is a Windows junction, not a copy. The product and repository are
+**Opal 4.4**. Runtime state, diagnostic logs, and installer rollbacks belong
+under `%LOCALAPPDATA%\Maxwell\Opal`. Older SafeDock snapshots may still exist
+under `%LOCALAPPDATA%\Maxwell\WindhawkChatGPTGuard` for compatibility.
 
 ## What Opal is
 
@@ -38,5 +40,7 @@ It is a Windows junction, not a copy. The durable source owner remains:
   `measurements\package-cost-opal-4-unified-valid-settled-abba2.json`
 
 Edit the canonical component sources, then build through
-`Build-OpalSuite.ps1`. Files under `build`, `dist`, and `measurements` are
-generated artifacts or evidence, not alternate source owners.
+`Build-OpalSuite.ps1`. After Opal source should go live, run
+`Install-OpalSuite.ps1` elevated (UAC / Explorer restart) in the same pass.
+Files under `build`, `dist`, and `measurements` are generated artifacts or
+evidence, not alternate source owners.

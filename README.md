@@ -1,7 +1,9 @@
 # Opal Windows Shell
 
-Friendly local path: `D:\Opal` (a junction to this canonical project; no files
-are duplicated or moved). See `OPAL-START-HERE.md` for the short project map.
+Opal is a GPL-3.0-or-later Windows shell project built for Windhawk. Forks and
+pull requests are welcome; see `CONTRIBUTING.md`.
+
+See `OPAL-START-HERE.md` for the short project map.
 
 ## Supported architecture
 
@@ -12,7 +14,8 @@ isolated Shell, Clock, Media, and Performance components.
 Media and Performance initialize only in Explorer. Start, Search, notification,
 and shell-flyout hosts use the shell component without starting the optional
 workers or taskbar UI.
-`Maxwell.Shell.Core.exe` is a telemetry-only companion; the retired Adaptive Dock
+`Maxwell.Shell.Core.exe` is a telemetry companion that also fetches clock
+weather (wttr.in) out of `explorer.exe`. The retired Adaptive Dock
 is not built, installed, or started.
 
 Open **Opal → Settings** in Windhawk. The page is grouped into seven plain
@@ -58,9 +61,7 @@ Explorer restart. Per-Explorer runtime INI files are diagnostics only.
 
 The old modular Windhawk stack, monolithic Maxwell shell, ChatGPT glass,
 third-party pinned sources, migration scripts, superseded tests, and historical
-measurements were moved to:
-
-`D:\CODEX SPINE, PLUGINS AND AGENTS\90-ARCHIVE\Windhawk ChatGPT Guard\pre-opal-cleanup-20260831-2145`
+measurements are intentionally excluded from this repository.
 
 ## Performance contract
 
@@ -98,9 +99,15 @@ handles, five USER objects, and three to four threads for the full visual and
 telemetry experience. Absolute CPU was elevated by the active desktop workload,
 so the same-run paired difference is more meaningful than either absolute value.
 Opal 4.1 adds lazy loaded-frame revokers, releases dormant history capacity and
-external-telemetry PDH fallbacks, and adds shared-data dual-monitor mirrors. A
-new full ABBA release comparison should be run only when another performance
-decision depends on it; the 4.0 receipt remains the honest numerical baseline.
+external-telemetry PDH fallbacks, and adds shared-data dual-monitor mirrors.
+Re-run the 4.4 ABBA receipt after installing this tree:
+
+```powershell
+.\Measure-OpalPackageCost.ps1 -Label opal-4.4-20260902-abba -AbbaRounds 2 -RandomSeed 3 -Scenario @('Stock','FullSuite') -Samples 2 -SampleSeconds 8 -SettleSeconds 6
+```
+
+Until that file exists under `measurements\`, the 4.0 receipt remains the honest
+numerical baseline. Do not invent 4.4 CPU/RAM numbers.
 
 ## Legacy stack reduction
 
@@ -176,4 +183,5 @@ leaves crash quarantine armed for ordinary sessions.
 
 The circuit breaker provides stock fallback. Tooling backups retain only the
 current supported surface; live installer rollback bundles remain under
-`%LOCALAPPDATA%\Maxwell\WindhawkChatGPTGuard\rollback-*`.
+`%LOCALAPPDATA%\Maxwell\Opal\rollback-*` (older bundles may still exist under
+`%LOCALAPPDATA%\Maxwell\WindhawkChatGPTGuard\rollback-*`).

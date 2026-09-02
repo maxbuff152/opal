@@ -1,6 +1,11 @@
 [CmdletBinding()]
 param(
-    [string]$ReceiptPath = 'C:\Users\maxwe\AppData\Local\Maxwell\WindhawkSafeDock\taskbar-icon-source-audit.json'
+    [string]$ReceiptPath = [IO.Path]::Combine(
+        [Environment]::GetFolderPath('LocalApplicationData'),
+        'Maxwell',
+        'Opal',
+        'taskbar-icon-source-audit.json'
+    )
 )
 
 $ErrorActionPreference = 'Stop'

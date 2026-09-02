@@ -2,7 +2,7 @@
 // @id              opal-addon-media
 // @name            Opal Media
 // @description     Maxwell-owned adaptive Windows-native media controls for the Opal taskbar
-// @version         5.0.0
+// @version         4.4.0
 // @author          Maxbuff152
 // @github          https://github.com/Maxbuff152
 // @license         GPL-3.0
@@ -138,8 +138,11 @@ using XamlRectangle = winrt::Windows::UI::Xaml::Shapes::Rectangle;
 
 constexpr wchar_t kWidgetName[] = L"MaxwellOpalMedia";
 constexpr wchar_t kMirrorWidgetName[] = L"MaxwellOpalMediaMirror";
-constexpr wchar_t kSystemInfoWidgetName[] = L"WindhawkTaskbarSystemInfo";
-constexpr wchar_t kSystemInfoMirrorWidgetName[] = L"WindhawkTaskbarSystemInfoMirror";
+constexpr wchar_t kSystemInfoWidgetName[] = L"OpalSystemInfo";
+constexpr wchar_t kSystemInfoMirrorWidgetName[] = L"OpalSystemInfoMirror";
+constexpr wchar_t kLegacySystemInfoWidgetName[] = L"WindhawkTaskbarSystemInfo";
+constexpr wchar_t kLegacySystemInfoMirrorWidgetName[] =
+    L"WindhawkTaskbarSystemInfoMirror";
 constexpr int kPlayingUiIntervalMs = 250;
 constexpr int kLeanPlayingUiIntervalMs = 1000;
 constexpr int kPausedUiIntervalMs = 1000;
@@ -193,6 +196,15 @@ struct ButtonEventTokens {
     winrt::event_token pointerPressed{};
     winrt::event_token pointerReleased{};
     winrt::event_token click{};
+};
+
+struct MediaMirrorSlot {
+    HWND window = nullptr;
+    winrt::weak_ref<FrameworkElement> taskbarFrame;
+    Grid parent{nullptr};
+    Grid widget{nullptr};
+    TextBlock title{nullptr};
+    TextBlock status{nullptr};
 };
 
 Settings g_settings;
@@ -251,12 +263,7 @@ bool g_manualSessionSelection = false;
 [[clang::no_destroy]] ScaleTransform g_progressScale{nullptr};
 [[clang::no_destroy]] DispatcherTimer g_uiTimer{nullptr};
 [[clang::no_destroy]] FrameworkElement g_taskItemsRepeater{nullptr};
-[[clang::no_destroy]] winrt::weak_ref<FrameworkElement> g_mirrorTaskbarFrame;
-[[clang::no_destroy]] Grid g_mirrorParent{nullptr};
-[[clang::no_destroy]] Grid g_mirrorWidget{nullptr};
-[[clang::no_destroy]] TextBlock g_mirrorTitle{nullptr};
-[[clang::no_destroy]] TextBlock g_mirrorStatus{nullptr};
-HWND g_mirrorWindow = nullptr;
+[[clang::no_destroy]] std::vector<MediaMirrorSlot> g_mediaMirrors;
 winrt::event_token g_rootSizeToken{};
 winrt::event_token g_taskItemsSizeToken{};
 winrt::event_token g_uiTimerTickToken{};
@@ -1486,6 +1493,15 @@ FrameworkElement FindNamedChild(DependencyObject root, PCWSTR name) {
     });
 }
 
+FrameworkElement FindSystemInfoLane(DependencyObject root) {
+    for (PCWSTR name : {kSystemInfoWidgetName, kSystemInfoMirrorWidgetName,
+                        kLegacySystemInfoWidgetName,
+                        kLegacySystemInfoMirrorWidgetName}) {
+        if (auto found = FindNamedChild(root, name)) return found;
+    }
+    return nullptr;
+}
+
 FrameworkElement FindStartButton(DependencyObject root) {
     return FindChildRecursive(root, [](FrameworkElement element) {
         std::wstring name = element.Name().c_str();
@@ -1648,11 +1664,7 @@ void PositionWidget() {
         auto start = FindStartButton(g_parent);
         const double contentInset = ParentPaddingLeft(g_parent);
         double zoneLeft = 8.0;
-        auto systemInfo = FindNamedChild(g_parent, kSystemInfoWidgetName);
-        if (!systemInfo) {
-            systemInfo = FindNamedChild(g_parent,
-                                        kSystemInfoMirrorWidgetName);
-        }
+        auto systemInfo = FindSystemInfoLane(g_parent);
         if (systemInfo && systemInfo != g_widget &&
             systemInfo.Visibility() == Visibility::Visible) {
             auto point = systemInfo.TransformToVisual(g_parent).TransformPoint({0, 0});
@@ -2049,37 +2061,39 @@ bool AttachMediaVisuals(Grid root) {
     return true;
 }
 
-void RemoveMediaMirrorVisuals(bool keepFrame = false) {
-    if (g_mirrorParent && g_mirrorWidget) {
+void RemoveMediaMirrorSlot(MediaMirrorSlot& slot, bool keepFrame) {
+    if (slot.parent && slot.widget) {
         try {
             uint32_t index = 0;
-            if (g_mirrorParent.Children().IndexOf(g_mirrorWidget, index)) {
-                g_mirrorParent.Children().RemoveAt(index);
+            if (slot.parent.Children().IndexOf(slot.widget, index)) {
+                slot.parent.Children().RemoveAt(index);
             }
         } catch (...) {}
     }
-    g_mirrorParent = nullptr;
-    g_mirrorWidget = nullptr;
-    g_mirrorTitle = nullptr;
-    g_mirrorStatus = nullptr;
+    slot.parent = nullptr;
+    slot.widget = nullptr;
+    slot.title = nullptr;
+    slot.status = nullptr;
     if (!keepFrame) {
-        g_mirrorTaskbarFrame = {};
-        g_mirrorWindow = nullptr;
+        slot.taskbarFrame = {};
+        slot.window = nullptr;
     }
 }
 
-void PositionMediaMirror() {
-    if (!g_mirrorParent || !g_mirrorWidget) return;
+void RemoveMediaMirrorVisuals(bool keepFrame = false) {
+    for (auto& slot : g_mediaMirrors) RemoveMediaMirrorSlot(slot, keepFrame);
+    if (!keepFrame) g_mediaMirrors.clear();
+}
+
+void PositionMediaMirror(MediaMirrorSlot& slot) {
+    if (!slot.parent || !slot.widget) return;
     try {
-        const double contentInset = ParentPaddingLeft(g_mirrorParent);
+        const double contentInset = ParentPaddingLeft(slot.parent);
         double zoneLeft = 8.0;
         double systemInfoLeft = -1.0;
-        auto systemInfo = FindNamedChild(g_mirrorParent, kSystemInfoWidgetName);
-        if (!systemInfo)
-            systemInfo = FindNamedChild(g_mirrorParent,
-                                        kSystemInfoMirrorWidgetName);
+        auto systemInfo = FindSystemInfoLane(slot.parent);
         if (systemInfo && systemInfo.Visibility() == Visibility::Visible) {
-            auto point = systemInfo.TransformToVisual(g_mirrorParent)
+            auto point = systemInfo.TransformToVisual(slot.parent)
                              .TransformPoint({0, 0});
             double width = std::max(0.0, systemInfo.ActualWidth());
             systemInfoLeft = static_cast<double>(point.X) - contentInset;
@@ -2087,50 +2101,62 @@ void PositionMediaMirror() {
         }
         double desired = g_mirrorDetailed ? 196.0 : 140.0;
         double left = zoneLeft;
-        if (auto start = FindStartButton(g_mirrorParent)) {
-            auto point = start.TransformToVisual(g_mirrorParent)
+        if (auto start = FindStartButton(slot.parent)) {
+            auto point = start.TransformToVisual(slot.parent)
                              .TransformPoint({0, 0});
             point.X -= static_cast<float>(contentInset);
             double available = std::max(
                 0.0, static_cast<double>(point.X) - zoneLeft - 8.0);
             if (available < 140.0) {
-                // A full Performance capsule normally occupies the lane right
-                // before Start. Put the compact Media mirror in the open lane
-                // immediately before Performance instead of hiding it.
                 double beforePerformance = systemInfoLeft - 16.0;
                 if (systemInfoLeft < 0.0 || beforePerformance < 140.0) {
-                    g_mirrorWidget.Visibility(Visibility::Collapsed);
+                    slot.widget.Visibility(Visibility::Collapsed);
                     return;
                 }
                 desired = std::min(desired, beforePerformance);
                 left = std::max(8.0, systemInfoLeft - desired - 8.0);
-                g_mirrorWidget.Width(desired);
-                g_mirrorWidget.Margin(Thickness{left, 0, 0, 0});
-                g_mirrorWidget.Visibility(Visibility::Visible);
+                slot.widget.Width(desired);
+                slot.widget.Margin(Thickness{left, 0, 0, 0});
+                slot.widget.Visibility(Visibility::Visible);
                 return;
             }
             desired = std::min(desired, available);
             left = std::max(zoneLeft,
                             static_cast<double>(point.X) - desired - 8.0);
         }
-        g_mirrorWidget.Width(desired);
-        g_mirrorWidget.Margin(Thickness{left, 0, 0, 0});
-        g_mirrorWidget.Visibility(Visibility::Visible);
+        slot.widget.Width(desired);
+        slot.widget.Margin(Thickness{left, 0, 0, 0});
+        slot.widget.Visibility(Visibility::Visible);
     } catch (...) {}
+}
+
+void PositionMediaMirror() {
+    for (auto& slot : g_mediaMirrors) PositionMediaMirror(slot);
+}
+
+MediaMirrorSlot& MediaMirrorForWindow(HWND window) {
+    for (auto& slot : g_mediaMirrors) {
+        if (slot.window == window) return slot;
+    }
+    g_mediaMirrors.push_back({});
+    g_mediaMirrors.back().window = window;
+    return g_mediaMirrors.back();
 }
 
 bool InjectMediaMirror(FrameworkElement taskbarFrame, HWND window) {
     if (!taskbarFrame || g_monitorTarget != OpalControl::MonitorTarget::Both)
         return false;
-    g_mirrorTaskbarFrame = taskbarFrame;
-    g_mirrorWindow = window;
+    auto& slot = MediaMirrorForWindow(window);
+    slot.taskbarFrame = taskbarFrame;
+    slot.window = window;
     if (g_leanMode && !g_uiSnapshot.hasSession) return true;
     auto root = FindNamedChild(taskbarFrame, L"RootGrid").try_as<Grid>();
     if (!root) return false;
-    RemoveMediaMirrorVisuals(true);
+    RemoveMediaMirrorSlot(slot, true);
     for (uint32_t i = 0; i < root.Children().Size();) {
         auto child = root.Children().GetAt(i).try_as<FrameworkElement>();
-        if (child && child.Name() == kMirrorWidgetName)
+        if (child && (child.Name() == kMirrorWidgetName ||
+                      child.Name() == L"MaxwellOpalMediaMirror"))
             root.Children().RemoveAt(i);
         else
             i++;
@@ -2162,23 +2188,23 @@ bool InjectMediaMirror(FrameworkElement taskbarFrame, HWND window) {
     StackPanel text;
     text.VerticalAlignment(VerticalAlignment::Center);
     text.Spacing(1.0);
-    g_mirrorTitle = TextBlock();
-    g_mirrorTitle.FontFamily(FontFamily(L"Segoe UI Variable Text"));
-    g_mirrorTitle.FontWeight(winrt::Windows::UI::Text::FontWeights::SemiBold());
-    g_mirrorTitle.FontSize(12.5 * g_widgetTextScale);
-    g_mirrorTitle.TextTrimming(TextTrimming::CharacterEllipsis);
-    g_mirrorTitle.TextWrapping(TextWrapping::NoWrap);
-    g_mirrorTitle.Foreground(Brush(0xF5, 0xF5));
-    g_mirrorStatus = TextBlock();
-    g_mirrorStatus.FontFamily(FontFamily(L"Segoe UI Variable Text"));
-    g_mirrorStatus.FontSize(10.5 * g_widgetTextScale);
-    g_mirrorStatus.TextTrimming(TextTrimming::CharacterEllipsis);
-    g_mirrorStatus.TextWrapping(TextWrapping::NoWrap);
-    g_mirrorStatus.Foreground(Brush(0xB8, 0xD1));
-    g_mirrorStatus.Visibility(g_mirrorDetailed ? Visibility::Visible
-                                               : Visibility::Collapsed);
-    text.Children().Append(g_mirrorTitle);
-    text.Children().Append(g_mirrorStatus);
+    slot.title = TextBlock();
+    slot.title.FontFamily(FontFamily(L"Segoe UI Variable Text"));
+    slot.title.FontWeight(winrt::Windows::UI::Text::FontWeights::SemiBold());
+    slot.title.FontSize(12.5 * g_widgetTextScale);
+    slot.title.TextTrimming(TextTrimming::CharacterEllipsis);
+    slot.title.TextWrapping(TextWrapping::NoWrap);
+    slot.title.Foreground(Brush(0xF5, 0xF5));
+    slot.status = TextBlock();
+    slot.status.FontFamily(FontFamily(L"Segoe UI Variable Text"));
+    slot.status.FontSize(10.5 * g_widgetTextScale);
+    slot.status.TextTrimming(TextTrimming::CharacterEllipsis);
+    slot.status.TextWrapping(TextWrapping::NoWrap);
+    slot.status.Foreground(Brush(0xB8, 0xD1));
+    slot.status.Visibility(g_mirrorDetailed ? Visibility::Visible
+                                            : Visibility::Collapsed);
+    text.Children().Append(slot.title);
+    text.Children().Append(slot.status);
     shell.Child(text);
     widget.Children().Append(shell);
     widget.Tapped([](IInspectable const&, TappedRoutedEventArgs const& args) {
@@ -2193,9 +2219,9 @@ bool InjectMediaMirror(FrameworkElement taskbarFrame, HWND window) {
             args.Handled(true);
         });
     root.Children().Append(widget);
-    g_mirrorParent = root;
-    g_mirrorWidget = widget;
-    PositionMediaMirror();
+    slot.parent = root;
+    slot.widget = widget;
+    PositionMediaMirror(slot);
     return true;
 }
 
@@ -2208,21 +2234,23 @@ void UpdateMediaMirror() {
         RemoveMediaMirrorVisuals(true);
         return;
     }
-    if (!g_mirrorWidget) {
-        if (auto frame = g_mirrorTaskbarFrame.get())
-            InjectMediaMirror(frame, g_mirrorWindow);
+    for (auto& slot : g_mediaMirrors) {
+        if (!slot.widget) {
+            if (auto frame = slot.taskbarFrame.get())
+                InjectMediaMirror(frame, slot.window);
+        }
+        if (!slot.widget || !slot.title || !slot.status) continue;
+        std::wstring title = g_uiSnapshot.title.empty()
+                                 ? L"Media" : g_uiSnapshot.title;
+        std::wstring status = g_uiSnapshot.playing ? L"Playing" : L"Paused";
+        if (!g_uiSnapshot.description.empty())
+            status += L"  ·  " + g_uiSnapshot.description;
+        slot.title.Text(g_mirrorDetailed ? title : L"Media  ·  " + status);
+        slot.status.Text(status);
+        winrt::Windows::UI::Xaml::Automation::AutomationProperties::SetName(
+            slot.widget, title + L", " + status);
+        PositionMediaMirror(slot);
     }
-    if (!g_mirrorWidget) return;
-    std::wstring title = g_uiSnapshot.title.empty()
-                             ? L"Media" : g_uiSnapshot.title;
-    std::wstring status = g_uiSnapshot.playing ? L"Playing" : L"Paused";
-    if (!g_uiSnapshot.description.empty())
-        status += L"  ·  " + g_uiSnapshot.description;
-    g_mirrorTitle.Text(g_mirrorDetailed ? title : L"Media  ·  " + status);
-    g_mirrorStatus.Text(status);
-    winrt::Windows::UI::Xaml::Automation::AutomationProperties::SetName(
-        g_mirrorWidget, title + L", " + status);
-    PositionMediaMirror();
 }
 
 bool InjectWidget(FrameworkElement taskbarFrame) {
@@ -2418,19 +2446,38 @@ void ApplyPreferredTaskbar(void* value) {
     }
 }
 
+void RemoveMediaMirrorForWindow(void* value) {
+    HWND window = static_cast<HWND>(value);
+    for (auto it = g_mediaMirrors.begin(); it != g_mediaMirrors.end(); ++it) {
+        if (it->window == window) {
+            RemoveMediaMirrorSlot(*it, false);
+            g_mediaMirrors.erase(it);
+            return;
+        }
+    }
+}
+
 void ApplyOnTaskbarThread() {
     HWND fullWindow = FindPreferredTaskbarWindow();
     if (!fullWindow) return;
     MediaApplyContext full{fullWindow, false};
     RunFromWindowThread(fullWindow, ApplyPreferredTaskbar, &full);
-    HWND mirrorWindow = OpalControl::MirrorViewWindow(
-        g_monitorTarget, fullWindow);
-    if (mirrorWindow) {
+    auto mirrors = OpalControl::OtherTaskbarWindows(g_monitorTarget, fullWindow);
+    std::vector<HWND> leftover;
+    for (auto const& slot : g_mediaMirrors) {
+        bool wanted = false;
+        for (HWND mirrorWindow : mirrors) {
+            if (slot.window == mirrorWindow) { wanted = true; break; }
+        }
+        if (!wanted && slot.window) leftover.push_back(slot.window);
+    }
+    for (HWND window : leftover) {
+        RunFromWindowThread(window, RemoveMediaMirrorForWindow,
+                            reinterpret_cast<void*>(window));
+    }
+    for (HWND mirrorWindow : mirrors) {
         MediaApplyContext mirror{mirrorWindow, true};
         RunFromWindowThread(mirrorWindow, ApplyPreferredTaskbar, &mirror);
-    } else if (g_mirrorWindow) {
-        RunFromWindowThread(g_mirrorWindow,
-            [](void*) { RemoveMediaMirrorVisuals(); }, nullptr);
     }
 }
 

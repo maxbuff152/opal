@@ -1,3 +1,6 @@
+// Historical filenames (maxwell-shell*.h/.cpp) are the Opal 4.4 sources.
+// Product name is Opal; Windhawk id is local@opal.
+
 // ==WindhawkMod==
 // @id              opal
 // @name            Opal
@@ -229,7 +232,7 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
   - troubleshooting:
     - diagnose: false
       $name: Write a detailed diagnostic log
-      $description: Writes %LOCALAPPDATA%\Opal\diag.log. For debugging only.
+      $description: Writes %LOCALAPPDATA%\Maxwell\Opal\diag.log. For debugging only.
     - logUnmatched: false
       $name: Log Windows compatibility misses
       $description: Useful only when a Windows update changes the taskbar or Start menu.
@@ -391,7 +394,8 @@ static void DiagWrite(const std::wstring& line) {
     wchar_t localAppData[MAX_PATH] = {};
     DWORD chars = GetEnvironmentVariableW(L"LOCALAPPDATA", localAppData, MAX_PATH);
     if (!chars || chars >= MAX_PATH) { return; }
-    const std::wstring dir = std::wstring(localAppData) + L"\\Opal";
+    const std::wstring dir = std::wstring(localAppData) + L"\\Maxwell\\Opal";
+    CreateDirectoryW((std::wstring(localAppData) + L"\\Maxwell").c_str(), nullptr);
     CreateDirectoryW(dir.c_str(), nullptr);
     const std::wstring path = dir + L"\\diag.log";
 

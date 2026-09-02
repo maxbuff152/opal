@@ -4,7 +4,7 @@
 // @name:uk-UA      Системний монітор панелі завдань
 // @description     A readable CPU/RAM-first taskbar glance with a full hardware command center for Opal.
 // @description:uk-UA Компактний монітор CPU, GPU, RAM і VRAM із 60-секундними графіками для панелі завдань Windows 11.
-// @version         4.0.0
+// @version         4.4.0
 // @author          Maxbuff152
 // @github          https://github.com/Maxbuff152
 // @homepage        https://github.com/starychenko/windhawk-taskbar-system-info
@@ -517,8 +517,10 @@ using XamlEllipse = winrt::Windows::UI::Xaml::Shapes::Ellipse;
 
 namespace {
 
-constexpr wchar_t kWidgetName[] = L"WindhawkTaskbarSystemInfo";
-constexpr wchar_t kMirrorWidgetName[] = L"WindhawkTaskbarSystemInfoMirror";
+constexpr wchar_t kWidgetName[] = L"OpalSystemInfo";
+constexpr wchar_t kMirrorWidgetName[] = L"OpalSystemInfoMirror";
+constexpr wchar_t kLegacyWidgetName[] = L"WindhawkTaskbarSystemInfo";
+constexpr wchar_t kLegacyMirrorWidgetName[] = L"WindhawkTaskbarSystemInfoMirror";
 // One geometry contract across Opal: Media, System Info, Clock/tray, and the
 // tools dock all occupy the same 50-DIP visual envelope.
 constexpr double kWidgetHeight = 50.0;
@@ -656,20 +658,24 @@ std::atomic<HWND> g_taskbarWindow{nullptr};
 std::atomic<DWORD> g_taskbarThreadId{0};
 std::atomic<ExperienceMode> g_experienceMode{ExperienceMode::Auto};
 
+struct PerformanceMirrorSlot {
+    HWND window = nullptr;
+    Grid rootGrid{nullptr};
+    Grid widget{nullptr};
+    TextBlock cpuText{nullptr};
+    TextBlock ramText{nullptr};
+    Border surfaceBorder{nullptr};
+};
+
 [[clang::no_destroy]] Grid g_widget{nullptr};
 [[clang::no_destroy]] Grid g_rootGrid{nullptr};
-[[clang::no_destroy]] Grid g_mirrorRootGrid{nullptr};
-[[clang::no_destroy]] Grid g_mirrorWidget{nullptr};
-[[clang::no_destroy]] TextBlock g_mirrorCpuText{nullptr};
-[[clang::no_destroy]] TextBlock g_mirrorRamText{nullptr};
-HWND g_mirrorWindow = nullptr;
+[[clang::no_destroy]] std::vector<PerformanceMirrorSlot> g_performanceMirrors;
 [[clang::no_destroy]] FrameworkElement g_taskItemsRepeater{nullptr};
 [[clang::no_destroy]] Grid g_cpuRow{nullptr};
 [[clang::no_destroy]] Grid g_gpuRow{nullptr};
 [[clang::no_destroy]] Grid g_ramRow{nullptr};
 [[clang::no_destroy]] Grid g_vramRow{nullptr};
 [[clang::no_destroy]] Border g_surfaceBorder{nullptr};
-[[clang::no_destroy]] Border g_mirrorSurfaceBorder{nullptr};
 [[clang::no_destroy]] Border g_auraBorder{nullptr};
 [[clang::no_destroy]] Storyboard g_auraPulseStoryboard{nullptr};
 [[clang::no_destroy]] Grid g_activityRail{nullptr};
@@ -5435,20 +5441,46 @@ void ApplyWidgetSettings() {
 RowDefinition PixelRow(double height);
 TextBlock CreateCellText(PCWSTR name, TextAlignment alignment);
 
-void RemovePerformanceMirror() {
-    if (g_mirrorRootGrid && g_mirrorWidget) {
+void RemovePerformanceMirrorSlot(PerformanceMirrorSlot& slot) {
+    if (slot.rootGrid && slot.widget) {
         try {
             uint32_t index = 0;
-            if (g_mirrorRootGrid.Children().IndexOf(g_mirrorWidget, index))
-                g_mirrorRootGrid.Children().RemoveAt(index);
+            if (slot.rootGrid.Children().IndexOf(slot.widget, index))
+                slot.rootGrid.Children().RemoveAt(index);
         } catch (...) {}
     }
-    g_mirrorRootGrid = nullptr;
-    g_mirrorWidget = nullptr;
-    g_mirrorSurfaceBorder = nullptr;
-    g_mirrorCpuText = nullptr;
-    g_mirrorRamText = nullptr;
-    g_mirrorWindow = nullptr;
+    slot.rootGrid = nullptr;
+    slot.widget = nullptr;
+    slot.surfaceBorder = nullptr;
+    slot.cpuText = nullptr;
+    slot.ramText = nullptr;
+    slot.window = nullptr;
+}
+
+void RemovePerformanceMirror() {
+    for (auto& slot : g_performanceMirrors) RemovePerformanceMirrorSlot(slot);
+    g_performanceMirrors.clear();
+}
+
+void RemovePerformanceMirrorForWindow(void* value) {
+    HWND window = static_cast<HWND>(value);
+    for (auto it = g_performanceMirrors.begin();
+         it != g_performanceMirrors.end(); ++it) {
+        if (it->window == window) {
+            RemovePerformanceMirrorSlot(*it);
+            g_performanceMirrors.erase(it);
+            return;
+        }
+    }
+}
+
+PerformanceMirrorSlot& PerformanceMirrorForWindow(HWND window) {
+    for (auto& slot : g_performanceMirrors) {
+        if (slot.window == window) return slot;
+    }
+    g_performanceMirrors.push_back({});
+    g_performanceMirrors.back().window = window;
+    return g_performanceMirrors.back();
 }
 
 bool InjectPerformanceMirror(FrameworkElement taskbarFrame, HWND window) {
@@ -5456,10 +5488,13 @@ bool InjectPerformanceMirror(FrameworkElement taskbarFrame, HWND window) {
         return false;
     auto root = FindDirectChildByName(taskbarFrame, L"RootGrid").try_as<Grid>();
     if (!root) return false;
-    RemovePerformanceMirror();
+    auto& slot = PerformanceMirrorForWindow(window);
+    RemovePerformanceMirrorSlot(slot);
+    slot.window = window;
     for (uint32_t i = 0; i < root.Children().Size();) {
         auto child = root.Children().GetAt(i).try_as<FrameworkElement>();
-        if (child && child.Name() == kMirrorWidgetName)
+        if (child && (child.Name() == kMirrorWidgetName ||
+                      child.Name() == kLegacyMirrorWidgetName))
             root.Children().RemoveAt(i);
         else
             i++;
@@ -5484,19 +5519,19 @@ bool InjectPerformanceMirror(FrameworkElement taskbarFrame, HWND window) {
     widget.RowDefinitions().Append(PixelRow(kRowHeight));
     widget.RowDefinitions().Append(PixelRow(kRowGap));
     widget.RowDefinitions().Append(PixelRow(kRowHeight));
-    g_mirrorSurfaceBorder = Border();
-    g_mirrorSurfaceBorder.Name(L"PerformanceMirrorSurface");
-    g_mirrorSurfaceBorder.CornerRadius(CornerRadius{13, 13, 13, 13});
-    g_mirrorSurfaceBorder.Background(SolidColorBrush(g_highContrast
+    slot.surfaceBorder = Border();
+    slot.surfaceBorder.Name(L"PerformanceMirrorSurface");
+    slot.surfaceBorder.CornerRadius(CornerRadius{13, 13, 13, 13});
+    slot.surfaceBorder.Background(SolidColorBrush(g_highContrast
         ? MakeColor(0xFF, 0x00, 0x00, 0x00)
         : MakeColor(g_widgetBackgroundAlpha, 0x16, 0x18, 0x1D)));
-    g_mirrorSurfaceBorder.IsHitTestVisible(false);
-    Grid::SetRowSpan(g_mirrorSurfaceBorder, 3);
-    Canvas::SetZIndex(g_mirrorSurfaceBorder, 0);
-    widget.Children().Append(g_mirrorSurfaceBorder);
-    g_mirrorCpuText = CreateCellText(L"MirrorCpu", TextAlignment::Left);
-    g_mirrorRamText = CreateCellText(L"MirrorRam", TextAlignment::Left);
-    for (TextBlock text : {g_mirrorCpuText, g_mirrorRamText}) {
+    slot.surfaceBorder.IsHitTestVisible(false);
+    Grid::SetRowSpan(slot.surfaceBorder, 3);
+    Canvas::SetZIndex(slot.surfaceBorder, 0);
+    widget.Children().Append(slot.surfaceBorder);
+    slot.cpuText = CreateCellText(L"MirrorCpu", TextAlignment::Left);
+    slot.ramText = CreateCellText(L"MirrorRam", TextAlignment::Left);
+    for (TextBlock text : {slot.cpuText, slot.ramText}) {
         text.Margin(Thickness{12, 0, 12, 0});
         text.FontFamily(FontFamily(settings.fontFamily));
         text.FontSize(settings.fontSize);
@@ -5507,12 +5542,12 @@ bool InjectPerformanceMirror(FrameworkElement taskbarFrame, HWND window) {
                                  255 / 100),
             0xF5, 0xF5, 0xF7)));
     }
-    Grid::SetRow(g_mirrorCpuText, 0);
-    Grid::SetRow(g_mirrorRamText, 2);
-    widget.Children().Append(g_mirrorCpuText);
-    widget.Children().Append(g_mirrorRamText);
-    g_mirrorRamText.Visibility(g_mirrorDetailed ? Visibility::Visible
-                                                : Visibility::Collapsed);
+    Grid::SetRow(slot.cpuText, 0);
+    Grid::SetRow(slot.ramText, 2);
+    widget.Children().Append(slot.cpuText);
+    widget.Children().Append(slot.ramText);
+    slot.ramText.Visibility(g_mirrorDetailed ? Visibility::Visible
+                                             : Visibility::Collapsed);
     widget.Tapped([](IInspectable const& sender,
                      TappedRoutedEventArgs const& args) {
         ShowHardwareCommandCenter(sender.try_as<FrameworkElement>());
@@ -5526,29 +5561,30 @@ bool InjectPerformanceMirror(FrameworkElement taskbarFrame, HWND window) {
     winrt::Windows::UI::Xaml::Automation::AutomationProperties::SetHelpText(
         widget, L"Shared CPU and RAM view. Uses the same collector as the primary Opal capsule.");
     root.Children().Append(widget);
-    g_mirrorRootGrid = root;
-    g_mirrorWidget = widget;
-    g_mirrorWindow = window;
+    slot.rootGrid = root;
+    slot.widget = widget;
     return true;
 }
 
 void UpdatePerformanceMirror(const MetricsSnapshot& snapshot,
                              const ModSettings& settings) {
-    if (!g_mirrorWidget) return;
-    SetTextIfChanged(g_mirrorCpuText, g_mirrorDetailed
-        ? L"CPU  " + FormatLoadPercent(snapshot.cpu)
-        : L"CPU " + FormatPercent(snapshot.cpu) + L"  ·  RAM " +
-              FormatPercent(snapshot.ram));
-    SetTextIfChanged(g_mirrorRamText,
-                     L"RAM  " + FormatUsedPercent(snapshot.ram));
-    if (g_mirrorCpuText)
-        g_mirrorCpuText.Foreground(AlertBrush(g_cpuUsageAlert, settings));
-    if (g_mirrorRamText)
-        g_mirrorRamText.Foreground(AlertBrush(g_ramAlert, settings));
-    winrt::Windows::UI::Xaml::Automation::AutomationProperties::SetName(
-        g_mirrorWidget,
-        L"CPU " + FormatLoadPercent(snapshot.cpu) + L", RAM " +
-            FormatUsedPercent(snapshot.ram));
+    for (auto& slot : g_performanceMirrors) {
+        if (!slot.widget) continue;
+        SetTextIfChanged(slot.cpuText, g_mirrorDetailed
+            ? L"CPU  " + FormatLoadPercent(snapshot.cpu)
+            : L"CPU " + FormatPercent(snapshot.cpu) + L"  ·  RAM " +
+                  FormatPercent(snapshot.ram));
+        SetTextIfChanged(slot.ramText,
+                         L"RAM  " + FormatUsedPercent(snapshot.ram));
+        if (slot.cpuText)
+            slot.cpuText.Foreground(AlertBrush(g_cpuUsageAlert, settings));
+        if (slot.ramText)
+            slot.ramText.Foreground(AlertBrush(g_ramAlert, settings));
+        winrt::Windows::UI::Xaml::Automation::AutomationProperties::SetName(
+            slot.widget,
+            L"CPU " + FormatLoadPercent(snapshot.cpu) + L", RAM " +
+                FormatUsedPercent(snapshot.ram));
+    }
 }
 
 void UpdateWidgetText() {
@@ -6072,7 +6108,8 @@ bool InjectWidget(FrameworkElement taskbarFrame) {
     auto children = root.Children();
     for (uint32_t index = 0; index < children.Size();) {
         auto element = children.GetAt(index).try_as<FrameworkElement>();
-        if (!element || element.Name() != kWidgetName) {
+        if (!element || (element.Name() != kWidgetName &&
+                         element.Name() != kLegacyWidgetName)) {
             index++;
             continue;
         }
@@ -6574,14 +6611,22 @@ void ApplyOnTaskbarThread() {
     if (!RunFromWindowThread(fullWindow, ApplyToCurrentTaskbar, &full)) {
         Wh_Log(L"Applying widget on taskbar thread failed");
     }
-    HWND mirrorWindow = OpalControl::MirrorViewWindow(
-        g_monitorTarget, fullWindow);
-    if (mirrorWindow) {
+    auto mirrors = OpalControl::OtherTaskbarWindows(g_monitorTarget, fullWindow);
+    std::vector<HWND> leftover;
+    for (auto const& slot : g_performanceMirrors) {
+        bool wanted = false;
+        for (HWND mirrorWindow : mirrors) {
+            if (slot.window == mirrorWindow) { wanted = true; break; }
+        }
+        if (!wanted && slot.window) leftover.push_back(slot.window);
+    }
+    for (HWND window : leftover) {
+        RunFromWindowThread(window, RemovePerformanceMirrorForWindow,
+                            reinterpret_cast<void*>(window));
+    }
+    for (HWND mirrorWindow : mirrors) {
         PerformanceApplyContext mirror{mirrorWindow, true};
         RunFromWindowThread(mirrorWindow, ApplyToCurrentTaskbar, &mirror);
-    } else if (g_mirrorWindow) {
-        RunFromWindowThread(g_mirrorWindow,
-            [](void*) { RemovePerformanceMirror(); }, nullptr);
     }
 }
 

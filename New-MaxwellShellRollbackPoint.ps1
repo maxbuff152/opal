@@ -40,7 +40,7 @@ if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administra
 }
 
 $stamp  = Get-Date -Format 'yyyyMMdd-HHmmss'
-$root   = Join-Path $env:LOCALAPPDATA "Maxwell\WindhawkChatGPTGuard\rollback-$stamp"
+$root   = Join-Path $env:LOCALAPPDATA "Maxwell\Opal\rollback-$stamp"
 New-Item -ItemType Directory -Path $root -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $root 'dlls')    -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $root 'sources') -Force | Out-Null

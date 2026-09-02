@@ -31,6 +31,7 @@ $headers = @(
     'opal-control.h',
     'maxwell-xaml-tap.h',
     'opal-addon-icons.h',
+    'maxwell-shell-weather-protocol.h',
     'opal-addon-clock.h'
 )
 
@@ -56,17 +57,26 @@ $text = [regex]::Replace($text,
     '(?ms)^#ifndef WH_MOD\r?\n.*?^#endif[^\r\n]*\r?\n',
     '')
 
-# 3. Inline each local header in place of its #include line.
-foreach ($h in $headers) {
-    $body = Strip-Header (Join-Path $dir $h)
-    $banner = "// ===== inlined: $h =====`r`n"
-    $pattern = '^\s*#include\s+"' + [regex]::Escape($h) + '"\s*$'
-    $replacement = $banner + $body
-    $text = [regex]::Replace(
-        $text,
-        $pattern,
-        [Text.RegularExpressions.MatchEvaluator]{ param($match) $replacement },
-        [Text.RegularExpressions.RegexOptions]::Multiline)
+# 3. Inline each local header in place of its #include line, including
+#    nested includes that live inside those headers.
+$pending = $true
+while ($pending) {
+    $pending = $false
+    foreach ($h in $headers) {
+        $pattern = '^\s*#include\s+"' + [regex]::Escape($h) + '"\s*$'
+        if (-not [regex]::IsMatch($text, $pattern, [Text.RegularExpressions.RegexOptions]::Multiline)) {
+            continue
+        }
+        $body = Strip-Header (Join-Path $dir $h)
+        $banner = "// ===== inlined: $h =====`r`n"
+        $replacement = $banner + $body
+        $text = [regex]::Replace(
+            $text,
+            $pattern,
+            [Text.RegularExpressions.MatchEvaluator]{ param($match) $replacement },
+            [Text.RegularExpressions.RegexOptions]::Multiline)
+        $pending = $true
+    }
 }
 
 # 4. Any remaining local includes would break a single-file build - fail loudly.

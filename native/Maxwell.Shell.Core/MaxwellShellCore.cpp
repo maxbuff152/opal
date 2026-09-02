@@ -17,6 +17,16 @@
 #include <vector>
 
 #include "../../mod/visual-clones/maxwell-shell-telemetry-protocol.h"
+#include "../../mod/visual-clones/maxwell-shell-weather-protocol.h"
+#include <wininet.h>
+#include <shlwapi.h>
+
+#ifndef URL_ESCAPE_ASCII_URI_COMPONENT
+#define URL_ESCAPE_ASCII_URI_COMPONENT 0x00080000
+#endif
+#ifndef URL_ESCAPE_AS_UTF8
+#define URL_ESCAPE_AS_UTF8 0x00040000
+#endif
 
 namespace mst = MaxwellShellTelemetry;
 constexpr double kGiB = 1024.0 * 1024.0 * 1024.0;
@@ -549,6 +559,174 @@ DWORD WINAPI TelemetryLoop(void* rawContext) {
     }
 }
 
+namespace msw = MaxwellShellWeather;
+
+std::wstring EscapeUrlComponent(const wchar_t* input) {
+    if (!input || !*input) {
+        return {};
+    }
+    wchar_t stack[256];
+    DWORD needed = ARRAYSIZE(stack);
+    HRESULT hr = UrlEscapeW(input, stack, &needed,
+                            URL_ESCAPE_ASCII_URI_COMPONENT | URL_ESCAPE_AS_UTF8);
+    if (SUCCEEDED(hr)) {
+        return stack;
+    }
+    if (hr != E_POINTER || needed < 1) {
+        return {};
+    }
+    std::wstring out(needed - 1, L'\0');
+    hr = UrlEscapeW(input, out.data(), &needed,
+                    URL_ESCAPE_ASCII_URI_COMPONENT | URL_ESCAPE_AS_UTF8);
+    if (FAILED(hr)) {
+        return {};
+    }
+    return out;
+}
+
+std::optional<std::wstring> FetchUrl(const wchar_t* url) {
+    HINTERNET openHandle = InternetOpenW(
+        L"Maxwell.Shell.Core", INTERNET_OPEN_TYPE_PRECONFIG, nullptr, nullptr,
+        0);
+    if (!openHandle) {
+        return std::nullopt;
+    }
+    HINTERNET urlHandle = InternetOpenUrlW(
+        openHandle, url, nullptr, 0,
+        INTERNET_FLAG_NO_AUTH | INTERNET_FLAG_NO_CACHE_WRITE |
+            INTERNET_FLAG_NO_COOKIES | INTERNET_FLAG_NO_UI |
+            INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_RELOAD,
+        0);
+    if (!urlHandle) {
+        InternetCloseHandle(openHandle);
+        return std::nullopt;
+    }
+    DWORD statusCode = 0;
+    DWORD statusSize = sizeof(statusCode);
+    if (!HttpQueryInfoW(urlHandle,
+                        HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER,
+                        &statusCode, &statusSize, nullptr) ||
+        statusCode != 200) {
+        InternetCloseHandle(urlHandle);
+        InternetCloseHandle(openHandle);
+        return std::nullopt;
+    }
+    std::string bytes;
+    char chunk[1024];
+    DWORD read = 0;
+    while (InternetReadFile(urlHandle, chunk, sizeof(chunk), &read) && read) {
+        bytes.append(chunk, read);
+    }
+    InternetCloseHandle(urlHandle);
+    InternetCloseHandle(openHandle);
+    if (bytes.empty()) {
+        return std::nullopt;
+    }
+    int wideCount = MultiByteToWideChar(CP_UTF8, 0, bytes.data(),
+                                        static_cast<int>(bytes.size()), nullptr,
+                                        0);
+    if (wideCount <= 0) {
+        return std::nullopt;
+    }
+    std::wstring wide(static_cast<size_t>(wideCount), L'\0');
+    MultiByteToWideChar(CP_UTF8, 0, bytes.data(),
+                        static_cast<int>(bytes.size()), wide.data(), wideCount);
+    return wide;
+}
+
+std::wstring BuildWeatherUrl(const msw::RequestV1& request) {
+    std::wstring url = L"https://wttr.in/";
+    url += EscapeUrlComponent(request.location);
+    url += L'?';
+    if (request.units == msw::UnitsUscs) {
+        url += L"u&";
+    } else if (request.units == msw::UnitsMetric) {
+        url += L"m&";
+    } else if (request.units == msw::UnitsMetricMsWind) {
+        url += L"M&";
+    }
+    url += L"format=";
+    url += EscapeUrlComponent(request.format);
+    return url;
+}
+
+void PublishWeather(msw::SnapshotV1* target,
+                    HANDLE changedEvent,
+                    msw::Status status,
+                    const wchar_t* content) {
+    InterlockedIncrement64(&target->sequence);
+    MemoryBarrier();
+    target->magic = msw::kMagic;
+    target->version = msw::kVersion;
+    target->structSize = sizeof(*target);
+    target->status = status;
+    target->reserved = 0;
+    target->fetchedTickMs = GetTickCount64();
+    msw::CopyBounded(target->content, ARRAYSIZE(target->content), content);
+    MemoryBarrier();
+    InterlockedIncrement64(&target->sequence);
+    if (changedEvent) {
+        SetEvent(changedEvent);
+    }
+}
+
+struct WeatherContext {
+    msw::SnapshotV1* snapshot = nullptr;
+    msw::RequestV1* request = nullptr;
+    HANDLE changedEvent = nullptr;
+    HANDLE wakeEvent = nullptr;
+    HANDLE stopEvent = nullptr;
+};
+
+DWORD WINAPI WeatherLoop(void* rawContext) {
+    auto* context = static_cast<WeatherContext*>(rawContext);
+    const HANDLE waits[2] = {context->stopEvent, context->wakeEvent};
+    const DWORD waitCount = context->wakeEvent ? 2u : 1u;
+    wchar_t lastLocation[96]{};
+    wchar_t lastFormat[192]{};
+    std::uint32_t lastUnits = 0xFFFFFFFFu;
+    std::uint64_t lastFetchTick = 0;
+    while (true) {
+        const DWORD result =
+            WaitForMultipleObjects(waitCount, waits, FALSE, 15000);
+        if (result == WAIT_OBJECT_0) {
+            return 0;
+        }
+        msw::RequestV1 request{};
+        if (!msw::ReadSeqlock(context->request, request, msw::kMagic)) {
+            continue;
+        }
+        const std::uint64_t now = GetTickCount64();
+        if (!request.heartbeatTickMs || request.heartbeatTickMs > now ||
+            now - request.heartbeatTickMs > 180000) {
+            continue;
+        }
+        const bool changed =
+            lastUnits != request.units ||
+            wcscmp(lastLocation, request.location) != 0 ||
+            wcscmp(lastFormat, request.format) != 0;
+        const bool due =
+            lastFetchTick == 0 || now - lastFetchTick > 10ull * 60ull * 1000ull;
+        if (!changed && !due) {
+            continue;
+        }
+        const std::wstring url = BuildWeatherUrl(request);
+        const auto body = FetchUrl(url.c_str());
+        lastUnits = request.units;
+        msw::CopyBounded(lastLocation, ARRAYSIZE(lastLocation),
+                         request.location);
+        msw::CopyBounded(lastFormat, ARRAYSIZE(lastFormat), request.format);
+        lastFetchTick = now;
+        if (!body) {
+            PublishWeather(context->snapshot, context->changedEvent,
+                           msw::StatusError, L"");
+            continue;
+        }
+        PublishWeather(context->snapshot, context->changedEvent, msw::StatusOk,
+                       body->c_str());
+    }
+}
+
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
     int argumentCount = 0;
     wchar_t** arguments = CommandLineToArgvW(GetCommandLineW(), &argumentCount);
@@ -605,12 +783,54 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
     const HANDLE readerWakeEvent =
         CreateEventW(nullptr, FALSE, FALSE, mst::kReaderWakeEventName);
 
+    const HANDLE weatherMapping = CreateFileMappingW(
+        INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0,
+        sizeof(msw::SnapshotV1), msw::kMappingName);
+    const HANDLE weatherRequestMapping = CreateFileMappingW(
+        INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0,
+        sizeof(msw::RequestV1), msw::kRequestMappingName);
+    auto* weatherView =
+        weatherMapping ? static_cast<msw::SnapshotV1*>(MapViewOfFile(
+                             weatherMapping, FILE_MAP_ALL_ACCESS, 0, 0,
+                             sizeof(msw::SnapshotV1)))
+                       : nullptr;
+    auto* weatherRequest =
+        weatherRequestMapping
+            ? static_cast<msw::RequestV1*>(MapViewOfFile(
+                  weatherRequestMapping, FILE_MAP_ALL_ACCESS, 0, 0,
+                  sizeof(msw::RequestV1)))
+            : nullptr;
+    if (weatherView) {
+        std::memset(weatherView, 0, sizeof(*weatherView));
+    }
+    if (weatherRequest) {
+        std::memset(weatherRequest, 0, sizeof(*weatherRequest));
+    }
+    const HANDLE weatherChanged =
+        CreateEventW(nullptr, FALSE, FALSE, msw::kChangedEventName);
+    const HANDLE weatherWake =
+        CreateEventW(nullptr, FALSE, FALSE, msw::kWakeEventName);
+    WeatherContext weatherContext{weatherView, weatherRequest, weatherChanged,
+                                  weatherWake, stopEvent};
+    HANDLE weatherThread = nullptr;
+    if (weatherView && weatherRequest) {
+        weatherThread =
+            CreateThread(nullptr, 0, WeatherLoop, &weatherContext, 0, nullptr);
+    }
+
     TelemetryContext context{view, readerView, changedEvent, readerWakeEvent,
                              stopEvent};
-    // Maxwell.Shell.Core is deliberately telemetry-only. The retired Adaptive
-    // Dock (Command/Media/Focus/Capture tabs) no longer creates a window,
-    // registers hotkeys, indexes commands, or subscribes to media sessions.
     const int telemetryResult = static_cast<int>(TelemetryLoop(&context));
+    if (weatherThread) {
+        WaitForSingleObject(weatherThread, 8000);
+        CloseHandle(weatherThread);
+    }
+    if (weatherView) UnmapViewOfFile(weatherView);
+    if (weatherRequest) UnmapViewOfFile(weatherRequest);
+    if (weatherWake) CloseHandle(weatherWake);
+    if (weatherChanged) CloseHandle(weatherChanged);
+    if (weatherRequestMapping) CloseHandle(weatherRequestMapping);
+    if (weatherMapping) CloseHandle(weatherMapping);
     UnmapViewOfFile(view);
     if (readerWakeEvent) CloseHandle(readerWakeEvent);
     if (readerView) UnmapViewOfFile(readerView);

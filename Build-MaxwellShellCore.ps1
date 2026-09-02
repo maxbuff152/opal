@@ -21,7 +21,7 @@ $arguments = @(
     '-DUNICODE','-D_UNICODE','-DWIN32_LEAN_AND_MEAN',
     '-municode','-mwindows','-static','-static-libgcc','-static-libstdc++',
     $source,
-    '-lpdh','-ldxgi','-lshell32',
+    '-lpdh','-ldxgi','-lshell32','-lwininet','-lshlwapi',
     '-flto','-ffunction-sections','-fdata-sections',
     '-Wl,--gc-sections','-Wl,--icf=all','-Wl,-s',
     '-o',$output
@@ -38,6 +38,6 @@ $item = Get-Item -LiteralPath $output
     bytes = $item.Length
     sha256 = (Get-FileHash -LiteralPath $item.FullName -Algorithm SHA256).Hash
     sourceSha256 = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash
-    surface = 'telemetry-only'
+    surface = 'telemetry-and-weather'
     compiler = (& $clang --version | Select-Object -First 1)
 }

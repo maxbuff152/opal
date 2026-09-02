@@ -17,7 +17,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $modId = 'local@opal'
 $metadataId = 'opal-addon-media'
-$expectedComponentVersion = '5.0.0'
+$expectedComponentVersion = '4.4.0'
 $expectedUnifiedVersion = '4.4.0'
 $root = Split-Path -Parent $PSScriptRoot
 $master = Join-Path $root 'mod\visual-clones\maxwell-opal-media.wh.cpp'
@@ -87,14 +87,15 @@ if (Test-Path -LiteralPath $master) {
         $text -match 'available < kMinimumSafeWidth' -and
         $text -match 'desired = std::min\(desired, available\)') `
         'The hard Start-button no-overlap guard is missing.'
-    Assert-True ($text -match 'kSystemInfoWidgetName\[\]\s*=\s*L"WindhawkTaskbarSystemInfo"' -and
-        $text -match 'systemInfo\.ActualWidth\(\)' -and
+    Assert-True ($text -match 'kSystemInfoWidgetName\[\]\s*=\s*L"OpalSystemInfo"' -and
+        $text -match 'FindSystemInfoLane' -and
+        $text -match 'kLegacySystemInfoWidgetName' -and
         $text -match 'contentInset \+ width \+ 8\.0' -and
         $text -match 'point\.X\) - zoneLeft - 8\.0') `
         'Media no longer reserves a live non-overlapping lane after System Info.'
     Assert-True ($text -match 'OpalControl::FullViewWindow\(g_monitorTarget,\s*!g_fullViewOnPrimary\)' -and
-        $text -match 'OpalControl::MirrorViewWindow\(\s*g_monitorTarget, fullWindow\)') `
-        'Media no longer honors the configured full-view taskbar and opposite-screen mirror.'
+        $text -match 'OpalControl::OtherTaskbarWindows\(g_monitorTarget, fullWindow\)') `
+        'Media no longer honors the configured full-view taskbar and other-display mirrors.'
     Assert-True ($text -match 'g_sessionCycleRequest' -and $text -match 'RequestSessionCycle') `
         'Artwork scroll session switching is missing.'
     Assert-True ($text -match 'g_shell\.Tapped' -and

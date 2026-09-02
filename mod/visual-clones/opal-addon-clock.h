@@ -23,6 +23,7 @@
 #include <psapi.h>
 #include <shlwapi.h>
 #include <wininet.h>
+#include "maxwell-shell-weather-protocol.h"
 #undef GetCurrentTime
 #include <winrt/Windows.Data.Xml.Dom.h>
 #include <winrt/Windows.Foundation.Collections.h>
@@ -602,6 +603,107 @@ std::wstring EscapeUrlComponent(PCWSTR input,
     return out;
 }
 
+bool ApplyFetchedWeatherText(const std::wstring& urlContent) {
+    if (urlContent.empty() ||
+        urlContent == L"This query is already being processed") {
+        return false;
+    }
+
+    std::wstring weatherContent;
+    size_t lastPos = 0;
+    size_t findPos;
+    while ((findPos = urlContent.find(L'\uE000', lastPos)) !=
+           urlContent.npos) {
+        size_t lastPosCount = findPos - lastPos;
+        while (lastPosCount > 0 &&
+               urlContent.at(lastPos + lastPosCount - 1) == L' ') {
+            lastPosCount--;
+        }
+        weatherContent.append(urlContent, lastPos, lastPosCount);
+        lastPos = findPos + 1;
+    }
+    weatherContent += urlContent.substr(lastPos);
+
+    std::lock_guard<std::mutex> guard(g_webContentMutex);
+    g_webContentWeather = weatherContent;
+    return true;
+}
+
+bool PublishWeatherRequest(const wchar_t* location,
+                           const wchar_t* format,
+                           std::uint32_t units) {
+    namespace w = MaxwellShellWeather;
+    const HANDLE mapping =
+        OpenFileMappingW(FILE_MAP_WRITE, FALSE, w::kRequestMappingName);
+    if (!mapping) {
+        return false;
+    }
+    auto* view = static_cast<w::RequestV1*>(
+        MapViewOfFile(mapping, FILE_MAP_WRITE, 0, 0, sizeof(w::RequestV1)));
+    if (!view) {
+        CloseHandle(mapping);
+        return false;
+    }
+    InterlockedIncrement64(&view->sequence);
+    MemoryBarrier();
+    view->magic = w::kMagic;
+    view->version = w::kVersion;
+    view->structSize = sizeof(*view);
+    view->units = units;
+    view->readerPid = GetCurrentProcessId();
+    view->heartbeatTickMs = GetTickCount64();
+    w::CopyBounded(view->location, ARRAYSIZE(view->location), location);
+    w::CopyBounded(view->format, ARRAYSIZE(view->format), format);
+    MemoryBarrier();
+    InterlockedIncrement64(&view->sequence);
+    UnmapViewOfFile(view);
+    CloseHandle(mapping);
+    const HANDLE wake =
+        OpenEventW(EVENT_MODIFY_STATE, FALSE, w::kWakeEventName);
+    if (wake) {
+        SetEvent(wake);
+        CloseHandle(wake);
+    }
+    return true;
+}
+
+bool TryWeatherFromCore(DWORD staleMs) {
+    namespace w = MaxwellShellWeather;
+    const HANDLE mapping =
+        OpenFileMappingW(FILE_MAP_READ, FALSE, w::kMappingName);
+    if (!mapping) {
+        return false;
+    }
+    auto* view = static_cast<w::SnapshotV1*>(
+        MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, sizeof(w::SnapshotV1)));
+    w::SnapshotV1 snap{};
+    const bool ok = view && w::ReadSeqlock(view, snap, w::kMagic);
+    if (view) {
+        UnmapViewOfFile(view);
+    }
+    CloseHandle(mapping);
+    if (!ok || snap.status != w::StatusOk || !snap.content[0]) {
+        return false;
+    }
+    const std::uint64_t now = GetTickCount64();
+    if (snap.fetchedTickMs > now || now - snap.fetchedTickMs > staleMs) {
+        return false;
+    }
+    return ApplyFetchedWeatherText(snap.content);
+}
+
+bool WaitForCoreWeather(DWORD timeoutMs) {
+    namespace w = MaxwellShellWeather;
+    const HANDLE changed =
+        OpenEventW(SYNCHRONIZE, FALSE, w::kChangedEventName);
+    if (!changed) {
+        return false;
+    }
+    const DWORD wait = WaitForSingleObject(changed, timeoutMs);
+    CloseHandle(changed);
+    return wait == WAIT_OBJECT_0;
+}
+
 bool UpdateWeatherWebContent() {
     std::wstring format = g_settings.webContentWeatherFormat.get();
     if (format.empty()) {
@@ -613,6 +715,7 @@ bool UpdateWeatherWebContent() {
     // https://github.com/chubin/wttr.in/issues/345
     format = ReplaceAll(format, L"%c", L"%c\uE000");
 
+    std::uint32_t units = MaxwellShellWeather::UnitsAuto;
     std::wstring weatherUrl = L"https://wttr.in/";
     weatherUrl += EscapeUrlComponent(g_settings.webContentWeatherLocation);
     weatherUrl += L'?';
@@ -621,16 +724,28 @@ bool UpdateWeatherWebContent() {
             break;
         case WebContentWeatherUnits::uscs:
             weatherUrl += L"u&";
+            units = MaxwellShellWeather::UnitsUscs;
             break;
         case WebContentWeatherUnits::metric:
             weatherUrl += L"m&";
+            units = MaxwellShellWeather::UnitsMetric;
             break;
         case WebContentWeatherUnits::metricMsWind:
             weatherUrl += L"M&";
+            units = MaxwellShellWeather::UnitsMetricMsWind;
             break;
     }
     weatherUrl += L"format=";
     weatherUrl += EscapeUrlComponent(format.c_str());
+
+    if (PublishWeatherRequest(g_settings.webContentWeatherLocation,
+                              format.c_str(), units)) {
+        WaitForCoreWeather(8000);
+        if (TryWeatherFromCore(15 * 60 * 1000)) {
+            Wh_Log(L"Weather from Maxwell.Shell.Core");
+            return true;
+        }
+    }
 
     Wh_Log(L"Fetching weather from URL: %s", weatherUrl.c_str());
 
@@ -638,38 +753,7 @@ bool UpdateWeatherWebContent() {
     if (!urlContent) {
         return false;
     }
-
-    // Ignore non-weather responses.
-    if (urlContent->empty() ||
-        *urlContent == L"This query is already being processed") {
-        return false;
-    }
-
-    // Remove spaces after the %c emoji.
-    std::wstring weatherContent;
-
-    size_t lastPos = 0;
-    size_t findPos;
-
-    while ((findPos = urlContent->find(L'\uE000', lastPos)) !=
-           urlContent->npos) {
-        size_t lastPosCount = findPos - lastPos;
-        while (lastPosCount > 0 &&
-               urlContent->at(lastPos + lastPosCount - 1) == L' ') {
-            lastPosCount--;
-        }
-
-        weatherContent.append(*urlContent, lastPos, lastPosCount);
-        lastPos = findPos + 1;
-    }
-
-    // Care for the rest after last occurrence.
-    weatherContent += urlContent->substr(lastPos);
-
-    std::lock_guard<std::mutex> guard(g_webContentMutex);
-    g_webContentWeather = weatherContent;
-
-    return true;
+    return ApplyFetchedWeatherText(*urlContent);
 }
 
 void UpdateWebContent() {
@@ -1077,23 +1161,21 @@ int CalculateDayOfYearNumber(const SYSTEMTIME* time) {
 // Adopted from:
 // https://github.com/microsoft/cpp_client_telemetry/blob/25bc0806f21ecb2587154494f073bfa581cd5089/lib/pal/desktop/WindowsEnvironmentInfo.hpp#L39
 void GetTimeZone(WCHAR* buffer, size_t bufferSize) {
-    long bias;
-
     TIME_ZONE_INFORMATION timeZone = {};
-    if (GetTimeZoneInformation(&timeZone) == TIME_ZONE_ID_DAYLIGHT) {
-        bias = timeZone.Bias + timeZone.DaylightBias;
-    } else {
-        // TODO: [MG] - ref.
-        // https://docs.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-gettimezoneinformation
-        // Need to handle the case when API return TIME_ZONE_ID_UNKNOWN.
-        // Otherwise we may be reporting invalid timeZone.Bias
-        bias = timeZone.Bias + timeZone.StandardBias;
+    const DWORD zoneId = GetTimeZoneInformation(&timeZone);
+    long bias = timeZone.Bias;
+    if (zoneId == TIME_ZONE_ID_DAYLIGHT) {
+        bias += timeZone.DaylightBias;
+    } else if (zoneId == TIME_ZONE_ID_STANDARD) {
+        bias += timeZone.StandardBias;
     }
+    // TIME_ZONE_ID_UNKNOWN and TIME_ZONE_ID_INVALID: DST is not in effect, so
+    // Bias alone is the UTC offset. Do not add StandardBias on UNKNOWN.
 
     auto hours = (long long)abs(bias) / 60;
     auto minutes = (long long)abs(bias) % 60;
 
-    // UTC = local time + bias; bias sign should be interved.
+    // UTC = local time + bias; bias sign should be inverted.
     _snwprintf_s(buffer, bufferSize, _TRUNCATE, L"%c%02d:%02d",
                  bias <= 0 ? L'+' : L'-', static_cast<int>(hours),
                  static_cast<int>(minutes));

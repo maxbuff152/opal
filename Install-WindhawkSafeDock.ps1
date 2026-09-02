@@ -5,7 +5,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $guardPath = Join-Path $PSScriptRoot 'Ensure-WindhawkSafeDock.ps1'
-$receiptPath = 'C:\Users\maxwe\AppData\Local\Maxwell\WindhawkSafeDock\install-last-run.json'
+$receiptPath = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal\safedock\install-last-run.json'
 $receiptRoot = Split-Path -Parent $receiptPath
 New-Item -ItemType Directory -Path $receiptRoot -Force | Out-Null
 trap {
@@ -21,11 +21,20 @@ $principalCheck = [Security.Principal.WindowsPrincipal]::new($identity)
 if (-not $principalCheck.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Administrator access is required.' }
 
 if ($ExistingRollbackRoot) {
-    $stateRoot = 'C:\Users\maxwe\AppData\Local\Maxwell\WindhawkChatGPTGuard'
-    $resolvedStateRoot = [IO.Path]::GetFullPath($stateRoot).TrimEnd('\')
+    $allowedRoots = @(
+        [IO.Path]::GetFullPath((Join-Path $env:LOCALAPPDATA 'Maxwell\Opal')).TrimEnd('\')
+        [IO.Path]::GetFullPath((Join-Path $env:LOCALAPPDATA 'Maxwell\WindhawkChatGPTGuard')).TrimEnd('\')
+    )
     $resolvedRollbackRoot = [IO.Path]::GetFullPath($ExistingRollbackRoot).TrimEnd('\')
-    if (-not $resolvedRollbackRoot.StartsWith($resolvedStateRoot + '\', [StringComparison]::OrdinalIgnoreCase)) {
-        throw "Rollback root escaped the Windhawk guard state root: $resolvedRollbackRoot"
+    $insideAllowed = $false
+    foreach ($allowed in $allowedRoots) {
+        if ($resolvedRollbackRoot.StartsWith($allowed + '\', [StringComparison]::OrdinalIgnoreCase)) {
+            $insideAllowed = $true
+            break
+        }
+    }
+    if (-not $insideAllowed) {
+        throw "Rollback root escaped Opal/historical Maxwell state: $resolvedRollbackRoot"
     }
     $rollbackArchive = Join-Path $resolvedRollbackRoot 'windhawk-before-stage.wharchive'
     if (-not (Test-Path -LiteralPath $rollbackArchive -PathType Leaf)) {

@@ -132,7 +132,7 @@ inline constexpr Prop kProps0[] = {
 // now agree. Padding is symmetric: the right side had none, so the last app
 // button sat flush against the frame's clip edge and its hover zoom was cut.
 inline constexpr Prop kProps1[] = {
-    { L"Margin", nullptr, L"10,2,0,2", false },
+    { L"Margin", nullptr, L"10,2,10,2", false },
     { L"BorderThickness", nullptr, L"0", false },
     { L"BorderBrush", nullptr, L"Transparent", false },
     { L"CornerRadius", nullptr, L"0", false },
@@ -184,9 +184,10 @@ inline constexpr Prop kProps9[] = {
     { L"Margin", nullptr, L"2,0,0,0", false },
 };
 inline constexpr Prop kProps10[] = {
-    { L"Padding", nullptr, L"6,0,6,0", false },
+    { L"Padding", nullptr, L"2,0,2,0", false },
     { L"CornerRadius", nullptr, L"8", false },
     { L"Margin", nullptr, L"2,0,0,0", false },
+    { L"Clip", nullptr, L"None", false },
 };
 inline constexpr Prop kProps11[] = {
     { L"Padding", nullptr, L"6,0,6,0", false },
@@ -336,14 +337,14 @@ inline constexpr Prop kProps44[] = {
 };
 inline constexpr Prop kProps45[] = {
     { L"HorizontalAlignment", nullptr, L"Center", true },
-    { L"RenderTransform", nullptr, L"<TransformGroup><TranslateTransform X=\"-30\" Y=\"-10\" /><ScaleTransform ScaleX=\"3.3\" ScaleY=\"6\" /></TransformGroup>", true },
-    { L"FontFamily", nullptr, L"Morganite SemiBold", false },
+    { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"0\" />", true },
+    { L"FontFamily", nullptr, L"Segoe UI Variable Display", false },
     { L"Foreground", nullptr, L"$ClockBG", true },
 };
 inline constexpr Prop kProps46[] = {
     { L"HorizontalAlignment", nullptr, L"Center", false },
-    { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"-110\" />", true },
-    { L"FontFamily", nullptr, L"vivo Sans EN VF", false },
+    { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"0\" />", true },
+    { L"FontFamily", nullptr, L"Segoe UI Variable Text", false },
     { L"Foreground", nullptr, L"$ClockBG", true },
 };
 inline constexpr Prop kProps47[] = {
@@ -364,7 +365,7 @@ inline constexpr Prop kProps49[] = {
 };
 inline constexpr Prop kProps50[] = {
     { L"Visibility", nullptr, L"Visible", false },
-    { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"-250\" />", true },
+    { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"0\" />", true },
     { L"Margin", nullptr, L"0,0,0,0", false },
     { L"CornerRadius", nullptr, L"$CornerRadius", false },
 };
@@ -717,17 +718,20 @@ inline constexpr Prop kProps123[] = {
 };
 inline constexpr Prop kProps124[] = {
     { L"Background", nullptr, L"Transparent", false },
+    { L"Margin", nullptr, L"0", false },
+    { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"0\" />", true },
+    { L"Clip", nullptr, L"None", false },
 };
 inline constexpr Prop kProps125[] = {
     { L"Background", nullptr, L"$Background", true },
     { L"BorderThickness", nullptr, L"$BorderThickness", false },
-    { L"CornerRadius", nullptr, L"16", false },
+    { L"CornerRadius", nullptr, L"8", false },
     { L"BorderBrush", nullptr, L"$BorderBrush", true },
 };
 inline constexpr Prop kProps126[] = {
     { L"Background", nullptr, L"$Background", true },
     { L"BorderThickness", nullptr, L"$BorderThickness", false },
-    { L"CornerRadius", nullptr, L"16", false },
+    { L"CornerRadius", nullptr, L"8", false },
     { L"BorderBrush", nullptr, L"$BorderBrush", true },
 };
 inline constexpr Prop kProps127[] = {
@@ -737,7 +741,7 @@ inline constexpr Prop kProps128[] = {
     { L"CornerRadius", nullptr, L"6", false },
 };
 inline constexpr Prop kProps129[] = {
-    { L"CornerRadius", nullptr, L"16", false },
+    { L"CornerRadius", nullptr, L"8", false },
 };
 inline constexpr Prop kProps130[] = {
     { L"Background", nullptr, L"Transparent", false },
@@ -848,8 +852,10 @@ inline constexpr Prop kProps151[] = {
     { L"FontSize", nullptr, L"16", false },
 };
 inline constexpr Prop kProps152[] = {
-    { L"Height", nullptr, L"20", false },
-    { L"Width", nullptr, L"20", false },
+    { L"Height", nullptr, L"24", false },
+    { L"Width", nullptr, L"24", false },
+    { L"Clip", nullptr, L"None", false },
+    { L"Stretch", nullptr, L"Uniform", false },
 };
 inline constexpr Prop kProps153[] = {
     { L"Background", nullptr, L"Transparent", false },
@@ -858,9 +864,16 @@ inline constexpr Prop kProps153[] = {
 // fixed -495/+395 DIP translate and re-parented it to another grid cell - a
 // layout hack authored for one screen. On 26200 that shoves the incoming-toast
 // region off the panel, which is what "notifications cut off" looks like from
-// the outside. Opal only clears its background; Windows keeps the layout.
+// the outside. Clearing Background alone does not undo a leftover transform
+// from an earlier install, so identity layout is applied every tap.
 inline constexpr Prop kProps154[] = {
     { L"Background", nullptr, L"Transparent", false },
+    { L"Margin", nullptr, L"0", false },
+    { L"Padding", nullptr, L"0", false },
+    { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"0\" />", true },
+    { L"Clip", nullptr, L"None", false },
+    { L"HorizontalAlignment", nullptr, L"Stretch", false },
+    { L"VerticalAlignment", nullptr, L"Stretch", false },
 };
 inline constexpr Prop kProps155[] = {
     { L"CornerRadius", nullptr, L"8", false },
@@ -1157,21 +1170,17 @@ inline constexpr Prop kProps209[] = {
     { L"FontSize", nullptr, L"8", false },
     { L"FontWeight", nullptr, L"SemiBold", false },
 };
-// This clamp is the rendered icon size. The button slot on 26200 is pinned at
-// ~50px regardless of the width settings, so the clamp also sets the breathing
-// room: 48 rendered wall-to-wall and read as "cut off"; 44 leaves ~3px per
-// side and the 1.05 hover zoom (46.2) still fits inside the slot. Keep the
-// icon-size addon's IconSize (48) at or above this so storage bitmaps are
-// never upscaled - a clamp above the bitmap size shows stretched blur (the
-// old 30 clamp over 24px bitmaps).
+// 38 leaves a 16-DIP overlay (Firefox, ChatGPT) inside the 50-DIP button
+// without clipping the corner. 44 filled the slot; overlay sat on the clip
+// edge. Hover zoom 1.05 of 38 is 39.9, still inside 50.
 inline constexpr Prop kProps210[] = {
-    { L"MaxWidth", nullptr, L"44", false },
-    { L"MaxHeight", nullptr, L"44", false },
+    { L"MaxWidth", nullptr, L"38", false },
+    { L"MaxHeight", nullptr, L"38", false },
     { L"Stretch", nullptr, L"Uniform", false },
 };
 inline constexpr Prop kProps211[] = {
-    { L"MaxWidth", nullptr, L"44", false },
-    { L"MaxHeight", nullptr, L"44", false },
+    { L"MaxWidth", nullptr, L"38", false },
+    { L"MaxHeight", nullptr, L"38", false },
     { L"Stretch", nullptr, L"Uniform", false },
 };
 inline constexpr Prop kProps212[] = {
@@ -1368,7 +1377,7 @@ inline constexpr Rule kRules[] = {
     { Host::Explorer, L"Grid#SystemTrayFrameGrid", kProps7, 5 },
     { Host::Explorer, L":root > ScrollViewer > ScrollContentPresenter > Border > Grid", kProps8, 2 },
     { Host::Explorer, L"SystemTray.ChevronIconView", kProps9, 3 },
-    { Host::Explorer, L"SystemTray.NotifyIconView#NotifyItemIcon", kProps10, 3 },
+    { Host::Explorer, L"SystemTray.NotifyIconView#NotifyItemIcon", kProps10, 4 },
     { Host::Explorer, L"SystemTray.OmniButton", kProps11, 3 },
     { Host::Explorer, L"SystemTray.CopilotIcon", kProps12, 2 },
     { Host::Explorer, L"SystemTray.OmniButton#NotificationCenterButton > Grid > ContentPresenter > ItemsPresenter > StackPanel > ContentPresenter > SystemTray.IconView#SystemTrayIcon > Grid", kProps13, 1 },
@@ -1479,7 +1488,7 @@ inline constexpr Rule kRules[] = {
     { Host::ShellFlyout, L"QuickActions.ControlCenter.AccessibleWindow#PageWindow > ContentPresenter > Grid#FullScreenPageRoot", kProps121, 1 },
     { Host::ShellFlyout, L"QuickActions.ControlCenter.AccessibleWindow#PageWindow > ContentPresenter > Grid#FullScreenPageRoot > ContentPresenter#PageHeader", kProps122, 3 },
     { Host::ShellFlyout, L"ScrollViewer#ListContent", kProps123, 3 },
-    { Host::ShellFlyout, L"ActionCenter.FlexibleToastView#FlexibleNormalToastView", kProps124, 1 },
+    { Host::ShellFlyout, L"ActionCenter.FlexibleToastView#FlexibleNormalToastView", kProps124, 4 },
     { Host::ShellFlyout, L"Border#ToastBackgroundBorder2", kProps125, 4 },
     { Host::ShellFlyout, L"Border#ToastBackgroundBorder", kProps126, 4 },
     { Host::ShellFlyout, L"JumpViewUI.SystemItemListViewItem > Grid#LayoutRoot > Border#BackgroundBorder", kProps127, 1 },
@@ -1507,9 +1516,9 @@ inline constexpr Rule kRules[] = {
     { Host::ShellFlyout, L"Windows.UI.Xaml.Controls.Button#PlayPauseButton", kProps149, 3 },
     { Host::ShellFlyout, L"Windows.UI.Xaml.Controls.Primitives.RepeatButton#NextButton", kProps150, 3 },
     { Host::ShellFlyout, L"Windows.UI.Xaml.Controls.TextBlock#AppNameText", kProps151, 2 },
-    { Host::ShellFlyout, L"Windows.UI.Xaml.Controls.Image#IconImage", kProps152, 2 },
+    { Host::ShellFlyout, L"Windows.UI.Xaml.Controls.Image#IconImage", kProps152, 4 },
     { Host::ShellFlyout, L"Grid#MediaTransportControlsRoot", kProps153, 1 },
-    { Host::ShellFlyout, L"Grid#ToastPeekRegion", kProps154, 1 },
+    { Host::ShellFlyout, L"Grid#ToastPeekRegion", kProps154, 7 },
     { Host::ShellFlyout, L"Windows.UI.Xaml.Controls.CalendarViewDayItem > Windows.UI.Xaml.Controls.Border", kProps155, 2 },
     { Host::ShellFlyout, L"Windows.UI.Xaml.Controls.CalendarViewDayItem", kProps156, 1 },
     { Host::ShellFlyout, L"Windows.UI.Xaml.Controls.Control > Windows.UI.Xaml.Controls.Border", kProps157, 1 },

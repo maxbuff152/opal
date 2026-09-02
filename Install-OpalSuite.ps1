@@ -282,10 +282,19 @@ if (-not $PSCmdlet.ShouldProcess('Windhawk live state', 'install the single unif
 
 $rollbackStarted = Get-Date
 & (Join-Path $PSScriptRoot 'New-MaxwellShellRollbackPoint.ps1') -Note 'before unified one-mod Opal install'
-$rollbackBundle = Get-ChildItem -LiteralPath (Join-Path $env:LOCALAPPDATA 'Maxwell\WindhawkChatGPTGuard') -Directory -Filter 'rollback-*' |
-    Where-Object LastWriteTime -ge $rollbackStarted.AddSeconds(-2) |
-    Sort-Object LastWriteTime -Descending |
-    Select-Object -First 1
+$rollbackRoots = @(
+    (Join-Path $env:LOCALAPPDATA 'Maxwell\Opal')
+    (Join-Path $env:LOCALAPPDATA 'Maxwell\WindhawkChatGPTGuard')
+)
+$rollbackBundle = $null
+foreach ($rollbackRoot in $rollbackRoots) {
+    if (-not (Test-Path -LiteralPath $rollbackRoot)) { continue }
+    $rollbackBundle = Get-ChildItem -LiteralPath $rollbackRoot -Directory -Filter 'rollback-*' |
+        Where-Object LastWriteTime -ge $rollbackStarted.AddSeconds(-2) |
+        Sort-Object LastWriteTime -Descending |
+        Select-Object -First 1
+    if ($rollbackBundle) { break }
+}
 if (-not $rollbackBundle -or -not (Test-Path -LiteralPath (Join-Path $rollbackBundle.FullName 'manifest.json'))) {
     throw 'Fresh rollback bundle was not verified; refusing to mutate Windhawk.'
 }

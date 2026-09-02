@@ -35,7 +35,7 @@ struct {
 
 // File diagnostics for the icon-geometry pipeline. Wh_Log is invisible without
 // the Windhawk log viewer; symbol-hook failures on a new Windows build were
-// undiagnosable from outside. Writes the same %LOCALAPPDATA%\Opal\diag.log the
+// undiagnosable from outside. Writes the same %LOCALAPPDATA%\Maxwell\Opal\diag.log the
 // shell styler uses, prefixed [icons]. Only low-frequency events log here.
 inline void IconsDiag(const wchar_t* fmt, ...) {
     wchar_t line[1024] = {};
@@ -47,7 +47,9 @@ inline void IconsDiag(const wchar_t* fmt, ...) {
     wchar_t localAppData[MAX_PATH] = {};
     DWORD chars = GetEnvironmentVariableW(L"LOCALAPPDATA", localAppData, MAX_PATH);
     if (!chars || chars >= MAX_PATH) { return; }
-    std::wstring path = std::wstring(localAppData) + L"\\Opal";
+    std::wstring path = std::wstring(localAppData) + L"\\Maxwell";
+    CreateDirectoryW(path.c_str(), nullptr);
+    path += L"\\Opal";
     CreateDirectoryW(path.c_str(), nullptr);
     path += L"\\diag.log";
 
@@ -82,6 +84,10 @@ std::atomic<bool> g_unloading;
 std::atomic<int> g_hookCallCounter;
 
 bool g_hasDynamicIconScaling;
+// When Taskbar.View / taskbar.dll symbols move after a Windows update, skip
+// iconHeight writes and leave stock posture sizes (16/24/32) instead of
+// clipping or blanking the taskbar.
+bool g_iconGeometryFailSoft = false;
 std::atomic<bool> g_smallIconSize;
 int g_originalTaskbarHeight;
 int g_taskbarHeight;
@@ -521,7 +527,7 @@ int WINAPI TaskListItemViewModel_GetIconHeight_Hook(void* pThis,
     int ret =
         TaskListItemViewModel_GetIconHeight_Original(pThis, param1, iconHeight);
 
-    if (!g_unloading) {
+    if (!g_unloading && !g_iconGeometryFailSoft) {
         *iconHeight = g_settings.iconSize;
     }
 
@@ -546,7 +552,7 @@ int WINAPI TaskListGroupViewModel_GetIconHeight_Hook(void* pThis,
     int ret = TaskListGroupViewModel_GetIconHeight_Original(pThis, param1,
                                                             iconHeight);
 
-    if (!g_unloading) {
+    if (!g_unloading && !g_iconGeometryFailSoft) {
         *iconHeight = g_settings.iconSize;
     }
 
@@ -578,7 +584,8 @@ TaskbarConfiguration_GetIconHeightInViewPixels_taskbarSizeEnum_Hook(
         g_hasDynamicIconScaling = false;
     }
 
-    if (!g_unloading && (enumTaskbarSize == 1 || enumTaskbarSize == 2)) {
+    if (!g_unloading && !g_iconGeometryFailSoft &&
+        (enumTaskbarSize == 1 || enumTaskbarSize == 2)) {
         return g_settings.iconSize;
     }
 
@@ -610,7 +617,7 @@ TaskbarConfiguration_GetIconHeightInViewPixels_double_Hook(double baseHeight) {
         g_hasDynamicIconScaling = false;
     }
 
-    if (!g_unloading) {
+    if (!g_unloading && !g_iconGeometryFailSoft) {
         return g_settings.iconSize;
     }
 
@@ -658,7 +665,7 @@ TaskbarConfiguration_GetIconHeightInViewPixels_method_Hook(void* pThis) {
         return iconSize;
     }
 
-    if (!g_unloading) {
+    if (!g_unloading && !g_iconGeometryFailSoft) {
         return iconSize <= 16 ? g_settings.iconSizeSmall : g_settings.iconSize;
     }
 
@@ -669,6 +676,9 @@ using TaskListButton_IconHeight_t = void(WINAPI*)(void* pThis, double height);
 TaskListButton_IconHeight_t TaskListButton_IconHeight_Original;
 
 size_t GetIconHeightOffset() {
+    if (g_iconGeometryFailSoft) {
+        return 0;
+    }
     static size_t iconHeightOffset = []() -> size_t {
         if (!TaskListButton_IconHeight_Original) {
             Wh_Log(L"Error: TaskListButton_IconHeight_Original is null");
@@ -1421,7 +1431,7 @@ void WINAPI TaskListButton_OverlayIcon_Hook(void* pThis, void* param1) {
     if (size_t iconHeightOffset = GetIconHeightOffset()) {
         iconHeight = (double*)((BYTE*)pThis + iconHeightOffset);
         prevIconHeight = *iconHeight;
-        double newIconHeight = 24;
+        double newIconHeight = 32;
         Wh_Log(L"Setting iconHeight: %f->%f", prevIconHeight, newIconHeight);
         *iconHeight = newIconHeight;
     }
@@ -1455,7 +1465,7 @@ void WINAPI TaskListButton_UpdateBadge_Hook(void* pThis) {
     if (size_t iconHeightOffset = GetIconHeightOffset()) {
         iconHeight = (double*)((BYTE*)pThis + iconHeightOffset);
         prevIconHeight = *iconHeight;
-        double newIconHeight = 24;
+        double newIconHeight = 32;
         Wh_Log(L"Setting iconHeight: %f->%f", prevIconHeight, newIconHeight);
         *iconHeight = newIconHeight;
     }
@@ -2556,6 +2566,8 @@ bool HookSystemTraySymbols(HMODULE module) {
 
     if (!HookSymbols(module, symbolHooks, ARRAYSIZE(symbolHooks))) {
         Wh_Log(L"HookSymbols failed");
+        g_iconGeometryFailSoft = true;
+        IconsDiag(L"HookSystemTraySymbols: fail-soft stock icon geometry");
         return false;
     }
 
@@ -2854,8 +2866,9 @@ bool HookTaskbarViewDllSymbols(HMODULE module,
 
     if (!HookSymbols(module, allHooks, index)) {
         Wh_Log(L"HookSymbols failed");
+        g_iconGeometryFailSoft = true;
         IconsDiag(L"HookTaskbarViewDllSymbols: HookSymbols FAILED (module=%p, "
-                  L"inlineTray=%d)",
+                  L"inlineTray=%d) fail-soft stock icon geometry",
                   module, hookSystemTraySymbolsInline);
         return false;
     }
@@ -2978,6 +2991,8 @@ bool HookSearchUxUiDllSymbols(HMODULE module) {
 
     if (!HookSymbols(module, symbolHooks, ARRAYSIZE(symbolHooks))) {
         Wh_Log(L"HookSymbols failed");
+        g_iconGeometryFailSoft = true;
+        IconsDiag(L"HookSearchUxUiDllSymbols: fail-soft stock icon geometry");
         return false;
     }
 
@@ -3049,6 +3064,8 @@ bool HookTaskbarDllSymbols() {
 
     if (!HookSymbols(module, taskbarDllHooks, ARRAYSIZE(taskbarDllHooks))) {
         Wh_Log(L"HookSymbols failed");
+        g_iconGeometryFailSoft = true;
+        IconsDiag(L"HookTaskbarDllSymbols: fail-soft stock icon geometry");
         return false;
     }
 
@@ -3212,8 +3229,9 @@ BOOL Init() {
               GetSystemTrayModuleHandle(), GetSearchUxUiModuleHandle());
 
     if (!HookTaskbarDllSymbols()) {
-        IconsDiag(L"Init: HookTaskbarDllSymbols FAILED");
-        return FALSE;
+        IconsDiag(L"Init: HookTaskbarDllSymbols FAILED; fail-soft stock "
+                  L"16/24/32 posture sizes (no iconHeight writes)");
+        g_iconGeometryFailSoft = true;
     }
 
     bool delayLoadingNeeded = false;
@@ -3226,8 +3244,8 @@ BOOL Init() {
         if (systemTrayModule != GetTaskbarViewModuleHandle()) {
             g_systemTrayModuleHooked = true;
             if (!HookSystemTraySymbols(systemTrayModule)) {
-                IconsDiag(L"Init: HookSystemTraySymbols FAILED");
-                return FALSE;
+                IconsDiag(L"Init: HookSystemTraySymbols FAILED; fail-soft");
+                g_iconGeometryFailSoft = true;
             }
         }
     }
@@ -3242,8 +3260,8 @@ BOOL Init() {
         }
         if (!HookTaskbarViewDllSymbols(taskbarViewModule,
                                        hookSystemTraySymbolsInline)) {
-            IconsDiag(L"Init: HookTaskbarViewDllSymbols FAILED");
-            return FALSE;
+            IconsDiag(L"Init: HookTaskbarViewDllSymbols FAILED; fail-soft");
+            g_iconGeometryFailSoft = true;
         }
     } else {
         Wh_Log(L"Taskbar view module not loaded yet");

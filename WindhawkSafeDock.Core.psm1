@@ -1,8 +1,9 @@
 ﻿Set-StrictMode -Version 2.0
 
 $script:ToolRoot = Split-Path -Parent $PSCommandPath
-$script:StateRoot = 'C:\Users\maxwe\AppData\Local\Maxwell\WindhawkSafeDock'
-$script:CanonicalRoot = 'C:\Users\maxwe\AppData\Local\Maxwell\WindhawkChatGPTGuard\backup-20260820-003318-before-source-owned-visual-stack'
+$script:StateRoot = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal\safedock'
+$script:CanonicalRoot = Join-Path $env:LOCALAPPDATA 'Maxwell\WindhawkChatGPTGuard\backup-20260820-003318-before-source-owned-visual-stack'
+# Historical snapshot name only. New Opal source and rollbacks use the Opal name.
 
 function Get-WindhawkSafeDockLegacyConfig {
     [CmdletBinding()]
@@ -13,8 +14,8 @@ function Get-WindhawkSafeDockLegacyConfig {
             Id = 'local@maxwell-taskbar-styler'; FallbackId = 'windows-11-taskbar-styler'; Version = '2.0.0'; Library = 'local_at_maxwell-taskbar-styler_2.0.0_owned.dll'
             DllSha256 = 'DD22D7B1B98AC1F640E8E17EEBBA0BA9C6D5A6581FEA915F465937732C845716'
             SourceSha256 = '0C9947F9DB81EB487348E5E5767C26C3485E364362C441A9C927B8A300E401D5'
-            CanonicalDll = 'D:\CODEX SPINE, PLUGINS AND AGENTS\06-LOCAL TOOLS\Windhawk ChatGPT Guard\build\visual-clones\local_at_maxwell-taskbar-styler_2.0.0_owned.dll'
-            CanonicalSource = 'D:\CODEX SPINE, PLUGINS AND AGENTS\06-LOCAL TOOLS\Windhawk ChatGPT Guard\mod\visual-clones\maxwell-taskbar-styler.wh.cpp'
+            CanonicalDll = Join-Path $script:ToolRoot 'build\visual-clones\local_at_maxwell-taskbar-styler_2.0.0_owned.dll'
+            CanonicalSource = Join-Path $script:ToolRoot 'mod\visual-clones\maxwell-taskbar-styler.wh.cpp'
             Settings = [ordered]@{
                 theme = 'WindowGlass'
                 'styleConstants[0]' = 'Background=<WindhawkBlur BlurAmount="32" TintColor="#08090D" TintOpacity="0.60" TintLuminosityOpacity="0.44" TintSaturation="0.68" NoiseOpacity="0.008" FallbackColor="#121318" />'
@@ -149,8 +150,8 @@ function Get-WindhawkSafeDockLegacyConfig {
             Id = 'local@maxwell-taskbar-icons'; FallbackId = 'taskbar-icon-size'; Version = '2.0.0'; Library = 'local_at_maxwell-taskbar-icons_2.0.0_owned.dll'
             DllSha256 = '8EFB7FCC268F14F7B60FF77C26075F408BFC4E6347568EC5EABE70D59A5E5ACB'
             SourceSha256 = '958CDF776950485F8ADF5E61427CB924A886354EF109A270F981336B6AF855B9'
-            CanonicalDll = 'D:\CODEX SPINE, PLUGINS AND AGENTS\06-LOCAL TOOLS\Windhawk ChatGPT Guard\build\visual-clones\local_at_maxwell-taskbar-icons_2.0.0_owned.dll'
-            CanonicalSource = 'D:\CODEX SPINE, PLUGINS AND AGENTS\06-LOCAL TOOLS\Windhawk ChatGPT Guard\mod\visual-clones\maxwell-taskbar-icons.wh.cpp'
+            CanonicalDll = Join-Path $script:ToolRoot 'build\visual-clones\local_at_maxwell-taskbar-icons_2.0.0_owned.dll'
+            CanonicalSource = Join-Path $script:ToolRoot 'mod\visual-clones\maxwell-taskbar-icons.wh.cpp'
             # Use the native 32 px icon asset instead of scaling it to 40 px.
             # A 64 px bar keeps the glass/widgets spacious without soft icons.
             Settings = [ordered]@{ TaskbarHeight = 64; IconSize = 32; TaskbarButtonWidth = 52; IconSizeSmall = 16; TaskbarButtonWidthSmall = 32 }
@@ -159,8 +160,8 @@ function Get-WindhawkSafeDockLegacyConfig {
             Id = 'local@maxwell-taskbar-clock'; FallbackId = 'taskbar-clock-customization'; Version = '2.2.0'; Library = 'local_at_maxwell-taskbar-clock_2.2.0_owned.dll'
             DllSha256 = '5FFD04CD09FC6B543DA61FFE720677F2F93975875999D4ECAAF3627F6B875BC2'
             SourceSha256 = '3F60395547442547FA15E333316F1B3BB145D255ABC7A835560E08D925331311'
-            CanonicalDll = 'D:\CODEX SPINE, PLUGINS AND AGENTS\06-LOCAL TOOLS\Windhawk ChatGPT Guard\build\visual-clones\local_at_maxwell-taskbar-clock_2.2.0_owned.dll'
-            CanonicalSource = 'D:\CODEX SPINE, PLUGINS AND AGENTS\06-LOCAL TOOLS\Windhawk ChatGPT Guard\mod\visual-clones\maxwell-taskbar-clock.wh.cpp'
+            CanonicalDll = Join-Path $script:ToolRoot 'build\visual-clones\local_at_maxwell-taskbar-clock_2.2.0_owned.dll'
+            CanonicalSource = Join-Path $script:ToolRoot 'mod\visual-clones\maxwell-taskbar-clock.wh.cpp'
             Settings = [ordered]@{
                 ShowSeconds = 0; TimeFormat = "h':'mm"; DateFormat = 'MMM d'; WeekdayFormat = 'custom'; WeekdayFormatCustom = 'Sun, Mon, Tue, Wed, Thu, Fri, Sat'
                 TopLine = '%time%'; MiddleLine = ''; BottomLine = ('%weekday%{0}{1}{0}%date%{0}{1}{0}%weather%{0}{1}{0}%ambient_status%' -f [char]0x2009, [char]0x00B7)
