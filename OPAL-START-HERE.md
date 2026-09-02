@@ -1,0 +1,42 @@
+# Opal Start Here
+
+Use this friendly path for navigation:
+
+`D:\Opal`
+
+It is a Windows junction, not a copy. The durable source owner remains:
+
+`D:\CODEX SPINE, PLUGINS AND AGENTS\06-LOCAL TOOLS\Windhawk ChatGPT Guard`
+
+## What Opal is
+
+- One Windhawk mod: `local@opal` 4.4.0.
+- One settings page in Windhawk.
+- Internal components: Shell, Clock, Media, and Performance.
+- No separate Opal app or background controller.
+- Resource Saver releases dormant UI and fallback providers.
+- Both-display mode shares one worker per capability across a full view and a
+  compact mirror.
+- Windhawk settings are grouped into plain-language Start here, Screens, Media,
+  Computer stats, Windows look, Clock, and Advanced sections.
+- Widget customization stays inside Windhawk: shared Media/Performance text
+  size and background strength, Media artwork/details/idle/progress choices,
+  Performance temperature/graphs/click behavior, and a separate clock size.
+- Full widgets can be dragged in Custom placement mode and remember independent
+  positions for the main and second displays; compact mirrors stay coordinated
+  automatically.
+
+## Canonical files
+
+- Main entry: `mod\visual-clones\maxwell-shell.wh.cpp`
+- Media: `mod\visual-clones\maxwell-opal-media.wh.cpp`
+- Performance: `mod\visual-clones\maxwell-taskbar-system-info.wh.cpp`
+- Build: `Build-OpalSuite.ps1`
+- Install: `Install-OpalSuite.ps1`
+- Validation: `Test-OpalSuite.ps1`
+- Final performance evidence:
+  `measurements\package-cost-opal-4-unified-valid-settled-abba2.json`
+
+Edit the canonical component sources, then build through
+`Build-OpalSuite.ps1`. Files under `build`, `dist`, and `measurements` are
+generated artifacts or evidence, not alternate source owners.

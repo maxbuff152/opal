@@ -1,0 +1,15 @@
+build/
+dist/
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+*.dll
+*.pdb
+*.exp
+*.lib
+*.obj
+*.ilk
+__pycache__/
+*.pyc
