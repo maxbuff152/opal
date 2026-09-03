@@ -16,6 +16,9 @@ inline constexpr Prop kIconOnlyButton[] = {
     { L"MinWidth", nullptr, L"50", false },
     { L"MaxWidth", nullptr, L"50", false },
     { L"Padding", nullptr, L"0", false },
+    // Overlay/badge numbers (WhatsApp, ChatGPT) sit in this cell. A 50x50
+    // clip shears the digit. Keep the slot unclipped; the 38-DIP glyph still
+    // fits hover-zoom inside 50.
     { L"Clip", nullptr, L"None", false },
 };
 
@@ -123,7 +126,9 @@ inline constexpr Prop kFrostedTraySurface[] = {
 };
 
 inline constexpr Prop kFrostedHardwareSurface[] = {
-    { L"Background", nullptr, L"<WindhawkBlur BlurAmount=\"28\" TintColor=\"#16181D\" TintOpacity=\"0.58\" TintLuminosityOpacity=\"0.20\" TintSaturation=\"0.0\" NoiseOpacity=\"0.010\" FallbackColor=\"#D916181D\" />", true },
+    // Widgets paint the shared #16181D acrylic so Subtle/Glass/Strong can
+    // change tint without a second material stacked on this grid.
+    { L"Background", nullptr, L"Transparent", false },
     { L"BorderThickness", nullptr, L"0", false },
     { L"BorderBrush", nullptr, L"Transparent", false },
     { L"Height", nullptr, L"50", false },
@@ -132,7 +137,7 @@ inline constexpr Prop kFrostedHardwareSurface[] = {
 };
 
 inline constexpr Prop kFrostedMediaSurface[] = {
-    { L"Background", nullptr, L"<WindhawkBlur BlurAmount=\"28\" TintColor=\"#16181D\" TintOpacity=\"0.58\" TintLuminosityOpacity=\"0.20\" TintSaturation=\"0.0\" NoiseOpacity=\"0.010\" FallbackColor=\"#D916181D\" />", true },
+    { L"Background", nullptr, L"Transparent", false },
     { L"BorderThickness", nullptr, L"0", false },
     { L"BorderBrush", nullptr, L"Transparent", false },
     { L"Height", nullptr, L"50", false },
@@ -150,7 +155,9 @@ inline constexpr Prop kInvisibleButtonChrome[] = {
 inline constexpr Prop kClockContainer[] = {
     // The tray owns the capsule margin. Repeating it here shrinks the clock's
     // content box and clips the second line on a 50-DIP taskbar surface.
+    // MinHeight keeps the capsule from collapsing when weather is empty.
     { L"Height", nullptr, L"50", false },
+    { L"MinHeight", nullptr, L"50", false },
     { L"MinWidth", nullptr, L"168", false },
     { L"Padding", nullptr, L"8,0,8,0", false },
     { L"Margin", nullptr, L"0", false },
@@ -169,7 +176,10 @@ inline constexpr Prop kClockTime[] = {
 
 inline constexpr Prop kClockDateWeather[] = {
     // Fail visible: stale imported profiles must never collapse the date line.
+    // Weather may be empty; the date line still occupies this row.
     { L"Visibility", nullptr, L"Visible", false },
+    { L"Height", nullptr, L"14", false },
+    { L"MinHeight", nullptr, L"14", false },
     { L"FontFamily", nullptr, L"Segoe UI Variable Text", false },
     { L"FontWeight", nullptr, L"Medium", false },
     { L"FontSize", nullptr, L"11", false },
@@ -186,28 +196,30 @@ inline constexpr Prop kOverlayIcon[] = {
     { L"MinWidth", nullptr, L"16", false },
     { L"MinHeight", nullptr, L"16", false },
     { L"HorizontalAlignment", nullptr, L"Right", false },
-    { L"VerticalAlignment", nullptr, L"Bottom", false },
-    { L"Margin", nullptr, L"0,0,2,2", false },
-    { L"Canvas.ZIndex", nullptr, L"6", false },
+    { L"VerticalAlignment", nullptr, L"Top", false },
+    { L"Margin", nullptr, L"0,12,12,0", false },
+    { L"Canvas.ZIndex", nullptr, L"8", false },
     { L"Clip", nullptr, L"None", false },
     { L"Stretch", nullptr, L"Uniform", false },
+    { L"UseLayoutRounding", nullptr, L"True", false },
 };
 
 inline constexpr Prop kAppBadge[] = {
-    { L"MinWidth", nullptr, L"18", false },
+    { L"MinWidth", nullptr, L"16", false },
     { L"Width", nullptr, L"Auto", false },
-    { L"Height", nullptr, L"18", false },
-    { L"MinHeight", nullptr, L"18", false },
+    { L"Height", nullptr, L"16", false },
+    { L"MinHeight", nullptr, L"16", false },
     { L"Padding", nullptr, L"3,0,3,0", false },
-    { L"Margin", nullptr, L"0,1,1,0", false },
-    { L"CornerRadius", nullptr, L"9", false },
+    { L"Margin", nullptr, L"0,12,12,0", false },
+    { L"CornerRadius", nullptr, L"8", false },
     { L"HorizontalAlignment", nullptr, L"Right", false },
     { L"VerticalAlignment", nullptr, L"Top", false },
-    { L"Canvas.ZIndex", nullptr, L"7", false },
+    { L"Canvas.ZIndex", nullptr, L"8", false },
     { L"Clip", nullptr, L"None", false },
     { L"Background", nullptr, L"<SolidColorBrush Color=\"#16181D\" Opacity=\"0.96\" />", true },
     { L"Foreground", nullptr, L"<SolidColorBrush Color=\"#F5F5F7\" />", true },
     { L"BorderThickness", nullptr, L"0", false },
+    { L"UseLayoutRounding", nullptr, L"True", false },
 };
 
 inline constexpr Prop kAppBadgeText[] = {

@@ -213,6 +213,7 @@ Released under GPL-3.0.
   $description: "Click any metric to open a native hardware summary and system-tool launcher."
 
 - performanceAuraEnabled: false
+  $hidden: true
   $name: Performance aura
   $description: "Retained only for settings compatibility. Opal's native-neutral profile permanently disables the old chromatic aura."
 
@@ -263,26 +264,31 @@ Released under GPL-3.0.
   $name:uk-UA: Шрифт
 
 - textColor: "#FFF5F5F7"
+  $hidden: true
   $name: Text color
   $name:uk-UA: Колір тексту
   $description: "#RRGGBB or #AARRGGBB. Leave empty to use the system color."
   $description:uk-UA: "#RRGGBB або #AARRGGBB. Порожнє значення використовує системний колір."
 
 - graphColor: "#D6D6D8"
+  $hidden: true
   $name: Graph and bar color
   $name:uk-UA: Колір графіків і смуг
   $description: "Accent color for CPU/GPU history and memory capacity bars."
   $description:uk-UA: "Стриманий акцент для історії CPU/GPU та смуг памяті."
 
 - safeColor: "#FFA8A8AD"
+  $hidden: true
   $name: Safe temperature color
   $description: "CPU/GPU temperatures below their warning thresholds use this quiet graphite tone."
 
 - warningColor: "#FFC7C7CC"
+  $hidden: true
   $name: Warning color
   $name:uk-UA: Колір попередження
 
 - criticalColor: "#FFF5F5F7"
+  $hidden: true
   $name: Critical color
   $name:uk-UA: Критичний колір
 
@@ -1070,7 +1076,8 @@ void LoadSettings() {
     g_monitorTarget = OpalControl::ReadMonitorSetting(
         L"screens.performanceMonitor", OpalControl::MonitorTarget::Primary);
     g_highContrast = OpalControl::HighContrast();
-    g_reducedMotion = OpalControl::ReducedMotion();
+    g_reducedMotion = OpalControl::ReducedMotion() ||
+                      Wh_GetIntSetting(L"windowsLook.enableMotion") == 0;
     ModSettings settings;
     settings.fontFamily = GetStringSetting(L"fontFamily");
     settings.textColor = GetStringSetting(L"textColor");
@@ -3214,6 +3221,22 @@ Color MakeColor(uint8_t alpha, uint8_t red, uint8_t green, uint8_t blue) {
     return color;
 }
 
+Brush WidgetGlass() {
+    if (g_highContrast) {
+        return SolidColorBrush(MakeColor(0xFF, 0x00, 0x00, 0x00));
+    }
+    try {
+        AcrylicBrush brush;
+        brush.TintColor(MakeColor(0xFF, 0x16, 0x18, 0x1D));
+        brush.TintOpacity(g_widgetBackgroundAlpha / 255.0);
+        brush.TintLuminosityOpacity(0.20);
+        brush.FallbackColor(MakeColor(g_widgetBackgroundAlpha, 0x16, 0x18, 0x1D));
+        return brush;
+    } catch (...) {
+        return SolidColorBrush(MakeColor(g_widgetBackgroundAlpha, 0x16, 0x18, 0x1D));
+    }
+}
+
 SolidColorBrush BrushFromSetting(const std::wstring& value, Color fallback) {
     return SolidColorBrush(ParseColor(value).value_or(fallback));
 }
@@ -5226,7 +5249,7 @@ void ApplyUnifiedHoverLanguage(Grid row) {
     }
     auto resting = SolidColorBrush(MakeColor(0x01, 0x00, 0x00, 0x00));
     auto hover = SolidColorBrush(MakeColor(0x12, 0xFF, 0xFF, 0xFF));
-    auto pressed = SolidColorBrush(MakeColor(0x20, 0xD7, 0xDB, 0xE1));
+    auto pressed = SolidColorBrush(MakeColor(0x1A, 0xF5, 0xF5, 0xF7));
     row.Background(resting);
     row.PointerEntered([hover](IInspectable const& sender,
                                PointerRoutedEventArgs const&) {
@@ -5522,9 +5545,7 @@ bool InjectPerformanceMirror(FrameworkElement taskbarFrame, HWND window) {
     slot.surfaceBorder = Border();
     slot.surfaceBorder.Name(L"PerformanceMirrorSurface");
     slot.surfaceBorder.CornerRadius(CornerRadius{13, 13, 13, 13});
-    slot.surfaceBorder.Background(SolidColorBrush(g_highContrast
-        ? MakeColor(0xFF, 0x00, 0x00, 0x00)
-        : MakeColor(g_widgetBackgroundAlpha, 0x16, 0x18, 0x1D)));
+    slot.surfaceBorder.Background(WidgetGlass());
     slot.surfaceBorder.IsHitTestVisible(false);
     Grid::SetRowSpan(slot.surfaceBorder, 3);
     Canvas::SetZIndex(slot.surfaceBorder, 0);
@@ -5915,7 +5936,17 @@ double ClampWidgetLeft(double left) {
     if (!std::isfinite(rootWidth) || rootWidth <= widgetWidth) {
         return std::max(0.0, left);
     }
-    return std::clamp(left, 0.0, rootWidth - widgetWidth);
+    double maxLeft = rootWidth - widgetWidth;
+    if (g_taskItemsRepeater && g_rootGrid) {
+        try {
+            auto transform = g_taskItemsRepeater.TransformToVisual(g_rootGrid);
+            Point origin = transform.TransformPoint(Point{0.0F, 0.0F});
+            maxLeft = std::min(maxLeft,
+                               static_cast<double>(origin.X) - widgetWidth - 8.0);
+        } catch (...) {
+        }
+    }
+    return std::clamp(left, 0.0, std::max(0.0, maxLeft));
 }
 
 void ApplyUserPosition(double left) {
@@ -6171,9 +6202,7 @@ bool InjectWidget(FrameworkElement taskbarFrame) {
     g_surfaceBorder = Border();
     g_surfaceBorder.Name(L"PerformanceSurface");
     g_surfaceBorder.CornerRadius(CornerRadius{13, 13, 13, 13});
-    g_surfaceBorder.Background(SolidColorBrush(g_highContrast
-        ? MakeColor(0xFF, 0x00, 0x00, 0x00)
-        : MakeColor(g_widgetBackgroundAlpha, 0x16, 0x18, 0x1D)));
+    g_surfaceBorder.Background(WidgetGlass());
     g_surfaceBorder.IsHitTestVisible(false);
     Grid::SetColumnSpan(g_surfaceBorder, 3);
     Canvas::SetZIndex(g_surfaceBorder, 0);

@@ -327,6 +327,22 @@ SolidColorBrush Brush(uint8_t alpha, uint8_t value) {
     return SolidColorBrush(MakeColor(alpha, value, value, value));
 }
 
+winrt::Windows::UI::Xaml::Media::Brush WidgetGlass() {
+    if (g_highContrast) {
+        return SolidColorBrush(MakeColor(0xFF, 0x00, 0x00, 0x00));
+    }
+    try {
+        AcrylicBrush brush;
+        brush.TintColor(MakeColor(0xFF, 0x16, 0x18, 0x1D));
+        brush.TintOpacity(g_widgetBackgroundAlpha / 255.0);
+        brush.TintLuminosityOpacity(0.20);
+        brush.FallbackColor(MakeColor(g_widgetBackgroundAlpha, 0x16, 0x18, 0x1D));
+        return brush;
+    } catch (...) {
+        return SolidColorBrush(MakeColor(g_widgetBackgroundAlpha, 0x16, 0x18, 0x1D));
+    }
+}
+
 void LoadSettings() {
     g_mediaEnabled = Wh_GetIntSetting(L"media.mediaEnabled") != 0;
     g_leanMode = Wh_GetIntSetting(L"everyday.leanMode") != 0;
@@ -356,7 +372,8 @@ void LoadSettings() {
         g_fullViewOnPrimary = !performanceFullOnPrimary;
     }
     g_highContrast = OpalControl::HighContrast();
-    g_reducedMotion = OpalControl::ReducedMotion();
+    g_reducedMotion = OpalControl::ReducedMotion() ||
+                      Wh_GetIntSetting(L"windowsLook.enableMotion") == 0;
     g_settings.minimumWidth = std::clamp(Wh_GetIntSetting(L"minimumWidth"), 150, 240);
     g_settings.preferredWidth = std::clamp(Wh_GetIntSetting(L"preferredWidth"),
                                            g_settings.minimumWidth, 320);
@@ -546,12 +563,14 @@ WriteableBitmap DecodeArtwork(const std::vector<uint8_t>& bytes) {
         return nullptr;
     }
 
-    // Decode to the real display cell instead of a fixed source-size ceiling.
-    // WIC scales during decode, so a 4K cover never becomes a full-size bitmap
-    // inside Explorer only to be shrunk by XAML a moment later.
+    // Decode at 2x the 46-DIP artwork cell so a DPI-unaware GetDpiForWindow(96)
+    // cannot leave a 46-pixel bitmap stretched across a sharper display.
     UINT dpi = g_taskbarWindow ? GetDpiForWindow(g_taskbarWindow) : 96;
+    if (dpi < 96) {
+        dpi = 96;
+    }
     UINT targetPixels = std::clamp<UINT>(
-        static_cast<UINT>(std::lround(46.0 * dpi / 96.0)), 46, 192);
+        static_cast<UINT>(std::lround(46.0 * dpi / 96.0 * 2.0)), 92, 256);
     double scale = std::min(1.0, static_cast<double>(targetPixels) /
                                     std::max(sourceWidth, sourceHeight));
     UINT width = std::max(1U, static_cast<UINT>(std::lround(sourceWidth * scale)));
@@ -682,6 +701,8 @@ bool IsMediaControlSurface(DependencyObject source) {
     return false;
 }
 
+FrameworkElement FindStartButton(DependencyObject root);
+
 const wchar_t* CurrentWidgetLeftValue() {
     HWND window = g_taskbarWindow.load();
     bool secondary = window ? OpalControl::IsSecondaryTaskbar(window)
@@ -728,7 +749,19 @@ double ClampWidgetLeft(double left) {
     if (!std::isfinite(rootWidth) || rootWidth <= widgetWidth) {
         return std::max(0.0, left);
     }
-    return std::clamp(left, 0.0, rootWidth - widgetWidth);
+    double maxLeft = rootWidth - widgetWidth;
+    try {
+        auto start = FindStartButton(g_parent);
+        if (start) {
+            auto point = start.TransformToVisual(g_parent).TransformPoint({0, 0});
+            maxLeft = std::min(
+                maxLeft,
+                static_cast<double>(point.X) - ParentPaddingLeft(g_parent) -
+                    widgetWidth - 8.0);
+        }
+    } catch (...) {
+    }
+    return std::clamp(left, 0.0, std::max(0.0, maxLeft));
 }
 
 void ApplyUserPosition(double left) {
@@ -1222,11 +1255,11 @@ Button MakeButton(PCWSTR glyph, PCWSTR accessibleName, MediaAction action,
                                  PointerRoutedEventArgs const&) {
         if (auto target = sender.try_as<Button>()) {
             target.Opacity(1.0);
-            target.Background(emphasized ? Brush(0x30, 0xF5)
-                                         : Brush(0x12, 0xF5));
+            target.Background(emphasized ? Brush(0x28, 0xF5)
+                                         : Brush(0x10, 0xF5));
             if (!g_reducedMotion) {
-                hoverScale.ScaleX(1.08);
-                hoverScale.ScaleY(1.08);
+                hoverScale.ScaleX(1.04);
+                hoverScale.ScaleY(1.04);
             }
         }
     });
@@ -1244,15 +1277,15 @@ Button MakeButton(PCWSTR glyph, PCWSTR accessibleName, MediaAction action,
     tokens.pointerPressed = button.PointerPressed(
         [hoverScale](IInspectable const&, PointerRoutedEventArgs const&) {
         if (!g_reducedMotion) {
-            hoverScale.ScaleX(0.92);
-            hoverScale.ScaleY(0.92);
+            hoverScale.ScaleX(0.97);
+            hoverScale.ScaleY(0.97);
         }
     });
     tokens.pointerReleased = button.PointerReleased(
         [hoverScale](IInspectable const&, PointerRoutedEventArgs const&) {
         if (!g_reducedMotion) {
-            hoverScale.ScaleX(1.08);
-            hoverScale.ScaleY(1.08);
+            hoverScale.ScaleX(1.04);
+            hoverScale.ScaleY(1.04);
         }
     });
     tokens.click = button.Click([action](IInspectable const&, RoutedEventArgs const&) {
@@ -1275,9 +1308,7 @@ Grid BuildWidget() {
     g_shell.Name(L"OpalMediaGlass");
     // Readable translucent fallback until Opal's XAML tap applies the shared
     // compositor frost used by Clock, tray, and System Info.
-    g_shell.Background(SolidColorBrush(g_highContrast
-        ? MakeColor(0xFF, 0x00, 0x00, 0x00)
-        : MakeColor(g_widgetBackgroundAlpha, 0x16, 0x18, 0x1D)));
+    g_shell.Background(WidgetGlass());
     g_shell.BorderBrush(g_highContrast ? Brush(0xFF, 0xFF) : Brush(0x00, 0x00));
     g_shell.BorderThickness(g_highContrast ? Thickness{1, 1, 1, 1}
                                            : Thickness{0, 0, 0, 0});
@@ -1316,7 +1347,16 @@ Grid BuildWidget() {
             args.Handled(true);
         });
     g_artwork = Image();
+    g_artwork.Width(46);
+    g_artwork.Height(46);
     g_artwork.Stretch(Stretch::UniformToFill);
+    try {
+        g_artwork.Clip(nullptr);
+        RectangleGeometry hostClip;
+        hostClip.Rect(winrt::Windows::Foundation::Rect{0.0F, 0.0F, 46.0F, 46.0F});
+        g_artworkHost.Clip(hostClip);
+    } catch (...) {
+    }
     g_artworkHost.Child(g_artwork);
     Grid::SetColumn(g_artworkHost, 0);
     content.Children().Append(g_artworkHost);
@@ -1594,14 +1634,17 @@ void ApplyDensity(double width) {
                                         : Visibility::Collapsed);
         g_artworkColumn.Width(GridLength{artwork ? 50.0 : 0.0,
                                          GridUnitType::Pixel});
+        g_artworkHost.Margin(Thickness{artwork ? 0.0 : 0.0, 0, 0, 0});
+        g_artworkHost.Width(artwork ? 46.0 : 0.0);
+    }
+    if (g_identityPanel) {
+        g_identityPanel.Margin(Thickness{artwork ? 6.0 : 2.0, 0, 5.0, 0});
+        g_identityPanel.Visibility(showIdentity ? Visibility::Visible
+                                                : Visibility::Collapsed);
     }
     if (g_controlColumn) {
         g_controlColumn.Width(GridLength{transport ? 90.0 : 30.0,
                                          GridUnitType::Pixel});
-    }
-    if (g_identityPanel) {
-        g_identityPanel.Visibility(showIdentity ? Visibility::Visible
-                                                : Visibility::Collapsed);
     }
     g_artist.Visibility(g_settings.showArtist && showArtist
                             ? Visibility::Visible
@@ -1729,7 +1772,7 @@ int DesiredUiIntervalMs() {
     if (!g_uiSnapshot.hasSession) {
         return kIdleUiIntervalMs;
     }
-    if (!g_settings.smoothProgress || !g_uiSnapshot.playing) {
+    if (g_reducedMotion || !g_settings.smoothProgress || !g_uiSnapshot.playing) {
         return kPausedUiIntervalMs;
     }
     return g_leanMode ? kLeanPlayingUiIntervalMs : kPlayingUiIntervalMs;
@@ -1843,7 +1886,7 @@ void UpdateUiTick() {
         return;
     }
     int64_t position = g_uiSnapshot.position100ns;
-    if (g_settings.smoothProgress && g_uiSnapshot.playing) {
+    if (g_settings.smoothProgress && g_uiSnapshot.playing && !g_reducedMotion) {
         position += static_cast<int64_t>(GetTickCount64() -
                                         g_uiSnapshot.capturedTick) * 10000;
     }
@@ -2178,12 +2221,10 @@ bool InjectMediaMirror(FrameworkElement taskbarFrame, HWND window) {
     Border shell;
     shell.CornerRadius(CornerRadius{13, 13, 13, 13});
     shell.Padding(Thickness{12, 4, 12, 4});
-    shell.Background(SolidColorBrush(g_highContrast
-        ? MakeColor(0xFF, 0x00, 0x00, 0x00)
-        : MakeColor(g_widgetBackgroundAlpha, 0x16, 0x18, 0x1D)));
-    shell.BorderBrush(g_highContrast ? Brush(0xFF, 0xFF)
-                                     : Brush(0x16, 0xFF));
-    shell.BorderThickness(Thickness{1, 1, 1, 1});
+    shell.Background(WidgetGlass());
+    shell.BorderBrush(g_highContrast ? Brush(0xFF, 0xFF) : Brush(0x00, 0x00));
+    shell.BorderThickness(g_highContrast ? Thickness{1, 1, 1, 1}
+                                         : Thickness{0, 0, 0, 0});
 
     StackPanel text;
     text.VerticalAlignment(VerticalAlignment::Center);

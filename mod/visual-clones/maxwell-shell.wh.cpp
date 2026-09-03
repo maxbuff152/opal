@@ -281,6 +281,7 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
 #include <winrt/Windows.UI.Xaml.Hosting.h>
 #include <winrt/Windows.UI.Xaml.Input.h>
 #include <winrt/Windows.UI.Xaml.Media.h>
+#include <winrt/Windows.UI.Xaml.Media.Animation.h>
 
 #include "maxwell-shell-rules.h"
 #include "maxwell-shell-owned-overrides.h"
@@ -300,6 +301,7 @@ namespace wux  = winrt::Windows::UI::Xaml;
 namespace wuxc = winrt::Windows::UI::Xaml::Controls;
 namespace wuxi = winrt::Windows::UI::Xaml::Input;
 namespace wuxm = winrt::Windows::UI::Xaml::Media;
+namespace wuxa = winrt::Windows::UI::Xaml::Media::Animation;
 namespace wuxh = winrt::Windows::UI::Xaml::Hosting;
 namespace wfn  = winrt::Windows::Foundation::Numerics;
 
@@ -645,6 +647,121 @@ static std::wstring ElementName(const wux::DependencyObject& obj) {
 
 static bool SystemMotionEnabled() {
     return !OpalControl::ReducedMotion() && !OpalControl::HighContrast();
+}
+
+static void AnimateElementScale(const wux::FrameworkElement& element,
+                                float to,
+                                int milliseconds) {
+    if (!element) {
+        return;
+    }
+    try {
+        auto visual = wuxh::ElementCompositionPreview::GetElementVisual(element);
+        double width = element.ActualWidth();
+        double height = element.ActualHeight();
+        if (std::isfinite(width) && std::isfinite(height) && width > 1.0 &&
+            height > 1.0) {
+            visual.CenterPoint(wfn::float3{static_cast<float>(width / 2.0),
+                                           static_cast<float>(height / 2.0),
+                                           0.0F});
+        }
+        if (!g_enableMotion || !SystemMotionEnabled()) {
+            visual.Scale(wfn::float3{to, to, 1.0F});
+            return;
+        }
+        auto compositor = visual.Compositor();
+        auto ease = compositor.CreateCubicBezierEasingFunction(
+            wfn::float2{0.22F, 1.0F}, wfn::float2{0.36F, 1.0F});
+        auto animation = compositor.CreateVector3KeyFrameAnimation();
+        animation.InsertKeyFrame(1.0F, wfn::float3{to, to, 1.0F}, ease);
+        animation.Duration(winrt::Windows::Foundation::TimeSpan{
+            std::chrono::milliseconds(milliseconds)});
+        visual.StartAnimation(L"Scale", animation);
+    } catch (...) {
+    }
+}
+
+static void PulseAppOpen(const wux::FrameworkElement& element) {
+    if (!element || !g_enableMotion || !SystemMotionEnabled()) {
+        return;
+    }
+    try {
+        auto visual = wuxh::ElementCompositionPreview::GetElementVisual(element);
+        double width = element.ActualWidth();
+        double height = element.ActualHeight();
+        if (std::isfinite(width) && std::isfinite(height) && width > 1.0 &&
+            height > 1.0) {
+            visual.CenterPoint(wfn::float3{static_cast<float>(width / 2.0),
+                                           static_cast<float>(height / 2.0),
+                                           0.0F});
+        }
+        auto compositor = visual.Compositor();
+        auto outEase = compositor.CreateCubicBezierEasingFunction(
+            wfn::float2{0.16F, 1.0F}, wfn::float2{0.30F, 1.0F});
+        auto settleEase = compositor.CreateCubicBezierEasingFunction(
+            wfn::float2{0.20F, 0.80F}, wfn::float2{0.20F, 1.0F});
+        auto scale = compositor.CreateVector3KeyFrameAnimation();
+        scale.InsertKeyFrame(0.0F, wfn::float3{0.92F, 0.92F, 1.0F});
+        scale.InsertKeyFrame(0.55F, wfn::float3{1.035F, 1.035F, 1.0F}, outEase);
+        scale.InsertKeyFrame(1.0F, wfn::float3{1.0F, 1.0F, 1.0F}, settleEase);
+        scale.Duration(winrt::Windows::Foundation::TimeSpan{
+            std::chrono::milliseconds(280)});
+        visual.StartAnimation(L"Scale", scale);
+    } catch (...) {
+    }
+}
+
+static void AnimateRunningIndicatorWidth(const wux::FrameworkElement& indicator,
+                                         double to) {
+    if (!indicator) {
+        return;
+    }
+    if (!g_enableMotion || !SystemMotionEnabled()) {
+        try {
+            indicator.Width(to);
+        } catch (...) {
+        }
+        return;
+    }
+    try {
+        wuxa::DoubleAnimation animation;
+        animation.To(to);
+        animation.Duration(wux::Duration(winrt::Windows::Foundation::TimeSpan{
+            std::chrono::milliseconds(220)}));
+        wuxa::CubicEase ease;
+        ease.EasingMode(wuxa::EasingMode::EaseOut);
+        animation.EasingFunction(ease);
+        wuxa::Storyboard storyboard;
+        wuxa::Storyboard::SetTarget(animation, indicator);
+        wuxa::Storyboard::SetTargetProperty(animation, L"Width");
+        storyboard.Children().Append(animation);
+        storyboard.Begin();
+    } catch (...) {
+        try {
+            indicator.Width(to);
+        } catch (...) {
+        }
+    }
+}
+
+static wux::FrameworkElement FindIconPanel(wux::DependencyObject current) {
+    while (current) {
+        auto element = current.try_as<wux::FrameworkElement>();
+        if (element) {
+            auto name = element.Name();
+            auto type = winrt::get_class_name(current);
+            if (name == L"IconPanel" ||
+                type == L"Taskbar.TaskListLabeledButtonPanel") {
+                return element;
+            }
+        }
+        try {
+            current = wuxm::VisualTreeHelper::GetParent(current);
+        } catch (...) {
+            return nullptr;
+        }
+    }
+    return nullptr;
 }
 
 static bool IsOpalEntranceSurface(std::wstring_view name) {
@@ -1009,9 +1126,37 @@ static void HookVisualStates(const wux::DependencyObject& stateHost,
                 [weakTarget, rule](auto&&, wux::VisualStateChangedEventArgs const& args) {
                     auto t = weakTarget.get();
                     if (!t || !args.NewState()) { return; }
-                    DiagLog(L"  state -> %s (%s)", args.NewState().Name().c_str(),
+                    const auto newName = args.NewState().Name();
+                    DiagLog(L"  state -> %s (%s)", newName.c_str(),
                             rule->selector);
-                    ApplyPropsForState(t, rule, args.NewState().Name());
+                    ApplyPropsForState(t, rule, newName);
+
+                    std::wstring_view next(newName.c_str());
+                    std::wstring_view previous =
+                        args.OldState() ? args.OldState().Name().c_str() : L"";
+                    if (ElementName(t) == L"RunningIndicator") {
+                        double width = 0.0;
+                        if (next.find(L"Active") != std::wstring_view::npos ||
+                            next.find(L"RequestingAttention") !=
+                                std::wstring_view::npos) {
+                            width = 12.0;
+                        } else if (next.find(L"Inactive") !=
+                                   std::wstring_view::npos) {
+                            width = 5.0;
+                        }
+                        AnimateRunningIndicatorWidth(t, width);
+                        const bool wasClosed =
+                            previous.find(L"NoRunning") != std::wstring_view::npos ||
+                            previous.empty();
+                        const bool nowOpen =
+                            next.find(L"Inactive") != std::wstring_view::npos ||
+                            next.find(L"Active") != std::wstring_view::npos;
+                        if (wasClosed && nowOpen) {
+                            if (auto panel = FindIconPanel(t)) {
+                                PulseAppOpen(panel);
+                            }
+                        }
+                    }
                 });
 
             // Apply whatever state the control is already in, so the first paint
@@ -1043,6 +1188,14 @@ static void ApplyPropsWithStateSubstring(const wux::DependencyObject& target,
         if (!p.state) { continue; }
         if (std::wstring_view(p.state).find(needle) ==
             std::wstring_view::npos) { continue; }
+        if (wcscmp(p.name, L"RenderTransform") == 0) {
+            if (auto fe = target.try_as<wux::FrameworkElement>()) {
+                const float scale = (needle == L"Pressed") ? 0.97F : 1.04F;
+                const int duration = (needle == L"Pressed") ? 90 : 150;
+                AnimateElementScale(fe, scale, duration);
+            }
+            continue;
+        }
         MaxwellShell::ApplyProperty(target, p.name, ResolveValue(target, p.value));
     }
 }
@@ -1071,12 +1224,18 @@ static void ApplyPointerExitReset(const wux::DependencyObject& target,
             }
         }
         if (reset) {
+            if (wcscmp(reset->name, L"RenderTransform") == 0) {
+                if (auto fe = target.try_as<wux::FrameworkElement>()) {
+                    AnimateElementScale(fe, 1.0F, 160);
+                }
+                continue;
+            }
             MaxwellShell::ApplyProperty(target, reset->name,
                                         ResolveValue(target, reset->value));
         } else if (wcscmp(p.name, L"RenderTransform") == 0) {
-            MaxwellShell::ApplyProperty(
-                target, L"RenderTransform",
-                L"<ScaleTransform ScaleX=\"1\" ScaleY=\"1\" />");
+            if (auto fe = target.try_as<wux::FrameworkElement>()) {
+                AnimateElementScale(fe, 1.0F, 160);
+            }
         }
     }
 }

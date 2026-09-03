@@ -231,6 +231,182 @@ FrameworkElement FindChildByClassName(FrameworkElement element,
     });
 }
 
+FrameworkElement FindDescendantByName(FrameworkElement element, PCWSTR name) {
+    if (!element) {
+        return nullptr;
+    }
+    if (element.Name() == name) {
+        return element;
+    }
+    FrameworkElement match = nullptr;
+    EnumChildElements(element, [name, &match](FrameworkElement child) {
+        match = FindDescendantByName(child, name);
+        return match != nullptr;
+    });
+    return match;
+}
+
+void ClearElementClip(UIElement element) {
+    if (!element) {
+        return;
+    }
+    try {
+        if (element.Clip()) {
+            element.Clip(Media::RectangleGeometry{nullptr});
+        }
+    } catch (...) {
+    }
+}
+
+void ClearClipsRecursive(FrameworkElement element) {
+    if (!element) {
+        return;
+    }
+    ClearElementClip(element);
+    EnumChildElements(element, [](FrameworkElement child) {
+        ClearClipsRecursive(child);
+        return false;
+    });
+}
+
+bool MarginDiffers(const Thickness& margin, double inset) {
+    return margin.Left != 0.0 || margin.Top != inset || margin.Right != inset ||
+           margin.Bottom != 0.0;
+}
+
+void PlaceUnreadMarkTopRight(FrameworkElement mark, double inset,
+                             double markSize, bool lockSquare) {
+    if (!mark) {
+        return;
+    }
+    try {
+        if (mark.HorizontalAlignment() != HorizontalAlignment::Right) {
+            mark.HorizontalAlignment(HorizontalAlignment::Right);
+        }
+        if (mark.VerticalAlignment() != VerticalAlignment::Top) {
+            mark.VerticalAlignment(VerticalAlignment::Top);
+        }
+        if (MarginDiffers(mark.Margin(), inset)) {
+            mark.Margin(Thickness{0, inset, inset, 0});
+        }
+        if (lockSquare) {
+            if (mark.Width() != markSize) {
+                mark.Width(markSize);
+            }
+            if (mark.Height() != markSize) {
+                mark.Height(markSize);
+            }
+        }
+        if (mark.MaxWidth() != markSize) {
+            mark.MaxWidth(markSize);
+        }
+        if (mark.MaxHeight() != markSize) {
+            mark.MaxHeight(markSize);
+        }
+        ClearElementClip(mark);
+        winrt::Windows::UI::Xaml::Controls::Canvas::SetZIndex(mark, 8);
+    } catch (...) {
+    }
+}
+
+void ApplyTopRightUnreadMarks(FrameworkElement button);
+void ApplyTopRightUnreadMarks(void* pThis);
+
+void EnsureUnreadMarkLayoutHook(FrameworkElement panel) {
+    if (!panel || g_unloading) {
+        return;
+    }
+    try {
+        auto tagged = panel.Tag().try_as<winrt::hstring>();
+        if (tagged && tagged == L"opal-unread") {
+            return;
+        }
+        panel.Tag(winrt::box_value(L"opal-unread"));
+        panel.LayoutUpdated([weak = winrt::make_weak(panel)](auto&&, auto&&) {
+            if (g_unloading) {
+                return;
+            }
+            auto live = weak.get();
+            if (!live) {
+                return;
+            }
+            try {
+                DependencyObject current = live;
+                while (current) {
+                    auto named = current.try_as<FrameworkElement>();
+                    if (named && (named.Name() == L"TaskListButton" ||
+                                  winrt::get_class_name(named) ==
+                                      L"Taskbar.TaskListButton")) {
+                        ApplyTopRightUnreadMarks(named);
+                        return;
+                    }
+                    current = Media::VisualTreeHelper::GetParent(current);
+                }
+            } catch (...) {
+            }
+        });
+    } catch (...) {
+    }
+}
+
+void ApplyTopRightUnreadMarks(FrameworkElement button) {
+    if (!button || g_unloading) {
+        return;
+    }
+
+    try {
+        ClearElementClip(button);
+        auto panel = FindDescendantByName(button, L"IconPanel");
+        ClearClipsRecursive(panel);
+        EnsureUnreadMarkLayoutHook(panel);
+
+        double iconSize = g_smallIconSize ? g_settings.iconSizeSmall
+                                          : static_cast<double>(g_settings.iconSize);
+        double panelSize = 50.0;
+        if (panel) {
+            double actual = panel.ActualWidth();
+            if (actual > 0.0) {
+                panelSize = actual;
+            }
+        }
+        // Pull the mark onto the 38-DIP glyph. Geometric center (6 DIP) still
+        // left the digit on the cell's top-right corner, where the next button
+        // shears it. 10 DIP inset + 16 DIP mark keeps the whole number inside
+        // the icon with a few DIP of air.
+        double inset = (panelSize - iconSize) * 0.5 + 6.0;
+        if (inset < 8.0) {
+            inset = 8.0;
+        }
+        const double markSize = g_smallIconSize ? 12.0 : 16.0;
+
+        if (auto overlay = FindDescendantByName(button, L"OverlayIcon")) {
+            PlaceUnreadMarkTopRight(overlay, inset, markSize, true);
+        }
+        if (auto badge = FindDescendantByName(button, L"BadgeControl")) {
+            PlaceUnreadMarkTopRight(badge, inset, markSize, false);
+            if (badge.MinWidth() != markSize) {
+                badge.MinWidth(markSize);
+            }
+            if (badge.Height() != markSize) {
+                badge.Height(markSize);
+            }
+        }
+    } catch (...) {
+    }
+}
+
+void ApplyTopRightUnreadMarks(void* pThis) {
+    if (!pThis || g_unloading) {
+        return;
+    }
+
+    FrameworkElement button = nullptr;
+    ((IUnknown*)pThis + 3)
+        ->QueryInterface(winrt::guid_of<FrameworkElement>(),
+                         winrt::put_abi(button));
+    ApplyTopRightUnreadMarks(button);
+}
+
 bool IsVerticalTaskbar() {
     APPBARDATA appBarData = {
         .cbSize = sizeof(APPBARDATA),
@@ -1416,6 +1592,7 @@ void WINAPI TaskListButton_OverlayIcon_Hook(void* pThis, void* param1) {
 
     if (!g_hasDynamicIconScaling || g_unloading) {
         TaskListButton_OverlayIcon_Original(pThis, param1);
+        ApplyTopRightUnreadMarks(pThis);
         return;
     }
 
@@ -1431,7 +1608,8 @@ void WINAPI TaskListButton_OverlayIcon_Hook(void* pThis, void* param1) {
     if (size_t iconHeightOffset = GetIconHeightOffset()) {
         iconHeight = (double*)((BYTE*)pThis + iconHeightOffset);
         prevIconHeight = *iconHeight;
-        double newIconHeight = 32;
+        double newIconHeight =
+            g_smallIconSize ? 16.0 : g_settings.iconSize;
         Wh_Log(L"Setting iconHeight: %f->%f", prevIconHeight, newIconHeight);
         *iconHeight = newIconHeight;
     }
@@ -1441,6 +1619,7 @@ void WINAPI TaskListButton_OverlayIcon_Hook(void* pThis, void* param1) {
     if (iconHeight) {
         *iconHeight = prevIconHeight;
     }
+    ApplyTopRightUnreadMarks(pThis);
 }
 
 using TaskListButton_UpdateBadge_t = void(WINAPI*)(void* pThis);
@@ -1450,6 +1629,7 @@ void WINAPI TaskListButton_UpdateBadge_Hook(void* pThis) {
 
     if (!g_hasDynamicIconScaling || g_unloading) {
         TaskListButton_UpdateBadge_Original(pThis);
+        ApplyTopRightUnreadMarks(pThis);
         return;
     }
 
@@ -1465,7 +1645,8 @@ void WINAPI TaskListButton_UpdateBadge_Hook(void* pThis) {
     if (size_t iconHeightOffset = GetIconHeightOffset()) {
         iconHeight = (double*)((BYTE*)pThis + iconHeightOffset);
         prevIconHeight = *iconHeight;
-        double newIconHeight = 32;
+        double newIconHeight =
+            g_smallIconSize ? 16.0 : g_settings.iconSize;
         Wh_Log(L"Setting iconHeight: %f->%f", prevIconHeight, newIconHeight);
         *iconHeight = newIconHeight;
     }
@@ -1475,6 +1656,7 @@ void WINAPI TaskListButton_UpdateBadge_Hook(void* pThis) {
     if (iconHeight) {
         *iconHeight = prevIconHeight;
     }
+    ApplyTopRightUnreadMarks(pThis);
 }
 
 using TaskListButton_UpdateMultiWindowClip_t = void(WINAPI*)(void* pThis);
@@ -1780,6 +1962,7 @@ void WINAPI TaskListButton_UpdateVisualStates_Hook(void* pThis) {
         g_taskListButtonPostureIconHeight = 0;
         *iconHeight = prevIconHeight;
     }
+    ApplyTopRightUnreadMarks(pThis);
 
     if (g_applyingSettings && !g_hasDynamicIconScaling) {
         FrameworkElement taskListButtonElement = nullptr;

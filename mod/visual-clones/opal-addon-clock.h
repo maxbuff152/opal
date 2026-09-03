@@ -3553,8 +3553,12 @@ size_t ResolveFormatToken(
 
     if (auto token = L"%weather%"sv; format.starts_with(token)) {
         std::lock_guard<std::mutex> guard(g_webContentMutex);
-        resolvedCallback(g_webContentWeather ? g_webContentWeather->c_str()
-                                             : L"Loading...");
+        const wchar_t* weather = L"";
+        if (g_settings.webContentWeatherLocation &&
+            *g_settings.webContentWeatherLocation && g_webContentWeather) {
+            weather = g_webContentWeather->c_str();
+        }
+        resolvedCallback(weather);
         return token.size();
     }
 
