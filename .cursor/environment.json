@@ -1,4 +1,4 @@
 {
-  "name": "Opal PowerShell tooling",
-  "install": "bash ./.cursor/install-pwsh.sh"
+  "name": "Opal PowerShell tooling + Linux cross-build",
+  "install": "bash ./.cursor/install.sh"
 }
