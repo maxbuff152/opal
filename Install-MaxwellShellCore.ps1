@@ -20,6 +20,43 @@ function Get-OwnedCoreProcess {
         Where-Object { $_.ExecutablePath -and [IO.Path]::GetFullPath($_.ExecutablePath) -eq [IO.Path]::GetFullPath($installedExe) }
 }
 
+function Stop-LeftoverMaxwellShell {
+    foreach ($process in @(Get-CimInstance Win32_Process -Filter "Name='MaxwellShell.exe'" -ErrorAction SilentlyContinue)) {
+        $path = [string]$process.ExecutablePath
+        if ($path -and ([IO.Path]::GetFileName($path) -ieq 'Maxwell.Shell.Core.exe')) { continue }
+        Stop-Process -Id $process.ProcessId -Force -ErrorAction SilentlyContinue
+        Wait-Process -Id $process.ProcessId -Timeout 8 -ErrorAction SilentlyContinue
+    }
+    Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+
+    if (Test-Path -LiteralPath $runKey) {
+        foreach ($name in @((Get-Item -LiteralPath $runKey).Property)) {
+            if ($name -eq $runName) { continue }
+            $value = [string](Get-ItemPropertyValue -LiteralPath $runKey -Name $name -ErrorAction SilentlyContinue)
+            if ($value -match '(?i)MaxwellShell\.exe' -and $value -notmatch '(?i)Maxwell\.Shell\.Core\.exe') {
+                Remove-ItemProperty -LiteralPath $runKey -Name $name -ErrorAction SilentlyContinue
+            }
+        }
+    }
+
+    foreach ($dir in @(
+        (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Startup'),
+        (Join-Path $env:ProgramData 'Microsoft\Windows\Start Menu\Programs\StartUp')
+    )) {
+        if (-not (Test-Path -LiteralPath $dir)) { continue }
+        foreach ($item in @(Get-ChildItem -LiteralPath $dir -File -ErrorAction SilentlyContinue)) {
+            $leftover = $item.Name -match '(?i)MaxwellShell'
+            if (-not $leftover -and $item.Extension -eq '.lnk') {
+                try {
+                    $shortcut = (New-Object -ComObject WScript.Shell).CreateShortcut($item.FullName)
+                    $leftover = [string]$shortcut.TargetPath -match '(?i)(?:^|[\\/])MaxwellShell\.exe$'
+                } catch { }
+            }
+            if ($leftover) { Remove-Item -LiteralPath $item.FullName -Force -ErrorAction SilentlyContinue }
+        }
+    }
+}
+
 function Stop-OwnedCore {
     foreach ($process in @(Get-OwnedCoreProcess)) {
         Stop-Process -Id $process.ProcessId -ErrorAction SilentlyContinue
@@ -64,6 +101,7 @@ if (-not (Test-Path -LiteralPath $builtExe -PathType Leaf)) {
     & (Join-Path $PSScriptRoot 'Build-MaxwellShellCore.ps1') | Out-Null
 }
 New-Item -ItemType Directory -Path $appRoot,$stateRoot -Force | Out-Null
+Stop-LeftoverMaxwellShell
 Stop-OwnedCore
 
 $retiredDockBackups = [Collections.Generic.List[string]]::new()
@@ -92,6 +130,9 @@ Start-Sleep -Milliseconds 900
 
 $process = @(Get-OwnedCoreProcess | Select-Object -First 1)
 if (-not $process) { throw 'Maxwell.Shell.Core did not remain running.' }
+if (Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue) {
+    throw 'Leftover MaxwellShell.exe is still running; Opal telemetry is Maxwell.Shell.Core only.'
+}
 $probe = Join-Path $stateRoot 'shell-core-probe.json'
 $probeProcess = Start-Process -FilePath $installedExe -ArgumentList @('--probe',('"' + $probe + '"')) -WindowStyle Hidden -Wait -PassThru
 if ($probeProcess.ExitCode -ne 0 -or -not (Test-Path -LiteralPath $probe -PathType Leaf)) {
@@ -116,6 +157,7 @@ $result = [ordered]@{
     processId = $process[0].ProcessId
     telemetry = $sample
     surface = 'telemetry-only'
+    leftoverMaxwellShellRetired = -not [bool](Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue)
     retiredDockBackups = @($retiredDockBackups)
 }
 $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $receipt -Encoding UTF8

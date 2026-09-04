@@ -64,6 +64,8 @@ $media = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxw
 $performance = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-taskbar-system-info.wh.cpp'))
 $control = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\opal-control.h'))
 $builder = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Build-OpalSuite.ps1'))
+$installer = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Install-OpalSuite.ps1'))
+$coreInstaller = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Install-MaxwellShellCore.ps1'))
 foreach ($setting in @('leanMode','layoutMode','mediaEnabled','mediaMonitor','mediaFullDisplay','mediaSize','performanceEnabled','performanceMonitor','performanceFullDisplay','performanceSize','mirrorStyle','widgetTextSize','widgetBackgroundStrength','showArtwork','showArtist','hideWithoutSession','smoothProgress','temperatureUnit','showInlineGraphs','commandCenterEnabled','clockSize','resetWidgetPositions','resetCrashQuarantine')) {
     Assert-Opal ($shell -match "(?m)^\s*- ${setting}:") "Windhawk Opal settings are missing $setting."
 }
@@ -81,6 +83,9 @@ Assert-Opal ($performance -match 'ContentPriority::Essential' -and $performance 
 Assert-Opal ($media -match 'Nothing playing' -and $media -match 'hideWithoutSession = false' -and $shell -match 'hideWithoutSession: false') 'Media no longer keeps a stable idle lane.'
 Assert-Opal ($media -match 'wideInsideCapsule' -and $media -match 'reserved taskbar lane stays') 'Wide media still expands the reserved taskbar lane.'
 Assert-Opal ($performance -match 'EnsureShellCoreProcess' -and $performance -match 'Maxwell.Shell.Core.exe') 'Explorer no longer relaunches a missing telemetry companion.'
+Assert-Opal ($installer -match 'planned-explorer-restart' -and $installer -match 'Stop-LeftoverMaxwellShell') 'Installer still treats leftover MaxwellShell.exe or unplanned Explorer kills as normal.'
+Assert-Opal ($installer -match 'Install-MaxwellShellCore\.ps1' -and $coreInstaller -match 'Stop-LeftoverMaxwellShell') 'Opal install does not own Maxwell.Shell.Core autostart or leftover Adaptive Dock retirement.'
+Assert-Opal ($installer -notmatch 'Start-Process[^\r\n]*MaxwellShell\.exe' -and $coreInstaller -notmatch 'Start-Process[^\r\n]*MaxwellShell\.exe') 'Installers must not start leftover MaxwellShell.exe.'
 Assert-Opal ($control -match 'neverLived' -and $control -match 'planned-explorer-restart' -and $control -match 'ForegroundIsExclusiveFullscreen') 'Crash protection still treats planned restarts and fullscreen coverage as widget crashes.'
 Assert-Opal ($rules -match 'Grid#ToastPeekRegion' -and $rules -match 'TranslateTransform X=\\"0\\" Y=\\"0\\"' -and $apply -match 'name == L"Clip"') 'Toast peek region does not reset leftover cutoff transforms.'
 Assert-Opal ($rules -notmatch 'ScaleX=\\"3.3\\"' -and $rules -notmatch 'Morganite' -and $rules -notmatch 'Y=\\"-250\\"') 'Start menu still applies leftover imported-theme scale, font, or media shift hacks.'
@@ -121,6 +126,9 @@ if (-not $StaticOnly) {
     Assert-Opal ($expectedDll -in $modules) 'Explorer has not loaded the unified Opal DLL.'
     Assert-Opal (-not (Test-Path -LiteralPath (Join-Path $env:LOCALAPPDATA 'Maxwell\Opal\Opal-Control.exe'))) 'Standalone Opal app is still installed.'
     Assert-Opal (-not (Test-Path -LiteralPath (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Opal.lnk'))) 'Standalone Opal shortcut is still installed.'
+    Assert-Opal (-not (Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue)) 'Leftover MaxwellShell.exe is still running.'
+    $coreRunning = @(Get-CimInstance Win32_Process -Filter "Name='Maxwell.Shell.Core.exe'" -ErrorAction SilentlyContinue)
+    Assert-Opal ($coreRunning.Count -ge 1) 'Maxwell.Shell.Core is not running after a live Opal check.'
     $live = [pscustomobject]@{ registryIds=$liveIds; profileModIds=$profileModIds; explorerPid=$explorer.Id; module=$expectedDll }
 }
 

@@ -151,6 +151,9 @@ Run from this directory:
 `Build-OpalSuite.ps1` is the only release build. It produces deterministic DLLs
 and hashes. `Install-OpalSuite.ps1` creates a complete live rollback bundle before
 changing Windhawk and automatically restores it if Explorer or a package fails.
+The same pass marks the Explorer restart as planned, stops leftover
+`MaxwellShell.exe` (Adaptive Dock / old shell), and installs
+`Maxwell.Shell.Core.exe` with the `MaxwellShellCore` Run autostart.
 Recognized `local@opal` choices are carried forward across later installs, so a
 DLL update no longer silently replaces the user's appearance or performance
 profile. The two one-shot reset switches are intentionally cleared after an update.

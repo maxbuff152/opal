@@ -261,7 +261,48 @@ function Clear-OpalIntentionalRestartMarkers {
     }
 }
 
+function Stop-LeftoverMaxwellShell {
+    # Adaptive Dock / old MaxwellShell.exe is not Opal. Never stop Maxwell.Shell.Core.exe.
+    foreach ($process in @(Get-CimInstance Win32_Process -Filter "Name='MaxwellShell.exe'" -ErrorAction SilentlyContinue)) {
+        $path = [string]$process.ExecutablePath
+        if ($path -and ([IO.Path]::GetFileName($path) -ieq 'Maxwell.Shell.Core.exe')) { continue }
+        Stop-Process -Id $process.ProcessId -Force -ErrorAction SilentlyContinue
+        Wait-Process -Id $process.ProcessId -Timeout 8 -ErrorAction SilentlyContinue
+    }
+    Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+
+    $runKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
+    if (Test-Path -LiteralPath $runKey) {
+        foreach ($name in @((Get-Item -LiteralPath $runKey).Property)) {
+            if ($name -eq 'MaxwellShellCore') { continue }
+            $value = [string](Get-ItemPropertyValue -LiteralPath $runKey -Name $name -ErrorAction SilentlyContinue)
+            if ($value -match '(?i)MaxwellShell\.exe' -and $value -notmatch '(?i)Maxwell\.Shell\.Core\.exe') {
+                Remove-ItemProperty -LiteralPath $runKey -Name $name -ErrorAction SilentlyContinue
+            }
+        }
+    }
+
+    foreach ($dir in @(
+        (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Startup'),
+        (Join-Path $env:ProgramData 'Microsoft\Windows\Start Menu\Programs\StartUp')
+    )) {
+        if (-not (Test-Path -LiteralPath $dir)) { continue }
+        foreach ($item in @(Get-ChildItem -LiteralPath $dir -File -ErrorAction SilentlyContinue)) {
+            $leftover = $item.Name -match '(?i)MaxwellShell'
+            if (-not $leftover -and $item.Extension -eq '.lnk') {
+                try {
+                    $shortcut = (New-Object -ComObject WScript.Shell).CreateShortcut($item.FullName)
+                    $leftover = [string]$shortcut.TargetPath -match '(?i)(?:^|[\\/])MaxwellShell\.exe$'
+                } catch { }
+            }
+            if ($leftover) { Remove-Item -LiteralPath $item.FullName -Force -ErrorAction SilentlyContinue }
+        }
+    }
+}
+
 function Restart-OpalShell {
+    New-Item -ItemType Directory -Path $controlInstallRoot -Force | Out-Null
+    New-Item -ItemType File -Force -Path (Join-Path $controlInstallRoot 'planned-explorer-restart') | Out-Null
     Stop-Service -Name Windhawk -Force -ErrorAction SilentlyContinue
     foreach ($name in @('explorer', 'StartMenuExperienceHost', 'SearchHost', 'SearchApp', 'ShellExperienceHost', 'ShellHost')) {
         Stop-Process -Name $name -Force -ErrorAction SilentlyContinue
@@ -306,6 +347,7 @@ try {
     $mutationStarted = $true
     Remove-RetiredOpalControlSurface
     Clear-OpalIntentionalRestartMarkers
+    Stop-LeftoverMaxwellShell
     Restart-OpalShell
 
     foreach ($root in @($modsRoot, $writableRoot)) {
@@ -378,6 +420,14 @@ try {
     $missing = @($build | Where-Object { $_.dllName -notin $loadedNames } | ForEach-Object dllName)
     if ($missing.Count) { throw "Opal DLLs did not load in Explorer: $($missing -join ', ')" }
 
+    $coreInstall = & (Join-Path $PSScriptRoot 'Install-MaxwellShellCore.ps1') -Action Install
+    if (-not $coreInstall -or -not $coreInstall.succeeded) {
+        throw 'Maxwell.Shell.Core did not install or stay running.'
+    }
+    if (Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue) {
+        throw 'Leftover MaxwellShell.exe is still running after Opal install.'
+    }
+
     $liveIds = @(Get-ChildItem -LiteralPath $modsRoot | ForEach-Object PSChildName | Sort-Object)
     if (Compare-Object ($expectedIds | Sort-Object) $liveIds) { throw 'Live registry is not exactly one Opal mod.' }
 
@@ -388,6 +438,8 @@ try {
         installed = @($build | Select-Object localId, metadataId, version, dllName, sha256)
         explorerPid = $explorer.Id
         verifiedLoaded = @($build | ForEach-Object dllName)
+        leftoverMaxwellShellRetired = $true
+        coreInstall = $coreInstall
         settingsOwner = 'Windhawk local@opal'
         preservedSettingCount = $preservedSettingNames.Count
         preservedSettingNames = @($preservedSettingNames)
