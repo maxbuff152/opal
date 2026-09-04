@@ -117,6 +117,40 @@ if ($SkipAnalyzer) {
     }
 }
 
+# 6. Source/doc consistency: version + mod id must agree across the tree.
+try {
+    $shellText = [IO.File]::ReadAllText((Join-Path $root 'mod/visual-clones/maxwell-shell.wh.cpp'))
+    $metaId = if ($shellText -match '(?m)^//\s+@id\s+(\S+)\s*$') { $Matches[1] } else { $null }
+    $metaVersion = if ($shellText -match '(?m)^//\s+@version\s+(\S+)\s*$') { $Matches[1] } else { $null }
+
+    $problems = [System.Collections.Generic.List[string]]::new()
+    if ($metaId -ne 'opal') { $problems.Add("shell @id is '$metaId', expected 'opal'") }
+    if (-not $metaVersion) { $problems.Add('shell @version not found') }
+
+    foreach ($build in @('Build-OpalSuite.ps1', 'Build-OpalSuite.Linux.ps1')) {
+        $buildPath = Join-Path $root $build
+        if (-not (Test-Path -LiteralPath $buildPath)) { continue }
+        $buildText = [IO.File]::ReadAllText($buildPath)
+        if ($metaVersion -and $buildText -notmatch [regex]::Escape("`$version = '$metaVersion'")) {
+            $problems.Add("$build does not pin version $metaVersion")
+        }
+        if ($buildText -notmatch "localId = 'local@opal'") {
+            $problems.Add("$build does not declare localId local@opal")
+        }
+    }
+
+    $readme = [IO.File]::ReadAllText((Join-Path $root 'README.md'))
+    if ($metaVersion -and $readme -notmatch [regex]::Escape($metaVersion)) {
+        $problems.Add("README.md does not mention version $metaVersion")
+    }
+    if ($readme -notmatch 'local@opal') { $problems.Add('README.md does not mention local@opal') }
+
+    Add-Result 'Consistency' ($problems.Count -eq 0) `
+    ($(if ($problems.Count) { $problems -join '; ' } else { "id=$metaId version=$metaVersion agree across sources, build scripts, README" }))
+} catch {
+    Add-Result 'Consistency' $false $_.Exception.Message
+}
+
 Write-Host ''
 Write-Host '=== Summary ===' -ForegroundColor Cyan
 $steps | Format-Table -AutoSize | Out-String | Write-Host
