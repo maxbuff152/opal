@@ -7,9 +7,6 @@ $buildRoot = Join-Path $PSScriptRoot 'build\opal-suite'
 $receiptPath = Join-Path $buildRoot 'build-receipt.json'
 $modsRoot = 'HKLM:\SOFTWARE\Windhawk\Engine\Mods'
 $writableRoot = 'HKLM:\SOFTWARE\Windhawk\Engine\ModsWritable'
-$dll64Root = 'C:\ProgramData\Windhawk\Engine\Mods\64'
-$dll32Root = 'C:\ProgramData\Windhawk\Engine\Mods\32'
-$sourceRoot = 'C:\ProgramData\Windhawk\ModsSource'
 $profilePath = 'C:\ProgramData\Windhawk\userprofile.json'
 $expectedId = 'local@opal'
 $expectedMetadataId = 'opal'
@@ -101,8 +98,8 @@ if (-not $StaticOnly) {
             Assert-Opal ($null -ne $settings.PSObject.Properties[$name]) "Live Opal settings are missing $name."
         }
     }
-    $profile = Get-Content -LiteralPath $profilePath -Raw | ConvertFrom-Json
-    $profileModIds = @($profile.mods.PSObject.Properties | ForEach-Object Name)
+    $whProfile = Get-Content -LiteralPath $profilePath -Raw | ConvertFrom-Json
+    $profileModIds = @($whProfile.mods.PSObject.Properties | ForEach-Object Name)
     if ($profileModIds.Count -gt 0) {
         Assert-Opal ($profileModIds.Count -eq 1 -and $profileModIds -contains $expectedMetadataId) 'Windhawk profile contains mod entries that conflict with the unified Opal installation.'
     }

@@ -85,14 +85,14 @@ $opalShortcutPresent = Test-Path -LiteralPath $opalShortcut -PathType Leaf
 Copy-Tree $opalApp (Join-Path $root 'apps\opal') 'opalApp'
 Copy-One $opalShortcut (Join-Path $root 'shortcuts\Opal.lnk') 'opalShortcut'
 
-$profile = 'C:\ProgramData\Windhawk\userprofile.json'
-if (Test-Path -LiteralPath $profile) {
+$userProfilePath = 'C:\ProgramData\Windhawk\userprofile.json'
+if (Test-Path -LiteralPath $userProfilePath) {
     $profileCopy = Join-Path $root 'profile\userprofile.json'
-    Copy-Item -LiteralPath $profile -Destination $profileCopy -Force
-    $profileItem = Get-Item -LiteralPath $profile
+    Copy-Item -LiteralPath $userProfilePath -Destination $profileCopy -Force
+    $profileItem = Get-Item -LiteralPath $userProfilePath
     $files.Add([pscustomobject]@{
         Kind = 'profile'; Relative = 'userprofile.json'; Bytes = $profileItem.Length
-        Sha256 = (Get-FileHash -LiteralPath $profile -Algorithm SHA256).Hash
+        Sha256 = (Get-FileHash -LiteralPath $userProfilePath -Algorithm SHA256).Hash
     })
 }
 

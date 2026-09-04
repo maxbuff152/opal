@@ -31,14 +31,14 @@ Assert-True ((@($config.EvidenceRetryDelaysSeconds) -join ',') -eq '2,3,5,8,13')
 Assert-True (-not (& $safeDockModule { Test-WindhawkValueEqual ([string][char]0x2009) ([string][char]0x2002) })) 'Unicode settings equality must stay ordinal.'
 
 $nl = [Environment]::NewLine
-$event = 'Faulting application name: Explorer.EXE' + $nl + 'Faulting module name: Windows.UI.Xaml.dll' + $nl + 'Exception code: 0xc000027b'
+$werEvent = 'Faulting application name: Explorer.EXE' + $nl + 'Faulting module name: Windows.UI.Xaml.dll' + $nl + 'Exception code: 0xc000027b'
 $opalShellLibrary = [string]($config.StableMods |
     Where-Object Id -eq 'local@opal' |
     Select-Object -First 1 -ExpandProperty Library)
 $goodWer = 'LoadedModule[50]=C:\ProgramData\Windhawk\Engine\Mods\64\' + $opalShellLibrary
 $badWer = 'LoadedModule[50]=C:\Windows\System32\Taskbar.dll'
-Assert-True (Test-WindhawkCrashEvidence $event $goodWer) 'Qualified Explorer/XAML/Opal evidence must trip.'
-Assert-True (-not (Test-WindhawkCrashEvidence $event $badWer)) 'Explorer XAML without an Opal DLL must not trip.'
+Assert-True (Test-WindhawkCrashEvidence $werEvent $goodWer) 'Qualified Explorer/XAML/Opal evidence must trip.'
+Assert-True (-not (Test-WindhawkCrashEvidence $werEvent $badWer)) 'Explorer XAML without an Opal DLL must not trip.'
 
 $installerText = Get-Content (Join-Path $root 'Install-WindhawkSafeDock.ps1') -Raw
 Assert-True ($installerText -notmatch 'RepetitionInterval|PT1M') 'Safe installer must not register a repeating repair loop.'

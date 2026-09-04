@@ -353,13 +353,13 @@ try {
         }
     }
 
-    $profile = Get-Content -LiteralPath $profilePath -Raw | ConvertFrom-Json
+    $whProfile = Get-Content -LiteralPath $profilePath -Raw | ConvertFrom-Json
     $canonicalMods = [ordered]@{}
     foreach ($item in $build) {
         $canonicalMods[$item.metadataId] = [ordered]@{ disabled = $false; version = $item.version }
     }
-    $profile.mods = [pscustomobject]$canonicalMods
-    $profile | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $profilePath -Encoding UTF8
+    $whProfile.mods = [pscustomobject]$canonicalMods
+    $whProfile | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $profilePath -Encoding UTF8
 
     Start-Service -Name Windhawk
     Start-Process explorer.exe

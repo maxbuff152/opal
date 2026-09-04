@@ -20,15 +20,16 @@
     Skip the PSScriptAnalyzer step even when the module is installed.
 
 .PARAMETER AnalyzerSeverity
-    Diagnostic severities that make the analyzer step fail. Defaults to Error,
-    so the gate stays green today while still catching serious regressions.
-    Pass -AnalyzerSeverity Error,Warning to tighten it once warnings are triaged.
+    Diagnostic severities that make the analyzer step fail. Defaults to
+    Error + Warning: the tree is warning-clean under
+    PSScriptAnalyzerSettings.psd1, so new warnings block and cannot creep back.
+    Pass -AnalyzerSeverity Error to loosen it.
 #>
 [CmdletBinding()]
 param(
     [switch] $SkipAnalyzer,
     [ValidateSet('Error', 'Warning', 'Information')]
-    [string[]] $AnalyzerSeverity = @('Error')
+    [string[]] $AnalyzerSeverity = @('Error', 'Warning')
 )
 
 $ErrorActionPreference = 'Stop'

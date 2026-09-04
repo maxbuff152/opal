@@ -28,11 +28,11 @@ $shortcuts = foreach ($file in @(Get-ChildItem -LiteralPath $pinnedRoot -Filter 
 }
 
 $registered = foreach ($name in $expected) {
-    $matches = @($startApps | Where-Object { $_.Name -eq $name -or $_.Name -like "$name*" })
+    $matched = @($startApps | Where-Object { $_.Name -eq $name -or $_.Name -like "$name*" })
     [pscustomobject]@{
         name = $name
-        registered = $matches.Count -gt 0
-        appIds = @($matches | Select-Object -ExpandProperty AppID)
+        registered = $matched.Count -gt 0
+        appIds = @($matched | Select-Object -ExpandProperty AppID)
     }
 }
 
