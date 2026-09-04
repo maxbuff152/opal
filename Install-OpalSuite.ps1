@@ -427,6 +427,10 @@ try {
     if (Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue) {
         throw 'Leftover MaxwellShell.exe is still running after Opal install.'
     }
+    $systemInit = & (Join-Path $PSScriptRoot 'Initialize-MaxwellSystem.ps1') -Action Repair
+    if (-not $systemInit -or -not $systemInit.succeeded) {
+        throw 'System Initialization did not verify the single local@opal owner after install.'
+    }
 
     $liveIds = @(Get-ChildItem -LiteralPath $modsRoot | ForEach-Object PSChildName | Sort-Object)
     if (Compare-Object ($expectedIds | Sort-Object) $liveIds) { throw 'Live registry is not exactly one Opal mod.' }
@@ -440,6 +444,7 @@ try {
         verifiedLoaded = @($build | ForEach-Object dllName)
         leftoverMaxwellShellRetired = $true
         coreInstall = $coreInstall
+        systemInitialization = $systemInit
         settingsOwner = 'Windhawk local@opal'
         preservedSettingCount = $preservedSettingNames.Count
         preservedSettingNames = @($preservedSettingNames)

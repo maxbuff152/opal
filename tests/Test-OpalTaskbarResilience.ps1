@@ -35,7 +35,10 @@ Check ($installer -match "'screens.mediaMonitor' = 'both'" -and $installer -matc
 Check ($installer -match 'planned-explorer-restart') 'Installer still restarts Explorer without the planned-restart marker.'
 Check ($installer -match 'Stop-LeftoverMaxwellShell' -and $installer -match 'MaxwellShell\.exe') 'Installer still leaves Adaptive Dock MaxwellShell.exe running.'
 Check ($installer -match "Install-MaxwellShellCore\.ps1") 'Installer does not install Maxwell.Shell.Core autostart.'
+Check ($installer -match 'Initialize-MaxwellSystem\.ps1') 'Installer does not run the System Initialization owner.'
 Check ($installer -notmatch 'Start-Process[^\r\n]*MaxwellShell\.exe') 'Installer must not start leftover MaxwellShell.exe.'
+Check ($media -match 'TaskbarOccluded\(current\)' -and $media -match 'g_rootSizeToken') 'Media fullscreen remount dropped the SizeChanged layout watchers.'
+Check ($shell -match 'opal-unified-exports.h') 'Shell is missing the Media forward-declaration header.'
 Check ($shell -match '15000' -and $shell -match 'late attach still waiting') 'Late attach still gives up after 60 seconds.'
 Check ($shell -notmatch '(?m)^\s*- enableTaskbar:' -and $shell -match 'The Explorer taskbar is Opal') 'Opal and the taskbar are still separate products.'
 

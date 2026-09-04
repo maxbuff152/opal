@@ -24,6 +24,8 @@ Check ($media -match 'VisibleFullViewWindow' -and $performance -match 'VisibleFu
 Check ($control -match 'planned-explorer-restart' -and $performance -match 'EnsureShellCoreProcess') 'Planned Explorer restart or Core relaunch recovery is missing.'
 $installer = [IO.File]::ReadAllText((Join-Path $root 'Install-OpalSuite.ps1'))
 Check ($installer -match 'planned-explorer-restart' -and $installer -match 'Install-MaxwellShellCore\.ps1' -and $installer -match 'Stop-LeftoverMaxwellShell') 'Installer still skips Core autostart, leftover MaxwellShell.exe retirement, or planned Explorer restart marks.'
+Check ($installer -match 'Initialize-MaxwellSystem\.ps1') 'Installer does not run System Initialization.'
+Check ($shell -match 'opal-unified-exports.h' -and $media -match 'TaskbarOccluded\(current\)') 'Media forward declarations or fullscreen remount with layout watchers are missing.'
 Check ($media -match 'ApplyMediaControlChange' -and $media -match 'Wh_GetIntSetting\(L"media\.mediaEnabled"\)') 'Media live toggle is missing.'
 Check ($media -match 'InjectMediaMirror' -and $media -match 'OtherTaskbarWindows') 'Media lacks its lightweight second-display view.'
 Check ($performance -match 'ApplyPerformanceControlChange' -and $performance -match 'Wh_GetIntSetting\(L"performance\.performanceEnabled"\)') 'Performance live toggle is missing.'

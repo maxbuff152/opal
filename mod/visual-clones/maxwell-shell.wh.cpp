@@ -291,6 +291,7 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
 // remain separate Explorer-only packages.
 #include "opal-addon-icons.h"
 #include "opal-addon-clock.h"
+#include "opal-unified-exports.h"
 
 using MaxwellRules::Host;
 namespace wux  = winrt::Windows::UI::Xaml;
@@ -301,20 +302,6 @@ namespace wuxh = winrt::Windows::UI::Xaml::Hosting;
 namespace wfn  = winrt::Windows::Foundation::Numerics;
 
 #ifdef OPAL_UNIFIED_BUILD
-BOOL OpalMedia_ModInit();
-void OpalMedia_ModAfterInit();
-void OpalMedia_ModSettingsChanged();
-void OpalMedia_ModBeforeUninit();
-void OpalMedia_ModUninit();
-BOOL OpalPerformance_ModInit();
-void OpalPerformance_ModAfterInit();
-void OpalPerformance_ModSettingsChanged();
-void OpalPerformance_ModBeforeUninit();
-void OpalPerformance_ModUninit();
-// Late attach (see LateAttachProc). Each returns true once the component is
-// attached to the taskbar or has nothing to attach (disabled, quarantined).
-bool OpalMedia_EnsureAttached();
-bool OpalPerformance_EnsureAttached();
 static bool g_mediaComponentInit = false;
 static bool g_performanceComponentInit = false;
 #endif

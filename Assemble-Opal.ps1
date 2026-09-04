@@ -32,7 +32,8 @@ $headers = @(
     'maxwell-xaml-tap.h',
     'opal-addon-icons.h',
     'maxwell-shell-weather-protocol.h',
-    'opal-addon-clock.h'
+    'opal-addon-clock.h',
+    'opal-unified-exports.h'
 )
 
 function Strip-Header([string]$path) {

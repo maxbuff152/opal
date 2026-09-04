@@ -145,6 +145,7 @@ Run from this directory:
 .\Test-OpalSuite.ps1
 .\tests\Test-WindhawkSafeDock.ps1
 .\tests\Test-MaxwellShellCore.ps1
+.\tests\Test-MaxwellSystemInitialization.ps1
 .\tests\Test-OpalUnifiedControl.ps1
 ```
 

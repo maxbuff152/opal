@@ -2713,18 +2713,19 @@ bool OpalMedia_EnsureAttached() {
             }
         }
     }
-    if (g_parent) return true;
-    if (!FindPreferredTaskbarWindow()) {
-        if (!OpalControl::VisibleFullViewWindow(
-                OpalControl::MonitorTarget::Both, !g_fullViewOnPrimary)) {
-            return false;
-        }
+    HWND visible = FindPreferredTaskbarWindow();
+    HWND current = g_taskbarWindow.load();
+    // Exclusive fullscreen on the current bar must remount the full capsule
+    // onto a visible display. InjectWidget tears down and re-arms the
+    // SizeChanged layout watchers, so remount does not drop that work.
+    if ((g_parent || g_widget) && current && visible && visible != current &&
+        OpalControl::TaskbarOccluded(current)) {
+        ApplyOnTaskbarThread();
+        return g_parent != nullptr || !g_mediaMirrors.empty();
     }
+    if (g_parent) return true;
+    if (!visible) return false;
     ApplyOnTaskbarThread();
-    if (g_parent) return true;
-    for (auto const& slot : g_mediaMirrors) {
-        if (slot.widget) return true;
-    }
-    return false;
+    return g_parent != nullptr || !g_mediaMirrors.empty();
 }
 #endif

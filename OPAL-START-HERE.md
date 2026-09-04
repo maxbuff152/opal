@@ -35,7 +35,7 @@ under `%LOCALAPPDATA%\Maxwell\WindhawkChatGPTGuard` for compatibility.
 - Media: `mod\visual-clones\maxwell-opal-media.wh.cpp`
 - Performance: `mod\visual-clones\maxwell-taskbar-system-info.wh.cpp`
 - Build: `Build-OpalSuite.ps1`
-- Install: `Install-OpalSuite.ps1` (also installs `Maxwell.Shell.Core` and stops leftover `MaxwellShell.exe`)
+- Install: `Install-OpalSuite.ps1` (also installs `Maxwell.Shell.Core`, stops leftover `MaxwellShell.exe`, and runs `Initialize-MaxwellSystem.ps1`)
 - Validation: `Test-OpalSuite.ps1`
 - Final performance evidence:
   `measurements\package-cost-opal-4-unified-valid-settled-abba2.json`
