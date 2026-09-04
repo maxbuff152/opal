@@ -8,8 +8,9 @@ See `OPAL-START-HERE.md` for the short project map.
 ## Supported architecture
 
 Opal is the only supported Windhawk visual runtime in this tree. Windhawk shows
-exactly one Maxwell-owned mod: `local@opal` 4.4.0. Its DLL contains internally
-isolated Shell, Clock, Media, and Performance components.
+exactly one Maxwell-owned mod: `local@opal` 4.4.0. That mod **is** the taskbar:
+its DLL contains internally isolated Shell, Clock, Media, and Performance
+components. There is no separate taskbar skin, widget pack, or Opal app.
 
 Media and Performance initialize only in Explorer. Start, Search, notification,
 and shell-flyout hosts use the shell component without starting the optional
@@ -18,9 +19,10 @@ workers or taskbar UI.
 weather (wttr.in) out of `explorer.exe`. The retired Adaptive Dock
 is not built, installed, or started.
 
-Open **Opal → Settings** in Windhawk. The page is grouped into seven plain
-sections—**Start here, Screens, Media, Computer stats, Windows look, Clock,**
-and **Advanced**—instead of one long list of prefixed technical fields:
+Open **Opal → Settings** in Windhawk. The page is grouped into **Start here,
+Screens, Media, Computer stats, Start/Search/notifications, Clock, and
+Advanced**. The taskbar itself is not a toggle. Start, Search, and notifications
+are the only optional Windows surfaces.
 
 - **Resource Saver**: on by default; releases idle Media XAML, loaded-frame
   subscriptions, histories, closed flyouts, and fallback metric providers while
@@ -44,10 +46,9 @@ and **Advanced**—instead of one long list of prefixed technical fields:
 - **Reset crash protection**: clears an automatic component quarantine after an
   unstable Explorer session.
 
-The everyday choices are in **Start here**. Screen placement, feature-specific
-choices, and Windows styling have their own sections; raw clock formatting,
-taskbar dimensions, repair switches, and diagnostic logging live under
-**Advanced**.
+The everyday choices are in **Start here**. Screen placement and feature-specific
+choices have their own sections; bar size, repair switches, and diagnostic
+logging live under **Advanced**.
 Automatic placement is recommended. Custom placement enables dragging for the
 full Media and Performance widgets and saves separate positions for the main
 and second screens. Size choices use Compact, Standard, and Expanded labels;

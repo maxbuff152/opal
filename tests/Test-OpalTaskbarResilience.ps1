@@ -33,6 +33,7 @@ Check ($media -match 'wideInsideCapsule' -and $media -match 'Nothing playing') '
 Check ($shell -match 'hideWithoutSession: false' -and $installer -match "'media.hideWithoutSession' = 0") 'Installer still hides the media lane when idle.'
 Check ($installer -match "'screens.mediaMonitor' = 'both'" -and $installer -match "'screens.performanceMonitor' = 'both'") 'Installer does not default both screens.'
 Check ($shell -match '15000' -and $shell -match 'late attach still waiting') 'Late attach still gives up after 60 seconds.'
+Check ($shell -notmatch '(?m)^\s*- enableTaskbar:' -and $shell -match 'The Explorer taskbar is Opal') 'Opal and the taskbar are still separate products.'
 
 $result = [pscustomobject]@{ passed = $failures.Count -eq 0; failures = @($failures) }
 $result

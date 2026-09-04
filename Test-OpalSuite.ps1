@@ -68,6 +68,7 @@ foreach ($setting in @('leanMode','layoutMode','mediaEnabled','mediaMonitor','me
     Assert-Opal ($shell -match "(?m)^\s*- ${setting}:") "Windhawk Opal settings are missing $setting."
 }
 Assert-Opal ($shell -match 'OpalMedia_ModSettingsChanged' -and $shell -match 'OpalPerformance_ModSettingsChanged') 'The one Windhawk settings handler does not fan out to Media and Performance.'
+Assert-Opal ($shell -notmatch '(?m)^\s*- enableTaskbar:' -and $shell -match 'case Host::Explorer:\s+return true;') 'Opal still treats the taskbar as an optional Windows look instead of the mod itself.'
 Assert-Opal ($builder -match 'DWh_ModInit=\{0\}_ModInit' -and $builder -match 'local@opal') 'Builder does not link internal components into one mod.'
 Assert-Opal ($media -match 'Wh_GetIntSetting\(L"media\.mediaEnabled"\)' -and $media -notmatch 'InstallControlListener') 'Media still uses a second control plane.'
 Assert-Opal ($performance -match 'Wh_GetIntSetting\(L"performance\.performanceEnabled"\)' -and $performance -notmatch 'InstallControlListener') 'Performance still uses a second control plane.'

@@ -12,15 +12,16 @@ under `%LOCALAPPDATA%\Maxwell\WindhawkChatGPTGuard` for compatibility.
 
 ## What Opal is
 
-- One Windhawk mod: `local@opal` 4.4.0.
+- One Windhawk mod: `local@opal` 4.4.0. That mod is the taskbar.
 - One settings page in Windhawk.
 - Internal components: Shell, Clock, Media, and Performance.
 - No separate Opal app or background controller.
 - Resource Saver releases dormant UI and fallback providers.
 - Both-display mode shares one worker per capability across a full view and a
   compact mirror.
-- Windhawk settings are grouped into plain-language Start here, Screens, Media,
-  Computer stats, Windows look, Clock, and Advanced sections.
+- Windhawk settings are grouped into Start here, Screens, Media, Computer
+  stats, Start/Search/notifications, Clock, and Advanced. The bar is not a
+  separate look toggle.
 - Widget customization stays inside Windhawk: shared Media/Performance text
   size and background strength, Media artwork/details/idle/progress choices,
   Performance temperature/graphs/click behavior, and a separate clock size.

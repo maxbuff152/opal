@@ -4,7 +4,7 @@
 // ==WindhawkMod==
 // @id              opal
 // @name            Opal
-// @description     Native-neutral shell material, integrated clock, and DPI-crisp taskbar geometry for Windows 11
+// @description     The Windows 11 taskbar as one Windhawk mod: bar, clock, media, and computer stats
 // @version         4.4.0
 // @author          Maxbuff152
 // @github          https://github.com/Maxbuff152
@@ -24,10 +24,8 @@
 
 One black shell, rendered cleanly at every Windows scale.
 
-Opal gives the taskbar, Start, search, notification centre, and clock one
-monochrome material: near-black optical glass, white primary content, graphite
-secondary content, and restrained luminance-only interaction states. There are
-no colour themes, wallpaper sampling, or app-driven accent modes.
+Opal is the Windows 11 taskbar. One Windhawk mod owns the bar, clock, media,
+and computer stats. Start, Search, and notifications can use the same material.
 
 Geometry is authored in device-independent pixels. Windows performs the final
 per-monitor DPI transform, so the same source stays sharp at 100%, 150%, 200%,
@@ -63,7 +61,7 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
     $name: Use less memory and CPU
     $description: Leave this on. Opal slows or releases work that is not currently needed.
   - layoutMode: automatic
-    $name: Place widgets
+    $name: Place media and stats
     $description: Automatic keeps widgets apart. Choose drag them myself only when you want exact positions.
     $options:
     - automatic: Automatic (recommended)
@@ -83,7 +81,7 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
     - glass: Clear glass (recommended)
     - strong: Strong and easy to read
   $name: Start here
-  $description: The everyday choices most people need.
+  $description: Opal is the taskbar. One Windhawk mod. These are the everyday choices.
 - screens:
   - mediaMonitor: both
     $name: Show Media on
@@ -139,7 +137,7 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
   - smoothProgress: true
     $name: Smooth playback bar
   $name: Media
-  $description: Music and video information on the taskbar.
+  $description: Music and video on the Opal bar.
 - performance:
   - performanceEnabled: true
     $name: Show Computer stats
@@ -162,10 +160,8 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
     $name: Click for more details
     $description: Opens Opal's hardware panel. Turn off to use Windows Task Manager instead.
   $name: Computer stats
-  $description: CPU, memory, temperatures, and the detailed hardware panel.
+  $description: CPU, memory, and temperatures on the Opal bar, plus the hardware panel.
 - windowsLook:
-  - enableTaskbar: true
-    $name: Style the taskbar
   - enableStart: true
     $name: Style the Start menu
   - enableSearch: true
@@ -175,8 +171,8 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
   - enableMotion: true
     $name: Use animations
     $description: Brief lightweight motion. Windows reduced-motion preferences always win.
-  $name: Windows look
-  $description: Choose which parts of Windows use the Opal appearance.
+  $name: Start, Search, and notifications
+  $description: Optional. The taskbar is Opal and cannot be turned off here. These switches only cover the other Windows surfaces.
 - clock:
   - ShowSeconds: false
     $name: Show seconds
@@ -191,7 +187,7 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
     $name: Weather place
     $description: Enter a city or area. Leave blank to hide weather.
   $name: Clock
-  $description: Everyday clock and weather choices.
+  $description: Time and weather on the Opal bar.
 - advanced:
   - clockFormatting:
     - TimeFormat: >-
@@ -220,7 +216,8 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
       $name: Small icon size
     - TaskbarButtonWidthSmall: 42
       $name: Small button width
-    $name: Taskbar sizing
+    $name: Bar size
+    $description: Opal is the taskbar. These sizes are the bar itself.
   - repair:
     - resetWidgetPositions: false
       $name: Reset layout
@@ -586,14 +583,14 @@ struct CompiledRule {
 
 static std::vector<CompiledRule> g_compiled;
 
-// A surface maps 1:1 to a host process; the toggle for that surface decides
-// whether Opal does anything at all in this process.
+// A surface maps 1:1 to a host process. Explorer is always Opal. Start, Search,
+// and notification hosts honor their settings toggles.
 static bool SurfaceEnabled() {
     // Native Windows high-contrast colors remain the source of truth. Opal's
     // fixed neutral palette stands down instead of overriding accessibility.
     if (g_highContrast) return false;
     switch (g_host) {
-        case Host::Explorer:    return g_enableTaskbar;
+        case Host::Explorer:    return true;
         case Host::StartMenu:   return g_enableStart;
         case Host::Search:      return g_enableSearch;
         case Host::ShellFlyout: return g_enableNotifications;
@@ -1516,8 +1513,9 @@ static void LoadSettings() {
         L"advanced.troubleshooting.logUnmatched") != 0;
     g_diagnose = Wh_GetIntSetting(
         L"advanced.troubleshooting.diagnose") != 0;
-    g_enableTaskbar = Wh_GetIntSetting(
-        L"windowsLook.enableTaskbar") != 0;
+    // The Explorer taskbar is Opal. There is no switch that returns a stock
+    // bar while leaving this mod loaded.
+    g_enableTaskbar = true;
     g_enableStart = Wh_GetIntSetting(L"windowsLook.enableStart") != 0;
     g_enableSearch = Wh_GetIntSetting(L"windowsLook.enableSearch") != 0;
     g_enableNotifications = Wh_GetIntSetting(
@@ -1528,8 +1526,8 @@ static void LoadSettings() {
 }
 
 // ---------------------------------------------------------------------
-//  Opal-owned taskbar geometry. Clock, Media, and System Info are independent
-//  packages; only native-size icon/button geometry remains in the core.
+//  Opal-owned taskbar geometry. Clock, Media, and Computer stats are internal
+//  components of this same Windhawk mod, not separate packages.
 // ---------------------------------------------------------------------
 static bool g_geometryInit = false;
 
