@@ -863,6 +863,44 @@ void PublishReaderRequest(int intervalSeconds) {
     }
 }
 
+void EnsureShellCoreProcess() {
+    static ULONGLONG lastAttemptMs = 0;
+    const ULONGLONG now = GetTickCount64();
+    if (lastAttemptMs && now - lastAttemptMs < 15000) {
+        return;
+    }
+    lastAttemptMs = now;
+    HANDLE existing = OpenMutexW(SYNCHRONIZE, FALSE,
+                                 MaxwellShellTelemetry::kInstanceMutexName);
+    if (existing) {
+        CloseHandle(existing);
+        return;
+    }
+    wchar_t localAppData[32768]{};
+    const DWORD length = GetEnvironmentVariableW(
+        L"LOCALAPPDATA", localAppData, ARRAYSIZE(localAppData));
+    if (!length || length >= ARRAYSIZE(localAppData)) {
+        return;
+    }
+    std::wstring exe = localAppData;
+    exe.append(L"\\Maxwell\\Shell\\Core\\Maxwell.Shell.Core.exe");
+    if (GetFileAttributesW(exe.c_str()) == INVALID_FILE_ATTRIBUTES) {
+        return;
+    }
+    STARTUPINFOW startup{sizeof(startup)};
+    startup.dwFlags = STARTF_USESHOWWINDOW;
+    startup.wShowWindow = SW_HIDE;
+    PROCESS_INFORMATION process{};
+    std::wstring command = L"\"" + exe + L"\"";
+    if (CreateProcessW(exe.c_str(), command.data(), nullptr, nullptr, FALSE,
+                       CREATE_NO_WINDOW, nullptr, nullptr, &startup,
+                       &process)) {
+        CloseHandle(process.hThread);
+        CloseHandle(process.hProcess);
+        Wh_Log(L"Restarted Maxwell.Shell.Core");
+    }
+}
+
 void CloseExternalTelemetry() {
     if (g_externalTelemetryView) {
         UnmapViewOfFile(g_externalTelemetryView);
@@ -886,6 +924,7 @@ bool EnsureExternalTelemetry() {
     g_externalTelemetryMapping = OpenFileMappingW(
         FILE_MAP_READ, FALSE, MaxwellShellTelemetry::kMappingName);
     if (!g_externalTelemetryMapping) {
+        EnsureShellCoreProcess();
         return false;
     }
     g_externalTelemetryView =
@@ -1068,7 +1107,7 @@ void LoadSettings() {
                                   : (backgroundStrength == L"strong"
                                          ? 0xD0 : 0x9C);
     g_monitorTarget = OpalControl::ReadMonitorSetting(
-        L"screens.performanceMonitor", OpalControl::MonitorTarget::Primary);
+        L"screens.performanceMonitor", OpalControl::MonitorTarget::Both);
     g_highContrast = OpalControl::HighContrast();
     g_reducedMotion = OpalControl::ReducedMotion();
     ModSettings settings;
@@ -1155,6 +1194,12 @@ void LoadSettings() {
     if (Wh_GetIntSetting(L"advanced.repair.resetWidgetPositions") != 0) {
         Wh_SetIntValue(kPrimaryWidgetLeftValue, -1);
         Wh_SetIntValue(kSecondaryWidgetLeftValue, -1);
+        Wh_SetIntValue(L"ForceCanonicalLayout", 1);
+        g_manualLayout = false;
+        settings.width = 260;
+        settings.fontSize = widgetTextSize == L"small" ? 10
+                                : (widgetTextSize == L"large" ? 13 : 12);
+        OpalControl::ResetPackageQuarantine(L"performance");
     }
     g_userLeftLoaded = false;
 
@@ -3757,7 +3802,7 @@ ContentPriority ResolveContentPriority(double available,
     }
     double effective = std::min(available, requested);
     if (effective < kCompactHardwareWidth) {
-        return ContentPriority::Hidden;
+        return ContentPriority::Essential;
     }
     if (effective >= 360.0) {
         return ContentPriority::Full;
@@ -3780,12 +3825,10 @@ void ApplyWidgetGeometry(const ModSettings& settings, FocusScene scene) {
     g_contentPriority = ResolveContentPriority(available, requestedWidth, settings);
     g_lastAvailableWidth = available;
     if (g_contentPriority == ContentPriority::Hidden) {
-        g_effectiveWidgetWidth = 0.0;
-        g_widget.Visibility(Visibility::Collapsed);
-        return;
+        g_contentPriority = ContentPriority::Essential;
     }
-
     g_widget.Visibility(Visibility::Visible);
+
     g_effectiveWidgetWidth = std::clamp(std::min(requestedWidth, available),
                                         kCompactHardwareWidth,
                                         requestedWidth);
@@ -6344,8 +6387,8 @@ bool RunFromWindowThread(HWND window,
 }
 
 HWND FindCurrentProcessTaskbarWindow() {
-    return OpalControl::FullViewWindow(g_monitorTarget,
-                                       !g_fullViewOnPrimary);
+    return OpalControl::VisibleFullViewWindow(g_monitorTarget,
+                                              !g_fullViewOnPrimary);
 }
 
 bool IsCurrentProcessWindow(HWND window) {
@@ -6889,9 +6932,20 @@ bool OpalPerformance_EnsureAttached() {
             }
         }
     }
+    HWND visible = FindCurrentProcessTaskbarWindow();
+    HWND current = g_taskbarWindow.load();
+    if (g_widget && current && visible && visible != current &&
+        OpalControl::TaskbarOccluded(current)) {
+        ApplyOnTaskbarThread();
+        return g_widget != nullptr || !g_performanceMirrors.empty();
+    }
     if (g_widget) return true;
-    if (!FindCurrentProcessTaskbarWindow()) return false;
+    if (!visible) {
+        visible = OpalControl::VisibleFullViewWindow(
+            OpalControl::MonitorTarget::Both, !g_fullViewOnPrimary);
+    }
+    if (!visible) return false;
     ApplyOnTaskbarThread();
-    return g_widget != nullptr;
+    return g_widget != nullptr || !g_performanceMirrors.empty();
 }
 #endif

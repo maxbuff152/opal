@@ -24,6 +24,8 @@ Assert-True ($sourceText -notmatch 'RunAdaptiveDock|TryHandleAdaptiveDockCommand
 Assert-True ($buildText -notmatch 'AdaptiveDock(?:Services)?\.cpp') 'Telemetry build still compiles the retired Adaptive Dock.'
 Assert-True ($buildText -notmatch '-l(?:dwmapi|d2d1|dwrite|gdiplus|oleacc|winmm|windowscodecs|winhttp)') 'Telemetry build still links a retired UI/media dependency.'
 Assert-True ($sourceText -match 'wttr\.in' -and $sourceText -match 'Maxwell.Shell.Weather') 'Telemetry core does not fetch wttr.in weather for the clock.'
+$performance = [IO.File]::ReadAllText((Join-Path $root 'mod\visual-clones\maxwell-taskbar-system-info.wh.cpp'))
+Assert-True ($performance -match 'EnsureShellCoreProcess' -and $performance -match 'kInstanceMutexName') 'Explorer no longer relaunches Maxwell.Shell.Core when the mapping is missing.'
 Assert-True ($buildText -match '-lwininet') 'Weather fetch is not linked with WinINet in Maxwell.Shell.Core.'
 
 foreach ($retired in @(

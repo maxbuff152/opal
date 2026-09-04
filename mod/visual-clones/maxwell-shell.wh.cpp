@@ -124,7 +124,7 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
     $description: Displays the current song or video and playback controls.
   - mediaSize: standard
     $name: Width
-    $description: Opal still shrinks the widget automatically if the taskbar gets crowded.
+    $description: Wide adds more detail inside the same capsule. The rest of the bar does not move.
     $options:
     - compact: Small
     - standard: Comfortable (recommended)
@@ -133,9 +133,9 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
     $name: Show cover art
   - showArtist: true
     $name: Show artist and details
-  - hideWithoutSession: true
+  - hideWithoutSession: false
     $name: Hide when nothing is playing
-    $description: Recommended. The widget frees its space until an app has media ready.
+    $description: Off keeps a quiet idle pill so the bar does not jump. On frees the space.
   - smoothProgress: true
     $name: Smooth playback bar
   $name: Media
@@ -216,15 +216,15 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
       $name: App icon size
     - TaskbarButtonWidth: 50
       $name: App button width
-    - IconSizeSmall: 18
+    - IconSizeSmall: 28
       $name: Small icon size
-    - TaskbarButtonWidthSmall: 34
+    - TaskbarButtonWidthSmall: 42
       $name: Small button width
     $name: Taskbar sizing
   - repair:
     - resetWidgetPositions: false
-      $name: Reset widget positions
-      $description: Turn on once to forget dragged positions and return to automatic placement.
+      $name: Reset layout
+      $description: Turn on once to restore the recommended bar, forget dragged positions, and bring widgets back. Then turn it off.
     - resetCrashQuarantine: false
       $name: Re-enable a protected widget
       $description: Use only if Opal disabled Media or Computer stats after repeated Explorer crashes.
@@ -1747,8 +1747,30 @@ static DWORD WINAPI LateAttachProc(LPVOID) {
 #endif
         if (clockDone && mediaDone && perfDone) { return 0; }
     }
-    AttachLog(L"late attach gave up after 60s: clock=%d media=%d performance=%d",
+    AttachLog(L"late attach still waiting: clock=%d media=%d performance=%d",
               clockDone ? 1 : 0, mediaDone ? 1 : 0, perfDone ? 1 : 0);
+    while (!clockDone || !mediaDone || !perfDone) {
+        if (!SleepUnlessUnloading(15000)) { return 0; }
+        if (!TaskbarViewPresent()) { continue; }
+#ifdef OPAL_UNIFIED_BUILD
+        if (!mediaDone) {
+            try { mediaDone = OpalMedia_EnsureAttached(); } catch (...) {}
+        }
+        if (!perfDone) {
+            try { perfDone = OpalPerformance_EnsureAttached(); } catch (...) {}
+        }
+#endif
+        if (!clockDone) {
+            try {
+                if (!OpalAddonClock::g_systemTrayModuleHooked &&
+                    OpalAddonClock::GetSystemTrayModuleHandle()) {
+                    OpalAddonClock::AfterInit();
+                }
+                clockDone = OpalAddonClock::g_systemTrayModuleHooked.load();
+            } catch (...) {
+            }
+        }
+    }
     return 0;
 }
 

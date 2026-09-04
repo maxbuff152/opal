@@ -2362,6 +2362,15 @@ void LoadSettings() {
         L"advanced.taskbarSizing.IconSizeSmall");
     g_settings.taskbarButtonWidthSmall =
         Wh_GetIntSetting(L"advanced.taskbarSizing.TaskbarButtonWidthSmall");
+    if (Wh_GetIntSetting(L"advanced.repair.resetWidgetPositions") != 0) {
+        g_settings.iconSize = 38;
+        g_settings.taskbarButtonWidth = 50;
+        g_settings.iconSizeSmall = 28;
+        g_settings.taskbarButtonWidthSmall = 42;
+    }
+    if (g_settings.iconSizeSmall < 24) {
+        g_settings.iconSizeSmall = 24;
+    }
 }
 
 HWND FindCurrentProcessTaskbarWnd() {

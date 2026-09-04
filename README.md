@@ -121,13 +121,12 @@ open windows and shell cache state differ.
 
 ## Canonical experience
 
-- 68-DIP taskbar, 38-DIP official app icons, and 50-DIP taskbar cells.
+- 68-DIP taskbar, 38-DIP official app icons, 50-DIP taskbar cells, and 28-DIP tray icons.
 - Fixed graphite/neutral frost with no selectable color themes.
 - 176-DIP two-line clock with date and optional Katy weather.
 - 184-DIP CPU/RAM glance; GPU, VRAM, thermals, history, processes, and native
   Windows tools remain one click away in Hardware Command Center.
-- Adaptive 232-336-DIP media capsule with artwork, previous/play/next, timeline
-  scrubbing, Shift-scroll seeking, volume scrolling, and session switching.
+- Adaptive 232-336-DIP media capsule. Wide adds detail inside that lane instead of shoving the rest of the bar. An idle "Nothing playing" pill keeps the lane stable.
 - Windows continues to own taskbar previews, flyout material, accessibility,
   scrolling, and native transitions where practical.
 
@@ -138,6 +137,7 @@ Run from this directory:
 ```powershell
 .\Build-OpalSuite.ps1
 .\Test-OpalSuite.ps1 -StaticOnly
+.\tests\Test-OpalTaskbarResilience.ps1
 .\Test-OpalPerformanceBudget.ps1 -ReceiptPath .\measurements\package-cost-opal-4-unified-valid-settled-abba2.json
 .\Install-OpalSuite.ps1 -WhatIf
 .\Install-OpalSuite.ps1

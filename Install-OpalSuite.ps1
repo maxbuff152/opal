@@ -115,16 +115,16 @@ $opalSettings = [ordered]@{
     'everyday.layoutMode' = (Get-OldOrLegacyValue 'everyday.layoutMode' 'layoutMode' 'automatic')
     'everyday.widgetTextSize' = (Get-OldOrLegacyValue 'everyday.widgetTextSize' 'widgetTextSize' 'standard')
     'everyday.widgetBackgroundStrength' = (Get-OldOrLegacyValue 'everyday.widgetBackgroundStrength' 'widgetBackgroundStrength' 'glass')
-    'screens.mediaMonitor' = (Get-OldOrLegacyValue 'screens.mediaMonitor' 'mediaMonitor' 'both')
+    'screens.mediaMonitor' = 'both'
     'screens.mediaFullDisplay' = (Get-OldOrLegacyValue 'screens.mediaFullDisplay' 'mediaFullDisplay' 'secondary')
-    'screens.performanceMonitor' = (Get-OldOrLegacyValue 'screens.performanceMonitor' 'performanceMonitor' 'both')
+    'screens.performanceMonitor' = 'both'
     'screens.performanceFullDisplay' = (Get-OldOrLegacyValue 'screens.performanceFullDisplay' 'performanceFullDisplay' 'primary')
     'screens.mirrorStyle' = (Get-OldOrLegacyValue 'screens.mirrorStyle' 'mirrorStyle' 'detailed')
     'media.mediaEnabled' = (Get-OldOrLegacyValue 'media.mediaEnabled' 'mediaEnabled' 1)
     'media.mediaSize' = (Get-OldOrLegacyValue 'media.mediaSize' 'mediaSize' 'standard')
     'media.showArtwork' = (Get-OldOrLegacyValue 'media.showArtwork' 'showArtwork' 1)
     'media.showArtist' = (Get-OldOrLegacyValue 'media.showArtist' 'showArtist' 1)
-    'media.hideWithoutSession' = (Get-OldOrLegacyValue 'media.hideWithoutSession' 'hideWithoutSession' 1)
+    'media.hideWithoutSession' = 0
     'media.smoothProgress' = (Get-OldOrLegacyValue 'media.smoothProgress' 'smoothProgress' 1)
     'performance.performanceEnabled' = (Get-OldOrLegacyValue 'performance.performanceEnabled' 'performanceEnabled' 1)
     'performance.performanceSize' = (Get-OldOrLegacyValue 'performance.performanceSize' 'performanceSize' 'standard')
@@ -145,10 +145,10 @@ $opalSettings = [ordered]@{
     'advanced.clockFormatting.BottomLine' = (Get-OldOrLegacyValue 'advanced.clockFormatting.BottomLine' 'BottomLine' '%date%  %weather%')
     'advanced.clockFormatting.TooltipLine' = (Get-OldOrLegacyValue 'advanced.clockFormatting.TooltipLine' 'TooltipLine' '%date% | %time% | BAT %battery% %battery_time% | DOWN %download_speed% UP %upload_speed%')
     'advanced.taskbarSizing.TaskbarHeight' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.TaskbarHeight' 'TaskbarHeight' 68)
-    'advanced.taskbarSizing.IconSize' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.IconSize' 'IconSize' 48)
-    'advanced.taskbarSizing.TaskbarButtonWidth' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.TaskbarButtonWidth' 'TaskbarButtonWidth' 58)
-    'advanced.taskbarSizing.IconSizeSmall' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.IconSizeSmall' 'IconSizeSmall' 18)
-    'advanced.taskbarSizing.TaskbarButtonWidthSmall' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.TaskbarButtonWidthSmall' 'TaskbarButtonWidthSmall' 34)
+    'advanced.taskbarSizing.IconSize' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.IconSize' 'IconSize' 38)
+    'advanced.taskbarSizing.TaskbarButtonWidth' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.TaskbarButtonWidth' 'TaskbarButtonWidth' 50)
+    'advanced.taskbarSizing.IconSizeSmall' = 28
+    'advanced.taskbarSizing.TaskbarButtonWidthSmall' = 42
     'advanced.repair.resetWidgetPositions' = 0
     'advanced.repair.resetCrashQuarantine' = 0
     'advanced.troubleshooting.diagnose' = (Get-OldOrLegacyValue 'advanced.troubleshooting.diagnose' 'diagnose' 0)
@@ -183,7 +183,7 @@ $systemInfoSettings = [ordered]@{
     width = 184; leftOffset = 10; reserveSpace = 1; reserveGap = 8
     updateInterval = 2; gamingUpdateInterval = 10; batterySaverUpdateInterval = 15
     performanceAuraEnabled = 0; activityRailEnabled = 1
-    focusSceneEngineEnabled = 1; adaptiveOverlapEnabled = 1; contentPriorityEnabled = 1
+    adaptiveOverlapEnabled = 1; contentPriorityEnabled = 1
     experienceMode = 'auto'; historySeconds = 60
     fontSize = 13; fontFamily = 'Segoe UI Variable Text'; textColor = '#FFF5F5F7'
     graphColor = '#D6D6D8'; safeColor = '#FFA8A8AD'; warningColor = '#FFC7C7CC'

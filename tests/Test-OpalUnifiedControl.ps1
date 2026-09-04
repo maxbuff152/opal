@@ -16,6 +16,9 @@ Check ($shell -match '(?m)^// @id\s+opal$') 'Windhawk owner is not the single Op
 foreach($setting in @('leanMode','layoutMode','mediaEnabled','mediaMonitor','mediaFullDisplay','mediaSize','performanceEnabled','performanceMonitor','performanceFullDisplay','performanceSize','mirrorStyle','widgetTextSize','widgetBackgroundStrength','showArtwork','showArtist','hideWithoutSession','smoothProgress','temperatureUnit','showInlineGraphs','commandCenterEnabled','clockSize','resetWidgetPositions')){ Check ($shell -match "(?m)^\s*- ${setting}:") "Missing Windhawk setting $setting." }
 Check ($shell -match 'OpalMedia_ModSettingsChanged' -and $shell -match 'OpalPerformance_ModSettingsChanged') 'Settings do not fan out live to both internal components.'
 Check ($shell -match '\$name: Screens' -and $shell -match 'mediaMonitor: both' -and $shell -match 'performanceMonitor: both') 'Windhawk does not expose shared-data dual-monitor defaults.'
+Check ($shell -match 'hideWithoutSession: false' -and $shell -match 'Reset layout' -and $shell -match 'IconSizeSmall: 28') 'Stable idle media, one-click reset, or one-scale tray defaults are missing.'
+Check ($media -match 'VisibleFullViewWindow' -and $performance -match 'VisibleFullViewWindow') 'Visible-display attach is missing.'
+Check ($control -match 'planned-explorer-restart' -and $performance -match 'EnsureShellCoreProcess') 'Planned Explorer restart or Core relaunch recovery is missing.'
 Check ($media -match 'ApplyMediaControlChange' -and $media -match 'Wh_GetIntSetting\(L"media\.mediaEnabled"\)') 'Media live toggle is missing.'
 Check ($media -match 'InjectMediaMirror' -and $media -match 'OtherTaskbarWindows') 'Media lacks its lightweight second-display view.'
 Check ($performance -match 'ApplyPerformanceControlChange' -and $performance -match 'Wh_GetIntSetting\(L"performance\.performanceEnabled"\)') 'Performance live toggle is missing.'

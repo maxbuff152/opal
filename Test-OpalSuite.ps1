@@ -62,6 +62,7 @@ $rules = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxw
 $apply = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-shell-apply.h'))
 $media = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-opal-media.wh.cpp'))
 $performance = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-taskbar-system-info.wh.cpp'))
+$control = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\opal-control.h'))
 $builder = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Build-OpalSuite.ps1'))
 foreach ($setting in @('leanMode','layoutMode','mediaEnabled','mediaMonitor','mediaFullDisplay','mediaSize','performanceEnabled','performanceMonitor','performanceFullDisplay','performanceSize','mirrorStyle','widgetTextSize','widgetBackgroundStrength','showArtwork','showArtist','hideWithoutSession','smoothProgress','temperatureUnit','showInlineGraphs','commandCenterEnabled','clockSize','resetWidgetPositions','resetCrashQuarantine')) {
     Assert-Opal ($shell -match "(?m)^\s*- ${setting}:") "Windhawk Opal settings are missing $setting."
@@ -74,11 +75,18 @@ Assert-Opal ($media -match 'stream\.Close\(\)' -and $media -match 'targetPixels'
 Assert-Opal ($performance -match 'PdhCollectQueryDataEx' -and $performance -match 'PerformanceSuspensionReason') 'Event-driven or suspension-aware performance sampling is missing.'
 Assert-Opal ($performance -match 'ResetCommandCenterView\(\)' -and $performance -match 'g_commandCenterFlyout = nullptr') 'Command center is not destroyed on close.'
 Assert-Opal ($media -match 'OtherTaskbarWindows' -and $performance -match 'OtherTaskbarWindows') 'Both-display mode does not inject compact mirrors on every other taskbar.'
+Assert-Opal ($media -match 'VisibleFullViewWindow' -and $performance -match 'VisibleFullViewWindow') 'Visible-display attach is missing; fullscreen on the primary bar would still blank the second screen.'
+Assert-Opal ($performance -match 'ContentPriority::Essential' -and $performance -notmatch 'return ContentPriority::Hidden') 'Computer stats still disappear when the left zone is tight.'
+Assert-Opal ($media -match 'Nothing playing' -and $media -match 'hideWithoutSession = false' -and $shell -match 'hideWithoutSession: false') 'Media no longer keeps a stable idle lane.'
+Assert-Opal ($media -match 'wideInsideCapsule' -and $media -match 'reserved taskbar lane stays') 'Wide media still expands the reserved taskbar lane.'
+Assert-Opal ($performance -match 'EnsureShellCoreProcess' -and $performance -match 'Maxwell.Shell.Core.exe') 'Explorer no longer relaunches a missing telemetry companion.'
+Assert-Opal ($control -match 'neverLived' -and $control -match 'planned-explorer-restart' -and $control -match 'ForegroundIsExclusiveFullscreen') 'Crash protection still treats planned restarts and fullscreen coverage as widget crashes.'
 Assert-Opal ($rules -match 'Grid#ToastPeekRegion' -and $rules -match 'TranslateTransform X=\\"0\\" Y=\\"0\\"' -and $apply -match 'name == L"Clip"') 'Toast peek region does not reset leftover cutoff transforms.'
 Assert-Opal ($rules -notmatch 'ScaleX=\\"3.3\\"' -and $rules -notmatch 'Morganite' -and $rules -notmatch 'Y=\\"-250\\"') 'Start menu still applies leftover imported-theme scale, font, or media shift hacks.'
 Assert-Opal ([IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-shell-owned-overrides.h')) -match 'kOverlayIcon' -and [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\maxwell-shell-owned-overrides.h')) -match 'kAppBadge') 'Taskbar overlay icons and numeric badges are not given an unclipped slot.'
 $iconSource = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\opal-addon-icons.h'))
 Assert-Opal ($iconSource -match 'g_iconGeometryFailSoft' -and $iconSource -match 'fail-soft stock icon geometry') 'Icon hooks do not fail soft to stock 16/24/32 posture sizes when symbols move.'
+Assert-Opal ($shell -match 'Reset layout' -and $iconSource -match 'iconSizeSmall = 28') 'One-click layout reset or one-scale tray icons are missing.'
 $clockSource = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\opal-addon-clock.h'))
 Assert-Opal ($clockSource -match '%weather%' -and $clockSource -match 'TryWeatherFromCore' -and $clockSource -match 'GetUrlContent') 'Clock weather no longer prefers Maxwell.Shell.Core with an in-process fallback.'
 $coreSource = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'native\Maxwell.Shell.Core\MaxwellShellCore.cpp'))
