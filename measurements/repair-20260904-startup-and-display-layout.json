@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-04T21:56:16.4041555-05:00",
+  "checkedAt": "2026-09-04T21:57:45.5282146-05:00",
   "routeId": "95fdc765838c49a5a30a689e60510c44",
   "installedDllHash": "C7BD998A39FFAC10475EB881FB558EF70769AD0A31C8807254358C52AB8B73C1",
   "attachment": {
@@ -48,7 +48,7 @@
     "Current-session attachment after same-process reinitialization"
   ],
   "visual": {
-    "primary": "Fullscreen game covers taskbar; attachment verified, unobscured visual inspection pending",
+    "primary": "Full Media with artwork, track title, artist line, playback controls and rounded clock visually verified; no duplicate stats or overlapping controls.",
     "secondary": "Computer stats and rounded clock verified; no overlap in captured lane"
   },
   "rollback": "C:\\Users\\maxwe\\AppData\\Local\\Maxwell\\Opal\\rollback-20260904-215358",
