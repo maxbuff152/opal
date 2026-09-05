@@ -28,6 +28,7 @@ $headers = @(
     'maxwell-shell-apply.h',
     'maxwell-shell-style.h',
     'opal-control.h',
+    'opal-performance-diagnostics.h',
     'maxwell-xaml-tap.h',
     'opal-addon-icons.h',
     'maxwell-shell-weather-protocol.h',

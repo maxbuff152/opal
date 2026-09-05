@@ -1,0 +1,797 @@
+{
+  "SchemaVersion": 1,
+  "AnalyzerPackage": "Microsoft.Diagnostics.Tracing.TraceEvent/3.2.6",
+  "Input": "D:\\Opal\\build\\opal-allocation-rebound-20260905.etl",
+  "InputSha256": "7C4D6EAE9EAAB73E738B3B04031F10895EF5DBA9E1AE3222B609BB0E7FF6457C",
+  "InputBytes": 89128960,
+  "ProcessSelector": "pid:25544",
+  "GeneratedUtc": "2026-09-05T07:55:30.5900352Z",
+  "IndexedEventsScanned": 350731,
+  "VirtualAllocationEventsAllProcesses": 110091,
+  "MatchedEvents": 132,
+  "EventsWithStacks": 75,
+  "EventsWithoutStacks": 57,
+  "AllocationEvents": 75,
+  "GrossAllocationEventBytes": 21106688,
+  "AllocationEventsBelowLargeThreshold": 75,
+  "LargeEventThresholdBytes": 8388608,
+  "MaximumFrames": 128,
+  "TruncatedStacks": 0,
+  "TraceEventsLost": 0,
+  "ConversionEventLimit": 10000000,
+  "ConversionTruncated": false,
+  "ConversionNotices": [],
+  "Totals": [
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Free",
+      "Flags": "MEM_RELEASE",
+      "Kind": "Deallocation",
+      "Count": 27,
+      "GrossEventBytes": 20074496,
+      "EventsWithStacks": 0
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_RESERVE",
+      "Kind": "Allocation",
+      "Count": 19,
+      "GrossEventBytes": 20000768,
+      "EventsWithStacks": 19
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Count": 46,
+      "GrossEventBytes": 1007616,
+      "EventsWithStacks": 46
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Free",
+      "Flags": "MEM_DECOMMIT",
+      "Kind": "Deallocation",
+      "Count": 30,
+      "GrossEventBytes": 864256,
+      "EventsWithStacks": 0
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT, MEM_RESERVE",
+      "Kind": "Allocation",
+      "Count": 10,
+      "GrossEventBytes": 98304,
+      "EventsWithStacks": 10
+    }
+  ],
+  "InclusiveModuleTotals": [
+    {
+      "Kind": "Allocation",
+      "Module": "ntoskrnl",
+      "Count": 75,
+      "GrossEventBytes": 21106688,
+      "EventsWithStacks": 75
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "ntdll",
+      "Count": 75,
+      "GrossEventBytes": 21106688,
+      "EventsWithStacks": 75
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "kernel32",
+      "Count": 75,
+      "GrossEventBytes": 21106688,
+      "EventsWithStacks": 75
+    },
+    {
+      "Kind": "Deallocation",
+      "Module": "\u003Cno-stack\u003E",
+      "Count": 57,
+      "GrossEventBytes": 20938752,
+      "EventsWithStacks": 0
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "local_at_opal_4.5.0_owned",
+      "Count": 45,
+      "GrossEventBytes": 20279296,
+      "EventsWithStacks": 45
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "msvcrt",
+      "Count": 12,
+      "GrossEventBytes": 6340608,
+      "EventsWithStacks": 12
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "shcore",
+      "Count": 33,
+      "GrossEventBytes": 978944,
+      "EventsWithStacks": 33
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "win32kfull.sys",
+      "Count": 27,
+      "GrossEventBytes": 552960,
+      "EventsWithStacks": 27
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "win32k.sys",
+      "Count": 27,
+      "GrossEventBytes": 552960,
+      "EventsWithStacks": 27
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "win32u",
+      "Count": 27,
+      "GrossEventBytes": 552960,
+      "EventsWithStacks": 27
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "user32",
+      "Count": 24,
+      "GrossEventBytes": 507904,
+      "EventsWithStacks": 24
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "explorer",
+      "Count": 23,
+      "GrossEventBytes": 503808,
+      "EventsWithStacks": 23
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "pfclient",
+      "Count": 16,
+      "GrossEventBytes": 450560,
+      "EventsWithStacks": 16
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "windows.ui.xaml",
+      "Count": 16,
+      "GrossEventBytes": 450560,
+      "EventsWithStacks": 16
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "combase",
+      "Count": 9,
+      "GrossEventBytes": 446464,
+      "EventsWithStacks": 9
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "coremessaging",
+      "Count": 18,
+      "GrossEventBytes": 385024,
+      "EventsWithStacks": 18
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "windows.cloudstore.schema.shell",
+      "Count": 8,
+      "GrossEventBytes": 278528,
+      "EventsWithStacks": 8
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "windows.cloudstore",
+      "Count": 8,
+      "GrossEventBytes": 278528,
+      "EventsWithStacks": 8
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "taskbar",
+      "Count": 17,
+      "GrossEventBytes": 274432,
+      "EventsWithStacks": 17
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "rpcrt4",
+      "Count": 4,
+      "GrossEventBytes": 229376,
+      "EventsWithStacks": 4
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "taskbar.view",
+      "Count": 12,
+      "GrossEventBytes": 221184,
+      "EventsWithStacks": 12
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "kernelbase",
+      "Count": 4,
+      "GrossEventBytes": 212992,
+      "EventsWithStacks": 4
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "propsys",
+      "Count": 1,
+      "GrossEventBytes": 192512,
+      "EventsWithStacks": 1
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "windows.media.mediacontrol",
+      "Count": 1,
+      "GrossEventBytes": 192512,
+      "EventsWithStacks": 1
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "ucrtbase",
+      "Count": 5,
+      "GrossEventBytes": 118784,
+      "EventsWithStacks": 5
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "gdi32full",
+      "Count": 10,
+      "GrossEventBytes": 98304,
+      "EventsWithStacks": 10
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "gdi32",
+      "Count": 10,
+      "GrossEventBytes": 98304,
+      "EventsWithStacks": 10
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "comctl32",
+      "Count": 10,
+      "GrossEventBytes": 98304,
+      "EventsWithStacks": 10
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "windowscodecs",
+      "Count": 1,
+      "GrossEventBytes": 4096,
+      "EventsWithStacks": 1
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "rtmediaframe",
+      "Count": 1,
+      "GrossEventBytes": 4096,
+      "EventsWithStacks": 1
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "msxml6",
+      "Count": 1,
+      "GrossEventBytes": 4096,
+      "EventsWithStacks": 1
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "windows.storage",
+      "Count": 1,
+      "GrossEventBytes": 4096,
+      "EventsWithStacks": 1
+    },
+    {
+      "Kind": "Allocation",
+      "Module": "cdp",
+      "Count": 1,
+      "GrossEventBytes": 4096,
+      "EventsWithStacks": 1
+    }
+  ],
+  "ModuleStackGroups": [
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Free",
+      "Flags": "MEM_RELEASE",
+      "Kind": "Deallocation",
+      "Modules": [
+        "\u003Cno-stack\u003E"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 27,
+        "GrossEventBytes": 20074496,
+        "EventsWithStacks": 0
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_RESERVE",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "kernel32",
+        "local_at_opal_4.5.0_owned",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 13,
+        "GrossEventBytes": 13684736,
+        "EventsWithStacks": 13
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_RESERVE",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "kernel32",
+        "local_at_opal_4.5.0_owned",
+        "msvcrt",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 6,
+        "GrossEventBytes": 6316032,
+        "EventsWithStacks": 6
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Free",
+      "Flags": "MEM_DECOMMIT",
+      "Kind": "Deallocation",
+      "Modules": [
+        "\u003Cno-stack\u003E"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 30,
+        "GrossEventBytes": 864256,
+        "EventsWithStacks": 0
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "pfclient",
+        "windows.ui.xaml",
+        "coremessaging",
+        "user32",
+        "ntdll",
+        "ntoskrnl",
+        "win32kfull.sys",
+        "win32k.sys",
+        "ntoskrnl",
+        "win32u",
+        "user32",
+        "explorer",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 10,
+        "GrossEventBytes": 278528,
+        "EventsWithStacks": 10
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "propsys",
+        "combase",
+        "rpcrt4",
+        "combase",
+        "windows.media.mediacontrol",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 1,
+        "GrossEventBytes": 192512,
+        "EventsWithStacks": 1
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "kernelbase",
+        "combase",
+        "windows.cloudstore.schema.shell",
+        "windows.cloudstore",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 1,
+        "GrossEventBytes": 126976,
+        "EventsWithStacks": 1
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "pfclient",
+        "windows.ui.xaml",
+        "shcore",
+        "windows.ui.xaml",
+        "taskbar.view",
+        "local_at_opal_4.5.0_owned",
+        "taskbar.view",
+        "taskbar",
+        "user32",
+        "ntdll",
+        "ntoskrnl",
+        "win32kfull.sys",
+        "win32k.sys",
+        "ntoskrnl",
+        "win32u",
+        "user32",
+        "explorer",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 4,
+        "GrossEventBytes": 114688,
+        "EventsWithStacks": 4
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "ucrtbase",
+        "windows.cloudstore.schema.shell",
+        "ucrtbase",
+        "windows.cloudstore.schema.shell",
+        "ntdll",
+        "kernelbase",
+        "local_at_opal_4.5.0_owned",
+        "combase",
+        "windows.cloudstore",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 3,
+        "GrossEventBytes": 86016,
+        "EventsWithStacks": 3
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "pfclient",
+        "windows.ui.xaml",
+        "shcore",
+        "windows.ui.xaml",
+        "taskbar.view",
+        "taskbar",
+        "coremessaging",
+        "user32",
+        "ntdll",
+        "ntoskrnl",
+        "win32kfull.sys",
+        "win32k.sys",
+        "ntoskrnl",
+        "win32u",
+        "user32",
+        "explorer",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 2,
+        "GrossEventBytes": 57344,
+        "EventsWithStacks": 2
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "kernel32",
+        "local_at_opal_4.5.0_owned",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 13,
+        "GrossEventBytes": 53248,
+        "EventsWithStacks": 13
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT, MEM_RESERVE",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "win32kfull.sys",
+        "win32k.sys",
+        "ntoskrnl",
+        "win32u",
+        "gdi32full",
+        "gdi32",
+        "comctl32",
+        "taskbar",
+        "ntdll",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 4,
+        "GrossEventBytes": 49152,
+        "EventsWithStacks": 4
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT, MEM_RESERVE",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "win32kfull.sys",
+        "win32k.sys",
+        "ntoskrnl",
+        "win32u",
+        "gdi32full",
+        "gdi32",
+        "comctl32",
+        "taskbar",
+        "taskbar.view",
+        "taskbar",
+        "coremessaging",
+        "user32",
+        "ntdll",
+        "ntoskrnl",
+        "win32kfull.sys",
+        "win32k.sys",
+        "ntoskrnl",
+        "win32u",
+        "user32",
+        "explorer",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 6,
+        "GrossEventBytes": 49152,
+        "EventsWithStacks": 6
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "combase",
+        "rpcrt4",
+        "combase",
+        "windows.cloudstore.schema.shell",
+        "windows.cloudstore",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 2,
+        "GrossEventBytes": 32768,
+        "EventsWithStacks": 2
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "ucrtbase",
+        "windows.cloudstore",
+        "windows.cloudstore.schema.shell",
+        "windows.cloudstore",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 1,
+        "GrossEventBytes": 28672,
+        "EventsWithStacks": 1
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "kernel32",
+        "local_at_opal_4.5.0_owned",
+        "msvcrt",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 6,
+        "GrossEventBytes": 24576,
+        "EventsWithStacks": 6
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "ucrtbase",
+        "windowscodecs",
+        "rtmediaframe",
+        "taskbar",
+        "explorer",
+        "user32",
+        "ntdll",
+        "ntoskrnl",
+        "win32kfull.sys",
+        "win32k.sys",
+        "ntoskrnl",
+        "win32u",
+        "user32",
+        "explorer",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 1,
+        "GrossEventBytes": 4096,
+        "EventsWithStacks": 1
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "msxml6",
+        "combase",
+        "windows.storage",
+        "user32",
+        "windows.storage",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 1,
+        "GrossEventBytes": 4096,
+        "EventsWithStacks": 1
+      }
+    },
+    {
+      "ProcessId": 25544,
+      "Event": "VirtualMem/Alloc",
+      "Flags": "MEM_COMMIT",
+      "Kind": "Allocation",
+      "Modules": [
+        "ntoskrnl",
+        "ntdll",
+        "combase",
+        "rpcrt4",
+        "combase",
+        "cdp",
+        "windows.cloudstore.schema.shell",
+        "windows.cloudstore",
+        "shcore",
+        "kernel32",
+        "ntdll"
+      ],
+      "StackTruncated": false,
+      "Totals": {
+        "Count": 1,
+        "GrossEventBytes": 4096,
+        "EventsWithStacks": 1
+      }
+    }
+  ],
+  "LargeEvents": [],
+  "Limitations": [
+    "Gross event bytes are address-span activity, not outstanding/live commit, working set, or leak size. Reserve/commit may overlap; frees are not subtracted.",
+    "All matched events, including those below 8 MiB, contribute to totals and module-stack groups. Inclusive module rows overlap and must not be summed.",
+    "Module presence is stack association, not ownership or proof of causation. Unknown modules and absent/truncated stacks remain explicit.",
+    "Circular recording may omit older history even when EventsLost is zero. Nonzero lost events or conversion truncation make coverage incomplete.",
+    "Indexed event counts exclude TraceEvent bookkeeping removed during conversion. Module names/addresses use trace mappings; symbol lookup is disabled.",
+    "Output contains only numeric/time/path, event/flag, and module metadata. No payload strings, command lines, memory dumps, capture, upload, or symbol-network access."
+  ]
+}

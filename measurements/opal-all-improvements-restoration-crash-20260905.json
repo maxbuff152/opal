@@ -1,0 +1,128 @@
+{
+  "SchemaVersion": 1,
+  "CollectedAtUtc": "2026-09-05T07:55:31.6434763Z",
+  "Scope": "Read-only WER metadata, loaded-module list, exact Application Error event, existing restart receipt and literal source lookup. No dump access, upload, restart, process mutation or new capture.",
+  "Wer": {
+    "Path": "C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportArchive\\AppCrash_Explorer.EXE_e0563564b3bbc610729910703f7055e938a74527_af452332_2e5ae2b8-65ce-4432-ae72-3897b977c4c8\\Report.wer",
+    "Sha256": "E3D352C7B4CEFE4D6B87199AC5A52F3D91BB1987E82F9EDB7C885158FA52D281",
+    "EventType": "BEX64",
+    "ReportIdentifier": "2e5ae2b8-65ce-4432-ae72-3897b977c4c8",
+    "IntegratorReportIdentifier": "c670b45c-13de-4857-b21b-af1d4ca64a8f",
+    "ExceptionData": "0000000000000007",
+    "LoadedModuleCount": 236,
+    "RelevantLoadedModules": [
+      {
+        "Index": "LoadedModule[49]",
+        "Path": "C:\\Program Files\\Windhawk\\Engine\\2.0\\64\\windhawk.dll"
+      },
+      {
+        "Index": "LoadedModule[50]",
+        "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll"
+      },
+      {
+        "Index": "LoadedModule[52]",
+        "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\libc++.whl"
+      },
+      {
+        "Index": "LoadedModule[54]",
+        "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\libunwind.whl"
+      },
+      {
+        "Index": "LoadedModule[63]",
+        "Path": "C:\\Windows\\System32\\Windows.Media.MediaControl.dll"
+      },
+      {
+        "Index": "LoadedModule[67]",
+        "Path": "C:\\WINDOWS\\SYSTEM32\\Windows.UI.Xaml.dll"
+      },
+      {
+        "Index": "LoadedModule[94]",
+        "Path": "C:\\Windows\\System32\\Windows.CloudStore.dll"
+      },
+      {
+        "Index": "LoadedModule[98]",
+        "Path": "C:\\Windows\\System32\\Windows.CloudStore.Schema.Shell.dll"
+      }
+    ]
+  },
+  "ApplicationError": {
+    "RecordId": 24231,
+    "TimeCreated": "2026-09-05T02:49:45.3286784-05:00",
+    "EventData": {
+      "AppName": "Explorer.EXE",
+      "AppVersion": "10.0.26100.9278",
+      "AppTimeStamp": "4de7f396",
+      "ModuleName": "Windows.CloudStore.dll",
+      "ModuleVersion": "10.0.26100.9278",
+      "ModuleTimeStamp": "f7ed04e4",
+      "ExceptionCode": "c0000409",
+      "FaultingOffset": "00000000000b96e6",
+      "ProcessId": "0x5a10",
+      "ProcessCreationTime": "0x1dd3d0b1c5df66a",
+      "AppPath": "C:\\WINDOWS\\Explorer.EXE",
+      "ModulePath": "C:\\Windows\\System32\\Windows.CloudStore.dll",
+      "IntegratorReportId": "c670b45c-13de-4857-b21b-af1d4ca64a8f",
+      "PackageFullName": null,
+      "PackageRelativeAppId": null
+    },
+    "Pid": 23056,
+    "StartedAtUtc": "2026-09-05T07:49:42.0837482Z",
+    "StartupSeconds": 3.2449302
+  },
+  "RestorationReceipt": {
+    "Reason": "Restoration",
+    "AtUtc": "2026-09-05T02:49:42.0026542-05:00",
+    "OldPids": [
+      51680
+    ],
+    "ExplicitLaunchRequested": false,
+    "ReadyPid": 23056,
+    "ReadyAtUtc": "2026-09-05T02:49:42.3128926-05:00",
+    "MultiplicityObservations": []
+  },
+  "FastFailDefinition": {
+    "Source": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um\\winnt.h",
+    "Line": 23048,
+    "Literal": "#define FAST_FAIL_FATAL_APP_EXIT                    7",
+    "Interpretation": "WER exception data 7 is consistent with the fatal-app-exit fast-fail reason. It does not prove stack-buffer corruption or identify the initiating component."
+  },
+  "EarlierMatchingEvent": {
+    "TimeCreated": "2026-09-05T02:05:52.3489356-05:00",
+    "Pid": 40204,
+    "Module": "Windows.CloudStore.dll",
+    "Version": "10.0.26100.9278",
+    "ExceptionCode": "c0000409",
+    "Offset": "00000000000b96e6",
+    "ReportId": "35be3a13-8b9e-41d4-bc06-6b7226073de2"
+  },
+  "SourceLookup": {
+    "Root": "D:\\Opal\\mod",
+    "FileTypes": [
+      "*.cpp",
+      "*.h"
+    ],
+    "CaseInsensitiveTerms": [
+      "cloudstore",
+      "fastfail",
+      "fatalappexit",
+      "failfast",
+      "__fastfail"
+    ],
+    "MatchCount": 0,
+    "Limit": "No direct literal reference found. Indirect Windows API activity or earlier memory corruption remains possible; this lookup does not exonerate Opal."
+  },
+  "Conclusions": [
+    "Explorer failed approximately 3.245 seconds after creation during restoration.",
+    "The restoration helper accepted the Windows-created Explorer PID23056 and recorded ExplicitLaunchRequested=false with no observed multiplicity. The prior explicit-launch race fix cannot be described as resolving this crash.",
+    "The same module/version/offset/exception signature also appeared at02:05:52 with PID40204.",
+    "Opal and Windhawk were loaded in the failed process. Loaded modules establish presence only; the Windows fault module alone cannot assign or exclude component responsibility."
+  ],
+  "Unknowns": [
+    "Failing thread and stack",
+    "Initiating caller and fatal-exit rationale",
+    "Whether Opal, another loaded component, or Windows caused the condition",
+    "Reproduction rate for Stock versus Full startup",
+    "Whether the reported offset is downstream of earlier corruption"
+  ],
+  "PracticalNextStep": "Keep this as an unresolved startup reliability incident. After the active capture ends, use a separately bounded Stock/Full startup comparison with exact PID and start identity plus crash-signature recording. If it reproduces, obtain locally symbolized exception-stack evidence under a separately scoped diagnostic capture before proposing a production fix. Do not change CloudStore data or ship an attributed fix from module metadata alone."
+}

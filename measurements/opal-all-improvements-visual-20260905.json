@@ -1,0 +1,16 @@
+{
+  "AtUtc": "2026-09-05T08:06:10.2429212Z",
+  "Inspected": true,
+  "Captures": [
+    {
+      "Path": "C:\\Users\\maxwe\\AppData\\Local\\Temp\\Opal\\qa-captures\\qa-capture-opal-all-final-secondary-20260905.png",
+      "Sha256": "A9BC90C0C578985233A814748A19C78045969F09BDF76A0432DBF84C8F8839B8"
+    },
+    {
+      "Path": "C:\\Users\\maxwe\\AppData\\Local\\Temp\\Opal\\qa-captures\\qa-capture-opal-all-final-primary-20260905.png",
+      "Sha256": "88BFB81C2A53AF934E949F633CEE960C65DA0E5053C4821F7E57E2D734064BD6"
+    }
+  ],
+  "Observation": "Both taskbars visible. Primary media/artwork/controls and performance, secondary compact dock, clocks and weather present without visible clipping.",
+  "Limitation": "Static visual inspection only; does not establish actual interaction latency or prolonged stability."
+}

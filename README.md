@@ -117,6 +117,39 @@ separate same-process soak checks sustained handle/GDI/USER growth. Five
 minutes does not establish indefinite leak freedom, and memory growth is
 reported as an observation rather than automatically labeled a leak.
 
+For allocation investigation, `Measure-OpalMatchedSoak.ps1` runs four eight-minute
+Stock/FullSuite legs with five-second samples, frozen installed-build identity,
+and region/module metadata at startup, completion, and large private-memory
+steps. It restarts Explorer and restores the original feature settings. Use an
+absolute, new output path and a build receipt for the installed DLL. Its
+`Get-OpalMatchedSoakAnalysis.ps1` companion compares the first and last minute of
+each leg; this descriptive experiment does not replace the acceptance gate.
+
+The **Collect performance timings** setting is off by default. When enabled,
+Opal keeps only the latest 64 numeric timings per metric in memory. Open Hardware
+Command Center and choose **Copy hardware report** to export the current samples.
+Disabling the setting clears them. Collection creates no background writer or
+new asynchronous callbacks. Timings cover successful attachment/recovery work,
+media dispatch and the next applied update, snapshot-to-UI delay, UI work, and
+hardware-panel opening/refresh. They do not measure media-provider acknowledgment
+or pixel presentation; attachment timing excludes earlier retry delays.
+`Get-OpalLatencyAnalysis.ps1 -ReportPath <saved-report>` validates the export and
+returns descriptive statistics. Supply `-P95Budgets` keyed by its metric names
+to compare your chosen limits. It requires 20 samples per budgeted metric by
+default and rejects incomplete evidence. It cannot verify build identity or
+recompute percentiles from this summarized text, so it is not a release gate.
+
+For a completed local allocation trace, see
+[`tools/OpalAllocationTrace`](tools/OpalAllocationTrace/README.md). The analyzer
+reports stack coverage and all-size module associations with symbol lookup
+disabled. Gross allocation activity does not establish retained memory or a leak.
+
+Media artwork acquisition and decoding follow **Show album art**. Disabling it
+also releases retained snapshot artwork; enabling it requests a fresh update.
+Compact mirrors reuse unchanged metadata while continuing attachment and geometry
+checks. Recovery workers wait on a shared stop event, preserving their health
+check interval without 100-ms unload polling.
+
 ## Legacy stack reduction
 
 The archived pre-Opal baseline used 10 enabled mods, 20 process injections,

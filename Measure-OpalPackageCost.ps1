@@ -84,6 +84,51 @@ function Clear-IntentionalRestartMarkers {
     }
 }
 
+function Restart-PackageExplorer {
+    $script:verifiedExplorer = $null
+    Clear-IntentionalRestartMarkers
+    $previous = @(Get-Process -Name explorer -ErrorAction SilentlyContinue |
+        Where-Object SessionId -eq $sessionId)
+    $previousIds = @($previous | ForEach-Object Id)
+    $previous | Stop-Process -Force -ErrorAction Stop
+    $started = Get-Date
+    $deadline = $started.AddSeconds(20)
+    $explicitLaunchRequested = $false
+    do {
+        Start-Sleep -Milliseconds 500
+        $found = @(Get-Process -Name explorer -ErrorAction SilentlyContinue |
+            Where-Object SessionId -eq $sessionId)
+        if ($found.Count -eq 1 -and $found[0].Id -notin $previousIds) {
+            # Process.StartTime is lazy: freeze scalar identity now, before
+            # settling, so later PID reuse cannot change the baseline birth.
+            return [pscustomobject]@{
+                Id = $found[0].Id
+                StartTime = $found[0].StartTime
+            }
+        }
+        # Give Windows shell recovery time to start its replacement. Never
+        # explicitly launch while an old or competing Explorer is present.
+        $now = Get-Date
+        if ($found.Count -eq 0 -and ($now - $started).TotalSeconds -ge 5 -and
+            -not $explicitLaunchRequested -and $now -lt $deadline) {
+            $explicitLaunchRequested = $true
+            Start-Process -FilePath "$env:WINDIR\explorer.exe" -WindowStyle Hidden
+        }
+    } until ($now -ge $deadline)
+    throw 'Exactly one replacement Explorer did not become ready within 20 seconds.'
+}
+
+function Get-VerifiedPackageExplorer {
+    $found = @(Get-Process -Name explorer -ErrorAction Stop |
+        Where-Object SessionId -eq $sessionId)
+    if (-not $script:verifiedExplorer -or $found.Count -ne 1 -or
+        $found[0].Id -ne $script:verifiedExplorer.Id -or
+        $found[0].StartTime -ne $script:verifiedExplorer.StartTime) {
+        throw 'Verified Explorer changed or became ambiguous before measurement completed.'
+    }
+    return $found[0]
+}
+
 function Set-Scenario {
     param([Parameter(Mandatory)]$Configuration)
     Set-ItemProperty -LiteralPath $modPath -Name Disabled -Type DWord `
@@ -93,21 +138,9 @@ function Set-Scenario {
     Set-ItemProperty -LiteralPath $settingsPath -Name 'performance.performanceEnabled' -Type DWord `
         -Value ([int]$Configuration.Performance)
 
-    Clear-IntentionalRestartMarkers
-    Get-Process -Name explorer -ErrorAction SilentlyContinue |
-        Where-Object SessionId -eq $sessionId |
-        Stop-Process -Force -ErrorAction Stop
-    Start-Process -FilePath "$env:WINDIR\explorer.exe" -WindowStyle Hidden
-
-    $deadline = (Get-Date).AddSeconds(20)
-    do {
-        Start-Sleep -Milliseconds 500
-        $explorer = Get-Process -Name explorer -ErrorAction SilentlyContinue |
-            Where-Object SessionId -eq $sessionId |
-            Sort-Object StartTime -Descending | Select-Object -First 1
-    } until ($explorer -or (Get-Date) -ge $deadline)
-    if (-not $explorer) { throw 'Explorer did not restart within 20 seconds.' }
+    $script:verifiedExplorer = Restart-PackageExplorer
     Start-Sleep -Seconds $SettleSeconds
+    $explorer = Get-VerifiedPackageExplorer
     $explorer.Refresh()
     $mapped = @($explorer.Modules | Where-Object ModuleName -eq $build.dllName)
     if ($Configuration.Enabled) {
@@ -117,9 +150,7 @@ function Set-Scenario {
 }
 
 function Measure-ExplorerSample {
-    $process = Get-Process -Name explorer -ErrorAction Stop |
-        Where-Object SessionId -eq $sessionId |
-        Sort-Object StartTime -Descending | Select-Object -First 1
+    $process = Get-VerifiedPackageExplorer
     $process.Refresh()
     $startHandles = $process.HandleCount
     $startGdi = Get-GuiResourceCount -Process $process -Kind 0
@@ -132,7 +163,7 @@ function Measure-ExplorerSample {
     $measuredCost = Compare-OpalMeasuredProcessSnapshot -Before $measuredBefore -After $measuredAfter -ElapsedSeconds $elapsed
     $explorerCost = @($measuredCost.Processes | Where-Object Pid -eq $process.Id)
     if ($explorerCost.Count -ne 1) { throw 'Sampled Explorer missing from measured process set.' }
-    $process = Get-Process -Id $process.Id -ErrorAction Stop
+    $process = Get-VerifiedPackageExplorer
     $process.Refresh()
     $cpuSeconds = $explorerCost[0].CpuSeconds
     $gdi = Get-GuiResourceCount -Process $process -Kind 0
@@ -266,11 +297,7 @@ try {
     Set-ItemProperty -LiteralPath $modPath -Name Disabled -Type DWord -Value $originalState.Disabled
     Set-ItemProperty -LiteralPath $settingsPath -Name 'media.mediaEnabled' -Type DWord -Value $originalState.Media
     Set-ItemProperty -LiteralPath $settingsPath -Name 'performance.performanceEnabled' -Type DWord -Value $originalState.Performance
-    Clear-IntentionalRestartMarkers
-    Get-Process -Name explorer -ErrorAction SilentlyContinue |
-        Where-Object SessionId -eq $sessionId |
-        Stop-Process -Force -ErrorAction SilentlyContinue
-    Start-Process -FilePath "$env:WINDIR\explorer.exe" -WindowStyle Hidden
+    $script:verifiedExplorer = Restart-PackageExplorer
 }
 
 $receipt = [ordered]@{

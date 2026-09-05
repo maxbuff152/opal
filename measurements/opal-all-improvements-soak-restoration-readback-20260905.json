@@ -1,0 +1,47 @@
+{
+  "AtUtc": "2026-09-05T07:51:39.6150450Z",
+  "OriginalReceiptPath": "D:\\Opal\\measurements\\opal-all-improvements-matched-soak-rerun-20260905.json",
+  "OriginalReceiptSha256": "59276329DD4995FAB6F2573C874F4E7CD56734A45DED136E88DEC22887442EF8",
+  "OriginalValid": false,
+  "OriginalRestoration": {
+    "Verified": false,
+    "Error": "Exactly one interactive Explorer is required."
+  },
+  "FreshState": {
+    "ExplorerCount": 1,
+    "Pid": 25544,
+    "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+    "Disabled": 0,
+    "Media": 1,
+    "Performance": 1,
+    "DllName": "local_at_opal_4.5.0_owned.dll",
+    "DllSha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05",
+    "Attachment": {
+      "passed": true,
+      "explorerPid": 25544,
+      "attached": [
+        "Media",
+        "Performance"
+      ],
+      "views": [
+        {
+          "component": "Media",
+          "expected": 1,
+          "attached": 1,
+          "fullWindow": 6817664,
+          "ageSeconds": 0.65
+        },
+        {
+          "component": "Performance",
+          "expected": 1,
+          "attached": 1,
+          "fullWindow": 6817664,
+          "ageSeconds": 0.67
+        }
+      ],
+      "limitation": "Attachment evidence does not replace visual inspection of an unobscured taskbar."
+    }
+  },
+  "Verified": true,
+  "Limitation": "Separate later restoration verification. Does not retroactively make the failed original experiment valid or erase its startup crash."
+}

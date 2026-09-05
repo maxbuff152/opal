@@ -1,0 +1,90 @@
+{
+  "Receipt": "D:\\Opal\\measurements\\package-cost-opal-all-improvements-20260905-abba.json",
+  "Build": {
+    "Version": "4.5.0",
+    "DllSha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05",
+    "CoreSha256": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2"
+  },
+  "CapturedAt": "2026-09-05T03:03:50.2765642-05:00",
+  "Scope": "Explorer only; descriptive historical analysis, not release acceptance.",
+  "DeltaConvention": "FullSuite minus Stock",
+  "RoundCount": 2.0,
+  "Rounds": [
+    {
+      "Round": 1,
+      "Order": "ABBA",
+      "StockMean": {
+        "CpuPercentOneCore": 0.5195,
+        "PrivateMB": 184.735,
+        "WorkingSetMB": 230.895
+      },
+      "FullSuiteMean": {
+        "CpuPercentOneCore": 0.7275,
+        "PrivateMB": 211.58,
+        "WorkingSetMB": 258.365
+      },
+      "Delta": {
+        "CpuPercentOneCore": 0.20800000000000007,
+        "PrivateMB": 26.845,
+        "WorkingSetMB": 27.47
+      }
+    },
+    {
+      "Round": 2,
+      "Order": "BAAB",
+      "StockMean": {
+        "CpuPercentOneCore": 0.5195,
+        "PrivateMB": 183.515,
+        "WorkingSetMB": 230.435
+      },
+      "FullSuiteMean": {
+        "CpuPercentOneCore": 0.7795000000000001,
+        "PrivateMB": 186.2,
+        "WorkingSetMB": 246.445
+      },
+      "Delta": {
+        "CpuPercentOneCore": 0.2600000000000001,
+        "PrivateMB": 2.6850000000000023,
+        "WorkingSetMB": 16.00999999999999
+      }
+    }
+  ],
+  "PairedSummary": {
+    "CpuPercentOneCore": {
+      "MedianRoundDelta": 0.2340000000000001,
+      "MinimumRoundDelta": 0.20800000000000007,
+      "MaximumRoundDelta": 0.2600000000000001,
+      "Range": 0.052000000000000046
+    },
+    "PrivateMB": {
+      "MedianRoundDelta": 14.765,
+      "MinimumRoundDelta": 2.6850000000000023,
+      "MaximumRoundDelta": 26.845,
+      "Range": 24.159999999999997
+    },
+    "WorkingSetMB": {
+      "MedianRoundDelta": 21.739999999999995,
+      "MinimumRoundDelta": 16.00999999999999,
+      "MaximumRoundDelta": 27.47,
+      "Range": 11.460000000000008
+    }
+  },
+  "PooledScenarioMedians": {
+    "CpuPercentOneCore": {
+      "Stock": 0.5195,
+      "FullSuite": 0.7795000000000001,
+      "Delta": 0.2600000000000001
+    },
+    "PrivateMB": {
+      "Stock": 184.735,
+      "FullSuite": 202.8,
+      "Delta": 18.064999999999998
+    },
+    "WorkingSetMB": {
+      "Stock": 230.895,
+      "FullSuite": 254.29500000000002,
+      "Delta": 23.400000000000006
+    }
+  },
+  "Limitation": "Round min/max describe observed spread, not confidence intervals. Runtime identity, freshness and budgets remain the responsibility of the acceptance gate."
+}

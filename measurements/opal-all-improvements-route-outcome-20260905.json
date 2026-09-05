@@ -1,0 +1,20 @@
+{
+  "RouteId": "233c3a7600fa4202813f30aa67986e8a",
+  "Verification": {
+    "verification_id": "ae03bd73a11a421aa98ee57ebe58a510",
+    "route_id": "233c3a7600fa4202813f30aa67986e8a",
+    "status": "passed",
+    "receipt_sha256": "d5802410a493152b72a0e93464e24f6ee0ea2e0b2c6dca4c702830baf94740b0",
+    "receipt_path": "D:\\CODEX SPINE, PLUGINS AND AGENTS\\07-AUDIT EVIDENCE\\MaximizeControlPlane\\verification\\2026\\2026-09-05.jsonl"
+  },
+  "Outcome": {
+    "route_id": "233c3a7600fa4202813f30aa67986e8a",
+    "receipt_path": "D:\\CODEX SPINE, PLUGINS AND AGENTS\\07-AUDIT EVIDENCE\\MaximizeControlPlane\\outcomes\\2026\\2026-09-05.jsonl",
+    "result": "partial",
+    "outcome_class": "confirmed",
+    "plugin_version": "0.1.0+codex.20260905025343",
+    "provenance": "live"
+  },
+  "CodeVerification": "passed",
+  "OverallOutcome": "partial"
+}

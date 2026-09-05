@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WindowsPerformanceRecorder Version="1.0" Author="Opal">
+  <Profiles>
+    <SystemCollector Id="OpalCpuSystem" Name="NT Kernel Logger">
+      <BufferSize Value="1024"/>
+      <Buffers Value="64"/>
+    </SystemCollector>
+    <SystemProvider Id="OpalCpuProvider">
+      <Keywords>
+        <Keyword Value="ProcessThread"/>
+        <Keyword Value="Loader"/>
+        <Keyword Value="SampledProfile"/>
+      </Keywords>
+      <Stacks><Stack Value="SampledProfile"/></Stacks>
+    </SystemProvider>
+    <Profile Id="OpalCpu.Verbose.Memory" Name="OpalCpu" Description="Bounded sampled CPU stack capture" DetailLevel="Verbose" LoggingMode="Memory">
+      <Collectors><SystemCollectorId Value="OpalCpuSystem"><SystemProviderId Value="OpalCpuProvider"/></SystemCollectorId></Collectors>
+    </Profile>
+  </Profiles>
+</WindowsPerformanceRecorder>

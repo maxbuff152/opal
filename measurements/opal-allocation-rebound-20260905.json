@@ -1,0 +1,4791 @@
+{
+  "SchemaVersion": 1,
+  "Experiment": "One-shot private-commit decline/rebound allocation trace",
+  "StartedAtUtc": "2026-09-05T07:50:16.1371694+00:00",
+  "FinishedAtUtc": "2026-09-05T07:55:15.3046138+00:00",
+  "Outcome": "Error",
+  "SignalDetected": false,
+  "CompletedCapture": true,
+  "SameProcessObservationValid": false,
+  "MaximumObservationSeconds": 300,
+  "PollSeconds": 2,
+  "ThresholdMB": 64.0,
+  "TargetPid": 25544,
+  "TracePath": "D:\\Opal\\build\\opal-allocation-rebound-20260905.etl",
+  "InstanceName": "OpalAllocationRebound",
+  "Profile": "D:\\Opal\\config\\OpalAllocation.wprp",
+  "BuildProvenance": {
+    "key": "opal",
+    "metadataId": "opal",
+    "localId": "local@opal",
+    "version": "4.5.0",
+    "include": "explorer.exe|StartMenuExperienceHost.exe|SearchHost.exe|SearchApp.exe|ShellExperienceHost.exe|ShellHost.exe",
+    "dllName": "local_at_opal_4.5.0_owned.dll",
+    "output": "D:\\Opal\\build\\opal-suite\\local_at_opal_4.5.0_owned.dll",
+    "bytes": 1426432,
+    "sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05",
+    "source": "D:\\Opal\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+    "sourceSha256": "E84C049E46361A7166C2CE7581EF92201EED5E7EA541A56E99401A198FAFBF56",
+    "sourceInputs": [
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxhawk-runtime.h",
+        "sha256": "334CD9BC628FE70762C05E120BDCF2EA90519D6E9AEBE65081896A6F34B7C75B"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-opal-media.wh.cpp",
+        "sha256": "A081CD66A1118D3FB9BED00100DDF42CC49A677D404DF04F7A2B0377C6A7E732"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-apply.h",
+        "sha256": "5EEF9B8EE6C7EDD45330F83F82C294635E390CEE469B0B9A3E248E4F3018A2F4"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-owned-overrides.h",
+        "sha256": "CAA68D58F1DD448EE23F7F06147DAD892A397850B1FB6860094B9F2D2263F86F"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-rules.h",
+        "sha256": "C4235C623B98CCB1098BA2F1AFE864ACF913F4B5F2B5E17473EC0434E8C25793"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-selector.h",
+        "sha256": "8DDCCD2A9E99AAFAF5DE295AA36F0538E5BB3AF58A5D97555CBC10B20922CC59"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-style.h",
+        "sha256": "EBC1AD32BCDA97410E0EC4AB8826EA7C90523DF768C9F324DDAA0DBBC450E520"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-telemetry-protocol.h",
+        "sha256": "78521727AD3F3A2E8ECBCBA4B27403D53D78F5E37E5ECA46DA1834A85F9368D5"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-weather-protocol.h",
+        "sha256": "457FA4FCD97A9C82341387437D384DE3D0A8C52D6A93158E46AA1E777848427C"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+        "sha256": "E84C049E46361A7166C2CE7581EF92201EED5E7EA541A56E99401A198FAFBF56"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-taskbar-system-info.wh.cpp",
+        "sha256": "4501E9AF6A077F51F10EFF2BF1B07ED86B850C0BABB9506880452DC9E4AC3541"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\maxwell-xaml-tap.h",
+        "sha256": "54E8DCD41F81997BEBF7ADB284C2003459EE43B01FDE19970ECCAF5D884A6680"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\opal-addon-clock.h",
+        "sha256": "520E6E7E0141F353679BCAF5DC9DB8A8638A9E48742DADD3C95E9EAC1CBBC613"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\opal-addon-icons.h",
+        "sha256": "CE1838F571080E9FD16BE81B00207E4D6D49F4A14C718E755DA3F589AEAFE9B2"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\opal-control.h",
+        "sha256": "D1387BA2947D5821BF189689A60F1CDE936BD1324EB5A12C756DCF3414DB1FCD"
+      },
+      {
+        "path": "D:\\Opal\\mod\\visual-clones\\opal-performance-diagnostics.h",
+        "sha256": "6E6FE5C898D24CBEC7575B6C8E0A47362AAC56BFDB695BE5632AFB9807F6E0B7"
+      }
+    ],
+    "components": [
+      {
+        "name": "shell",
+        "source": "D:\\Opal\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+        "sha256": "E84C049E46361A7166C2CE7581EF92201EED5E7EA541A56E99401A198FAFBF56"
+      },
+      {
+        "name": "media",
+        "source": "D:\\Opal\\mod\\visual-clones\\maxwell-opal-media.wh.cpp",
+        "sha256": "A081CD66A1118D3FB9BED00100DDF42CC49A677D404DF04F7A2B0377C6A7E732"
+      },
+      {
+        "name": "performance",
+        "source": "D:\\Opal\\mod\\visual-clones\\maxwell-taskbar-system-info.wh.cpp",
+        "sha256": "4501E9AF6A077F51F10EFF2BF1B07ED86B850C0BABB9506880452DC9E4AC3541"
+      }
+    ],
+    "packageSource": "D:\\Opal\\build\\opal-suite\\sources\\opal.wh.cpp",
+    "packageSourceSha256": "6546CF93BA694FEDBCEDA8B6CBE4C1193C282D5130D39387FED6A9A77D1485F7",
+    "compilerVersion": "clang version 20.1.3 (https://github.com/llvm/llvm-project.git 923a5c4f83d2b3675bb88e9fe441daeaa4d69488)",
+    "engineVersion": "2.0",
+    "CaptureProfileSha256": "AFC4B6F7B52FE9AAFA101B955B4AA86C4DD6B0988585FCFC18A9D457AC4CF291"
+  },
+  "Before": {
+    "AtUtc": "2026-09-05T07:50:16.2534525+00:00",
+    "Phase": "Before",
+    "Pid": 25544,
+    "Name": "explorer",
+    "SessionId": 1,
+    "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+    "CpuSeconds": 7.3125,
+    "PrivateMB": 199.70703125,
+    "WorkingSetMB": 251.24609375,
+    "Dlls": [
+      {
+        "Name": "local_at_opal_4.5.0_owned.dll",
+        "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+        "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+      }
+    ]
+  },
+  "After": null,
+  "LastObserved": {
+    "AtUtc": "2026-09-05T07:55:04.7221537+00:00",
+    "Phase": "Poll",
+    "Pid": 25544,
+    "Name": "explorer",
+    "SessionId": 1,
+    "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+    "CpuSeconds": 9.578125,
+    "PrivateMB": 285.69921875,
+    "WorkingSetMB": 274.078125,
+    "Dlls": [
+      {
+        "Name": "local_at_opal_4.5.0_owned.dll",
+        "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+        "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+      }
+    ]
+  },
+  "Decline": null,
+  "Nadir": null,
+  "Rebound": null,
+  "Memory": {
+    "Start": {
+      "SampleElapsedSeconds": 0.0875444,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:16.7377556+00:00",
+        "Phase": "Start",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.3125,
+        "PrivateMB": 199.70703125,
+        "WorkingSetMB": 251.24609375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      },
+      "Metadata": {
+        "CapturedAtUtc": "2026-09-05T07:50:16.8493767+00:00",
+        "Pid": 25544,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CaptureSeconds": 0.0953986,
+        "RegionClasses": [
+          {
+            "State": "Free",
+            "Type": "None",
+            "Protection": 1,
+            "Bytes": 138532050149376,
+            "Regions": 511
+          },
+          {
+            "State": "Committed",
+            "Type": "Private",
+            "Protection": 2,
+            "Bytes": 122880,
+            "Regions": 4
+          },
+          {
+            "State": "Committed",
+            "Type": "Mapped",
+            "Protection": 4,
+            "Bytes": 2088960,
+            "Regions": 50
+          },
+          {
+            "State": "Committed",
+            "Type": "Mapped",
+            "Protection": 2,
+            "Bytes": 99028992,
+            "Regions": 293
+          },
+          {
+            "State": "Reserved",
+            "Type": "Private",
+            "Protection": 0,
+            "Bytes": 5585473536,
+            "Regions": 252
+          },
+          {
+            "State": "Committed",
+            "Type": "Private",
+            "Protection": 260,
+            "Bytes": 1204224,
+            "Regions": 98
+          },
+          {
+            "State": "Committed",
+            "Type": "Private",
+            "Protection": 4,
+            "Bytes": 135786496,
+            "Regions": 310
+          },
+          {
+            "State": "Reserved",
+            "Type": "Mapped",
+            "Protection": 0,
+            "Bytes": 2198931345408,
+            "Regions": 10
+          },
+          {
+            "State": "Committed",
+            "Type": "Private",
+            "Protection": 1,
+            "Bytes": 114688,
+            "Regions": 28
+          },
+          {
+            "State": "Committed",
+            "Type": "Image",
+            "Protection": 2,
+            "Bytes": 197500928,
+            "Regions": 954
+          },
+          {
+            "State": "Committed",
+            "Type": "Mapped",
+            "Protection": 8,
+            "Bytes": 294912,
+            "Regions": 1
+          },
+          {
+            "State": "Committed",
+            "Type": "Private",
+            "Protection": 516,
+            "Bytes": 557056,
+            "Regions": 2
+          },
+          {
+            "State": "Committed",
+            "Type": "Private",
+            "Protection": 1028,
+            "Bytes": 32247808,
+            "Regions": 12
+          },
+          {
+            "State": "Committed",
+            "Type": "Mapped",
+            "Protection": 1,
+            "Bytes": 105476096,
+            "Regions": 192
+          },
+          {
+            "State": "Committed",
+            "Type": "Image",
+            "Protection": 32,
+            "Bytes": 308563968,
+            "Regions": 602
+          },
+          {
+            "State": "Committed",
+            "Type": "Image",
+            "Protection": 8,
+            "Bytes": 27873280,
+            "Regions": 112
+          },
+          {
+            "State": "Committed",
+            "Type": "Image",
+            "Protection": 4,
+            "Bytes": 5496832,
+            "Regions": 389
+          },
+          {
+            "State": "Reserved",
+            "Type": "Image",
+            "Protection": 0,
+            "Bytes": 4833280,
+            "Regions": 294
+          },
+          {
+            "State": "Committed",
+            "Type": "Private",
+            "Protection": 32,
+            "Bytes": 131072,
+            "Regions": 2
+          }
+        ],
+        "Modules": [
+          {
+            "Name": "Explorer.EXE",
+            "Path": "C:\\WINDOWS\\Explorer.EXE",
+            "MappedImageBytes": 3375104
+          },
+          {
+            "Name": "ntdll.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+            "MappedImageBytes": 2519040
+          },
+          {
+            "Name": "KERNEL32.DLL",
+            "Path": "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+            "MappedImageBytes": 827392
+          },
+          {
+            "Name": "KERNELBASE.dll",
+            "Path": "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+            "MappedImageBytes": 4202496
+          },
+          {
+            "Name": "msvcp_win.dll",
+            "Path": "C:\\WINDOWS\\System32\\msvcp_win.dll",
+            "MappedImageBytes": 667648
+          },
+          {
+            "Name": "ucrtbase.dll",
+            "Path": "C:\\WINDOWS\\System32\\ucrtbase.dll",
+            "MappedImageBytes": 1359872
+          },
+          {
+            "Name": "combase.dll",
+            "Path": "C:\\WINDOWS\\System32\\combase.dll",
+            "MappedImageBytes": 3686400
+          },
+          {
+            "Name": "RPCRT4.dll",
+            "Path": "C:\\WINDOWS\\System32\\RPCRT4.dll",
+            "MappedImageBytes": 1146880
+          },
+          {
+            "Name": "OLEAUT32.dll",
+            "Path": "C:\\WINDOWS\\System32\\OLEAUT32.dll",
+            "MappedImageBytes": 888832
+          },
+          {
+            "Name": "AEPIC.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\AEPIC.dll",
+            "MappedImageBytes": 1302528
+          },
+          {
+            "Name": "shcore.dll",
+            "Path": "C:\\WINDOWS\\System32\\shcore.dll",
+            "MappedImageBytes": 1028096
+          },
+          {
+            "Name": "sechost.dll",
+            "Path": "C:\\WINDOWS\\System32\\sechost.dll",
+            "MappedImageBytes": 692224
+          },
+          {
+            "Name": "advapi32.dll",
+            "Path": "C:\\WINDOWS\\System32\\advapi32.dll",
+            "MappedImageBytes": 770048
+          },
+          {
+            "Name": "msvcrt.dll",
+            "Path": "C:\\WINDOWS\\System32\\msvcrt.dll",
+            "MappedImageBytes": 692224
+          },
+          {
+            "Name": "shlwapi.dll",
+            "Path": "C:\\WINDOWS\\System32\\shlwapi.dll",
+            "MappedImageBytes": 417792
+          },
+          {
+            "Name": "user32.dll",
+            "Path": "C:\\WINDOWS\\System32\\user32.dll",
+            "MappedImageBytes": 1896448
+          },
+          {
+            "Name": "windows.storage.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\windows.storage.dll",
+            "MappedImageBytes": 9101312
+          },
+          {
+            "Name": "win32u.dll",
+            "Path": "C:\\WINDOWS\\System32\\win32u.dll",
+            "MappedImageBytes": 159744
+          },
+          {
+            "Name": "GDI32.dll",
+            "Path": "C:\\WINDOWS\\System32\\GDI32.dll",
+            "MappedImageBytes": 176128
+          },
+          {
+            "Name": "gdi32full.dll",
+            "Path": "C:\\WINDOWS\\System32\\gdi32full.dll",
+            "MappedImageBytes": 1216512
+          },
+          {
+            "Name": "SHELL32.dll",
+            "Path": "C:\\WINDOWS\\System32\\SHELL32.dll",
+            "MappedImageBytes": 7962624
+          },
+          {
+            "Name": "PROPSYS.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\PROPSYS.dll",
+            "MappedImageBytes": 1003520
+          },
+          {
+            "Name": "dxgi.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\dxgi.dll",
+            "MappedImageBytes": 1286144
+          },
+          {
+            "Name": "kernel.appcore.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\kernel.appcore.dll",
+            "MappedImageBytes": 110592
+          },
+          {
+            "Name": "CoreMessaging.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\CoreMessaging.dll",
+            "MappedImageBytes": 1224704
+          },
+          {
+            "Name": "WININET.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\WININET.dll",
+            "MappedImageBytes": 2695168
+          },
+          {
+            "Name": "dwmapi.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\dwmapi.dll",
+            "MappedImageBytes": 192512
+          },
+          {
+            "Name": "UxTheme.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\UxTheme.dll",
+            "MappedImageBytes": 684032
+          },
+          {
+            "Name": "MDMRegistration.DLL",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\MDMRegistration.DLL",
+            "MappedImageBytes": 573440
+          },
+          {
+            "Name": "SspiCli.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\SspiCli.dll",
+            "MappedImageBytes": 299008
+          },
+          {
+            "Name": "USERENV.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+            "MappedImageBytes": 212992
+          },
+          {
+            "Name": "WINHTTP.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\WINHTTP.dll",
+            "MappedImageBytes": 1220608
+          },
+          {
+            "Name": "DNSAPI.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+            "MappedImageBytes": 1409024
+          },
+          {
+            "Name": "powrprof.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\powrprof.dll",
+            "MappedImageBytes": 385024
+          },
+          {
+            "Name": "twinapi.appcore.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\twinapi.appcore.dll",
+            "MappedImageBytes": 2424832
+          },
+          {
+            "Name": "urlmon.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\urlmon.dll",
+            "MappedImageBytes": 1949696
+          },
+          {
+            "Name": "mscms.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\mscms.dll",
+            "MappedImageBytes": 782336
+          },
+          {
+            "Name": "WTSAPI32.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\WTSAPI32.dll",
+            "MappedImageBytes": 172032
+          },
+          {
+            "Name": "wintypes.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\wintypes.dll",
+            "MappedImageBytes": 1482752
+          },
+          {
+            "Name": "CRYPT32.dll",
+            "Path": "C:\\WINDOWS\\System32\\CRYPT32.dll",
+            "MappedImageBytes": 1564672
+          },
+          {
+            "Name": "DSPARSE.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\DSPARSE.dll",
+            "MappedImageBytes": 53248
+          },
+          {
+            "Name": "iertutil.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\iertutil.dll",
+            "MappedImageBytes": 2895872
+          },
+          {
+            "Name": "srvcli.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\srvcli.dll",
+            "MappedImageBytes": 167936
+          },
+          {
+            "Name": "netutils.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\netutils.dll",
+            "MappedImageBytes": 53248
+          },
+          {
+            "Name": "bcryptPrimitives.dll",
+            "Path": "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+            "MappedImageBytes": 704512
+          },
+          {
+            "Name": "IMM32.DLL",
+            "Path": "C:\\WINDOWS\\System32\\IMM32.DLL",
+            "MappedImageBytes": 200704
+          },
+          {
+            "Name": "UMPDC.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\UMPDC.dll",
+            "MappedImageBytes": 86016
+          },
+          {
+            "Name": "IPHLPAPI.DLL",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+            "MappedImageBytes": 208896
+          },
+          {
+            "Name": "NSI.dll",
+            "Path": "C:\\WINDOWS\\System32\\NSI.dll",
+            "MappedImageBytes": 40960
+          },
+          {
+            "Name": "windhawk.dll",
+            "Path": "C:\\Program Files\\Windhawk\\Engine\\2.0\\64\\windhawk.dll",
+            "MappedImageBytes": 1044480
+          },
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "MappedImageBytes": 1474560
+          },
+          {
+            "Name": "ole32.dll",
+            "Path": "C:\\WINDOWS\\System32\\ole32.dll",
+            "MappedImageBytes": 1675264
+          },
+          {
+            "Name": "libunwind.whl",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\libunwind.whl",
+            "MappedImageBytes": 237568
+          },
+          {
+            "Name": "libc++.whl",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\libc++.whl",
+            "MappedImageBytes": 1740800
+          },
+          {
+            "Name": "pdh.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\pdh.dll",
+            "MappedImageBytes": 360448
+          },
+          {
+            "Name": "taskbar.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\taskbar.dll",
+            "MappedImageBytes": 3162112
+          },
+          {
+            "Name": "winsta.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\winsta.dll",
+            "MappedImageBytes": 409600
+          },
+          {
+            "Name": "TWINAPI.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\TWINAPI.dll",
+            "MappedImageBytes": 933888
+          },
+          {
+            "Name": "gamemode.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\gamemode.dll",
+            "MappedImageBytes": 131072
+          },
+          {
+            "Name": "SLC.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\SLC.dll",
+            "MappedImageBytes": 184320
+          },
+          {
+            "Name": "policymanager.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\policymanager.dll",
+            "MappedImageBytes": 745472
+          },
+          {
+            "Name": "bcrypt.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\bcrypt.dll",
+            "MappedImageBytes": 172032
+          },
+          {
+            "Name": "clbcatq.dll",
+            "Path": "C:\\WINDOWS\\System32\\clbcatq.dll",
+            "MappedImageBytes": 712704
+          },
+          {
+            "Name": "Windows.Media.MediaControl.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Media.MediaControl.dll",
+            "MappedImageBytes": 593920
+          },
+          {
+            "Name": "dxcore.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\dxcore.dll",
+            "MappedImageBytes": 278528
+          },
+          {
+            "Name": "OneCoreUAPCommonProxyStub.dll",
+            "Path": "C:\\Windows\\System32\\OneCoreUAPCommonProxyStub.dll",
+            "MappedImageBytes": 6692864
+          },
+          {
+            "Name": "windowscodecs.dll",
+            "Path": "C:\\Windows\\System32\\windowscodecs.dll",
+            "MappedImageBytes": 2318336
+          },
+          {
+            "Name": "Windows.UI.Xaml.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\Windows.UI.Xaml.dll",
+            "MappedImageBytes": 17956864
+          },
+          {
+            "Name": "rmclient.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\rmclient.dll",
+            "MappedImageBytes": 221184
+          },
+          {
+            "Name": "NInput.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\NInput.dll",
+            "MappedImageBytes": 524288
+          },
+          {
+            "Name": "MSCTF.dll",
+            "Path": "C:\\WINDOWS\\System32\\MSCTF.dll",
+            "MappedImageBytes": 1421312
+          },
+          {
+            "Name": "comctl32.dll",
+            "Path": "C:\\WINDOWS\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.9278_none_3e0d1ba8e3303201\\comctl32.dll",
+            "MappedImageBytes": 2686976
+          },
+          {
+            "Name": "appresolver.dll",
+            "Path": "C:\\Windows\\System32\\appresolver.dll",
+            "MappedImageBytes": 749568
+          },
+          {
+            "Name": "MPR.dll",
+            "Path": "C:\\Windows\\System32\\MPR.dll",
+            "MappedImageBytes": 135168
+          },
+          {
+            "Name": "virtdisk.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\virtdisk.dll",
+            "MappedImageBytes": 94208
+          },
+          {
+            "Name": "Windows.FileExplorer.Common.dll",
+            "Path": "C:\\Windows\\System32\\Windows.FileExplorer.Common.dll",
+            "MappedImageBytes": 794624
+          },
+          {
+            "Name": "windowsudk.shellcommon.dll",
+            "Path": "C:\\WINDOWS\\system32\\windowsudk.shellcommon.dll",
+            "MappedImageBytes": 7131136
+          },
+          {
+            "Name": "OneCoreCommonProxyStub.dll",
+            "Path": "C:\\Windows\\System32\\OneCoreCommonProxyStub.dll",
+            "MappedImageBytes": 827392
+          },
+          {
+            "Name": "vaultcli.dll",
+            "Path": "C:\\Windows\\System32\\vaultcli.dll",
+            "MappedImageBytes": 335872
+          },
+          {
+            "Name": "profapi.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\profapi.dll",
+            "MappedImageBytes": 167936
+          },
+          {
+            "Name": "CFGMGR32.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\CFGMGR32.dll",
+            "MappedImageBytes": 335872
+          },
+          {
+            "Name": "apphelp.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\apphelp.dll",
+            "MappedImageBytes": 651264
+          },
+          {
+            "Name": "NetworkExplorer.dll",
+            "Path": "C:\\WINDOWS\\system32\\NetworkExplorer.dll",
+            "MappedImageBytes": 110592
+          },
+          {
+            "Name": "StartTileData.dll",
+            "Path": "C:\\Windows\\System32\\StartTileData.dll",
+            "MappedImageBytes": 5558272
+          },
+          {
+            "Name": "Windows.UI.dll",
+            "Path": "C:\\Windows\\System32\\Windows.UI.dll",
+            "MappedImageBytes": 1421312
+          },
+          {
+            "Name": "usermgrcli.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\usermgrcli.dll",
+            "MappedImageBytes": 94208
+          },
+          {
+            "Name": "Windows.UI.Immersive.dll",
+            "Path": "C:\\Windows\\System32\\Windows.UI.Immersive.dll",
+            "MappedImageBytes": 1380352
+          },
+          {
+            "Name": "Windows.StateRepositoryPS.dll",
+            "Path": "C:\\Windows\\System32\\Windows.StateRepositoryPS.dll",
+            "MappedImageBytes": 802816
+          },
+          {
+            "Name": "usermgrproxy.dll",
+            "Path": "C:\\Windows\\System32\\usermgrproxy.dll",
+            "MappedImageBytes": 442368
+          },
+          {
+            "Name": "Windows.ApplicationModel.dll",
+            "Path": "C:\\Windows\\System32\\Windows.ApplicationModel.dll",
+            "MappedImageBytes": 884736
+          },
+          {
+            "Name": "MrmCoreR.dll",
+            "Path": "C:\\Windows\\System32\\MrmCoreR.dll",
+            "MappedImageBytes": 1130496
+          },
+          {
+            "Name": "AppXDeploymentClient.dll",
+            "Path": "C:\\Windows\\System32\\AppXDeploymentClient.dll",
+            "MappedImageBytes": 1515520
+          },
+          {
+            "Name": "imagehlp.dll",
+            "Path": "C:\\WINDOWS\\System32\\imagehlp.dll",
+            "MappedImageBytes": 131072
+          },
+          {
+            "Name": "languageoverlayutil.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\languageoverlayutil.dll",
+            "MappedImageBytes": 274432
+          },
+          {
+            "Name": "Windows.CloudStore.dll",
+            "Path": "C:\\Windows\\System32\\Windows.CloudStore.dll",
+            "MappedImageBytes": 2920448
+          },
+          {
+            "Name": "bcp47mrm.dll",
+            "Path": "C:\\Windows\\System32\\bcp47mrm.dll",
+            "MappedImageBytes": 212992
+          },
+          {
+            "Name": "AppExtension.dll",
+            "Path": "C:\\Windows\\System32\\AppExtension.dll",
+            "MappedImageBytes": 389120
+          },
+          {
+            "Name": "Windows.StateRepositoryClient.dll",
+            "Path": "C:\\Windows\\System32\\Windows.StateRepositoryClient.dll",
+            "MappedImageBytes": 278528
+          },
+          {
+            "Name": "IDStore.dll",
+            "Path": "C:\\WINDOWS\\System32\\IDStore.dll",
+            "MappedImageBytes": 180224
+          },
+          {
+            "Name": "SAMLIB.dll",
+            "Path": "C:\\WINDOWS\\System32\\SAMLIB.dll",
+            "MappedImageBytes": 233472
+          },
+          {
+            "Name": "Windows.CloudStore.Schema.Shell.dll",
+            "Path": "C:\\Windows\\System32\\Windows.CloudStore.Schema.Shell.dll",
+            "MappedImageBytes": 1003520
+          },
+          {
+            "Name": "Bcp47Langs.dll",
+            "Path": "C:\\Windows\\System32\\Bcp47Langs.dll",
+            "MappedImageBytes": 385024
+          },
+          {
+            "Name": "SystemSettings.DataModel.dll",
+            "Path": "C:\\Windows\\System32\\SystemSettings.DataModel.dll",
+            "MappedImageBytes": 1368064
+          },
+          {
+            "Name": "Windows.Web.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Web.dll",
+            "MappedImageBytes": 679936
+          },
+          {
+            "Name": "windows.staterepositorycore.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\windows.staterepositorycore.dll",
+            "MappedImageBytes": 122880
+          },
+          {
+            "Name": "SndVolSSO.DLL",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\SndVolSSO.DLL",
+            "MappedImageBytes": 274432
+          },
+          {
+            "Name": "MMDevAPI.DLL",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\MMDevAPI.DLL",
+            "MappedImageBytes": 675840
+          },
+          {
+            "Name": "DEVOBJ.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\DEVOBJ.dll",
+            "MappedImageBytes": 192512
+          },
+          {
+            "Name": "OLEACC.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\OLEACC.dll",
+            "MappedImageBytes": 479232
+          },
+          {
+            "Name": "TextShaping.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\TextShaping.dll",
+            "MappedImageBytes": 1024000
+          },
+          {
+            "Name": "explorerframe.dll",
+            "Path": "C:\\WINDOWS\\system32\\explorerframe.dll",
+            "MappedImageBytes": 3244032
+          },
+          {
+            "Name": "SettingsHandlers_DesktopTaskbar.dll",
+            "Path": "C:\\Windows\\System32\\SettingsHandlers_DesktopTaskbar.dll",
+            "MappedImageBytes": 577536
+          },
+          {
+            "Name": "dcomp.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\dcomp.dll",
+            "MappedImageBytes": 2248704
+          },
+          {
+            "Name": "Microsoft.Internal.WarpPal.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\Microsoft.Internal.WarpPal.dll",
+            "MappedImageBytes": 106496
+          },
+          {
+            "Name": "dataexchange.dll",
+            "Path": "C:\\WINDOWS\\system32\\dataexchange.dll",
+            "MappedImageBytes": 376832
+          },
+          {
+            "Name": "uiautomationcore.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\uiautomationcore.dll",
+            "MappedImageBytes": 4325376
+          },
+          {
+            "Name": "twinui.pcshell.dll",
+            "Path": "C:\\WINDOWS\\system32\\twinui.pcshell.dll",
+            "MappedImageBytes": 10084352
+          },
+          {
+            "Name": "NETAPI32.dll",
+            "Path": "C:\\WINDOWS\\system32\\NETAPI32.dll",
+            "MappedImageBytes": 106496
+          },
+          {
+            "Name": "wkscli.dll",
+            "Path": "C:\\WINDOWS\\system32\\wkscli.dll",
+            "MappedImageBytes": 110592
+          },
+          {
+            "Name": "wincorlib.DLL",
+            "Path": "C:\\WINDOWS\\system32\\wincorlib.DLL",
+            "MappedImageBytes": 385024
+          },
+          {
+            "Name": "DSREG.DLL",
+            "Path": "C:\\WINDOWS\\system32\\DSREG.DLL",
+            "MappedImageBytes": 1536000
+          },
+          {
+            "Name": "windows.immersiveshell.serviceprovider.dll",
+            "Path": "C:\\Windows\\System32\\windows.immersiveshell.serviceprovider.dll",
+            "MappedImageBytes": 978944
+          },
+          {
+            "Name": "twinui.appcore.dll",
+            "Path": "C:\\WINDOWS\\System32\\twinui.appcore.dll",
+            "MappedImageBytes": 819200
+          },
+          {
+            "Name": "twinui.dll",
+            "Path": "C:\\WINDOWS\\system32\\twinui.dll",
+            "MappedImageBytes": 5337088
+          },
+          {
+            "Name": "CRYPTBASE.DLL",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\CRYPTBASE.DLL",
+            "MappedImageBytes": 49152
+          },
+          {
+            "Name": "textinputframework.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\textinputframework.dll",
+            "MappedImageBytes": 1318912
+          },
+          {
+            "Name": "CoreUIComponents.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\CoreUIComponents.dll",
+            "MappedImageBytes": 3031040
+          },
+          {
+            "Name": "FlightSettings.dll",
+            "Path": "C:\\WINDOWS\\System32\\FlightSettings.dll",
+            "MappedImageBytes": 1404928
+          },
+          {
+            "Name": "InputHost.dll",
+            "Path": "C:\\Windows\\System32\\InputHost.dll",
+            "MappedImageBytes": 1978368
+          },
+          {
+            "Name": "Wldp.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\Wldp.dll",
+            "MappedImageBytes": 434176
+          },
+          {
+            "Name": "threadpoolwinrt.dll",
+            "Path": "C:\\Windows\\System32\\threadpoolwinrt.dll",
+            "MappedImageBytes": 90112
+          },
+          {
+            "Name": "Windows.Storage.Search.dll",
+            "Path": "C:\\WINDOWS\\system32\\Windows.Storage.Search.dll",
+            "MappedImageBytes": 1339392
+          },
+          {
+            "Name": "icu.dll",
+            "Path": "C:\\WINDOWS\\system32\\icu.dll",
+            "MappedImageBytes": 2748416
+          },
+          {
+            "Name": "Windows.System.Launcher.dll",
+            "Path": "C:\\Windows\\System32\\Windows.System.Launcher.dll",
+            "MappedImageBytes": 1572864
+          },
+          {
+            "Name": "StructuredQuery.dll",
+            "Path": "C:\\WINDOWS\\System32\\StructuredQuery.dll",
+            "MappedImageBytes": 811008
+          },
+          {
+            "Name": "cldapi.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\cldapi.dll",
+            "MappedImageBytes": 196608
+          },
+          {
+            "Name": "FLTLIB.DLL",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\FLTLIB.DLL",
+            "MappedImageBytes": 49152
+          },
+          {
+            "Name": "sppc.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\sppc.dll",
+            "MappedImageBytes": 151552
+          },
+          {
+            "Name": "Windows.Graphics.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Graphics.dll",
+            "MappedImageBytes": 610304
+          },
+          {
+            "Name": "d2d1.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\d2d1.dll",
+            "MappedImageBytes": 6529024
+          },
+          {
+            "Name": "ApplicationFrame.dll",
+            "Path": "C:\\WINDOWS\\System32\\ApplicationFrame.dll",
+            "MappedImageBytes": 741376
+          },
+          {
+            "Name": "windowmanagementapi.dll",
+            "Path": "C:\\Windows\\System32\\windowmanagementapi.dll",
+            "MappedImageBytes": 1798144
+          },
+          {
+            "Name": "Windows.Internal.ShellCommon.dll",
+            "Path": "C:\\WINDOWS\\system32\\Windows.Internal.ShellCommon.dll",
+            "MappedImageBytes": 659456
+          },
+          {
+            "Name": "activationclient.dll",
+            "Path": "C:\\WINDOWS\\system32\\activationclient.dll",
+            "MappedImageBytes": 188416
+          },
+          {
+            "Name": "PhotoMetadataHandler.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\PhotoMetadataHandler.dll",
+            "MappedImageBytes": 675840
+          },
+          {
+            "Name": "ntmarta.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\ntmarta.dll",
+            "MappedImageBytes": 221184
+          },
+          {
+            "Name": "AboveLockAppHost.dll",
+            "Path": "C:\\Windows\\System32\\AboveLockAppHost.dll",
+            "MappedImageBytes": 405504
+          },
+          {
+            "Name": "pfclient.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\pfclient.dll",
+            "MappedImageBytes": 73728
+          },
+          {
+            "Name": "Windows.UI.Core.TextInput.dll",
+            "Path": "C:\\Windows\\System32\\Windows.UI.Core.TextInput.dll",
+            "MappedImageBytes": 1658880
+          },
+          {
+            "Name": "Windows.Shell.BlueLightReduction.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Shell.BlueLightReduction.dll",
+            "MappedImageBytes": 466944
+          },
+          {
+            "Name": "TileDataRepository.dll",
+            "Path": "C:\\Windows\\System32\\TileDataRepository.dll",
+            "MappedImageBytes": 634880
+          },
+          {
+            "Name": "StateRepository.Core.dll",
+            "Path": "C:\\Windows\\System32\\StateRepository.Core.dll",
+            "MappedImageBytes": 815104
+          },
+          {
+            "Name": "Windows.StateRepository.dll",
+            "Path": "C:\\Windows\\System32\\Windows.StateRepository.dll",
+            "MappedImageBytes": 5410816
+          },
+          {
+            "Name": "directxdatabasehelper.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\directxdatabasehelper.dll",
+            "MappedImageBytes": 385024
+          },
+          {
+            "Name": "cdp.dll",
+            "Path": "C:\\Windows\\System32\\cdp.dll",
+            "MappedImageBytes": 5906432
+          },
+          {
+            "Name": "Windows.StateRepositoryBroker.dll",
+            "Path": "C:\\Windows\\System32\\Windows.StateRepositoryBroker.dll",
+            "MappedImageBytes": 147456
+          },
+          {
+            "Name": "edputil.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\edputil.dll",
+            "MappedImageBytes": 167936
+          },
+          {
+            "Name": "Geolocation.dll",
+            "Path": "C:\\Windows\\System32\\Geolocation.dll",
+            "MappedImageBytes": 507904
+          },
+          {
+            "Name": "wer.dll",
+            "Path": "C:\\Windows\\System32\\wer.dll",
+            "MappedImageBytes": 991232
+          },
+          {
+            "Name": "LocationFrameworkPS.dll",
+            "Path": "C:\\Windows\\System32\\LocationFrameworkPS.dll",
+            "MappedImageBytes": 53248
+          },
+          {
+            "Name": "MFPlat.DLL",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\MFPlat.DLL",
+            "MappedImageBytes": 2248704
+          },
+          {
+            "Name": "RTWorkQ.DLL",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\RTWorkQ.DLL",
+            "MappedImageBytes": 241664
+          },
+          {
+            "Name": "resourcepolicyclient.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\resourcepolicyclient.dll",
+            "MappedImageBytes": 81920
+          },
+          {
+            "Name": "Windows.Gaming.Input.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Gaming.Input.dll",
+            "MappedImageBytes": 884736
+          },
+          {
+            "Name": "Windows.Internal.UI.Shell.WindowTabManager.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Internal.UI.Shell.WindowTabManager.dll",
+            "MappedImageBytes": 417792
+          },
+          {
+            "Name": "Windows.Internal.Graphics.Display.DisplayEnhancementManagement.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Internal.Graphics.Display.DisplayEnhancementManagement.dll",
+            "MappedImageBytes": 208896
+          },
+          {
+            "Name": "d3d11.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\d3d11.dll",
+            "MappedImageBytes": 2490368
+          },
+          {
+            "Name": "Windows.Internal.Graphics.Display.DisplayColorManagement.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Internal.Graphics.Display.DisplayColorManagement.dll",
+            "MappedImageBytes": 598016
+          },
+          {
+            "Name": "nvldumdx.dll",
+            "Path": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nvmii.inf_amd64_6c9b31489b263d07\\nvldumdx.dll",
+            "MappedImageBytes": 827392
+          },
+          {
+            "Name": "VERSION.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\VERSION.dll",
+            "MappedImageBytes": 45056
+          },
+          {
+            "Name": "msasn1.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\msasn1.dll",
+            "MappedImageBytes": 77824
+          },
+          {
+            "Name": "cryptnet.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\cryptnet.dll",
+            "MappedImageBytes": 241664
+          },
+          {
+            "Name": "drvstore.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\drvstore.dll",
+            "MappedImageBytes": 1548288
+          },
+          {
+            "Name": "wintrust.dll",
+            "Path": "C:\\WINDOWS\\System32\\wintrust.dll",
+            "MappedImageBytes": 532480
+          },
+          {
+            "Name": "CRYPTSP.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\CRYPTSP.dll",
+            "MappedImageBytes": 110592
+          },
+          {
+            "Name": "rsaenh.dll",
+            "Path": "C:\\WINDOWS\\system32\\rsaenh.dll",
+            "MappedImageBytes": 233472
+          },
+          {
+            "Name": "nvgpucomp64.dll",
+            "Path": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nvmii.inf_amd64_6c9b31489b263d07\\nvgpucomp64.dll",
+            "MappedImageBytes": 98623488
+          },
+          {
+            "Name": "NvMemMapStoragex.dll",
+            "Path": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nvmii.inf_amd64_6c9b31489b263d07\\NvMemMapStoragex.dll",
+            "MappedImageBytes": 1290240
+          },
+          {
+            "Name": "WINMM.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+            "MappedImageBytes": 221184
+          },
+          {
+            "Name": "NotificationControllerPS.dll",
+            "Path": "C:\\Windows\\System32\\NotificationControllerPS.dll",
+            "MappedImageBytes": 421888
+          },
+          {
+            "Name": "ActXPrxy.dll",
+            "Path": "C:\\Windows\\System32\\ActXPrxy.dll",
+            "MappedImageBytes": 532480
+          },
+          {
+            "Name": "wlidprov.dll",
+            "Path": "C:\\WINDOWS\\System32\\wlidprov.dll",
+            "MappedImageBytes": 663552
+          },
+          {
+            "Name": "Windows.Networking.Connectivity.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Networking.Connectivity.dll",
+            "MappedImageBytes": 761856
+          },
+          {
+            "Name": "PCShellCommonProxyStub.dll",
+            "Path": "C:\\Windows\\System32\\PCShellCommonProxyStub.dll",
+            "MappedImageBytes": 147456
+          },
+          {
+            "Name": "Windows.UI.Accessibility.dll",
+            "Path": "C:\\Windows\\System32\\Windows.UI.Accessibility.dll",
+            "MappedImageBytes": 344064
+          },
+          {
+            "Name": "SwitcherDataModel.dll",
+            "Path": "C:\\Windows\\System32\\SwitcherDataModel.dll",
+            "MappedImageBytes": 188416
+          },
+          {
+            "Name": "nvwgf2umx.dll",
+            "Path": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nvmii.inf_amd64_6c9b31489b263d07\\nvwgf2umx.dll",
+            "MappedImageBytes": 89804800
+          },
+          {
+            "Name": "omadmapi.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\omadmapi.dll",
+            "MappedImageBytes": 233472
+          },
+          {
+            "Name": "msvcp110_win.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\msvcp110_win.dll",
+            "MappedImageBytes": 593920
+          },
+          {
+            "Name": "CloudExperienceHostCommon.dll",
+            "Path": "C:\\Windows\\System32\\CloudExperienceHostCommon.dll",
+            "MappedImageBytes": 1368064
+          },
+          {
+            "Name": "daxexec.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\daxexec.dll",
+            "MappedImageBytes": 1183744
+          },
+          {
+            "Name": "container.dll",
+            "Path": "C:\\WINDOWS\\System32\\container.dll",
+            "MappedImageBytes": 307200
+          },
+          {
+            "Name": "ncrypt.dll",
+            "Path": "C:\\WINDOWS\\System32\\ncrypt.dll",
+            "MappedImageBytes": 196608
+          },
+          {
+            "Name": "NTASN1.dll",
+            "Path": "C:\\WINDOWS\\System32\\NTASN1.dll",
+            "MappedImageBytes": 258048
+          },
+          {
+            "Name": "Windows.Management.Workplace.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Management.Workplace.dll",
+            "MappedImageBytes": 196608
+          },
+          {
+            "Name": "cryptngc.dll",
+            "Path": "C:\\WINDOWS\\system32\\cryptngc.dll",
+            "MappedImageBytes": 503808
+          },
+          {
+            "Name": "dmEnrollEngine.DLL",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\dmEnrollEngine.DLL",
+            "MappedImageBytes": 1101824
+          },
+          {
+            "Name": "cflapi.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\cflapi.dll",
+            "MappedImageBytes": 290816
+          },
+          {
+            "Name": "Windows.Security.Authentication.Web.Core.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Security.Authentication.Web.Core.dll",
+            "MappedImageBytes": 1277952
+          },
+          {
+            "Name": "UnifiedConsent.dll",
+            "Path": "C:\\Windows\\System32\\UnifiedConsent.dll",
+            "MappedImageBytes": 692224
+          },
+          {
+            "Name": "winbio.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\winbio.dll",
+            "MappedImageBytes": 241664
+          },
+          {
+            "Name": "CloudExperienceHostRedirection.dll",
+            "Path": "C:\\Windows\\System32\\CloudExperienceHostRedirection.dll",
+            "MappedImageBytes": 225280
+          },
+          {
+            "Name": "UserSetup.Eligibility.dll",
+            "Path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\UserSetup.Eligibility.dll",
+            "MappedImageBytes": 630784
+          },
+          {
+            "Name": "clipc.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\clipc.dll",
+            "MappedImageBytes": 229376
+          },
+          {
+            "Name": "VCRUNTIME140_1_APP.dll",
+            "Path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CoreAI_cw5n1h2txyewy\\VCRUNTIME140_1_APP.dll",
+            "MappedImageBytes": 49152
+          },
+          {
+            "Name": "VCRUNTIME140_APP.dll",
+            "Path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CoreAI_cw5n1h2txyewy\\VCRUNTIME140_APP.dll",
+            "MappedImageBytes": 118784
+          },
+          {
+            "Name": "MSVCP140_APP.dll",
+            "Path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CoreAI_cw5n1h2txyewy\\MSVCP140_APP.dll",
+            "MappedImageBytes": 573440
+          },
+          {
+            "Name": "Windows.Management.InprocObjects.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Management.InprocObjects.dll",
+            "MappedImageBytes": 499712
+          },
+          {
+            "Name": "CapabilityAccessManagerClient.dll",
+            "Path": "C:\\Windows\\System32\\CapabilityAccessManagerClient.dll",
+            "MappedImageBytes": 458752
+          },
+          {
+            "Name": "ShellCommonCommonProxyStub.dll",
+            "Path": "C:\\Windows\\System32\\ShellCommonCommonProxyStub.dll",
+            "MappedImageBytes": 1368064
+          },
+          {
+            "Name": "AccountsService.dll",
+            "Path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\AccountsService.dll",
+            "MappedImageBytes": 516096
+          },
+          {
+            "Name": "Windows.Web.Http.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Web.Http.dll",
+            "MappedImageBytes": 1388544
+          },
+          {
+            "Name": "Windows.Globalization.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Globalization.dll",
+            "MappedImageBytes": 2269184
+          },
+          {
+            "Name": "Windows.Internal.System.UserProfile.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Internal.System.UserProfile.dll",
+            "MappedImageBytes": 270336
+          },
+          {
+            "Name": "oobecoreadapters.dll",
+            "Path": "C:\\Windows\\System32\\oobe\\oobecoreadapters.dll",
+            "MappedImageBytes": 761856
+          },
+          {
+            "Name": "samcli.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\samcli.dll",
+            "MappedImageBytes": 114688
+          },
+          {
+            "Name": "DiagnosticDataSettings.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\DiagnosticDataSettings.dll",
+            "MappedImageBytes": 61440
+          },
+          {
+            "Name": "WinLangdb.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\WinLangdb.dll",
+            "MappedImageBytes": 212992
+          },
+          {
+            "Name": "CloudExperienceHostBroker.dll",
+            "Path": "C:\\Windows\\System32\\CloudExperienceHostBroker.dll",
+            "MappedImageBytes": 389120
+          },
+          {
+            "Name": "UserOOBE.dll",
+            "Path": "C:\\Windows\\System32\\oobe\\UserOOBE.dll",
+            "MappedImageBytes": 503808
+          },
+          {
+            "Name": "credui.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\credui.dll",
+            "MappedImageBytes": 118784
+          },
+          {
+            "Name": "wdscore.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\wdscore.dll",
+            "MappedImageBytes": 323584
+          },
+          {
+            "Name": "camext.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\camext.dll",
+            "MappedImageBytes": 45056
+          },
+          {
+            "Name": "Windows.UI.FileExplorer.dll",
+            "Path": "C:\\WINDOWS\\system32\\Windows.UI.FileExplorer.dll",
+            "MappedImageBytes": 1835008
+          },
+          {
+            "Name": "WinUICohabitation.dll",
+            "Path": "C:\\WINDOWS\\system32\\WinUICohabitation.dll",
+            "MappedImageBytes": 143360
+          },
+          {
+            "Name": "CloudExperienceHost.dll",
+            "Path": "C:\\Windows\\System32\\CloudExperienceHost.dll",
+            "MappedImageBytes": 659456
+          },
+          {
+            "Name": "ntshrui.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\ntshrui.dll",
+            "MappedImageBytes": 692224
+          },
+          {
+            "Name": "cscapi.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\cscapi.dll",
+            "MappedImageBytes": 77824
+          },
+          {
+            "Name": "wuceffects.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\wuceffects.dll",
+            "MappedImageBytes": 356352
+          },
+          {
+            "Name": "thumbcache.dll",
+            "Path": "C:\\Windows\\System32\\thumbcache.dll",
+            "MappedImageBytes": 471040
+          },
+          {
+            "Name": "ieframe.dll",
+            "Path": "C:\\Windows\\System32\\ieframe.dll",
+            "MappedImageBytes": 7487488
+          },
+          {
+            "Name": "msIso.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\msIso.dll",
+            "MappedImageBytes": 290816
+          },
+          {
+            "Name": "LINKINFO.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\LINKINFO.dll",
+            "MappedImageBytes": 61440
+          },
+          {
+            "Name": "SettingsHandlers_Backup.dll",
+            "Path": "C:\\Windows\\System32\\SettingsHandlers_Backup.dll",
+            "MappedImageBytes": 319488
+          },
+          {
+            "Name": "CloudRestoreLauncher.dll",
+            "Path": "C:\\WINDOWS\\system32\\CloudRestoreLauncher.dll",
+            "MappedImageBytes": 1773568
+          },
+          {
+            "Name": "stobject.dll",
+            "Path": "C:\\WINDOWS\\system32\\stobject.dll",
+            "MappedImageBytes": 409600
+          },
+          {
+            "Name": "Microsoft.UI.Xaml.dll",
+            "Path": "C:\\Windows\\SystemApps\\Microsoft.UI.Xaml.CBS_8wekyb3d8bbwe\\Microsoft.UI.Xaml.dll",
+            "MappedImageBytes": 5783552
+          },
+          {
+            "Name": "sxs.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\sxs.dll",
+            "MappedImageBytes": 663552
+          },
+          {
+            "Name": "BatMeter.dll",
+            "Path": "C:\\WINDOWS\\system32\\BatMeter.dll",
+            "MappedImageBytes": 122880
+          },
+          {
+            "Name": "UiaManager.dll",
+            "Path": "C:\\Windows\\System32\\UiaManager.dll",
+            "MappedImageBytes": 897024
+          },
+          {
+            "Name": "SETUPAPI.dll",
+            "Path": "C:\\WINDOWS\\System32\\SETUPAPI.dll",
+            "MappedImageBytes": 4743168
+          },
+          {
+            "Name": "Secur32.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\Secur32.dll",
+            "MappedImageBytes": 53248
+          },
+          {
+            "Name": "Windows.UI.Xaml.Controls.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\Windows.UI.Xaml.Controls.dll",
+            "MappedImageBytes": 3313664
+          },
+          {
+            "Name": "Taskbar.View.dll",
+            "Path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.Core_cw5n1h2txyewy\\Taskbar.View.dll",
+            "MappedImageBytes": 10039296
+          },
+          {
+            "Name": "dwrite.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\dwrite.dll",
+            "MappedImageBytes": 2527232
+          },
+          {
+            "Name": "Windows.Devices.Sensors.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Devices.Sensors.dll",
+            "MappedImageBytes": 1519616
+          },
+          {
+            "Name": "SystemTray.dll",
+            "Path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.Core_cw5n1h2txyewy\\SystemTray.dll",
+            "MappedImageBytes": 2105344
+          },
+          {
+            "Name": "MFSENSORGROUP.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\MFSENSORGROUP.dll",
+            "MappedImageBytes": 638976
+          },
+          {
+            "Name": "PhoneOm.dll",
+            "Path": "C:\\Windows\\System32\\PhoneOm.dll",
+            "MappedImageBytes": 569344
+          },
+          {
+            "Name": "PhoneUtil.dll",
+            "Path": "C:\\Windows\\System32\\PhoneUtil.dll",
+            "MappedImageBytes": 290816
+          },
+          {
+            "Name": "AudioSes.dll",
+            "Path": "C:\\Windows\\System32\\AudioSes.dll",
+            "MappedImageBytes": 1798144
+          },
+          {
+            "Name": "Windows.Media.Devices.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Media.Devices.dll",
+            "MappedImageBytes": 995328
+          },
+          {
+            "Name": "Windows.Devices.Enumeration.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Devices.Enumeration.dll",
+            "MappedImageBytes": 765952
+          },
+          {
+            "Name": "InputSwitch.dll",
+            "Path": "C:\\Windows\\System32\\InputSwitch.dll",
+            "MappedImageBytes": 868352
+          },
+          {
+            "Name": "MSWB7.dll",
+            "Path": "C:\\WINDOWS\\System32\\MSWB7.dll",
+            "MappedImageBytes": 327680
+          },
+          {
+            "Name": "DevDispItemProvider.dll",
+            "Path": "C:\\Windows\\System32\\DevDispItemProvider.dll",
+            "MappedImageBytes": 192512
+          },
+          {
+            "Name": "NetworkIcon.dll",
+            "Path": "C:\\Windows\\System32\\NetworkIcon.dll",
+            "MappedImageBytes": 327680
+          },
+          {
+            "Name": "Windows.Energy.dll",
+            "Path": "C:\\Windows\\System32\\Windows.Energy.dll",
+            "MappedImageBytes": 401408
+          },
+          {
+            "Name": "NetworkUXBroker.dll",
+            "Path": "C:\\Windows\\System32\\NetworkUXBroker.dll",
+            "MappedImageBytes": 581632
+          },
+          {
+            "Name": "npmproxy.dll",
+            "Path": "C:\\WINDOWS\\System32\\npmproxy.dll",
+            "MappedImageBytes": 102400
+          },
+          {
+            "Name": "DDORes.dll",
+            "Path": "C:\\Windows\\System32\\DDORes.dll",
+            "MappedImageBytes": 61440
+          },
+          {
+            "Name": "EthernetMediaManager.dll",
+            "Path": "C:\\Windows\\System32\\EthernetMediaManager.dll",
+            "MappedImageBytes": 393216
+          },
+          {
+            "Name": "DAMediaManager.dll",
+            "Path": "C:\\Windows\\System32\\DAMediaManager.dll",
+            "MappedImageBytes": 147456
+          },
+          {
+            "Name": "WlanMediaManager.dll",
+            "Path": "C:\\Windows\\System32\\WlanMediaManager.dll",
+            "MappedImageBytes": 847872
+          },
+          {
+            "Name": "dhcpcsvc.DLL",
+            "Path": "C:\\Windows\\System32\\dhcpcsvc.DLL",
+            "MappedImageBytes": 151552
+          },
+          {
+            "Name": "dhcpcsvc6.DLL",
+            "Path": "C:\\Windows\\System32\\dhcpcsvc6.DLL",
+            "MappedImageBytes": 118784
+          },
+          {
+            "Name": "DefaultDeviceManager.dll",
+            "Path": "C:\\Windows\\System32\\DefaultDeviceManager.dll",
+            "MappedImageBytes": 32768
+          },
+          {
+            "Name": "dot3api.dll",
+            "Path": "C:\\Windows\\System32\\dot3api.dll",
+            "MappedImageBytes": 208896
+          },
+          {
+            "Name": "MobileNetworking.dll",
+            "Path": "C:\\Windows\\System32\\MobileNetworking.dll",
+            "MappedImageBytes": 139264
+          },
+          {
+            "Name": "DMCmnUtils.dll",
+            "Path": "C:\\Windows\\System32\\DMCmnUtils.dll",
+            "MappedImageBytes": 1167360
+          },
+          {
+            "Name": "NcaApi.dll",
+            "Path": "C:\\Windows\\System32\\NcaApi.dll",
+            "MappedImageBytes": 49152
+          },
+          {
+            "Name": "wlanapi.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\wlanapi.dll",
+            "MappedImageBytes": 589824
+          },
+          {
+            "Name": "RasMediaManager.dll",
+            "Path": "C:\\Windows\\System32\\RasMediaManager.dll",
+            "MappedImageBytes": 430080
+          },
+          {
+            "Name": "rasman.dll",
+            "Path": "C:\\Windows\\System32\\rasman.dll",
+            "MappedImageBytes": 221184
+          },
+          {
+            "Name": "netprofm.dll",
+            "Path": "C:\\WINDOWS\\System32\\netprofm.dll",
+            "MappedImageBytes": 450560
+          },
+          {
+            "Name": "RASAPI32.dll",
+            "Path": "C:\\Windows\\System32\\RASAPI32.dll",
+            "MappedImageBytes": 1138688
+          },
+          {
+            "Name": "rtutils.dll",
+            "Path": "C:\\Windows\\System32\\rtutils.dll",
+            "MappedImageBytes": 94208
+          },
+          {
+            "Name": "WS2_32.dll",
+            "Path": "C:\\WINDOWS\\System32\\WS2_32.dll",
+            "MappedImageBytes": 524288
+          },
+          {
+            "Name": "DSROLE.dll",
+            "Path": "C:\\Windows\\System32\\DSROLE.dll",
+            "MappedImageBytes": 45056
+          },
+          {
+            "Name": "WMICLNT.dll",
+            "Path": "C:\\WINDOWS\\system32\\WMICLNT.dll",
+            "MappedImageBytes": 77824
+          },
+          {
+            "Name": "msxml6.dll",
+            "Path": "C:\\Windows\\System32\\msxml6.dll",
+            "MappedImageBytes": 2359296
+          },
+          {
+            "Name": "prnfldr.dll",
+            "Path": "C:\\WINDOWS\\system32\\prnfldr.dll",
+            "MappedImageBytes": 262144
+          },
+          {
+            "Name": "es.dll",
+            "Path": "C:\\WINDOWS\\system32\\es.dll",
+            "MappedImageBytes": 491520
+          },
+          {
+            "Name": "TetheringStation.dll",
+            "Path": "C:\\Windows\\System32\\TetheringStation.dll",
+            "MappedImageBytes": 290816
+          },
+          {
+            "Name": "atlthunk.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\atlthunk.dll",
+            "MappedImageBytes": 53248
+          },
+          {
+            "Name": "dxp.dll",
+            "Path": "C:\\WINDOWS\\system32\\dxp.dll",
+            "MappedImageBytes": 503808
+          },
+          {
+            "Name": "Syncreg.dll",
+            "Path": "C:\\WINDOWS\\system32\\Syncreg.dll",
+            "MappedImageBytes": 102400
+          },
+          {
+            "Name": "Actioncenter.dll",
+            "Path": "C:\\WINDOWS\\System32\\Actioncenter.dll",
+            "MappedImageBytes": 339968
+          },
+          {
+            "Name": "Windows.CloudStore.Schema.DesktopShell.dll",
+            "Path": "C:\\Windows\\System32\\Windows.CloudStore.Schema.DesktopShell.dll",
+            "MappedImageBytes": 684032
+          },
+          {
+            "Name": "dusmapi.dll",
+            "Path": "C:\\Windows\\System32\\dusmapi.dll",
+            "MappedImageBytes": 98304
+          },
+          {
+            "Name": "wpdshserviceobj.dll",
+            "Path": "C:\\WINDOWS\\system32\\wpdshserviceobj.dll",
+            "MappedImageBytes": 90112
+          },
+          {
+            "Name": "PortableDeviceTypes.dll",
+            "Path": "C:\\Windows\\System32\\PortableDeviceTypes.dll",
+            "MappedImageBytes": 208896
+          },
+          {
+            "Name": "PortableDeviceApi.dll",
+            "Path": "C:\\Windows\\System32\\PortableDeviceApi.dll",
+            "MappedImageBytes": 643072
+          },
+          {
+            "Name": "srchadmin.dll",
+            "Path": "C:\\WINDOWS\\System32\\srchadmin.dll",
+            "MappedImageBytes": 327680
+          },
+          {
+            "Name": "mssprxy.dll",
+            "Path": "C:\\WINDOWS\\system32\\mssprxy.dll",
+            "MappedImageBytes": 196608
+          },
+          {
+            "Name": "shdocvw.dll",
+            "Path": "C:\\Windows\\System32\\shdocvw.dll",
+            "MappedImageBytes": 573440
+          },
+          {
+            "Name": "SyncCenter.dll",
+            "Path": "C:\\WINDOWS\\System32\\SyncCenter.dll",
+            "MappedImageBytes": 524288
+          },
+          {
+            "Name": "imapi2.dll",
+            "Path": "C:\\Windows\\System32\\imapi2.dll",
+            "MappedImageBytes": 524288
+          },
+          {
+            "Name": "bthprops.cpl",
+            "Path": "C:\\Windows\\System32\\bthprops.cpl",
+            "MappedImageBytes": 282624
+          },
+          {
+            "Name": "bluetoothapis.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\bluetoothapis.dll",
+            "MappedImageBytes": 245760
+          },
+          {
+            "Name": "deviceassociation.dll",
+            "Path": "C:\\Windows\\System32\\deviceassociation.dll",
+            "MappedImageBytes": 118784
+          },
+          {
+            "Name": "wpnclient.dll",
+            "Path": "C:\\Windows\\System32\\wpnclient.dll",
+            "MappedImageBytes": 417792
+          },
+          {
+            "Name": "gpapi.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\gpapi.dll",
+            "MappedImageBytes": 151552
+          },
+          {
+            "Name": "RTMediaFrame.dll",
+            "Path": "C:\\Windows\\System32\\RTMediaFrame.dll",
+            "MappedImageBytes": 528384
+          },
+          {
+            "Name": "IconCodecService.dll",
+            "Path": "C:\\WINDOWS\\system32\\IconCodecService.dll",
+            "MappedImageBytes": 45056
+          },
+          {
+            "Name": "XmlLite.dll",
+            "Path": "C:\\WINDOWS\\SYSTEM32\\XmlLite.dll",
+            "MappedImageBytes": 274432
+          },
+          {
+            "Name": "directmanipulation.dll",
+            "Path": "C:\\WINDOWS\\system32\\directmanipulation.dll",
+            "MappedImageBytes": 671744
+          },
+          {
+            "Name": "TwinSxS.dll",
+            "Path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.Core_cw5n1h2txyewy\\TwinSxS.dll",
+            "MappedImageBytes": 110592
+          },
+          {
+            "Name": "wpnapps.dll",
+            "Path": "C:\\Windows\\System32\\wpnapps.dll",
+            "MappedImageBytes": 1441792
+          },
+          {
+            "Name": "coml2.dll",
+            "Path": "C:\\WINDOWS\\System32\\coml2.dll",
+            "MappedImageBytes": 503808
+          },
+          {
+            "Name": "msi.dll",
+            "Path": "C:\\Windows\\System32\\msi.dll",
+            "MappedImageBytes": 3452928
+          },
+          {
+            "Name": "UIAnimation.dll",
+            "Path": "C:\\WINDOWS\\System32\\UIAnimation.dll",
+            "MappedImageBytes": 327680
+          }
+        ],
+        "Limitation": "Aggregated VirtualQueryEx metadata and loaded-image paths only; no memory bytes, stacks or private dumps. Private committed address-space regions are not identical to the process Private Bytes counter."
+      }
+    },
+    "Nadir": null,
+    "Rebound": null,
+    "End": null
+  },
+  "Samples": [
+    {
+      "ElapsedSeconds": 0.0875444,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:16.7377556+00:00",
+        "Phase": "Start",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.3125,
+        "PrivateMB": 199.70703125,
+        "WorkingSetMB": 251.24609375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 2.3394419,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:18.9904881+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.328125,
+        "PrivateMB": 199.70703125,
+        "WorkingSetMB": 251.0234375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 4.4584331,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:21.1099383+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.328125,
+        "PrivateMB": 199.55859375,
+        "WorkingSetMB": 250.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 6.5569868,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:23.2089180+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.328125,
+        "PrivateMB": 199.51953125,
+        "WorkingSetMB": 250.88671875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 8.653767,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:25.3056510+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.328125,
+        "PrivateMB": 199.51953125,
+        "WorkingSetMB": 250.90625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 10.7511189,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:27.4025862+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.34375,
+        "PrivateMB": 199.51953125,
+        "WorkingSetMB": 250.90625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 12.8498563,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:29.5017309+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.359375,
+        "PrivateMB": 199.51953125,
+        "WorkingSetMB": 250.90625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 14.9709137,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:31.6227760+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.359375,
+        "PrivateMB": 199.51953125,
+        "WorkingSetMB": 250.90625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 17.0785552,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:33.7303055+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.375,
+        "PrivateMB": 199.51953125,
+        "WorkingSetMB": 250.90625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 19.1887442,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:35.8395379+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.375,
+        "PrivateMB": 199.4453125,
+        "WorkingSetMB": 250.85546875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 21.2943654,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:37.9460927+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.390625,
+        "PrivateMB": 199.4453125,
+        "WorkingSetMB": 250.85546875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 23.4005654,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:40.0505313+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.40625,
+        "PrivateMB": 199.375,
+        "WorkingSetMB": 251.0390625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 25.502327,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:42.1535891+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.515625,
+        "PrivateMB": 199.40234375,
+        "WorkingSetMB": 251.1484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 27.5969376,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:44.2488882+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.53125,
+        "PrivateMB": 199.40234375,
+        "WorkingSetMB": 251.1484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 29.6948106,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:46.3460212+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.53125,
+        "PrivateMB": 199.40234375,
+        "WorkingSetMB": 251.1484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 31.796065,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:48.4474899+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.53125,
+        "PrivateMB": 199.40234375,
+        "WorkingSetMB": 251.1484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 33.913335,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:50.5648804+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 7.546875,
+        "PrivateMB": 199.1796875,
+        "WorkingSetMB": 251.09375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 36.0161967,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:52.6669887+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.09375,
+        "PrivateMB": 290.59765625,
+        "WorkingSetMB": 279.91015625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 38.1210528,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:54.7717511+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.125,
+        "PrivateMB": 290.59765625,
+        "WorkingSetMB": 279.91015625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 40.2375443,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:56.8892223+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.125,
+        "PrivateMB": 290.59765625,
+        "WorkingSetMB": 279.9140625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 42.3611289,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:50:59.0127662+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.125,
+        "PrivateMB": 290.59765625,
+        "WorkingSetMB": 279.9140625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 44.5129332,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:01.1648728+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.125,
+        "PrivateMB": 290.59765625,
+        "WorkingSetMB": 279.91796875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 46.6151325,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:03.2656344+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.125,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 48.7341131,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:05.3862306+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.125,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 50.8418654,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:07.4932486+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.125,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 52.9741358,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:09.6259551+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.125,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 55.0842696,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:11.7354695+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.140625,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 57.2014353,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:13.8526815+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.140625,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.4296875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 59.3005591,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:15.9522805+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.171875,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.4296875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 61.3941342,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:18.0465134+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.171875,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.4296875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 63.5002804,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:20.1514140+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.171875,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.4296875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 65.5904981,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:22.2426993+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.171875,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.48046875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 67.6794667,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:24.3316908+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.1875,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.48046875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 69.7782018,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:26.4301516+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.1875,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.48046875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 71.8712855,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:28.5233610+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.265625,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.48046875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 73.9815619,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:30.6334326+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.265625,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 76.0821487,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:32.7341592+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.265625,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 78.1933636,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:34.8454967+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.296875,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 80.2948358,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:36.9470126+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.296875,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 82.4007868,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:39.0526613+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.328125,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 84.4976919,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:41.1504271+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.390625,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 86.5908942,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:43.2430210+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.390625,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 88.6945283,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:45.3468615+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.40625,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.5,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 90.7907948,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:47.4423830+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.40625,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.5,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 92.8813276,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:49.5333968+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.421875,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.5,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 94.9824833,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:51.6346725+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.421875,
+        "PrivateMB": 290.5234375,
+        "WorkingSetMB": 279.5,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 97.0734788,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:53.7258644+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.453125,
+        "PrivateMB": 290.8125,
+        "WorkingSetMB": 280.75,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 99.1724673,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:55.8247998+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.46875,
+        "PrivateMB": 290.8125,
+        "WorkingSetMB": 280.75,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 101.2684723,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:51:57.9206448+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.46875,
+        "PrivateMB": 290.8125,
+        "WorkingSetMB": 280.75,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 103.367953,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:00.0193581+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.46875,
+        "PrivateMB": 290.8125,
+        "WorkingSetMB": 280.75,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 105.4726331,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:02.1248193+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.515625,
+        "PrivateMB": 290.8125,
+        "WorkingSetMB": 280.75,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 107.567269,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:04.2195438+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.515625,
+        "PrivateMB": 289.40234375,
+        "WorkingSetMB": 280.03515625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 109.6711922,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:06.3235970+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.515625,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 111.7742282,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:08.4264026+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.515625,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 113.8707542,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:10.5231159+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.515625,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 115.9691988,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:12.6216573+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.515625,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 118.0713454,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:14.7237786+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.515625,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 120.1745159,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:16.8269186+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.53125,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 122.2745573,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:18.9261059+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.53125,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 124.3647082,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:21.0170878+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.53125,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 126.4733456,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:23.1247847+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.53125,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 128.5636714,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:25.2164182+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.5625,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 130.6700604,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:27.3165439+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.578125,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 132.7691211,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:29.4212390+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.640625,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 134.8631552,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:31.5155963+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.671875,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 136.9659694,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:33.6183182+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.6875,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 139.0657281,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:35.7171846+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.6875,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 141.1621752,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:37.8143923+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.703125,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 143.2682489,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:39.9205536+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.71875,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.890625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 145.3782146,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:42.0303684+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.75,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.90234375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 147.4889466,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:44.1414429+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.765625,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.90234375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 149.5918367,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:46.2442042+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.765625,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.90234375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 151.684207,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:48.3364510+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.765625,
+        "PrivateMB": 289.03125,
+        "WorkingSetMB": 279.90234375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 153.7710655,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:50.4227734+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.765625,
+        "PrivateMB": 288.7265625,
+        "WorkingSetMB": 277.80078125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 155.8645003,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:52.5169906+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.78125,
+        "PrivateMB": 285.640625,
+        "WorkingSetMB": 275.18359375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 157.968455,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:54.6208745+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.78125,
+        "PrivateMB": 285.640625,
+        "WorkingSetMB": 275.18359375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 160.0591621,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:56.7117243+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.78125,
+        "PrivateMB": 285.82421875,
+        "WorkingSetMB": 275.44140625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 162.1627042,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:52:58.8152037+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.78125,
+        "PrivateMB": 285.82421875,
+        "WorkingSetMB": 275.44140625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 164.252836,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:00.9052508+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.828125,
+        "PrivateMB": 285.82421875,
+        "WorkingSetMB": 275.4453125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 166.3465098,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:02.9989312+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.828125,
+        "PrivateMB": 285.82421875,
+        "WorkingSetMB": 275.4453125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 168.4476256,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:05.0996725+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.828125,
+        "PrivateMB": 285.82421875,
+        "WorkingSetMB": 275.4453125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 170.5363713,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:07.1886397+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.828125,
+        "PrivateMB": 285.82421875,
+        "WorkingSetMB": 275.4453125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 172.641495,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:09.2935005+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.84375,
+        "PrivateMB": 285.82421875,
+        "WorkingSetMB": 275.4453125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 174.7316597,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:11.3842574+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.84375,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 176.8267042,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:13.4795298+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.84375,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 178.9273802,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:15.5796697+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.84375,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 181.0220652,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:17.6745288+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.84375,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 183.1223954,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:19.7746728+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.84375,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 185.2226857,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:21.8746260+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.90625,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 187.3231056,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:23.9753778+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.90625,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 189.4273417,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:26.0794522+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.90625,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 191.5189632,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:28.1706996+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.90625,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 193.6150843,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:30.2672727+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.90625,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 195.7126976,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:32.3648506+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.921875,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 197.8197433,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:34.4719799+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.921875,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 199.9193013,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:36.5715751+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.921875,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 202.0049206,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:38.6575364+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.921875,
+        "PrivateMB": 285.67578125,
+        "WorkingSetMB": 275.36328125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 204.1091155,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:40.7613541+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.921875,
+        "PrivateMB": 285.7734375,
+        "WorkingSetMB": 275.44140625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 206.1962367,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:42.8486488+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.953125,
+        "PrivateMB": 285.7734375,
+        "WorkingSetMB": 275.44140625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 208.2815198,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:44.9338069+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.953125,
+        "PrivateMB": 285.7734375,
+        "WorkingSetMB": 275.44140625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 210.3842168,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:47.0360594+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.953125,
+        "PrivateMB": 285.7734375,
+        "WorkingSetMB": 275.44140625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 212.4754024,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:49.1275676+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.953125,
+        "PrivateMB": 285.7734375,
+        "WorkingSetMB": 275.44140625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 214.575989,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:51.2281354+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.96875,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 216.6706449,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:53.3229724+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.96875,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 218.7635759,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:55.4160977+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.96875,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 220.8664925,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:57.5188686+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 8.984375,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 222.9583105,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:53:59.6109315+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.0,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 225.0470683,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:01.6992078+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.0,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 227.1486519,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:03.8009782+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.0,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 229.246182,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:05.8986127+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.0,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 231.3491509,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:08.0009403+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.03125,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 233.4579099,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:10.1036414+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.078125,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 235.5695561,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:12.2212137+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.1875,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 237.6897498,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:14.3412231+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.234375,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 239.7865466,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:16.4389992+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.265625,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.484375,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 241.9003948,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:18.5513729+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.296875,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 244.026324,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:20.6681801+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.296875,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 246.1279403,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:22.7785192+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.3125,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 248.2292844,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:24.8814473+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.328125,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 250.3371001,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:26.9891774+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.328125,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 252.4614435,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:29.1138439+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.328125,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 254.5570907,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:31.2094829+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.34375,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 256.6569384,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:33.3087643+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.34375,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 258.7545203,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:35.4067144+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.359375,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 260.8653139,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:37.5176927+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.375,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 262.9858861,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:39.6371046+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.40625,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 265.0877425,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:41.7398115+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.453125,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 267.1885327,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:43.8408119+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.453125,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 269.2950809,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:45.9466504+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.46875,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 271.3860549,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:48.0381427+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.46875,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.48828125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 273.4932229,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:50.1451636+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.5,
+        "PrivateMB": 285.80078125,
+        "WorkingSetMB": 275.9296875,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 275.588849,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:52.2407405+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.515625,
+        "PrivateMB": 285.0546875,
+        "WorkingSetMB": 272.625,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 277.6893557,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:54.3405817+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.578125,
+        "PrivateMB": 285.69921875,
+        "WorkingSetMB": 274.078125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    },
+    {
+      "ElapsedSeconds": 279.7998985,
+      "Snapshot": {
+        "AtUtc": "2026-09-05T07:54:56.4510847+00:00",
+        "Phase": "Poll",
+        "Pid": 25544,
+        "Name": "explorer",
+        "SessionId": 1,
+        "StartedAtUtc": "2026-09-05T07:49:49.0239565Z",
+        "CpuSeconds": 9.578125,
+        "PrivateMB": 285.69921875,
+        "WorkingSetMB": 274.078125,
+        "Dlls": [
+          {
+            "Name": "local_at_opal_4.5.0_owned.dll",
+            "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+            "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05"
+          }
+        ]
+      }
+    }
+  ],
+  "Commands": [
+    {
+      "Arguments": [
+        "-status",
+        "-instancename",
+        "OpalAllocationRebound"
+      ],
+      "ExitCode": 0,
+      "TimedOut": false,
+      "Success": true,
+      "Output": "\r\nMicrosoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\r\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\r\n\r\nWPR is not recording\r\n",
+      "Error": "",
+      "ElapsedSeconds": 0.0880488
+    },
+    {
+      "Arguments": [
+        "-start",
+        "D:\\Opal\\config\\OpalAllocation.wprp!OpalAllocation",
+        "-instancename",
+        "OpalAllocationRebound"
+      ],
+      "ExitCode": 0,
+      "TimedOut": false,
+      "Success": true,
+      "Output": "",
+      "Error": "",
+      "ElapsedSeconds": 0.1185564
+    },
+    {
+      "Arguments": [
+        "-status",
+        "-instancename",
+        "OpalAllocationRebound"
+      ],
+      "ExitCode": 0,
+      "TimedOut": false,
+      "Success": true,
+      "Output": "\r\nMicrosoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\r\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\r\n\r\nWPR recording is in progress...\r\n\r\nTime since start\t: 00:00:00\r\nDropped event\t\t: 0\r\nLogging mode\t\t: Memory\r\n",
+      "Error": "",
+      "ElapsedSeconds": 0.1196354
+    },
+    {
+      "Arguments": [
+        "-stop",
+        "D:\\Opal\\build\\opal-allocation-rebound-20260905.etl",
+        "-instancename",
+        "OpalAllocationRebound"
+      ],
+      "ExitCode": 0,
+      "TimedOut": false,
+      "Success": true,
+      "Output": "Press Ctrl+C to cancel the stop operation.\r\nThe trace was successfully saved.\r\n",
+      "Error": "",
+      "ElapsedSeconds": 10.4385979
+    },
+    {
+      "Arguments": [
+        "-status",
+        "-instancename",
+        "OpalAllocationRebound"
+      ],
+      "ExitCode": 0,
+      "TimedOut": false,
+      "Success": true,
+      "Output": "\r\nMicrosoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\r\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\r\n\r\nWPR is not recording\r\n",
+      "Error": "",
+      "ElapsedSeconds": 0.0751578
+    }
+  ],
+  "Errors": [
+    "Invalid or excessively delayed observation interval."
+  ],
+  "OwnershipAcquired": true,
+  "CleanupAttempted": true,
+  "CleanupVerified": true,
+  "TraceFile": {
+    "Exists": true,
+    "Bytes": 89128960,
+    "LastWriteUtc": "2026-09-05T07:55:14.8424436Z"
+  },
+  "LossStatus": {
+    "State": "UnknownPendingEtlAnalysis",
+    "ReportedLossLines": [],
+    "CircularHistoryMayBeOverwritten": true,
+    "Reason": "WPR command success does not prove zero lost events or complete circular history; ETL integrity/event-loss analysis remains required."
+  },
+  "Limitation": "Allocation/free stacks and metadata only, with no raw process-memory dump. The existing profile records kernel allocation events beyond Explorer; analysis must filter exact PID/lifetime. Gross allocations, a dip/rebound and region classes do not establish a leak or causal ownership. WPR commands/cleanup can extend wall time beyond the observation deadline."
+}

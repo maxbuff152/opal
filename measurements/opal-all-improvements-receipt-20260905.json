@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-05T03:08:13.4968635-05:00",
+  "runtime": "maximize-control-plane",
+  "task": "Implement approved Opal performance and reliability changes with measured limitations",
+  "pack": "code-systems",
+  "model_adapter": "codex-frontier",
+  "status": "partial",
+  "evidence": [
+    "D:\\Opal\\measurements\\Opal-4.5-all-improvements-20260905.md",
+    "D:\\Opal\\measurements\\opal-all-improvements-tests-final-20260905.json",
+    "D:\\Opal\\measurements\\opal-all-improvements-budget-20260905.json",
+    "D:\\Opal\\measurements\\opal-all-improvements-final-runtime-20260905.json",
+    "D:\\CODEX SPINE, PLUGINS AND AGENTS\\07-AUDIT EVIDENCE\\MaximizeControlPlane\\verification\\2026\\2026-09-05.jsonl",
+    "D:\\CODEX SPINE, PLUGINS AND AGENTS\\07-AUDIT EVIDENCE\\MaximizeControlPlane\\outcomes\\2026\\2026-09-05.jsonl"
+  ],
+  "changed_paths": [
+    {
+      "path": "D:\\Opal\\Assemble-Opal.ps1",
+      "exists": true,
+      "sha256": "5AEB69C39CDA9B405C8219D9CAE1EB686227618C602CBE06D7D962BA19174574"
+    },
+    {
+      "path": "D:\\Opal\\Get-OpalLatencyAnalysis.ps1",
+      "exists": true,
+      "sha256": "0A7985F1E9DC54355F67C884A5FC02AF36BC3B126E566D0E478E37EBEF9111A4"
+    },
+    {
+      "path": "D:\\Opal\\Get-OpalMatchedSoakAnalysis.ps1",
+      "exists": true,
+      "sha256": "2155702A4B93307C4462314BC0971EE21903E54AE13DD47DD358B7484096256C"
+    },
+    {
+      "path": "D:\\Opal\\Get-OpalMemoryRegions.ps1",
+      "exists": true,
+      "sha256": "A80965E149B6C5A3B9CDA79FA381830D6B0B22694727AF0D31315D83E0FDFC3D"
+    },
+    {
+      "path": "D:\\Opal\\Measure-OpalAllocationRebound.ps1",
+      "exists": true,
+      "sha256": "C8CBAE954C8F8FD9FC6871B7369958B8D98AC17A3C93A7199F88813EE0C6AD84"
+    },
+    {
+      "path": "D:\\Opal\\Measure-OpalMatchedSoak.ps1",
+      "exists": true,
+      "sha256": "54AF1202B8D4CD7FE8DD13AAD2A8B48BB5B361AA65FA668FB8A7BFA91E61A8CF"
+    },
+    {
+      "path": "D:\\Opal\\Measure-OpalPackageCost.ps1",
+      "exists": true,
+      "sha256": "08354267A3C8E9C86A24BD296AD3A32D53834E2A95D648D20BFD22692654CC1E"
+    },
+    {
+      "path": "D:\\Opal\\README.md",
+      "exists": true,
+      "sha256": "A5C076C0AF2B44D07916E69CDC6AA2DF2E94DD41FB16D857E61A9D27D1A33B5C"
+    },
+    {
+      "path": "D:\\Opal\\config\\OpalAllocation.wprp",
+      "exists": true,
+      "sha256": "AFC4B6F7B52FE9AAFA101B955B4AA86C4DD6B0988585FCFC18A9D457AC4CF291"
+    },
+    {
+      "path": "D:\\Opal\\config\\OpalCpu.wprp",
+      "exists": true,
+      "sha256": "C4CEB874A121C05023073CF53A8AC79BF9BC6C2E8D6CF424C437EB3B57FF4060"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\Opal-4.5-all-improvements-20260905.md",
+      "exists": true,
+      "sha256": "F6B8B1F8138898914192565571C9285C63830DE7097887CB953E10905541D697"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\Opal-4.5-all-improvements-code-review-20260905.md",
+      "exists": true,
+      "sha256": "D2CF2382AB6EF28E3104E7292F25738EE550E0F3751C44757C83854D635B3D0E"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-budget-20260905.json",
+      "exists": true,
+      "sha256": "9771AE64B32D4E63E70DCFF5C7E776C9D96A6CD870D935BFD0799DB40DAA23E3"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-build-20260905.json",
+      "exists": true,
+      "sha256": "43A115007409AC2D68F77E61486C5AC925035AC334F482046964E629824CAFDD"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-cpu-end-20260905.json",
+      "exists": true,
+      "sha256": "5DEA612B60AD6B8942C0D1B2C87DE8ACBAACEC6DB7E95C23F622C428661C8B8A"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-cpu-stack-summary-20260905.json",
+      "exists": true,
+      "sha256": "2C2113E24ECA210FC5E244FBF4F2401E8D9EA243644D785B3C9BBAF9EBD3B73A"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-cpu-start-20260905.json",
+      "exists": true,
+      "sha256": "E9DE37C253479F40486C7707E37C919B68B21DCB03EF06F0DBE95300B515BC02"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-cpu-tests-20260905.json",
+      "exists": true,
+      "sha256": "844211BD1AE4B7D8184A588E90AD972F5AEE5172E5DEA3860FFEEC79087AEFBE"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-final-runtime-20260905.json",
+      "exists": true,
+      "sha256": "267BD2F3C4D6A5ED363C0496E89EC5FA8C6E66A34E01CB6B6B5A5120AF8D43D5"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-imports-20260905.json",
+      "exists": true,
+      "sha256": "0DEBCE057D32548F90D2AB0A9782E5251FE3D228C5C316467A2596C6E59B93F3"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-install-20260905.json",
+      "exists": true,
+      "sha256": "E8222262534D82C40A9DDF7C934F0CD7E99E8690B5A9F867A7630CF8A4630B86"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-matched-soak-20260905.json",
+      "exists": true,
+      "sha256": "AEA9F759DAC083D803F9900EB97F01C35B1E745A7C5DBD69C9610EBC1A75FF0E"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-matched-soak-rerun-20260905.json",
+      "exists": true,
+      "sha256": "59276329DD4995FAB6F2573C874F4E7CD56734A45DED136E88DEC22887442EF8"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-paired-analysis-20260905.json",
+      "exists": true,
+      "sha256": "617A2964043A80ED9A6A88F1BE23A6E486DB1764FDA34F307F948254214EAE61"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-process-analysis-20260905.json",
+      "exists": true,
+      "sha256": "08B83C9C1D0222A24C260B6F4D3FC263D308AA53DF35A654828367BB98559FAF"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-restoration-crash-20260905.json",
+      "exists": true,
+      "sha256": "976C009B89DBD8701BF3CD4DCD950DBBCC9A61E2E7EA45943DF2F2A3AAA7C696"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-runtime-interruption-20260905.json",
+      "exists": true,
+      "sha256": "E19B09D685A7210FD9472613CED67F432B3625252F25A417D2B5029870688C0E"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-soak-restoration-readback-20260905.json",
+      "exists": true,
+      "sha256": "8D7883920172C63DF0EED9E24D22D17A28EDB91A155B4853FA931294B3DA11EC"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-soak-tooling-20260905.json",
+      "exists": true,
+      "sha256": "71DBE02F568685EAB1386F64547FA4FAA93E59D5A0D2B78667A5D50B2A7E3689"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-tests-20260905.json",
+      "exists": true,
+      "sha256": "BCEF3F621C6F563E33568ECF33C837B15522B769D5A8E772CBA1AB9F446E1875"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-tests-final-20260905.json",
+      "exists": true,
+      "sha256": "5A0FC3AD527F542EB6F90788BBBB36FDC727F491E4E0865D3B9E2B37BE0F2F19"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-all-improvements-visual-20260905.json",
+      "exists": true,
+      "sha256": "6A829CF7C20B67D779E6AEBF769455C5B2F3E6D89D9BE02FE2BCC9F9C8120C6D"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-allocation-dependency-audit-20260905.json",
+      "exists": true,
+      "sha256": "32CB3E87361C94732BE7B5701CDA5642E23B44700E0F1BC804A56C6F0DC62C98"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-allocation-module-summary-20260905.json",
+      "exists": true,
+      "sha256": "1430D25E9D9466C05645E7BF3492B7FA510B4A261933192A320BE2B5E74E034F"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-allocation-rebound-20260905.json",
+      "exists": true,
+      "sha256": "185DD80B2FE1DF39B2D25DE99ACF0780BF275FD2EC94B7636BFB632CC3565F32"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-allocation-rebound-stack-summary-20260905.json",
+      "exists": true,
+      "sha256": "BEB25F0744ADEF2335945CFE47FF14B23C022B8C0A2876275A0581F30628B732"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-allocation-stack-summary-20260905.json",
+      "exists": true,
+      "sha256": "D728E4366707F5A3CE9536ED4F8C5A59504AF7FB9CE57F89B57899C7230A947C"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\package-cost-opal-all-improvements-20260905-abba.json",
+      "exists": true,
+      "sha256": "DD85451498EFD179836DF54B91C4F7E8D7C1D8CB1EACF739DC152C96CE09D6B3"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-opal-media.wh.cpp",
+      "exists": true,
+      "sha256": "A081CD66A1118D3FB9BED00100DDF42CC49A677D404DF04F7A2B0377C6A7E732"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+      "exists": true,
+      "sha256": "E84C049E46361A7166C2CE7581EF92201EED5E7EA541A56E99401A198FAFBF56"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-taskbar-system-info.wh.cpp",
+      "exists": true,
+      "sha256": "4501E9AF6A077F51F10EFF2BF1B07ED86B850C0BABB9506880452DC9E4AC3541"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\opal-performance-diagnostics.h",
+      "exists": true,
+      "sha256": "6E6FE5C898D24CBEC7575B6C8E0A47362AAC56BFDB695BE5632AFB9807F6E0B7"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalAllocationProfile.ps1",
+      "exists": true,
+      "sha256": "82377A5BD18EEE65BE84A30E8127416000BAAA38F7326F060DCEB31C087DFCE1"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalAllocationRebound.ps1",
+      "exists": true,
+      "sha256": "730F11AD426FCEBA5977459E7BFD90B72D90E7CE1B4CE7D947BBA81EBCC6E04A"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalCpuProfile.ps1",
+      "exists": true,
+      "sha256": "DE5FAC977DEB190F7E43514F7AC3B7B13F78E6447A63596F3D0A6911BE35B5D7"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalLatencyEvidence.ps1",
+      "exists": true,
+      "sha256": "71CE487C41FA74E12C4D4E96D42ED8B1620B07603C8FCA04F0487348DE386C97"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalMatchedSoakEvidence.ps1",
+      "exists": true,
+      "sha256": "7B6A4447C8F310B28C2D462181668B19BF4552F6E39336FD0F370401A8917E43"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalMediaDemand.ps1",
+      "exists": true,
+      "sha256": "8431A43ED5979A26021E3F5A72BB9973738AD6FE6DB850383173A18EF2F4CF63"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalPackageRestart.ps1",
+      "exists": true,
+      "sha256": "DE6870BB4F8F11C34EDC52DDE343A9EE9006508DD48C6971CB67D10751BF3D99"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalPerformanceDiagnostics.ps1",
+      "exists": true,
+      "sha256": "75E16903B398F53556E3B716D38A06A98B6B27F90DBF48F3173545A6F7AEBAF2"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalRecoveryWait.ps1",
+      "exists": true,
+      "sha256": "E0B9345C0AAC97834411FBE47E05D2F1DFFF5DA90DCF8D81E0380F0ACB4FCEDB"
+    },
+    {
+      "path": "D:\\Opal\\tools\\OpalAllocationTrace\\.gitignore",
+      "exists": true,
+      "sha256": "99D66A912A7008A0D0BCB4A35511EB49A78419D977D04086271AFFE12A3F30EA"
+    },
+    {
+      "path": "D:\\Opal\\tools\\OpalAllocationTrace\\CpuAnalysis.cs",
+      "exists": true,
+      "sha256": "12264D1BF7168661462857EA88D020241102F0B92DBB8CAACDF94597377329A6"
+    },
+    {
+      "path": "D:\\Opal\\tools\\OpalAllocationTrace\\NuGet.Config",
+      "exists": true,
+      "sha256": "F545A7E2EA14AC53CDFB91217CAE67B8FF14275313F6298F9A3331D205B6C948"
+    },
+    {
+      "path": "D:\\Opal\\tools\\OpalAllocationTrace\\OpalAllocationTrace.csproj",
+      "exists": true,
+      "sha256": "4B8263BBF51668AA692CE977A4FD96733BEF9276EB6730F6FD482F75403647BB"
+    },
+    {
+      "path": "D:\\Opal\\tools\\OpalAllocationTrace\\Program.cs",
+      "exists": true,
+      "sha256": "7913FC950B524779AE534AA47AC9E0F77223BCEBA08B4EE45657A45B4DD02F9B"
+    },
+    {
+      "path": "D:\\Opal\\tools\\OpalAllocationTrace\\README.md",
+      "exists": true,
+      "sha256": "7FDEBAC67F1BD31B5C2AC8C78A7BB73F695ECC9C8137B962EFDE2FF4FBE42467"
+    },
+    {
+      "path": "D:\\Opal\\tools\\OpalAllocationTrace\\packages.lock.json",
+      "exists": true,
+      "sha256": "D816C5B4DD3FDB06AD0FE96D569C000E79B70B122B86A18B42F446BFA9DB80D6"
+    }
+  ],
+  "limitations": [
+    "CPU and working-set acceptance gates failed.",
+    "Two startup Explorer crashes share an unresolved CloudStore signature; loaded module presence does not establish cause.",
+    "Completed matched legs retain invalid original restoration; later restoration separately verified.",
+    "Rebound trace saved but sample sequence invalid; no allocation ownership or leak conclusion.",
+    "Real panel/media interaction latency was not obtained.",
+    "Conditional Media isolation lacks demonstrated benefit and was not introduced.",
+    "Raw ETLs remain local and ignored; no push or external deployment."
+  ]
+}

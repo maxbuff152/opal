@@ -1,0 +1,6846 @@
+{
+  "SchemaVersion": 1,
+  "AnalysisMode": "SampledCpu",
+  "AnalyzerPackage": "Microsoft.Diagnostics.Tracing.TraceEvent/3.2.6",
+  "Input": "D:\\Opal\\build\\opal-cpu-initial-20260905.etl",
+  "InputSha256": "2A217B9C0C6173E5F676F4E76CC29A7AADD03E4665A9E4F193D64AB308BF381E",
+  "InputBytes": 70254592,
+  "ProcessSelector": "explorer",
+  "GeneratedUtc": "2026-09-05T07:09:42.8714308Z",
+  "IndexedEventsScanned": 312921,
+  "SampledProfileEventsAllProcesses": 121195,
+  "MaximumFrames": 128,
+  "TraceEventsLost": 0,
+  "ConversionEventLimit": 10000000,
+  "ConversionTruncated": false,
+  "ConversionNotices": [],
+  "Summary": {
+    "MatchedEvents": 1017,
+    "EventsWithStacks": 996,
+    "EventsWithoutStacks": 21,
+    "TruncatedStacks": 0,
+    "UnknownLeafEvents": 415,
+    "NonProcessEvents": 69,
+    "ReportedCountTotal": 1017,
+    "NonPositiveReportedCountEvents": 0,
+    "ExclusiveLeafModuleCounts": [
+      {
+        "Context": "Process",
+        "Module": "\u003Cunknown\u003E",
+        "Count": 415
+      },
+      {
+        "Context": "Process",
+        "Module": "ntoskrnl",
+        "Count": 391
+      },
+      {
+        "Context": "Process",
+        "Module": "win32kfull.sys",
+        "Count": 61
+      },
+      {
+        "Context": "ISR",
+        "Module": "ntoskrnl",
+        "Count": 61
+      },
+      {
+        "Context": "Process",
+        "Module": "win32kbase.sys",
+        "Count": 53
+      },
+      {
+        "Context": "Process",
+        "Module": "win32k.sys",
+        "Count": 21
+      },
+      {
+        "Context": "DPC",
+        "Module": "ntoskrnl",
+        "Count": 5
+      },
+      {
+        "Context": "Process",
+        "Module": "dxgkrnl.sys",
+        "Count": 2
+      },
+      {
+        "Context": "DPC",
+        "Module": "nvlddmkm.sys",
+        "Count": 2
+      },
+      {
+        "Context": "Process",
+        "Module": "bindflt.sys",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "dxgmms2.sys",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "ntfs.sys",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "npfs.sys",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "wdfilter.sys",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "wpprecorder.sys",
+        "Count": 1
+      }
+    ],
+    "InclusiveModuleCounts": [
+      {
+        "Context": "Process",
+        "Module": "kernel32",
+        "Count": 926
+      },
+      {
+        "Context": "Process",
+        "Module": "ntdll",
+        "Count": 926
+      },
+      {
+        "Context": "Process",
+        "Module": "ntoskrnl",
+        "Count": 772
+      },
+      {
+        "Context": "Process",
+        "Module": "win32u",
+        "Count": 688
+      },
+      {
+        "Context": "Process",
+        "Module": "win32k.sys",
+        "Count": 673
+      },
+      {
+        "Context": "Process",
+        "Module": "win32kfull.sys",
+        "Count": 665
+      },
+      {
+        "Context": "Process",
+        "Module": "user32",
+        "Count": 592
+      },
+      {
+        "Context": "Process",
+        "Module": "uiautomationcore",
+        "Count": 558
+      },
+      {
+        "Context": "Process",
+        "Module": "explorer",
+        "Count": 511
+      },
+      {
+        "Context": "Process",
+        "Module": "\u003Cunknown\u003E",
+        "Count": 415
+      },
+      {
+        "Context": "Process",
+        "Module": "shell32",
+        "Count": 404
+      },
+      {
+        "Context": "Process",
+        "Module": "win32kbase.sys",
+        "Count": 245
+      },
+      {
+        "Context": "Process",
+        "Module": "kernelbase",
+        "Count": 176
+      },
+      {
+        "Context": "Process",
+        "Module": "shcore",
+        "Count": 113
+      },
+      {
+        "Context": "Process",
+        "Module": "coremessaging",
+        "Count": 79
+      },
+      {
+        "Context": "Process",
+        "Module": "windows.ui.xaml",
+        "Count": 77
+      },
+      {
+        "Context": "Process",
+        "Module": "oleacc",
+        "Count": 76
+      },
+      {
+        "Context": "Process",
+        "Module": "local_at_opal_4.5.0_owned",
+        "Count": 65
+      },
+      {
+        "Context": "ISR",
+        "Module": "ntoskrnl",
+        "Count": 61
+      },
+      {
+        "Context": "Process",
+        "Module": "ucrtbase",
+        "Count": 60
+      },
+      {
+        "Context": "ISR",
+        "Module": "ntdll",
+        "Count": 60
+      },
+      {
+        "Context": "ISR",
+        "Module": "kernel32",
+        "Count": 60
+      },
+      {
+        "Context": "ISR",
+        "Module": "win32kfull.sys",
+        "Count": 52
+      },
+      {
+        "Context": "ISR",
+        "Module": "win32k.sys",
+        "Count": 52
+      },
+      {
+        "Context": "ISR",
+        "Module": "uiautomationcore",
+        "Count": 44
+      },
+      {
+        "Context": "ISR",
+        "Module": "win32u",
+        "Count": 37
+      },
+      {
+        "Context": "Process",
+        "Module": "combase",
+        "Count": 36
+      },
+      {
+        "Context": "ISR",
+        "Module": "user32",
+        "Count": 29
+      },
+      {
+        "Context": "Process",
+        "Module": "dcomp",
+        "Count": 25
+      },
+      {
+        "Context": "ISR",
+        "Module": "win32kbase.sys",
+        "Count": 25
+      },
+      {
+        "Context": "ISR",
+        "Module": "explorer",
+        "Count": 24
+      },
+      {
+        "Context": "Process",
+        "Module": "taskbar",
+        "Count": 22
+      },
+      {
+        "Context": "ISR",
+        "Module": "shell32",
+        "Count": 21
+      },
+      {
+        "Context": "Process",
+        "Module": "fltmgr.sys",
+        "Count": 18
+      },
+      {
+        "Context": "ISR",
+        "Module": "kernelbase",
+        "Count": 15
+      },
+      {
+        "Context": "Process",
+        "Module": "npfs.sys",
+        "Count": 13
+      },
+      {
+        "Context": "Process",
+        "Module": "taskbar.view",
+        "Count": 10
+      },
+      {
+        "Context": "DPC",
+        "Module": "kernel32",
+        "Count": 8
+      },
+      {
+        "Context": "DPC",
+        "Module": "ntdll",
+        "Count": 8
+      },
+      {
+        "Context": "Process",
+        "Module": "rpcrt4",
+        "Count": 8
+      },
+      {
+        "Context": "DPC",
+        "Module": "ntoskrnl",
+        "Count": 7
+      },
+      {
+        "Context": "DPC",
+        "Module": "win32u",
+        "Count": 7
+      },
+      {
+        "Context": "ISR",
+        "Module": "oleacc",
+        "Count": 7
+      },
+      {
+        "Context": "Process",
+        "Module": "comctl32",
+        "Count": 7
+      },
+      {
+        "Context": "Process",
+        "Module": "windows.immersiveshell.serviceprovider",
+        "Count": 7
+      },
+      {
+        "Context": "DPC",
+        "Module": "explorer",
+        "Count": 6
+      },
+      {
+        "Context": "Process",
+        "Module": "uxtheme",
+        "Count": 6
+      },
+      {
+        "Context": "Process",
+        "Module": "d3d11",
+        "Count": 6
+      },
+      {
+        "Context": "DPC",
+        "Module": "user32",
+        "Count": 6
+      },
+      {
+        "Context": "Process",
+        "Module": "twinui",
+        "Count": 6
+      },
+      {
+        "Context": "Process",
+        "Module": "d2d1",
+        "Count": 5
+      },
+      {
+        "Context": "Process",
+        "Module": "nvwgf2umx",
+        "Count": 5
+      },
+      {
+        "Context": "ISR",
+        "Module": "windows.ui.xaml",
+        "Count": 5
+      },
+      {
+        "Context": "Process",
+        "Module": "windows.media.mediacontrol",
+        "Count": 5
+      },
+      {
+        "Context": "Process",
+        "Module": "oleaut32",
+        "Count": 5
+      },
+      {
+        "Context": "Process",
+        "Module": "dxgkrnl.sys",
+        "Count": 5
+      },
+      {
+        "Context": "DPC",
+        "Module": "win32kfull.sys",
+        "Count": 5
+      },
+      {
+        "Context": "DPC",
+        "Module": "win32k.sys",
+        "Count": 5
+      },
+      {
+        "Context": "ISR",
+        "Module": "ucrtbase",
+        "Count": 4
+      },
+      {
+        "Context": "Process",
+        "Module": "windowscodecs",
+        "Count": 4
+      },
+      {
+        "Context": "Process",
+        "Module": "gdi32",
+        "Count": 4
+      },
+      {
+        "Context": "ISR",
+        "Module": "shcore",
+        "Count": 4
+      },
+      {
+        "Context": "Process",
+        "Module": "dxgi",
+        "Count": 4
+      },
+      {
+        "Context": "Process",
+        "Module": "msvcp_win",
+        "Count": 4
+      },
+      {
+        "Context": "Process",
+        "Module": "ntfs.sys",
+        "Count": 4
+      },
+      {
+        "Context": "Process",
+        "Module": "shlwapi",
+        "Count": 4
+      },
+      {
+        "Context": "DPC",
+        "Module": "win32kbase.sys",
+        "Count": 4
+      },
+      {
+        "Context": "Process",
+        "Module": "bindflt.sys",
+        "Count": 3
+      },
+      {
+        "Context": "Process",
+        "Module": "dwrite",
+        "Count": 3
+      },
+      {
+        "Context": "DPC",
+        "Module": "nvlddmkm.sys",
+        "Count": 3
+      },
+      {
+        "Context": "DPC",
+        "Module": "shcore",
+        "Count": 3
+      },
+      {
+        "Context": "ISR",
+        "Module": "\u003Cunknown\u003E",
+        "Count": 3
+      },
+      {
+        "Context": "Process",
+        "Module": "gdi32full",
+        "Count": 3
+      },
+      {
+        "Context": "ISR",
+        "Module": "coremessaging",
+        "Count": 3
+      },
+      {
+        "Context": "DPC",
+        "Module": "shell32",
+        "Count": 3
+      },
+      {
+        "Context": "ISR",
+        "Module": "dxgkrnl.sys",
+        "Count": 2
+      },
+      {
+        "Context": "Process",
+        "Module": "propsys",
+        "Count": 2
+      },
+      {
+        "Context": "Process",
+        "Module": "luafv.sys",
+        "Count": 2
+      },
+      {
+        "Context": "Process",
+        "Module": "bfs.sys",
+        "Count": 2
+      },
+      {
+        "Context": "Process",
+        "Module": "gameflt.sys",
+        "Count": 2
+      },
+      {
+        "Context": "Process",
+        "Module": "msvcrt",
+        "Count": 2
+      },
+      {
+        "Context": "Process",
+        "Module": "windows.storage",
+        "Count": 2
+      },
+      {
+        "Context": "DPC",
+        "Module": "coremessaging",
+        "Count": 2
+      },
+      {
+        "Context": "Process",
+        "Module": "mmdevapi",
+        "Count": 2
+      },
+      {
+        "Context": "DPC",
+        "Module": "dxgmms2.sys",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "dxgkrnl.sys",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "combase",
+        "Count": 1
+      },
+      {
+        "Context": "ISR",
+        "Module": "nvwgf2umx",
+        "Count": 1
+      },
+      {
+        "Context": "ISR",
+        "Module": "d3d11",
+        "Count": 1
+      },
+      {
+        "Context": "ISR",
+        "Module": "dcomp",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "accountsservice",
+        "Count": 1
+      },
+      {
+        "Context": "ISR",
+        "Module": "local_at_opal_4.5.0_owned",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "winsta",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "wtsapi32",
+        "Count": 1
+      },
+      {
+        "Context": "ISR",
+        "Module": "twinui",
+        "Count": 1
+      },
+      {
+        "Context": "ISR",
+        "Module": "windows.immersiveshell.serviceprovider",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "uiautomationcore",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "twinapi",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "twinui",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "windows.immersiveshell.serviceprovider",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "twinui.pcshell",
+        "Count": 1
+      },
+      {
+        "Context": "ISR",
+        "Module": "combase",
+        "Count": 1
+      },
+      {
+        "Context": "ISR",
+        "Module": "rpcrt4",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "twinapi",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "wdfilter.sys",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "kernelbase",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "windows.ui.xaml",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "directmanipulation",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "classpnp.sys",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "gdi32full",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "gdi32",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "comctl32",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "taskbar",
+        "Count": 1
+      },
+      {
+        "Context": "DPC",
+        "Module": "taskbar.view",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "dxgmms2.sys",
+        "Count": 1
+      },
+      {
+        "Context": "Process",
+        "Module": "wpprecorder.sys",
+        "Count": 1
+      }
+    ],
+    "ThreadCounts": [
+      {
+        "ProcessId": 40236,
+        "ThreadId": 19248,
+        "Context": "Process",
+        "Count": 412
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 23472,
+        "Context": "Process",
+        "Count": 384
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 51224,
+        "Context": "Process",
+        "Count": 109
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 23472,
+        "Context": "ISR",
+        "Count": 33
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 19248,
+        "Context": "ISR",
+        "Count": 21
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 50404,
+        "Context": "Process",
+        "Count": 10
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 25160,
+        "Context": "Process",
+        "Count": 7
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 49484,
+        "Context": "Process",
+        "Count": 7
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 48844,
+        "Context": "Process",
+        "Count": 7
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 51224,
+        "Context": "DPC",
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 47980,
+        "Context": "Process",
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 51224,
+        "Context": "ISR",
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 19248,
+        "Context": "DPC",
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 25160,
+        "Context": "ISR",
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 8700,
+        "Context": "Process",
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 43164,
+        "Context": "Process",
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 50612,
+        "Context": "Process",
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 33868,
+        "Context": "Process",
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 49484,
+        "Context": "ISR",
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 23472,
+        "Context": "DPC",
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 50612,
+        "Context": "ISR",
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 49484,
+        "Context": "DPC",
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 40332,
+        "Context": "Process",
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "ThreadId": 42908,
+        "Context": "Process",
+        "Count": 1
+      }
+    ],
+    "ModuleStackGroups": [
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 56
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 51
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 39
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernelbase",
+          "local_at_opal_4.5.0_owned",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 37
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "ucrtbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 36
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 32
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 26
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 25
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 25
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 24
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 22
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 20
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 19
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 17
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 17
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 16
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 16
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 16
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "combase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 13
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cno-stack\u003E"
+        ],
+        "StackTruncated": false,
+        "Count": 13
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "npfs.sys",
+          "ntoskrnl",
+          "fltmgr.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 12
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 11
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 11
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 10
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 9
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "ucrtbase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 9
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernel32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 8
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 8
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 7
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 6
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "combase",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 5
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 5
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 5
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "oleaut32",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 5
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 5
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ucrtbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 5
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 5
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 5
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "\u003Cno-stack\u003E"
+        ],
+        "StackTruncated": false,
+        "Count": 5
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernelbase",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 4
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 4
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 4
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 4
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 4
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 4
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 4
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 4
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 4
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 4
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "ucrtbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "coremessaging",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernelbase",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernelbase",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "kernel32",
+          "kernelbase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "kernelbase",
+          "ucrtbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "kernel32",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 3
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "dwrite",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "uxtheme",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "local_at_opal_4.5.0_owned",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kfull.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "dxgkrnl.sys",
+          "ntoskrnl",
+          "\u003Cunknown\u003E",
+          "windows.ui.xaml",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "rpcrt4",
+          "combase",
+          "rpcrt4",
+          "combase",
+          "windows.media.mediacontrol",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "local_at_opal_4.5.0_owned",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "windows.ui.xaml",
+          "local_at_opal_4.5.0_owned",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernelbase",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "dxgkrnl.sys",
+        "Modules": [
+          "dxgkrnl.sys",
+          "ntoskrnl",
+          "win32u",
+          "dxgi",
+          "windows.ui.xaml",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "msvcp_win",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "local_at_opal_4.5.0_owned",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "local_at_opal_4.5.0_owned",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntfs.sys",
+          "ntoskrnl",
+          "fltmgr.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernel32",
+          "local_at_opal_4.5.0_owned",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "msvcp_win",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "twinui",
+          "user32",
+          "windows.immersiveshell.serviceprovider",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "rpcrt4",
+          "combase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "local_at_opal_4.5.0_owned",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "d2d1",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ucrtbase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "combase",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "mmdevapi",
+          "ntdll",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "\u003Cno-stack\u003E"
+        ],
+        "StackTruncated": false,
+        "Count": 2
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "bindflt.sys",
+        "Modules": [
+          "bindflt.sys",
+          "fltmgr.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernel32",
+          "local_at_opal_4.5.0_owned",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "DPC",
+        "LeafModule": "dxgmms2.sys",
+        "Modules": [
+          "dxgmms2.sys",
+          "dxgkrnl.sys",
+          "nvlddmkm.sys",
+          "dxgkrnl.sys",
+          "ntoskrnl",
+          "win32u",
+          "combase",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "windows.ui.xaml",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "d3d11",
+          "d2d1",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "ucrtbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "kernelbase",
+          "nvwgf2umx",
+          "d3d11",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "windowscodecs",
+          "taskbar",
+          "taskbar.view",
+          "taskbar",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "taskbar",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "coremessaging",
+          "taskbar",
+          "ntdll",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "gdi32",
+          "comctl32",
+          "taskbar",
+          "ntdll",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "gdi32full",
+          "gdi32",
+          "comctl32",
+          "taskbar",
+          "taskbar.view",
+          "taskbar",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "gdi32",
+          "windowscodecs",
+          "taskbar",
+          "taskbar.view",
+          "taskbar",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "nvwgf2umx",
+          "d3d11",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "windows.ui.xaml",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ucrtbase",
+          "combase",
+          "shcore",
+          "propsys",
+          "combase",
+          "rpcrt4",
+          "combase",
+          "windows.media.mediacontrol",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "nvwgf2umx",
+          "d3d11",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "propsys",
+          "windows.media.mediacontrol",
+          "local_at_opal_4.5.0_owned",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernelbase",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernel32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernel32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "ucrtbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "dxgkrnl.sys",
+          "ntoskrnl",
+          "win32u",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "dxgi",
+          "windows.ui.xaml",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "nvwgf2umx",
+          "d3d11",
+          "d2d1",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntfs.sys",
+        "Modules": [
+          "ntfs.sys",
+          "ntoskrnl",
+          "fltmgr.sys",
+          "luafv.sys",
+          "fltmgr.sys",
+          "bfs.sys",
+          "fltmgr.sys",
+          "gameflt.sys",
+          "fltmgr.sys",
+          "bindflt.sys",
+          "fltmgr.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "combase",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ucrtbase",
+          "shcore",
+          "accountsservice",
+          "ucrtbase",
+          "accountsservice",
+          "ntdll",
+          "kernelbase",
+          "combase",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntfs.sys",
+          "ntoskrnl",
+          "fltmgr.sys",
+          "luafv.sys",
+          "fltmgr.sys",
+          "bfs.sys",
+          "fltmgr.sys",
+          "gameflt.sys",
+          "fltmgr.sys",
+          "bindflt.sys",
+          "fltmgr.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "combase",
+          "windows.immersiveshell.serviceprovider",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "combase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kfull.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ucrtbase",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "local_at_opal_4.5.0_owned",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "DPC",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "kernelbase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernel32",
+          "local_at_opal_4.5.0_owned",
+          "msvcrt",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "combase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "uxtheme",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "shlwapi",
+          "shell32",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernel32",
+          "kernelbase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "ucrtbase",
+          "windows.media.mediacontrol",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "rpcrt4",
+          "winsta",
+          "wtsapi32",
+          "local_at_opal_4.5.0_owned",
+          "msvcrt",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "shell32",
+          "user32",
+          "comctl32",
+          "shell32",
+          "comctl32",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kfull.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "dxgkrnl.sys",
+          "ntoskrnl",
+          "win32u",
+          "dxgi",
+          "windows.ui.xaml",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "npfs.sys",
+        "Modules": [
+          "npfs.sys",
+          "ntoskrnl",
+          "fltmgr.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "shlwapi",
+          "shell32",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "local_at_opal_4.5.0_owned",
+          "user32",
+          "local_at_opal_4.5.0_owned",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "combase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "twinui",
+          "user32",
+          "windows.immersiveshell.serviceprovider",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "\u003Cunknown\u003E",
+          "shcore",
+          "twinui",
+          "user32",
+          "windows.immersiveshell.serviceprovider",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "local_at_opal_4.5.0_owned",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "DPC",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "shcore",
+          "twinui",
+          "user32",
+          "windows.immersiveshell.serviceprovider",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "DPC",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "twinapi",
+          "twinui",
+          "user32",
+          "twinui",
+          "user32",
+          "windows.immersiveshell.serviceprovider",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "twinui.pcshell",
+          "taskbar",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "shlwapi",
+          "shell32",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "combase",
+          "rpcrt4",
+          "combase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "combase",
+          "rpcrt4",
+          "combase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernelbase",
+          "windows.ui.xaml",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kfull.sys",
+        "Modules": [
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "combase",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32u",
+          "twinapi",
+          "twinui",
+          "user32",
+          "twinui",
+          "user32",
+          "windows.immersiveshell.serviceprovider",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "d2d1",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "twinui",
+          "user32",
+          "windows.immersiveshell.serviceprovider",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "uxtheme",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "rpcrt4",
+          "combase",
+          "rpcrt4",
+          "combase",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "kernelbase",
+          "uxtheme",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "local_at_opal_4.5.0_owned",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "kernel32",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "kernel32",
+          "kernelbase",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernel32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernel32",
+          "local_at_opal_4.5.0_owned",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "wdfilter.sys",
+        "Modules": [
+          "wdfilter.sys",
+          "ntdll",
+          "kernel32",
+          "local_at_opal_4.5.0_owned",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "comctl32",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "windows.ui.xaml",
+          "local_at_opal_4.5.0_owned",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "combase",
+          "ntdll",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "windowscodecs",
+          "windows.ui.xaml",
+          "shcore",
+          "windows.ui.xaml",
+          "taskbar.view",
+          "local_at_opal_4.5.0_owned",
+          "taskbar.view",
+          "taskbar",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "coremessaging",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "windows.ui.xaml",
+          "taskbar.view",
+          "local_at_opal_4.5.0_owned",
+          "taskbar.view",
+          "local_at_opal_4.5.0_owned",
+          "taskbar.view",
+          "taskbar",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "windows.storage",
+          "taskbar",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "coremessaging",
+          "taskbar",
+          "ntdll",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "comctl32",
+          "taskbar",
+          "ntdll",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "DPC",
+        "LeafModule": "nvlddmkm.sys",
+        "Modules": [
+          "nvlddmkm.sys",
+          "ntdll",
+          "kernelbase",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "windows.storage",
+          "taskbar",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "taskbar",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "windows.ui.xaml",
+          "taskbar.view",
+          "local_at_opal_4.5.0_owned",
+          "taskbar.view",
+          "taskbar",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "nvwgf2umx",
+          "d3d11",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "taskbar",
+          "taskbar.view",
+          "taskbar",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "directmanipulation",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "taskbar.view",
+          "taskbar",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "combase",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "gdi32full",
+          "windowscodecs",
+          "taskbar",
+          "taskbar.view",
+          "taskbar",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "shell32",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "shell32",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "coremessaging",
+          "taskbar",
+          "ntdll",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "DPC",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "classpnp.sys",
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "gdi32full",
+          "gdi32",
+          "user32",
+          "comctl32",
+          "taskbar",
+          "taskbar.view",
+          "taskbar",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "comctl32",
+          "taskbar",
+          "ntdll",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32kbase.sys",
+        "Modules": [
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "gdi32full",
+          "gdi32",
+          "user32",
+          "comctl32",
+          "taskbar",
+          "taskbar.view",
+          "taskbar",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "uxtheme",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "shlwapi",
+          "shell32",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "windows.ui.xaml",
+          "local_at_opal_4.5.0_owned",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "win32u",
+          "user32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "ISR",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "kernel32",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "user32",
+          "taskbar",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "ntdll",
+          "kernelbase",
+          "dwrite",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "dxgmms2.sys",
+          "dxgkrnl.sys",
+          "ntoskrnl",
+          "win32u",
+          "d3d11",
+          "nvwgf2umx",
+          "d3d11",
+          "dcomp",
+          "windows.ui.xaml",
+          "coremessaging",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "explorer",
+          "shcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "DPC",
+        "LeafModule": "nvlddmkm.sys",
+        "Modules": [
+          "nvlddmkm.sys",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "\u003Cunknown\u003E",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "\u003Cunknown\u003E",
+        "Modules": [
+          "ntdll",
+          "oleacc",
+          "uiautomationcore",
+          "user32",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "DPC",
+        "LeafModule": "ntoskrnl",
+        "Modules": [
+          "ntoskrnl",
+          "win32k.sys",
+          "win32kbase.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "ntdll",
+          "ntoskrnl",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "shell32",
+          "explorer",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "wpprecorder.sys",
+        "Modules": [
+          "wpprecorder.sys",
+          "win32kfull.sys",
+          "win32k.sys",
+          "ntoskrnl",
+          "win32u",
+          "user32",
+          "uiautomationcore",
+          "kernel32",
+          "ntdll"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      },
+      {
+        "ProcessId": 40236,
+        "Context": "Process",
+        "LeafModule": "win32k.sys",
+        "Modules": [
+          "\u003Cno-stack\u003E"
+        ],
+        "StackTruncated": false,
+        "Count": 1
+      }
+    ]
+  },
+  "Limitations": [
+    "Counts describe recorded SampledProfile events, not elapsed CPU time or a causal CPU percentage. ReportedCountTotal preserves the event Count payload separately without assuming a sampling interval.",
+    "Exclusive leaf attribution uses the sampled instruction pointer\u0027s trace-mapped module. Inclusive counts count each module once per event, overlap, and must not be summed.",
+    "DPC/ISR samples are labeled separately because they may execute in a process context without being work caused by that process.",
+    "Stack module presence is association, not ownership or proof of causation. Missing leaf mappings, absent stacks, and truncated stacks remain explicit.",
+    "Zero EventsLost does not establish complete history in a circular recording. Nonzero loss or conversion truncation reduces coverage. Indexed counts exclude conversion bookkeeping.",
+    "No symbol lookup, event payload strings, command lines, memory dumps, uploads, or live capture. Paths, module mappings, identifiers, flags, and numerical counts only."
+  ]
+}

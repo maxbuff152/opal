@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "verifiedUtc": "2026-09-05T07:12:02.3093525Z",
+  "syntheticAssertions": 19,
+  "existingTraceChecks": [
+    "CPU mode and nonempty Explorer samples",
+    "Exclusive leaf counts reconcile",
+    "Module stack counts reconcile",
+    "Stack coverage reconciles",
+    "Input fingerprint unchanged",
+    "Independent summary agrees with prior root summary"
+  ],
+  "trace": "D:\\Opal\\build\\opal-cpu-initial-20260905.etl",
+  "inputSha256": "2A217B9C0C6173E5F676F4E76CC29A7AADD03E4665A9E4F193D64AB308BF381E",
+  "matchedEvents": 1017,
+  "eventsWithStacks": 996,
+  "eventsWithoutStacks": 21,
+  "unknownLeafEvents": 415,
+  "nonProcessEvents": 69,
+  "traceEventsLost": 0,
+  "conversionTruncated": false,
+  "truncatedStacks": 0,
+  "independentSummary": "D:\\Opal\\build\\cpu-profile-test\\eabc9f4aaeca480fbe9e9beb68b96940\\cpu.summary.json",
+  "profile": "Installed WPR metadata validation only; 64 MiB collector buffers",
+  "captureStarted": false,
+  "interpretation": "Module counts are inclusive stack associations, not causal CPU percentages. High UIAutomationCore association is established; observer causality is unproven."
+}

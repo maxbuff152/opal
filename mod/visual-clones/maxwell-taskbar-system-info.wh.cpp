@@ -499,6 +499,7 @@ static_assert(sizeof(ReaderRequestV1) == 32);
 #include <winrt/Windows.UI.Xaml.h>
 
 #include "opal-control.h"
+#include "opal-performance-diagnostics.h"
 
 using namespace winrt;
 using namespace winrt::Windows::Foundation;
@@ -1099,6 +1100,8 @@ ExperienceMode ParseExperienceMode(const std::wstring& value) {
 }
 
 void LoadSettings() {
+    OpalPerformanceDiagnostics::SetEnabled(
+        Wh_GetIntSetting(L"everyday.performanceDiagnostics") != 0);
     g_performanceEnabled =
         Wh_GetIntSetting(L"performance.performanceEnabled") != 0;
     g_leanMode = Wh_GetIntSetting(L"everyday.leanMode") != 0;
@@ -4946,7 +4949,7 @@ Button CcCopyRow(const MetricsSnapshot& snapshot,
         CommandCenterDiagnostics(snapshot, report, settings);
     button.Click([payload, value](IInspectable const&,
                                   RoutedEventArgs const&) {
-        bool copied = CopyTextToClipboard(payload);
+        bool copied = CopyTextToClipboard(payload + OpalPerformanceDiagnostics::Summary());
         try {
             value.Text(copied ? L"Copied" : L"Unavailable");
         } catch (...) {
@@ -4982,6 +4985,8 @@ void RefreshCommandCenter(const MetricsSnapshot& snapshot,
     if (!g_commandCenter.open) {
         return;
     }
+    OpalPerformanceDiagnostics::Scope refresh(
+        OpalPerformanceDiagnostics::Metric::HardwareRefresh);
     try {
         if (g_commandCenter.subtitle) {
             g_commandCenter.subtitle.Text(
@@ -5080,6 +5085,7 @@ void ShowHardwareCommandCenter(FrameworkElement anchor) {
     }
     ResetCommandCenterView();
     uint64_t generation = ++g_commandCenterGeneration;
+    const auto diagnosticOpen = OpalPerformanceDiagnostics::Begin();
 
     ProcessMemoryReport memoryReport = CollectProcessMemory(5);
     AlertLevel health = OverallAlert();
@@ -5264,11 +5270,13 @@ void ShowHardwareCommandCenter(FrameworkElement anchor) {
     flyout.Placement(FlyoutPlacementMode::Top);
 
     // Use Windows' own flyout transition and reduced-motion behavior.
-    flyout.Opened([generation](IInspectable const&, IInspectable const&) {
+    flyout.Opened([generation, diagnosticOpen](IInspectable const&, IInspectable const&) {
         if (generation != g_commandCenterGeneration) {
             return;
         }
         g_commandCenter.open = true;
+        OpalPerformanceDiagnostics::Record(
+            OpalPerformanceDiagnostics::Metric::HardwareOpen, diagnosticOpen);
     });
     flyout.Closed([generation](IInspectable const&, IInspectable const&) {
         if (generation == g_commandCenterGeneration) {

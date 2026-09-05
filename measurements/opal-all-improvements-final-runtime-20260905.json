@@ -1,0 +1,66 @@
+{
+  "AtUtc": "2026-09-05T08:06:10.2087722Z",
+  "Explorer": {
+    "Pid": 22472,
+    "StartedAtUtc": "2026-09-05T08:03:49.7991219Z",
+    "SameLifetime": true
+  },
+  "DllName": "local_at_opal_4.5.0_owned.dll",
+  "DllSha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05",
+  "BuildMatches": true,
+  "SourceDrift": [],
+  "CoreSha256": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2",
+  "Settings": {
+    "Disabled": 0,
+    "Media": 1,
+    "Performance": 1,
+    "LeanMode": 0,
+    "Artwork": 1,
+    "PerformanceDiagnosticsPresent": false,
+    "PerformanceDiagnosticsValue": null
+  },
+  "Attachment": {
+    "passed": true,
+    "explorerPid": 22472,
+    "attached": [
+      "Media",
+      "Performance"
+    ],
+    "views": [
+      {
+        "component": "Media",
+        "expected": 1,
+        "attached": 1,
+        "fullWindow": 4522390,
+        "ageSeconds": 4.36
+      },
+      {
+        "component": "Performance",
+        "expected": 1,
+        "attached": 1,
+        "fullWindow": 4522390,
+        "ageSeconds": 4.38
+      }
+    ],
+    "limitation": "Attachment evidence does not replace visual inspection of an unobscured taskbar."
+  },
+  "Recorders": [
+    {
+      "Instance": "OpalAllocationInvestigation",
+      "NotRecording": true,
+      "Output": "Microsoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\r\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\r\n\r\nWPR is not recording"
+    },
+    {
+      "Instance": "OpalCpuInvestigation",
+      "NotRecording": true,
+      "Output": "Microsoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\r\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\r\n\r\nWPR is not recording"
+    },
+    {
+      "Instance": "OpalAllocationRebound",
+      "NotRecording": true,
+      "Output": "Microsoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\r\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\r\n\r\nWPR is not recording"
+    }
+  ],
+  "ExplorerErrorEventsSinceAcceptanceStart": [],
+  "Limitation": "Current loaded artifact, settings, attachment and scoped event readback. Does not erase prior startup crashes, certify latency, or prove indefinite stability."
+}

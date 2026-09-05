@@ -120,6 +120,7 @@ interaction model, adaptive layout, and implementation are Maxwell-owned.
 #include <winrt/Windows.UI.Xaml.Shapes.h>
 
 #include "opal-control.h"
+#include "opal-performance-diagnostics.h"
 
 namespace {
 
@@ -189,6 +190,7 @@ struct MediaSnapshot {
     int64_t position100ns = 0;
     int64_t end100ns = 0;
     uint64_t capturedTick = 0;
+    OpalPerformanceDiagnostics::Stamp diagnosticPublished{};
 };
 
 struct ButtonEventTokens {
@@ -208,6 +210,9 @@ struct MediaMirrorSlot {
     double reservedMargin = 0.0;
     TextBlock title{nullptr};
     TextBlock status{nullptr};
+    bool metadataRendered = false;
+    uint64_t renderedSequence = 0;
+    bool renderedDetailed = false;
 };
 
 Settings g_settings;
@@ -223,6 +228,8 @@ uint8_t g_widgetBackgroundAlpha = 0x9C;
 OpalControl::MonitorTarget g_monitorTarget = OpalControl::MonitorTarget::Secondary;
 OpalControl::QuarantineState g_quarantine;
 std::atomic<bool> g_unloading{false};
+std::atomic<bool> g_artworkRequested{true};
+OpalPerformanceDiagnostics::Stamp g_pendingCommand{}; // Taskbar thread only.
 std::atomic<bool> g_taskbarViewHooked{false};
 std::atomic<HWND> g_taskbarWindow{nullptr};
 std::atomic<DWORD> g_taskbarThreadId{0};
@@ -331,6 +338,8 @@ SolidColorBrush Brush(uint8_t alpha, uint8_t value) {
 }
 
 void LoadSettings() {
+    OpalPerformanceDiagnostics::SetEnabled(
+        Wh_GetIntSetting(L"everyday.performanceDiagnostics") != 0);
     g_mediaEnabled = Wh_GetIntSetting(L"media.mediaEnabled") != 0;
     g_leanMode = Wh_GetIntSetting(L"everyday.leanMode") != 0;
     g_manualLayout = OpalControl::ReadStringSetting(
@@ -358,6 +367,15 @@ void LoadSettings() {
                                          g_settings.preferredWidth, 360);
     g_settings.height = std::clamp(Wh_GetIntSetting(L"height"), 44, 58);
     g_settings.showArtwork = Wh_GetIntSetting(L"media.showArtwork") != 0;
+    g_artworkRequested.store(g_settings.showArtwork, std::memory_order_release);
+    if (!g_settings.showArtwork) {
+        std::lock_guard lock(g_mediaMutex);
+        if (g_snapshot.artwork) {
+            g_snapshot.artwork.reset();
+            ++g_snapshot.sequence;
+            g_snapshot.diagnosticPublished = OpalPerformanceDiagnostics::Begin();
+        }
+    }
     g_settings.showArtist = Wh_GetIntSetting(L"media.showArtist") != 0;
     g_settings.hideWithoutSession =
         Wh_GetIntSetting(L"media.hideWithoutSession") != 0;
@@ -994,7 +1012,20 @@ void PublishEmptySnapshot() {
     MediaSnapshot empty;
     empty.sequence = g_snapshot.sequence + 1;
     empty.capturedTick = GetTickCount64();
+    empty.diagnosticPublished = OpalPerformanceDiagnostics::Begin();
     g_snapshot = std::move(empty);
+}
+
+// Demand is read atomically by the worker; settings remain owned by the UI.
+template <typename Loader>
+std::shared_ptr<const std::vector<uint8_t>> ReadRequestedArtwork(
+    bool requested, bool sameIdentity,
+    const std::shared_ptr<const std::vector<uint8_t>>& previous, Loader&& load) {
+    if (!requested) return {};
+    if (sameIdentity && previous) return previous;
+    auto bytes = load();
+    if (bytes.empty()) return {};
+    return std::make_shared<const std::vector<uint8_t>>(std::move(bytes));
 }
 
 bool RefreshMediaSnapshot() {
@@ -1037,24 +1068,25 @@ bool RefreshMediaSnapshot() {
         next.end100ns = timeline.EndTime().count();
         next.canSeek = next.end100ns > next.start100ns;
         next.capturedTick = GetTickCount64();
+        std::shared_ptr<const std::vector<uint8_t>> previousArtwork;
+        bool sameIdentity = false;
         {
             std::lock_guard lock(g_mediaMutex);
-            if (g_snapshot.title == next.title &&
+            sameIdentity = g_snapshot.title == next.title &&
                 g_snapshot.description == next.description &&
-                g_snapshot.source == next.source) {
-                next.artwork = g_snapshot.artwork;
-            }
+                g_snapshot.source == next.source;
+            previousArtwork = g_snapshot.artwork;
         }
-        if (!next.artwork) {
-            auto artwork = ReadArtwork(properties.Thumbnail());
-            if (!artwork.empty()) {
-                next.artwork = std::make_shared<const std::vector<uint8_t>>(
-                    std::move(artwork));
-            }
-        }
+        next.artwork = ReadRequestedArtwork(
+            g_artworkRequested.load(std::memory_order_acquire), sameIdentity,
+            previousArtwork, [&] { return ReadArtwork(properties.Thumbnail()); });
 
         std::lock_guard lock(g_mediaMutex);
+        // A settings change may disable artwork while an already-started read
+        // finishes. Never republish that now-unrequested allocation.
+        if (!g_artworkRequested.load(std::memory_order_acquire)) next.artwork.reset();
         next.sequence = g_snapshot.sequence + 1;
+        next.diagnosticPublished = OpalPerformanceDiagnostics::Begin();
         g_snapshot = std::move(next);
         return true;
     } catch (...) {
@@ -1160,10 +1192,13 @@ void SeekToPosition(int64_t position100ns) {
     }
     position100ns = std::clamp(position100ns, g_uiSnapshot.start100ns,
                                g_uiSnapshot.end100ns);
+    OpalPerformanceDiagnostics::Scope dispatch(
+        OpalPerformanceDiagnostics::Metric::MediaCommandDispatch);
+    g_pendingCommand = OpalPerformanceDiagnostics::Begin();
     try {
         auto operation = session.TryChangePlaybackPositionAsync(position100ns);
         (void)operation;
-    } catch (...) {}
+    } catch (...) { g_pendingCommand = {}; }
 }
 
 void SeekToRatio(double ratio) {
@@ -1200,6 +1235,11 @@ void UpdateScrubVisual(PointerRoutedEventArgs const& args) {
 }
 
 void RunMediaAction(MediaAction action) {
+    if (action == MediaAction::SeekBackward || action == MediaAction::SeekForward) {
+        SeekToPosition(CurrentUiPosition() +
+            (action == MediaAction::SeekBackward ? -kSeekStep100ns : kSeekStep100ns));
+        return;
+    }
     GlobalSystemMediaTransportControlsSession session{nullptr};
     {
         std::lock_guard lock(g_mediaMutex);
@@ -1208,12 +1248,11 @@ void RunMediaAction(MediaAction action) {
     if (!session) {
         return;
     }
+    OpalPerformanceDiagnostics::Scope dispatch(
+        OpalPerformanceDiagnostics::Metric::MediaCommandDispatch);
+    g_pendingCommand = OpalPerformanceDiagnostics::Begin();
     try {
-        if (action == MediaAction::SeekBackward) {
-            SeekToPosition(CurrentUiPosition() - kSeekStep100ns);
-        } else if (action == MediaAction::SeekForward) {
-            SeekToPosition(CurrentUiPosition() + kSeekStep100ns);
-        } else if (action == MediaAction::Previous) {
+        if (action == MediaAction::Previous) {
             auto operation = session.TrySkipPreviousAsync();
             (void)operation;
         } else if (action == MediaAction::Next) {
@@ -1223,7 +1262,7 @@ void RunMediaAction(MediaAction action) {
             auto operation = session.TryTogglePlayPauseAsync();
             (void)operation;
         }
-    } catch (...) {}
+    } catch (...) { g_pendingCommand = {}; }
 }
 
 Button MakeButton(PCWSTR glyph, PCWSTR accessibleName, MediaAction action,
@@ -1811,6 +1850,8 @@ void UpdateUiTick() {
     if (g_unloading) {
         return;
     }
+    OpalPerformanceDiagnostics::Scope uiWork(
+        OpalPerformanceDiagnostics::Metric::MediaUiWork);
 
     MediaSnapshot latest;
     bool hasUpdate = false;
@@ -1886,13 +1927,24 @@ void UpdateUiTick() {
             g_shell, accessibleText.empty() ? L"Now playing" : accessibleText);
         ToolTipService::SetToolTip(
             g_shell, winrt::box_value(winrt::hstring(accessibleText)));
-        if (latest.artwork) {
+        if (g_settings.showArtwork && latest.artwork) {
             UpdateArtwork(*latest.artwork);
         } else {
             UpdateArtwork({});
         }
         UpdateWidgetVisibility();
         PositionWidget();
+        OpalPerformanceDiagnostics::Record(
+            OpalPerformanceDiagnostics::Metric::MediaSnapshotToUi,
+            latest.diagnosticPublished);
+        if (g_pendingCommand.ticks &&
+            latest.diagnosticPublished.epoch == g_pendingCommand.epoch &&
+            latest.diagnosticPublished.ticks >= g_pendingCommand.ticks) {
+            OpalPerformanceDiagnostics::Record(
+                OpalPerformanceDiagnostics::Metric::MediaCommandNextUpdate,
+                g_pendingCommand);
+            g_pendingCommand = {};
+        }
     }
     ApplyUiTimerInterval(DesiredUiIntervalMs());
 
@@ -2085,6 +2137,7 @@ void RemoveWidget() {
     g_reservedMargin = 0.0;
     g_uiSequence = 0;
     g_uiSnapshot = {};
+    g_pendingCommand = {};
     g_artworkHash = 0;
     g_noSessionSinceTick = 0;
     g_scrubbing = false;
@@ -2145,6 +2198,7 @@ void RemoveMediaMirrorSlot(MediaMirrorSlot& slot, bool keepFrame) {
     slot.widget = nullptr;
     slot.title = nullptr;
     slot.status = nullptr;
+    slot.metadataRendered = false;
     if (!keepFrame) {
         slot.taskbarFrame = {};
         slot.window = nullptr;
@@ -2319,15 +2373,22 @@ void UpdateMediaMirror() {
                 InjectMediaMirror(frame, slot.window);
         }
         if (!slot.widget || !slot.title || !slot.status) continue;
-        std::wstring title = g_uiSnapshot.title.empty()
-                                 ? L"Media" : g_uiSnapshot.title;
-        std::wstring status = g_uiSnapshot.playing ? L"Playing" : L"Paused";
-        if (!g_uiSnapshot.description.empty())
-            status += L"  ·  " + g_uiSnapshot.description;
-        slot.title.Text(g_mirrorDetailed ? title : L"Media  ·  " + status);
-        slot.status.Text(status);
-        winrt::Windows::UI::Xaml::Automation::AutomationProperties::SetName(
-            slot.widget, title + L", " + status);
+        if (!slot.metadataRendered || slot.renderedSequence != g_uiSequence ||
+            slot.renderedDetailed != g_mirrorDetailed) {
+            std::wstring title = g_uiSnapshot.title.empty()
+                                     ? L"Media" : g_uiSnapshot.title;
+            std::wstring status = g_uiSnapshot.playing ? L"Playing" : L"Paused";
+            if (!g_uiSnapshot.description.empty())
+                status += L"  ·  " + g_uiSnapshot.description;
+            slot.title.Text(g_mirrorDetailed ? title : L"Media  ·  " + status);
+            slot.status.Text(status);
+            winrt::Windows::UI::Xaml::Automation::AutomationProperties::SetName(
+                slot.widget, title + L", " + status);
+            slot.metadataRendered = true;
+            slot.renderedSequence = g_uiSequence;
+            slot.renderedDetailed = g_mirrorDetailed;
+        }
+        // Geometry still follows taskbar changes even without new media data.
         PositionMediaMirror(slot);
     }
 }

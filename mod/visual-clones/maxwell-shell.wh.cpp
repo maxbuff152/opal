@@ -60,6 +60,9 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
   - leanMode: true
     $name: Use less memory and CPU
     $description: Leave this on. Opal slows or releases work that is not currently needed.
+  - performanceDiagnostics: false
+    $name: Collect performance timings
+    $description: Keeps the latest 64 numerical timings per metric in memory. Included only when you choose Copy hardware report.
   - layoutMode: automatic
     $name: Place media and stats
     $description: Automatic keeps widgets apart. Choose drag them myself only when you want exact positions.
@@ -280,6 +283,7 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
 #include <winrt/Windows.UI.Xaml.Media.h>
 
 #include "maxwell-shell-rules.h"
+#include "opal-performance-diagnostics.h"
 #include "maxwell-shell-owned-overrides.h"
 #include "maxwell-shell-selector.h"
 #include "maxwell-shell-apply.h"
@@ -1508,6 +1512,8 @@ static bool InstallTap() {
 // ---------------------------------------------------------------------
 static void LoadSettings() {
     g_leanMode = Wh_GetIntSetting(L"everyday.leanMode") != 0;
+    OpalPerformanceDiagnostics::SetEnabled(
+        Wh_GetIntSetting(L"everyday.performanceDiagnostics") != 0);
     g_highContrast = OpalControl::HighContrast();
     g_logUnmatched = Wh_GetIntSetting(
         L"advanced.troubleshooting.logUnmatched") != 0;
@@ -1608,13 +1614,64 @@ static void TaskbarClockUninit() {
     g_clockInit = false;
 }
 
-BOOL Wh_ModInit() {
-    // XAML can retain the DLL across a Windhawk reload in the same Explorer.
-    // Static initializers do not run again in that case.
+// One manual-reset event owns both shell recovery workers. A retained DLL
+// reload gets a fresh event only after the previous workers have drained.
+static HANDLE g_recoveryStopEvent = nullptr;
+static HANDLE g_tapThread = nullptr;
+static HANDLE g_lateAttachThread = nullptr;
+
+static bool DrainRecoveryThread(HANDLE& thread) {
+    if (!thread) return true;
+    for (;;) {
+        DWORD result = MsgWaitForMultipleObjects(1, &thread, FALSE, INFINITE,
+                                                 QS_SENDMESSAGE);
+        if (result == WAIT_OBJECT_0) {
+            CloseHandle(thread);
+            thread = nullptr;
+            return true;
+        }
+        if (result != WAIT_OBJECT_0 + 1) {
+            Wh_Log(L"Recovery thread drain failed: %u", GetLastError());
+            return false;
+        }
+        MSG message{};
+        PeekMessageW(&message, nullptr, 0, 0, PM_NOREMOVE | PM_QS_SENDMESSAGE);
+    }
+}
+
+static bool StopRecoveryThreads() {
+    g_unloading.store(true, std::memory_order_release);
+    if (g_recoveryStopEvent) SetEvent(g_recoveryStopEvent);
+    // Drain both even if one wait fails, but retain their shared event until
+    // every worker has exited. Sent-message pumping preserves UI dispatch.
+    bool tapStopped = DrainRecoveryThread(g_tapThread);
+    bool attachStopped = DrainRecoveryThread(g_lateAttachThread);
+    if (!tapStopped || !attachStopped) return false;
+    if (g_recoveryStopEvent) {
+        CloseHandle(g_recoveryStopEvent);
+        g_recoveryStopEvent = nullptr;
+    }
+    return true;
+}
+
+static bool BeginRecoverySession() {
+    if (!StopRecoveryThreads()) return false;
+    g_recoveryStopEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
+    if (!g_recoveryStopEvent) {
+        Wh_Log(L"Recovery stop event creation failed: %u", GetLastError());
+        return false;
+    }
     g_unloading.store(false, std::memory_order_release);
+    return true;
+}
+
+BOOL Wh_ModInit() {
+    // Static initializers do not run again when XAML retains this DLL.
+    if (!BeginRecoverySession()) return FALSE;
     g_host = DetectHost();
     if (g_host == Host::Unknown) {
         Wh_Log(L"Unrecognised host, not initialising.");
+        StopRecoveryThreads();
         return FALSE;
     }
 
@@ -1639,6 +1696,7 @@ BOOL Wh_ModInit() {
     const bool geometryOnly = g_host == Host::Explorer;
     if (g_compiled.empty() && !geometryOnly) {
         Wh_Log(L"[%s] no rules for this host, not initialising.", HostName(g_host));
+        StopRecoveryThreads();
         return FALSE;
     }
 
@@ -1649,13 +1707,12 @@ BOOL Wh_ModInit() {
     return TRUE;
 }
 
-// Sleeps in 100ms slices so unload is never held up by a long wait.
+// Preserve the retry cadence with one wait and wake immediately on unload.
 static bool SleepUnlessUnloading(DWORD ms) {
-    for (DWORD waited = 0; waited < ms; waited += 100) {
-        if (g_unloading.load(std::memory_order_acquire)) { return false; }
-        Sleep(100);
-    }
-    return !g_unloading.load(std::memory_order_acquire);
+    if (g_unloading.load(std::memory_order_acquire) || !g_recoveryStopEvent)
+        return false;
+    return WaitForSingleObject(g_recoveryStopEvent, ms) == WAIT_TIMEOUT &&
+           !g_unloading.load(std::memory_order_acquire);
 }
 
 // The XAML diagnostics endpoint is not always ready the instant Windhawk
@@ -1672,8 +1729,6 @@ static bool SleepUnlessUnloading(DWORD ms) {
 // for as long as the host lives: dense for 15s, then every 3s for five minutes,
 // then every 15s. A failed attempt is a handful of fast ERROR_NOT_FOUND calls.
 // Runs on its own thread so it never blocks the host; stops early on unload.
-static HANDLE g_tapThread = nullptr;
-
 static DWORD WINAPI TapInstallProc(LPVOID) {
     for (int attempt = 0;; ++attempt) {
         if (g_unloading.load(std::memory_order_acquire)) { return 0; }
@@ -1708,8 +1763,6 @@ static DWORD WINAPI TapInstallProc(LPVOID) {
 //  started and its worker happened to re-apply. This poll gives all three the
 //  same recovery, then exits.
 // ---------------------------------------------------------------------
-static HANDLE g_lateAttachThread = nullptr;
-
 static bool TaskbarViewPresent() {
     return GetModuleHandleW(L"Taskbar.View.dll") != nullptr ||
            GetModuleHandleW(L"ExplorerExtensions.dll") != nullptr;
@@ -1725,6 +1778,11 @@ static DWORD WINAPI LateAttachProc(LPVOID) {
         if (!SleepUnlessUnloading(healthy ? 5000 : (tick < 120 ? 500 : 5000))) return 0;
         ++tick;
         if (!TaskbarViewPresent()) { healthy = false; continue; }
+        // Time only a successful first/recovery pass, not routine healthy
+        // watchdog checks. This excludes the preceding retry/backoff delay.
+        const auto attachmentStart = !healthy
+            ? OpalPerformanceDiagnostics::Begin()
+            : OpalPerformanceDiagnostics::Stamp{};
         bool clockDone = !g_clockInit;
         if (g_clockInit) {
             try {
@@ -1748,6 +1806,11 @@ static DWORD WINAPI LateAttachProc(LPVOID) {
         }
 #endif
         bool next = clockDone && mediaDone && perfDone;
+        if (next && !healthy) {
+            OpalPerformanceDiagnostics::Record(
+                OpalPerformanceDiagnostics::Metric::ShellAttachment,
+                attachmentStart);
+        }
         if (next != healthy) {
             AttachLog(L"attachment health: clock=%d media=%d performance=%d", clockDone, mediaDone, perfDone);
         }
@@ -1798,16 +1861,7 @@ void Wh_ModSettingsChanged() {
 void Wh_ModBeforeUninit() {
     // Stop and drain recovery before any component destroys its XAML state.
     // Process pending sent messages if Windhawk invokes teardown on a UI thread.
-    g_unloading.store(true, std::memory_order_release);
-    if (g_lateAttachThread) {
-        while (MsgWaitForMultipleObjects(1, &g_lateAttachThread, FALSE, INFINITE,
-                                         QS_SENDMESSAGE) == WAIT_OBJECT_0 + 1) {
-            MSG message{};
-            PeekMessageW(&message, nullptr, 0, 0, PM_NOREMOVE | PM_QS_SENDMESSAGE);
-        }
-        CloseHandle(g_lateAttachThread);
-        g_lateAttachThread = nullptr;
-    }
+    if (!StopRecoveryThreads()) return;
 #ifdef OPAL_UNIFIED_BUILD
     if (g_mediaComponentInit) OpalMedia_ModBeforeUninit();
     if (g_performanceComponentInit) OpalPerformance_ModBeforeUninit();
@@ -1815,9 +1869,8 @@ void Wh_ModBeforeUninit() {
 }
 
 void Wh_ModUninit() {
-    // Signal first so the watch thread and any queued dispatcher callbacks bail
-    // before we tear down the state they touch.
-    g_unloading.store(true, std::memory_order_release);
+    // Also handles unload paths that did not call BeforeUninit.
+    if (!StopRecoveryThreads()) return;
     g_animatedSurfaces.clear();
 #ifdef OPAL_UNIFIED_BUILD
     if (g_mediaComponentInit) {
@@ -1831,16 +1884,6 @@ void Wh_ModUninit() {
 #endif
     TaskbarClockUninit();
     TaskbarGeometryUninit();
-    if (g_lateAttachThread) {
-        WaitForSingleObject(g_lateAttachThread, 3000);
-        CloseHandle(g_lateAttachThread);
-        g_lateAttachThread = nullptr;
-    }
-    if (g_tapThread) {
-        WaitForSingleObject(g_tapThread, 3000);
-        CloseHandle(g_tapThread);
-        g_tapThread = nullptr;
-    }
     Wh_Log(L"[%s] unloading, %d elements styled", HostName(g_host), g_applied);
 }
 

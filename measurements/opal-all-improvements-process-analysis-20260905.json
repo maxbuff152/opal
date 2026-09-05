@@ -1,0 +1,31 @@
+{
+  "CapturedAt": "2026-09-05T08:03:59.3016044Z",
+  "Source": "D:\\Opal\\measurements\\package-cost-opal-all-improvements-20260905-abba.json",
+  "SourceSha256": "DD85451498EFD179836DF54B91C4F7E8D7C1D8CB1EACF739DC152C96CE09D6B3",
+  "Scope": "Interactive Explorer, Maxwell.Shell.Core and Windhawk; other hosts/services excluded",
+  "PooledMedians": [
+    {
+      "Scenario": "Stock",
+      "CpuPercentOneCore": 0.5197275240626184,
+      "PrivateMB": 195.61328125
+    },
+    {
+      "Scenario": "FullSuite",
+      "CpuPercentOneCore": 0.7794324175627899,
+      "PrivateMB": 213.7265625
+    }
+  ],
+  "Rounds": [
+    {
+      "Round": 1,
+      "CpuPercentOneCoreDelta": 0.20784530411403856,
+      "PrivateMBDelta": 26.97265625
+    },
+    {
+      "Round": 2,
+      "CpuPercentOneCoreDelta": 0.25970489350017156,
+      "PrivateMBDelta": 2.66015625
+    }
+  ],
+  "Limitation": "Descriptive measured-process totals. No aggregate working set. Paired variation and workload differences do not establish a causal speedup."
+}

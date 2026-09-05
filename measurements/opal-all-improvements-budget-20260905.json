@@ -1,0 +1,30 @@
+{
+  "AtUtc": "2026-09-05T08:03:59.2226224Z",
+  "Result": {
+    "passed": false,
+    "receipt": "D:\\Opal\\measurements\\package-cost-opal-all-improvements-20260905-abba.json",
+    "build": {
+      "Version": "4.5.0",
+      "DllSha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05",
+      "CoreSha256": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2"
+    },
+    "limitation": "Paired overhead gate only. Positive short-window object changes are diagnostic, not a leak verdict; require a same-process resource soak.",
+    "delta": {
+      "cpuPercentOneCore": 0.26,
+      "privateMB": 18.06,
+      "workingSetMB": 23.4,
+      "positiveGrowthSamples": 2
+    },
+    "budget": {
+      "cpuPercentOneCore": 0.25,
+      "privateMB": 20.0,
+      "workingSetMB": 16.0
+    },
+    "checks": {
+      "cpu": false,
+      "privateCommit": true,
+      "workingSet": false
+    }
+  },
+  "Error": "Opal performance budget failed: {\"cpuPercentOneCore\":0.26,\"privateMB\":18.06,\"workingSetMB\":23.4,\"positiveGrowthSamples\":2}"
+}

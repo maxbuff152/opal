@@ -1,0 +1,152 @@
+{
+  "CapturedAtUtc": "2026-09-05T07:12:16.8400076+00:00",
+  "Question": "What caused the FullSuite mismatch before the interrupted matched soak restored Explorer?",
+  "Verified": [
+    "The sampler recorded generic FullSuite installed runtime mismatch before its explicit PID comparison; the error cannot identify which condition changed.",
+    "The last recorded leg2 sample used PID6688 at elapsed290.4975429 seconds.",
+    "Runtime-6688.ini still contains active nonquarantined Media/Performance attachment timestamps at about02:05:48.",
+    "No Application Error/Hang record naming PID6688 was found in the scoped02:00–02:07 Application1000/1001/1002 query.",
+    "The only matching Application Error names DIFFERENT PID40204 and Windows.CloudStore.dll, exceptionc0000409, at02:05:52.3489356.",
+    "CircuitBreaker task last ran02:05:53, after the CloudStore error. Its owning source only qualifies XAML/Taskbar.View failures; the SafeDock log/state have no new writes sinceSeptember4.",
+    "SafeDockRepair last ranSeptember4 21:55 and PinGuardSeptember4 21:09.",
+    "SmartComputerRecovery uses -ControllerRecovery, whose source branch only calls Test-SmartComputer; it does not invoke Explorer or taskbar repair."
+  ],
+  "OriginalAttachmentUtc": "2026-09-05T07:05:48.5367360Z",
+  "FaultingNewProcessStartUtc": "2026-09-05T07:05:48.8553515Z",
+  "Unknowns": [
+    "Actual Disabled value, loaded-alias count/names and observed PID at the failed assertion were not captured.",
+    "The first condition change is unattributed; no proof of an initial PID replacement or original-process crash.",
+    "The CloudStore failure occurred in a short-lived Explorer during the restoration window. A duplicate-launch contribution is plausible but unproven.",
+    "TaskScheduler Operational log is disabled, so per-event task history is unavailable.",
+    "Unstamped diag.log establishes component initialization order but cannot establish event times by itself."
+  ],
+  "Recommendation": "Keep guards enabled. Before another controlled rerun, record exact mismatch state and restart intent/PIDs, fix null alias serialization, and avoid an unconditional Explorer launch while Windows may already be relaunching it. Treat a rerun as diagnostic, preserve failed evidence, and make no memory-causality or reliability-pass claim from this run.",
+  "Sources": [
+    {
+      "Path": "C:\\ProgramData\\Windhawk\\Opal\\safedock\\safe-dock.log",
+      "LastWriteTime": "2026-09-04T21:29:57.6315922-05:00",
+      "Sha256": "08FC93703EA6CB56CD96D74D7836D163375A10820936C5A5F77BA32FA5D5A5D5"
+    },
+    {
+      "Path": "C:\\ProgramData\\Windhawk\\Opal\\safedock\\state.json",
+      "LastWriteTime": "2026-09-04T21:55:16.0821526-05:00",
+      "Sha256": "34C2DA634F575B179E0D3544DDD4FDF2DC0B24F89D2572F60A9D8A10D750940C"
+    },
+    {
+      "Path": "C:\\Users\\maxwe\\AppData\\Local\\Maxwell\\Opal\\runtime-6688.ini",
+      "LastWriteTime": "2026-09-05T02:05:48.5387300-05:00",
+      "Sha256": "A77DDC8AD6565BDA35ECCED90C25E515087D6E238EE86DE53CDE13E0B2BCC94C"
+    },
+    {
+      "Path": "D:\\CODEX SPINE, PLUGINS AND AGENTS\\06-LOCAL TOOLS\\Windhawk ChatGPT Guard\\WindhawkSafeDock.Core.psm1",
+      "LastWriteTime": "2026-09-04T21:29:25.1660685-05:00",
+      "Sha256": "D4EC2FB523A42B49CBF2789448D209FDB81D4B9AC833F45DB301CEE00313EB55"
+    },
+    {
+      "Path": "D:\\CODEX SPINE, PLUGINS AND AGENTS\\06-LOCAL TOOLS\\Maxwell System Initialization\\Initialize-MaxwellSystem.ps1",
+      "LastWriteTime": "2026-09-04T00:01:02.3997823-05:00",
+      "Sha256": "73EBA572F718B12F75E75255F2E7A8F62F9DC4DB182D336AD518428E2743998E"
+    },
+    {
+      "Path": "D:\\CODEX SPINE, PLUGINS AND AGENTS\\06-LOCAL TOOLS\\Codex Elevated\\Repair-CodexTaskbarPin.ps1",
+      "LastWriteTime": "2026-08-22T18:20:30.3054799-05:00",
+      "Sha256": "B34F5896700E5B6669704D931906832FC61D5289A66A1279447FE193BDEA804C"
+    }
+  ],
+  "ScheduledTaskReadback": [
+    {
+      "TaskName": "Maxwell Codex Taskbar Pin Guard",
+      "State": "Ready",
+      "LastRunTime": "2026-09-04T21:09:48.0000000-05:00",
+      "LastTaskResult": 0,
+      "Actions": [
+        {
+          "Execute": "C:\\WINDOWS\\System32\\wscript.exe",
+          "Arguments": "//B //NoLogo //job:codex-taskbar-pin-guard \"D:\\CODEX SPINE, PLUGINS AND AGENTS\\06-LOCAL TOOLS\\Windowless PowerShell Tasks\\WindowlessPowerShellTasks.wsf\""
+        }
+      ]
+    },
+    {
+      "TaskName": "Maxwell Smart Computer Recovery",
+      "State": "Ready",
+      "LastRunTime": "2026-09-05T02:09:09.0000000-05:00",
+      "LastTaskResult": 0,
+      "Actions": [
+        {
+          "Execute": "C:\\WINDOWS\\System32\\wscript.exe",
+          "Arguments": "//B //NoLogo \"D:\\CODEX SPINE, PLUGINS AND AGENTS\\06-LOCAL TOOLS\\Maxwell System Initialization\\Run-MaxwellSmartComputerRecovery-Hidden.vbs\""
+        }
+      ]
+    },
+    {
+      "TaskName": "Maxwell Windhawk Dock Circuit Breaker",
+      "State": "Ready",
+      "LastRunTime": "2026-09-05T02:05:53.0000000-05:00",
+      "LastTaskResult": 0,
+      "Actions": [
+        {
+          "Execute": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "Arguments": "-NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -WindowStyle Hidden -File \"D:\\CODEX SPINE, PLUGINS AND AGENTS\\06-LOCAL TOOLS\\Windhawk ChatGPT Guard\\Ensure-WindhawkSafeDock.ps1\" -Mode CircuitBreak -Quiet"
+        }
+      ]
+    },
+    {
+      "TaskName": "Maxwell Windhawk Safe Dock Repair",
+      "State": "Ready",
+      "LastRunTime": "2026-09-04T21:55:13.0000000-05:00",
+      "LastTaskResult": 0,
+      "Actions": [
+        {
+          "Execute": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "Arguments": "-NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -WindowStyle Hidden -File \"D:\\CODEX SPINE, PLUGINS AND AGENTS\\06-LOCAL TOOLS\\Windhawk ChatGPT Guard\\Ensure-WindhawkSafeDock.ps1\" -Mode Repair -AllowExplorerRestart -Quiet"
+        }
+      ]
+    }
+  ],
+  "ApplicationEvents": [
+    {
+      "TimeCreated": "2026-09-05T02:05:58.3501834-05:00",
+      "Id": 1001,
+      "Provider": "Windows Error Reporting",
+      "RecordId": 24214,
+      "Message": "Fault bucket 1258995500802173470, type 5\r\nEvent Name: BEX64\r\nResponse: Not available\r\nCab Id: 0\r\n\r\nProblem signature:\r\nP1: Explorer.EXE\r\nP2: 10.0.26100.9278\r\nP3: 4de7f396\r\nP4: Windows.CloudStore.dll\r\nP5: 10.0.26100.9278\r\nP6: f7ed04e4\r\nP7: 00000000000b96e6\r\nP8: c0000409\r\nP9: 0000000000000007\r\nP10: \r\n\r\nAttached files:\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.bf84ad55-b313-49cf-82b9-9b02b1a31e3e.tmp.WERInternalMetadata.xml\r\n\r\nThese files may be available here:\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportArchive\\AppCrash_Explorer.EXE_e0563564b3bbc610729910703f7055e938a74527_af452332_fc5d0e5e-d0a6-459f-a0cf-1552c9c9e158\r\n\r\nAnalysis symbol: \r\nRechecking for solution: 0\r\nReport Id: 35be3a13-8b9e-41d4-bc06-6b7226073de2\r\nReport Status: 268435456\r\nHashed bucket: 64c757457ffb2c44b178d9bccf20ea1e\r\nCab Guid: 0"
+    },
+    {
+      "TimeCreated": "2026-09-05T02:05:55.6122680-05:00",
+      "Id": 1001,
+      "Provider": "Windows Error Reporting",
+      "RecordId": 24183,
+      "Message": "Fault bucket , type 0\r\nEvent Name: BEX64\r\nResponse: Not available\r\nCab Id: 0\r\n\r\nProblem signature:\r\nP1: Explorer.EXE\r\nP2: 10.0.26100.9278\r\nP3: 4de7f396\r\nP4: Windows.CloudStore.dll\r\nP5: 10.0.26100.9278\r\nP6: f7ed04e4\r\nP7: 00000000000b96e6\r\nP8: c0000409\r\nP9: 0000000000000007\r\nP10: \r\n\r\nAttached files:\r\n\r\nThese files may be available here:\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportQueue\\AppCrash_Explorer.EXE_e0563564b3bbc610729910703f7055e938a74527_af452332_fc5d0e5e-d0a6-459f-a0cf-1552c9c9e158\r\n\r\nAnalysis symbol: \r\nRechecking for solution: 0\r\nReport Id: 35be3a13-8b9e-41d4-bc06-6b7226073de2\r\nReport Status: 4\r\nHashed bucket: \r\nCab Guid: 0"
+    },
+    {
+      "TimeCreated": "2026-09-05T02:05:52.3489356-05:00",
+      "Id": 1000,
+      "Provider": "Application Error",
+      "RecordId": 24181,
+      "Message": "Faulting application name: Explorer.EXE, version: 10.0.26100.9278, time stamp: 0x4de7f396\r\nFaulting module name: Windows.CloudStore.dll, version: 10.0.26100.9278, time stamp: 0xf7ed04e4\r\nException code: 0xc0000409\r\nFault offset: 0x00000000000b96e6\r\nFaulting process id: 0x9D0C\r\nFaulting application start time: 0x1DD3D04FAD7322B\r\nFaulting application path: C:\\WINDOWS\\Explorer.EXE\r\nFaulting module path: C:\\Windows\\System32\\Windows.CloudStore.dll\r\nReport Id: 35be3a13-8b9e-41d4-bc06-6b7226073de2\r\nFaulting package full name: \r\nFaulting package-relative application ID: "
+    }
+  ],
+  "Runtime6688": [
+    "[Runtime]",
+    "MediaRuntimeActive=1",
+    "MediaRuntimePid=6688",
+    "MediaSuspended=0",
+    "MediaReason=",
+    "MediaQuarantined=0",
+    "PerformanceRuntimeActive=1",
+    "PerformanceRuntimePid=6688",
+    "PerformanceSuspended=0",
+    "PerformanceReason=",
+    "PerformanceQuarantined=0",
+    "MediaAttachment=134330655485367360|8193228|1|1",
+    "PerformanceAttachment=134330655485377322|8193228|1|1"
+  ],
+  "SafeDockLog": "2026-09-04T21:29:57.6303448-05:00 Circuit breaker explicitly cleared.",
+  "DiagRelevantLines": [
+    "[attach] component init pid=6688: media=1 performance=1",
+    "[attach] component init pid=40204: media=1 performance=1",
+    "[attach] component init pid=34076: media=1 performance=1",
+    "[attach] component init pid=40236: media=1 performance=1"
+  ],
+  "TaskHistoryLogEnabled": false
+}

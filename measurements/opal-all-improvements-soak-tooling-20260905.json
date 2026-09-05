@@ -1,0 +1,27 @@
+{
+  "AtUtc": "2026-09-05T07:18:22.9822904+00:00",
+  "Receipt": "opal-all-improvements-matched-soak-rerun-20260905.json",
+  "Files": [
+    {
+      "Path": "D:\\Opal\\Measure-OpalMatchedSoak.ps1",
+      "Hash": "9544A657712999115FAF8E8E8BE23534D045B57DDE180F883455329F2F41A5BC"
+    },
+    {
+      "Path": "D:\\Opal\\Get-OpalMemoryRegions.ps1",
+      "Hash": "A80965E149B6C5A3B9CDA79FA381830D6B0B22694727AF0D31315D83E0FDFC3D"
+    },
+    {
+      "Path": "D:\\Opal\\Get-OpalMatchedSoakAnalysis.ps1",
+      "Hash": "2155702A4B93307C4462314BC0971EE21903E54AE13DD47DD358B7484096256C"
+    },
+    {
+      "Path": "D:\\Opal\\Get-OpalMeasuredProcessCost.ps1",
+      "Hash": "C6F268B95075EBF753BFAB39C85B941D23547908C1430614404AB7328D33343B"
+    },
+    {
+      "Path": "D:\\Opal\\tests\\Test-OpalAttachment.ps1",
+      "Hash": "3C6775298218FEC21BDEE618FDEF4222703AC60529F0EE89EC6C33C4FE3DF4CD"
+    }
+  ],
+  "Policy": "Tools frozen after passing regression; no mutation during rerun."
+}

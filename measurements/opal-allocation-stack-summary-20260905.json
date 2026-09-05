@@ -1,0 +1,29 @@
+{
+  "Trace": "D:\\Opal\\build\\opal-allocation-initial-20260905.etl",
+  "ExplorerEvents": 40,
+  "EventsWithStacks": 23,
+  "Totals": [
+    {
+      "Key": "VirtualMem/Alloc/MEM_COMMIT, MEM_RESERVE",
+      "Count": 8,
+      "GrossBytes": 94208
+    },
+    {
+      "Key": "VirtualMem/Free/MEM_RELEASE",
+      "Count": 17,
+      "GrossBytes": 7458816
+    },
+    {
+      "Key": "VirtualMem/Alloc/MEM_COMMIT",
+      "Count": 8,
+      "GrossBytes": 98304
+    },
+    {
+      "Key": "VirtualMem/Alloc/MEM_RESERVE",
+      "Count": 7,
+      "GrossBytes": 7368704
+    }
+  ],
+  "LargeEvents": [],
+  "Limitation": "Gross event bytes are not outstanding commit or leak size. Circular trace may omit prior allocation/free events. Module names are from trace image mapping; no symbol-server access."
+}

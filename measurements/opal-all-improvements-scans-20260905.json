@@ -1,0 +1,12 @@
+{
+  "AtUtc": "2026-09-05T08:08:13.1705871Z",
+  "Scope": "58 explicitly selected current-task files before receipt addition",
+  "GitleaksExitCode": 0,
+  "Findings": 0,
+  "ReportSha256": "37517E5F3DC66819F61F5A7BB8ACE1921282415F10551D2DEFA5C3EB0985B570",
+  "DependencyAudit": "opal-allocation-dependency-audit-20260905.json",
+  "ProductionDependencyChange": "Only Windows QPC API-set import; offline TraceEvent utility is separate",
+  "DiffCheckPassed": true,
+  "PreexistingUntrackedCount": 21,
+  "PreexistingFilesUntouchedAndExcluded": true
+}
