@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-05T00:54:41.0891030-05:00",
+  "runtime": "maximize-control-plane",
+  "task": "Apply audited Opal 4.5 reliability repairs, test, install, and measure current performance.",
+  "pack": "code-systems",
+  "model_adapter": "codex-frontier",
+  "status": "partial",
+  "evidence": [
+    "D:\\Opal\\measurements\\Opal-4.5-hardening-verification-20260905.md",
+    "D:\\Opal\\measurements\\opal45-hardening-tests-20260905.json",
+    "D:\\Opal\\measurements\\opal45-final-budget-20260905.json",
+    "D:\\Opal\\measurements\\opal45-final-soak-result-20260905.json",
+    "D:\\Opal\\measurements\\opal45-final-readback-20260905.json"
+  ],
+  "changed_paths": [
+    {
+      "path": "D:\\Opal\\Measure-OpalPackageCost.ps1",
+      "exists": true,
+      "sha256": "1402CD00F983ECA37123C9BD05EE956015D382C7C76678E2C91E7B6D77ED3E91"
+    },
+    {
+      "path": "D:\\Opal\\Measure-OpalResourceSoak.ps1",
+      "exists": true,
+      "sha256": "5D35D9149FCA04A130B4AA3B463697172D67B3D0CEC29C5DDAF8A7E1D2F08A58"
+    },
+    {
+      "path": "D:\\Opal\\OPAL-START-HERE.md",
+      "exists": true,
+      "sha256": "DCCCDDC9810AB216FFF816814F0F49FFBBDF12C1F360818156EA2E18F3437301"
+    },
+    {
+      "path": "D:\\Opal\\README.md",
+      "exists": true,
+      "sha256": "494BCA96BD56CE172A565BDF769A58F8A101DFD69AE33EEB6C7E583865FCA2A6"
+    },
+    {
+      "path": "D:\\Opal\\Test-OpalPerformanceBudget.ps1",
+      "exists": true,
+      "sha256": "3196E130D064E11F24987FC0320D6BE1D5E5A9CE5D48A71D936BF1DFF58B8C60"
+    },
+    {
+      "path": "D:\\Opal\\Test-OpalResourceSoak.ps1",
+      "exists": true,
+      "sha256": "B2F6345C7986A3C859A111FA04AAFD9A8AE015DA460EEA371854844F00977834"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-opal-media.wh.cpp",
+      "exists": true,
+      "sha256": "9830AAAA56F56F36A5FC7E303A79285315B481E8D5BE3AED42808F5903E50B53"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+      "exists": true,
+      "sha256": "B6E36CF686B764AEB836C5E85CAB481D3FD00AA340FC839056FAC30FCCDB2DC3"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-taskbar-system-info.wh.cpp",
+      "exists": true,
+      "sha256": "8BE127EE0A25FB57E3AEE956495D74BBE5AC6FF342F0CB2F1B4EA077B7CBFD0D"
+    },
+    {
+      "path": "D:\\Opal\\native\\Maxwell.Shell.Core\\MaxwellShellCore.cpp",
+      "exists": true,
+      "sha256": "5269C446648D8D14A65B96B86CD429F4A9C714E87D04EDCAA2D0D97438770AE4"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalAsyncReliability.ps1",
+      "exists": true,
+      "sha256": "15C787C825BABC5A29E94E877B13FFFF50F4120CC23B54FF6A5569A23F4EC1C7"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalPerformanceEvidence.ps1",
+      "exists": true,
+      "sha256": "93E523ABA78C1D533DE41A08A8AE9EE5FC3062D21FCC6967C07EA4D12463F62C"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalRuntimePublication.ps1",
+      "exists": true,
+      "sha256": "385AD450C7CE4598A2642DBCD0B00A6C79FF0DD7FDB3DDA2096571F72402A349"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalSoakEvidence.ps1",
+      "exists": true,
+      "sha256": "2905C35048A1F71030EA220D5159FB9C9BCC4AFB067E082ACFDC77D2912A738B"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalStartupHooks.ps1",
+      "exists": true,
+      "sha256": "89585C64F3803F38410BC7B606A8C366F2E4C4CE242504A622B5477F18211C8A"
+    }
+  ],
+  "limitations": [
+    "Working-set overhead +22.78 MB exceeds unchanged +16 MB budget.",
+    "Explorer private memory rose 92.50 MB net during observational soak; allocation ownership is unproven.",
+    "Media and weather deadlines are cooperative between synchronous calls; no hard shutdown bound.",
+    "No physical display/sleep transitions or prolonged interaction soak."
+  ]
+}

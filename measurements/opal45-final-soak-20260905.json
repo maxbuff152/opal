@@ -1,0 +1,749 @@
+{
+  "DurationSeconds": 300.5999721,
+  "SchemaVersion": 1,
+  "Limitation": "Observational same-process soak, not proof of indefinite leak freedom or stock-relative cost.",
+  "Samples": [
+    {
+      "ElapsedSeconds": 0.0233038,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 12.5625,
+          "PrivateMB": 317.68359375,
+          "WorkingSetMB": 379.68359375,
+          "Handles": 5533,
+          "Gdi": 305,
+          "User": 477
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.59375,
+          "PrivateMB": 8.80859375,
+          "WorkingSetMB": 25.34765625,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 15.0500237,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 12.765625,
+          "PrivateMB": 317.4609375,
+          "WorkingSetMB": 379.8125,
+          "Handles": 5539,
+          "Gdi": 305,
+          "User": 477
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.59375,
+          "PrivateMB": 8.7265625,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 30.0826527,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 12.84375,
+          "PrivateMB": 317.3828125,
+          "WorkingSetMB": 378.84765625,
+          "Handles": 5074,
+          "Gdi": 305,
+          "User": 464
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.59375,
+          "PrivateMB": 8.73046875,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 45.1101666,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 12.90625,
+          "PrivateMB": 317.3828125,
+          "WorkingSetMB": 378.87890625,
+          "Handles": 5073,
+          "Gdi": 305,
+          "User": 464
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.59375,
+          "PrivateMB": 8.7265625,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 60.1434132,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 12.9375,
+          "PrivateMB": 317.3828125,
+          "WorkingSetMB": 378.87890625,
+          "Handles": 5073,
+          "Gdi": 305,
+          "User": 464
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.609375,
+          "PrivateMB": 8.73046875,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 75.1711079,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.015625,
+          "PrivateMB": 317.3828125,
+          "WorkingSetMB": 378.890625,
+          "Handles": 5073,
+          "Gdi": 305,
+          "User": 464
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.609375,
+          "PrivateMB": 8.7265625,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 90.2012109,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.0625,
+          "PrivateMB": 314.98046875,
+          "WorkingSetMB": 379.77734375,
+          "Handles": 4832,
+          "Gdi": 305,
+          "User": 418
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.609375,
+          "PrivateMB": 8.73046875,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 105.2264428,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.0625,
+          "PrivateMB": 314.98046875,
+          "WorkingSetMB": 379.77734375,
+          "Handles": 4831,
+          "Gdi": 305,
+          "User": 418
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.625,
+          "PrivateMB": 8.7265625,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 120.2480181,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.125,
+          "PrivateMB": 314.98046875,
+          "WorkingSetMB": 379.7890625,
+          "Handles": 4830,
+          "Gdi": 305,
+          "User": 418
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.625,
+          "PrivateMB": 8.73046875,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 135.280793,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.1875,
+          "PrivateMB": 314.12109375,
+          "WorkingSetMB": 375.0546875,
+          "Handles": 4732,
+          "Gdi": 305,
+          "User": 418
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.640625,
+          "PrivateMB": 8.7265625,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 150.3047624,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.234375,
+          "PrivateMB": 311.67578125,
+          "WorkingSetMB": 372.9453125,
+          "Handles": 4732,
+          "Gdi": 305,
+          "User": 417
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.65625,
+          "PrivateMB": 8.73046875,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 165.3312209,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.265625,
+          "PrivateMB": 311.46875,
+          "WorkingSetMB": 372.78515625,
+          "Handles": 4711,
+          "Gdi": 305,
+          "User": 414
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.65625,
+          "PrivateMB": 8.7265625,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 180.3615388,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.328125,
+          "PrivateMB": 311.46875,
+          "WorkingSetMB": 372.78515625,
+          "Handles": 4711,
+          "Gdi": 305,
+          "User": 414
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.671875,
+          "PrivateMB": 8.73046875,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 195.3855652,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.359375,
+          "PrivateMB": 311.46875,
+          "WorkingSetMB": 372.78515625,
+          "Handles": 4711,
+          "Gdi": 305,
+          "User": 414
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.6875,
+          "PrivateMB": 8.7265625,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 210.4179052,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.390625,
+          "PrivateMB": 311.46875,
+          "WorkingSetMB": 372.78515625,
+          "Handles": 4711,
+          "Gdi": 305,
+          "User": 414
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.6875,
+          "PrivateMB": 8.73046875,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 225.462028,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.40625,
+          "PrivateMB": 311.46875,
+          "WorkingSetMB": 372.79296875,
+          "Handles": 4711,
+          "Gdi": 305,
+          "User": 414
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.6875,
+          "PrivateMB": 8.7265625,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 240.4909236,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.578125,
+          "PrivateMB": 311.54296875,
+          "WorkingSetMB": 372.8671875,
+          "Handles": 4711,
+          "Gdi": 305,
+          "User": 414
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.6875,
+          "PrivateMB": 8.73046875,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 255.5200468,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.59375,
+          "PrivateMB": 311.54296875,
+          "WorkingSetMB": 373.2734375,
+          "Handles": 4711,
+          "Gdi": 305,
+          "User": 414
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.703125,
+          "PrivateMB": 8.7265625,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 270.5557154,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.765625,
+          "PrivateMB": 311.046875,
+          "WorkingSetMB": 370.25,
+          "Handles": 4682,
+          "Gdi": 305,
+          "User": 413
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.71875,
+          "PrivateMB": 8.73046875,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 285.5762857,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 13.828125,
+          "PrivateMB": 311.05078125,
+          "WorkingSetMB": 370.25390625,
+          "Handles": 4681,
+          "Gdi": 305,
+          "User": 413
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.71875,
+          "PrivateMB": 8.7265625,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    },
+    {
+      "ElapsedSeconds": 300.5996304,
+      "Processes": [
+        {
+          "Name": "explorer",
+          "Pid": 44760,
+          "CpuSeconds": 14.125,
+          "PrivateMB": 410.1796875,
+          "WorkingSetMB": 397.9375,
+          "Handles": 4677,
+          "Gdi": 307,
+          "User": 413
+        },
+        {
+          "Name": "Maxwell.Shell.Core",
+          "Pid": 17268,
+          "CpuSeconds": 0.765625,
+          "PrivateMB": 8.73046875,
+          "WorkingSetMB": 25.30859375,
+          "Handles": 379,
+          "Gdi": 0,
+          "User": 1
+        },
+        {
+          "Name": "windhawk",
+          "Pid": 42584,
+          "CpuSeconds": 0.171875,
+          "PrivateMB": 2.18359375,
+          "WorkingSetMB": 14.94921875,
+          "Handles": 174,
+          "Gdi": 20,
+          "User": 8
+        }
+      ]
+    }
+  ],
+  "Build": {
+    "CoreSha256": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2",
+    "DllSha256": "A3815E7DCA4E7C93FF631838CC033C37B8EFBE5673F88F72138CDB4434C6DCCF",
+    "Version": "4.5.0"
+  },
+  "LogicalProcessors": 24,
+  "CapturedAt": "2026-09-05T00:50:26.4211932-05:00"
+}

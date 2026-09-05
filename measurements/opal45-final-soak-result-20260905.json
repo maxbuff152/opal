@@ -1,0 +1,44 @@
+{
+  "error": null,
+  "check": [
+    {
+      "passed": true,
+      "durationSeconds": 300.5999721,
+      "samples": 21,
+      "processes": [
+        {
+          "name": "explorer",
+          "pid": 44760,
+          "privateStartMB": 317.68,
+          "privateEndMB": 410.18,
+          "handleDelta": -856,
+          "gdiDelta": 2,
+          "userDelta": -64,
+          "cpuPercentMachine": 0.0217
+        },
+        {
+          "name": "Maxwell.Shell.Core",
+          "pid": 17268,
+          "privateStartMB": 8.81,
+          "privateEndMB": 8.73,
+          "handleDelta": 0,
+          "gdiDelta": 0,
+          "userDelta": 0,
+          "cpuPercentMachine": 0.0024
+        },
+        {
+          "name": "windhawk",
+          "pid": 42584,
+          "privateStartMB": 2.18,
+          "privateEndMB": 2.18,
+          "handleDelta": 0,
+          "gdiDelta": 0,
+          "userDelta": 0,
+          "cpuPercentMachine": 0.0
+        }
+      ],
+      "sustainedObjectGrowth": [],
+      "limitation": "A five-minute soak can detect repeated object growth; it does not prove leak freedom. Private memory changes remain observations."
+    }
+  ]
+}

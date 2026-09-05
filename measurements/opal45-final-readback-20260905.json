@@ -1,0 +1,12 @@
+{
+  "capturedAt": "2026-09-05T00:53:50.4546047-05:00",
+  "explorerPid": 44760,
+  "loadedDll": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+  "dllHash": "A3815E7DCA4E7C93FF631838CC033C37B8EFBE5673F88F72138CDB4434C6DCCF",
+  "sourceHashesMatch": true,
+  "corePid": 48360,
+  "coreHash": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2",
+  "privateMB": 410.4,
+  "workingMB": 397.87,
+  "disabled": 0
+}

@@ -1,0 +1,11 @@
+{
+  "dllHash": "A3815E7DCA4E7C93FF631838CC033C37B8EFBE5673F88F72138CDB4434C6DCCF",
+  "recoveredAutomatically": true,
+  "exitMilliseconds": 7,
+  "capturedAt": "2026-09-05T00:52:28.3429373-05:00",
+  "recoveryMilliseconds": 1060,
+  "newPid": 48360,
+  "oldPid": 17268,
+  "coreHash": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2",
+  "gracefulExit": true
+}

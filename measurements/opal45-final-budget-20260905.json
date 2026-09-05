@@ -1,0 +1,31 @@
+{
+  "error": "Opal performance budget failed: {\"cpuPercentOneCore\":0.156,\"privateMB\":13.44,\"workingSetMB\":22.78,\"positiveGrowthSamples\":0}",
+  "check": [
+    {
+      "passed": false,
+      "receipt": "D:\\Opal\\measurements\\package-cost-opal45-final-20260905-abba.json",
+      "build": {
+        "Version": "4.5.0",
+        "DllSha256": "A3815E7DCA4E7C93FF631838CC033C37B8EFBE5673F88F72138CDB4434C6DCCF",
+        "CoreSha256": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2"
+      },
+      "limitation": "Paired overhead gate only. Positive short-window object changes are diagnostic, not a leak verdict; require a same-process resource soak.",
+      "delta": {
+        "cpuPercentOneCore": 0.156,
+        "privateMB": 13.44,
+        "workingSetMB": 22.78,
+        "positiveGrowthSamples": 0
+      },
+      "budget": {
+        "cpuPercentOneCore": 0.25,
+        "privateMB": 20.0,
+        "workingSetMB": 16.0
+      },
+      "checks": {
+        "cpu": true,
+        "privateCommit": true,
+        "workingSet": false
+      }
+    }
+  ]
+}

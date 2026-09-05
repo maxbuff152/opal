@@ -1,0 +1,14 @@
+{
+  "benchmark": "opal45-hardened-20260905-abba first attempt",
+  "error": "Performance initialized but has not attached in the current Explorer session.",
+  "diagnosis": "Performance initialization failed on cold starts; late attachment was skipped. Redundant unified loader fallback removed; exact original hook error was not captured.",
+  "componentInitEvidence": [
+    "[attach] component init pid=20600: media=1 performance=1",
+    "[attach] component init pid=20600: media=1 performance=1",
+    "[attach] component init pid=28104: media=1 performance=0",
+    "[attach] component init pid=41836: media=1 performance=0",
+    "[attach] component init pid=26992: media=1 performance=0",
+    "[attach] component init pid=40892: media=1 performance=0"
+  ],
+  "capturedAt": "2026-09-05T00:19:02.8339043-05:00"
+}
