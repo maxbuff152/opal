@@ -1,0 +1,34 @@
+{
+  "AtUtc": "2026-09-05T09:18:42.7093476Z",
+  "Restored": true,
+  "Pid": 47880,
+  "ProcessStartUtc": "2026-09-05T09:18:38.7729793Z",
+  "DllSha256": "CD4D8D7B9A4CFEE7AB1DD5179E8AD163078271A4E2103F7960AE43B369978F8D",
+  "DiagnosticsPresent": false,
+  "DiagnosticsValue": null,
+  "Attachment": {
+    "passed": true,
+    "explorerPid": 47880,
+    "attached": [
+      "Media",
+      "Performance"
+    ],
+    "views": [
+      {
+        "component": "Media",
+        "expected": 1,
+        "attached": 1,
+        "fullWindow": 16058980,
+        "ageSeconds": 0.2
+      },
+      {
+        "component": "Performance",
+        "expected": 1,
+        "attached": 1,
+        "fullWindow": 16058980,
+        "ageSeconds": 0.24
+      }
+    ],
+    "limitation": "Attachment evidence does not replace visual inspection of an unobscured taskbar."
+  }
+}
