@@ -1,0 +1,85 @@
+{
+  "Label": "stock-20260904",
+  "CapturedUtc": "2026-09-04T14:17:14.9771874Z",
+  "Samples": 3,
+  "EnabledModCount": 0,
+  "EnabledMods": [],
+  "TotalInjectedDlls": 0.0,
+  "TotalInjectedKB": 0.0,
+  "PerProcess": [
+    {
+      "Process": "explorer",
+      "ModDllCount": 0.0,
+      "ModDllKB": 0.0,
+      "PrivateMB": 420.6,
+      "WorkingSetMB": 296.2,
+      "Handles": 3754.0,
+      "Threads": 129.0,
+      "ModDlls": []
+    },
+    {
+      "Process": "SearchHost",
+      "ModDllCount": 0.0,
+      "ModDllKB": 0.0,
+      "PrivateMB": 88.4,
+      "WorkingSetMB": 147.8,
+      "Handles": 1412.0,
+      "Threads": 50.0,
+      "ModDlls": []
+    },
+    {
+      "Process": "ShellExperienceHost",
+      "ModDllCount": 0.0,
+      "ModDllKB": 0.0,
+      "PrivateMB": 82.4,
+      "WorkingSetMB": 91.9,
+      "Handles": 1062.0,
+      "Threads": 40.0,
+      "ModDlls": []
+    },
+    {
+      "Process": "ShellHost",
+      "ModDllCount": 0.0,
+      "ModDllKB": 0.0,
+      "PrivateMB": 50.6,
+      "WorkingSetMB": 67.0,
+      "Handles": 587.0,
+      "Threads": 25.0,
+      "ModDlls": []
+    },
+    {
+      "Process": "StartMenuExperienceHost",
+      "ModDllCount": 0.0,
+      "ModDllKB": 0.0,
+      "PrivateMB": 434.1,
+      "WorkingSetMB": 376.3,
+      "Handles": 1555.0,
+      "Threads": 64.0,
+      "ModDlls": []
+    }
+  ],
+  "SourceLinesTotal": 11642.0,
+  "Sources": [
+    {
+      "Source": "maxwell-opal-media.wh",
+      "Lines": 2732,
+      "KB": 102.0
+    },
+    {
+      "Source": "maxwell-shell.wh",
+      "Lines": 1905,
+      "KB": 81.0
+    },
+    {
+      "Source": "maxwell-taskbar-system-info.wh",
+      "Lines": 7005,
+      "KB": 264.0
+    }
+  ],
+  "BuiltDlls": [
+    {
+      "Dll": "local_at_opal_4.4.0_owned.dll",
+      "KB": 1388.0
+    }
+  ]
+}

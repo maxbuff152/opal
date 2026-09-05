@@ -12,7 +12,7 @@ $control = [IO.File]::ReadAllText((Join-Path $root 'mod\visual-clones\opal-contr
 $builder = [IO.File]::ReadAllText((Join-Path $root 'Build-OpalSuite.ps1'))
 $benchmark = [IO.File]::ReadAllText((Join-Path $root 'Measure-OpalPackageCost.ps1'))
 
-Check ($shell -match '(?m)^// @id\s+opal$') 'Windhawk owner is not the single Opal mod.'
+Check ($shell -match '(?m)^//\s+@id\s+opal\s*$') 'Windhawk owner is not the single Opal mod.'
 foreach($setting in @('leanMode','layoutMode','mediaEnabled','mediaMonitor','mediaFullDisplay','mediaSize','performanceEnabled','performanceMonitor','performanceFullDisplay','performanceSize','mirrorStyle','widgetTextSize','widgetBackgroundStrength','showArtwork','showArtist','hideWithoutSession','smoothProgress','temperatureUnit','showInlineGraphs','commandCenterEnabled','clockSize','resetWidgetPositions')){ Check ($shell -match "(?m)^\s*- ${setting}:") "Missing Windhawk setting $setting." }
 Check ($shell -match 'OpalMedia_ModSettingsChanged' -and $shell -match 'OpalPerformance_ModSettingsChanged') 'Settings do not fan out live to both internal components.'
 Check ($shell -match '\$name: Screens' -and $shell -match 'mediaMonitor: both' -and $shell -match 'performanceMonitor: both') 'Windhawk does not expose shared-data dual-monitor defaults.'

@@ -1,0 +1,102 @@
+{
+  "Label": "before-rounded-20260904",
+  "CapturedUtc": "2026-09-04T14:14:33.4405550Z",
+  "Samples": 3,
+  "EnabledModCount": 1,
+  "EnabledMods": [
+    {
+      "Mod": "local@opal",
+      "Version": "4.4.0",
+      "LibraryFileName": "local_at_opal_4.4.0_owned.dll",
+      "Include": "explorer.exe|StartMenuExperienceHost.exe|SearchHost.exe|SearchApp.exe|ShellExperienceHost.exe|ShellHost.exe"
+    }
+  ],
+  "TotalInjectedDlls": 5.0,
+  "TotalInjectedKB": 6940.0,
+  "PerProcess": [
+    {
+      "Process": "explorer",
+      "ModDllCount": 1.0,
+      "ModDllKB": 1388.0,
+      "PrivateMB": 404.0,
+      "WorkingSetMB": 273.9,
+      "Handles": 3367.0,
+      "Threads": 111.0,
+      "ModDlls": [
+        "local_at_opal_4.4.0_owned.dll"
+      ]
+    },
+    {
+      "Process": "SearchHost",
+      "ModDllCount": 1.0,
+      "ModDllKB": 1388.0,
+      "PrivateMB": 77.9,
+      "WorkingSetMB": 120.3,
+      "Handles": 1088.0,
+      "Threads": 30.0,
+      "ModDlls": [
+        "local_at_opal_4.4.0_owned.dll"
+      ]
+    },
+    {
+      "Process": "ShellExperienceHost",
+      "ModDllCount": 1.0,
+      "ModDllKB": 1388.0,
+      "PrivateMB": 82.4,
+      "WorkingSetMB": 91.9,
+      "Handles": 1062.0,
+      "Threads": 40.0,
+      "ModDlls": [
+        "local_at_opal_4.4.0_owned.dll"
+      ]
+    },
+    {
+      "Process": "ShellHost",
+      "ModDllCount": 1.0,
+      "ModDllKB": 1388.0,
+      "PrivateMB": 50.6,
+      "WorkingSetMB": 66.7,
+      "Handles": 582.0,
+      "Threads": 25.0,
+      "ModDlls": [
+        "local_at_opal_4.4.0_owned.dll"
+      ]
+    },
+    {
+      "Process": "StartMenuExperienceHost",
+      "ModDllCount": 1.0,
+      "ModDllKB": 1388.0,
+      "PrivateMB": 428.4,
+      "WorkingSetMB": 363.8,
+      "Handles": 1315.0,
+      "Threads": 34.0,
+      "ModDlls": [
+        "local_at_opal_4.4.0_owned.dll"
+      ]
+    }
+  ],
+  "SourceLinesTotal": 11642.0,
+  "Sources": [
+    {
+      "Source": "maxwell-opal-media.wh",
+      "Lines": 2732,
+      "KB": 102.0
+    },
+    {
+      "Source": "maxwell-shell.wh",
+      "Lines": 1905,
+      "KB": 81.0
+    },
+    {
+      "Source": "maxwell-taskbar-system-info.wh",
+      "Lines": 7005,
+      "KB": 264.0
+    }
+  ],
+  "BuiltDlls": [
+    {
+      "Dll": "local_at_opal_4.4.0_owned.dll",
+      "KB": 1388.0
+    }
+  ]
+}

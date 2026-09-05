@@ -26,6 +26,7 @@ $dll64Root = 'C:\ProgramData\Windhawk\Engine\Mods\64'
 $dll32Root = 'C:\ProgramData\Windhawk\Engine\Mods\32'
 $sourceRoot = 'C:\ProgramData\Windhawk\ModsSource'
 $profilePath = 'C:\ProgramData\Windhawk\userprofile.json'
+$windhawkExe = 'C:\Program Files\Windhawk\windhawk.exe'
 $buildRoot = Join-Path $PSScriptRoot 'build\opal-suite'
 $receiptPath = Join-Path $buildRoot 'build-receipt.json'
 $controlInstallRoot = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal'
@@ -41,6 +42,9 @@ foreach ($path in $expectedRoots) {
     if ([IO.Path]::GetFullPath($path).TrimEnd('\') -ne $path.TrimEnd('\')) {
         throw "Refusing an unresolved live target: $path"
     }
+}
+if (-not (Test-Path -LiteralPath $windhawkExe -PathType Leaf)) {
+    throw "Windhawk runtime not found: $windhawkExe"
 }
 
 if (-not (Test-Path -LiteralPath $receiptPath)) { throw "Build receipt not found: $receiptPath" }
@@ -404,6 +408,20 @@ try {
     $profile | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $profilePath -Encoding UTF8
 
     Start-Service -Name Windhawk
+    # The service owns privileged injection, but the per-user Windhawk runtime
+    # owns the active session. A service-only restart leaves Explorer stock and
+    # makes a valid Opal DLL look as though it failed to load.
+    Start-Process -FilePath $windhawkExe -ArgumentList @('-restart', '-tray-only') `
+        -WindowStyle Hidden -Wait
+    $runtimeDeadline = (Get-Date).AddSeconds(15)
+    do {
+        Start-Sleep -Milliseconds 500
+        $windhawkRuntime = Get-Process -Name windhawk -ErrorAction SilentlyContinue |
+            Select-Object -First 1
+    } until ($windhawkRuntime -or (Get-Date) -ge $runtimeDeadline)
+    if (-not $windhawkRuntime) {
+        throw 'Windhawk user runtime did not restart.'
+    }
     Start-Process explorer.exe
 
     $deadline = (Get-Date).AddSeconds(25)

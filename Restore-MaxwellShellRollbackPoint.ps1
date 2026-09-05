@@ -37,6 +37,17 @@ if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administra
     throw 'Administrator access is required to restore Windhawk engine state.'
 }
 
+function Invoke-RegExe {
+    param([Parameter(Mandatory)][string[]] $Arguments)
+
+    $regExe = Join-Path $env:SystemRoot 'System32\reg.exe'
+    $process = Start-Process -FilePath $regExe -ArgumentList $Arguments `
+        -WindowStyle Hidden -Wait -PassThru
+    if ($process.ExitCode -ne 0) {
+        throw "reg.exe failed with exit code $($process.ExitCode): $($Arguments -join ' ')"
+    }
+}
+
 $manifestPath = Join-Path $Bundle 'manifest.json'
 if (-not (Test-Path -LiteralPath $manifestPath)) { throw "Not a rollback bundle (no manifest.json): $Bundle" }
 $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
@@ -98,7 +109,20 @@ if ($PSCmdlet.ShouldProcess('Windhawk shell state', 'restore from bundle')) {
             throw "Refusing unresolved Opal app target: $opalAppTarget"
         }
         if (Test-Path -LiteralPath $opalAppTarget) {
-            Remove-Item -LiteralPath $opalAppTarget -Recurse -Force
+            # Rollback bundles live inside this owner. Preserve them while
+            # replacing runtime state so a restore never deletes its own
+            # source halfway through the copy.
+            $resolvedOpalAppTarget = [IO.Path]::GetFullPath($opalAppTarget).TrimEnd('\')
+            foreach ($child in @(Get-ChildItem -LiteralPath $opalAppTarget -Force)) {
+                if ($child.Name -like 'rollback-*') { continue }
+                $resolvedChild = [IO.Path]::GetFullPath($child.FullName)
+                if (-not $resolvedChild.StartsWith(
+                        $resolvedOpalAppTarget + '\',
+                        [StringComparison]::OrdinalIgnoreCase)) {
+                    throw "Refusing to remove path outside Opal runtime: $resolvedChild"
+                }
+                Remove-Item -LiteralPath $child.FullName -Recurse -Force
+            }
         }
         $opalShortcutTarget = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Opal.lnk'
         if (Test-Path -LiteralPath $opalShortcutTarget) {
@@ -119,14 +143,15 @@ if ($PSCmdlet.ShouldProcess('Windhawk shell state', 'restore from bundle')) {
     }
 
     if ($manifest.PSObject.Properties['OpalControlKeyPresent']) {
-        & reg.exe delete 'HKCU\Software\Maxwell\Opal' /f 2>$null | Out-Null
+        if (Test-Path -LiteralPath 'HKCU:\Software\Maxwell\Opal') {
+            Invoke-RegExe -Arguments @('delete', 'HKCU\Software\Maxwell\Opal', '/f')
+        }
         if ([bool]$manifest.OpalControlKeyPresent) {
             $opalControlReg = Join-Path $Bundle 'OpalControl.reg'
             if (-not (Test-Path -LiteralPath $opalControlReg)) {
                 throw 'Rollback manifest expects OpalControl.reg, but it is missing.'
             }
-            & reg.exe import $opalControlReg 2>$null | Out-Null
-            if ($LASTEXITCODE -ne 0) { throw 'Registry import failed for Opal control state.' }
+            Invoke-RegExe -Arguments @('import', $opalControlReg)
         }
     }
 
@@ -134,12 +159,20 @@ if ($PSCmdlet.ShouldProcess('Windhawk shell state', 'restore from bundle')) {
         $reg = Join-Path $Bundle "$store.reg"
         if (-not (Test-Path -LiteralPath $reg)) { continue }
         $key = "HKLM\SOFTWARE\Windhawk\Engine\$store"
-        & reg.exe delete $key /f 2>$null | Out-Null
-        & reg.exe import $reg 2>$null | Out-Null
-        if ($LASTEXITCODE -ne 0) { throw "Registry import failed for $store. Shell state is PARTIALLY restored - re-run this script." }
+        $providerKey = "HKLM:\SOFTWARE\Windhawk\Engine\$store"
+        if (Test-Path -LiteralPath $providerKey) {
+            Invoke-RegExe -Arguments @('delete', $key, '/f')
+        }
+        Invoke-RegExe -Arguments @('import', $reg)
     }
 
     Start-Service -Name 'Windhawk' -ErrorAction SilentlyContinue
+    $windhawkExe = 'C:\Program Files\Windhawk\windhawk.exe'
+    if (-not (Test-Path -LiteralPath $windhawkExe -PathType Leaf)) {
+        throw "Windhawk runtime not found: $windhawkExe"
+    }
+    Start-Process -FilePath $windhawkExe -ArgumentList @('-restart', '-tray-only') `
+        -WindowStyle Hidden -Wait
 
     Write-Host "  restarting Explorer so the restored state goes live..." -ForegroundColor Cyan
     $planned = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal\planned-explorer-restart'

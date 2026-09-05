@@ -1,0 +1,110 @@
+{
+  "measuredAt": "2026-09-04T10:27:32.1036623-05:00",
+  "seconds": 10,
+  "processes": [
+    {
+      "name": "dwm",
+      "pid": 2644,
+      "cpuSeconds": 0.0,
+      "privateMB": 488.67,
+      "workingMB": 125.17,
+      "handles": 2250,
+      "handleDelta": 0,
+      "gdi": null,
+      "gdiDelta": null,
+      "user": null,
+      "userDelta": null
+    },
+    {
+      "name": "explorer",
+      "pid": 12848,
+      "cpuSeconds": 0.047,
+      "privateMB": 185.05,
+      "workingMB": 233.49,
+      "handles": 3325,
+      "handleDelta": 0,
+      "gdi": 183,
+      "gdiDelta": 0,
+      "user": 289,
+      "userDelta": 0
+    },
+    {
+      "name": "Maxwell.Shell.Core",
+      "pid": 7968,
+      "cpuSeconds": 0.0,
+      "privateMB": 9.18,
+      "workingMB": 25.65,
+      "handles": 394,
+      "handleDelta": 0,
+      "gdi": null,
+      "gdiDelta": null,
+      "user": null,
+      "userDelta": null
+    },
+    {
+      "name": "SearchHost",
+      "pid": 35852,
+      "cpuSeconds": 0.0,
+      "privateMB": 81.01,
+      "workingMB": 146.89,
+      "handles": 1125,
+      "handleDelta": 0,
+      "gdi": 18,
+      "gdiDelta": 0,
+      "user": 41,
+      "userDelta": 0
+    },
+    {
+      "name": "ShellExperienceHost",
+      "pid": 4868,
+      "cpuSeconds": 0.0,
+      "privateMB": 57.71,
+      "workingMB": 78.09,
+      "handles": 809,
+      "handleDelta": 0,
+      "gdi": 18,
+      "gdiDelta": 0,
+      "user": 42,
+      "userDelta": 0
+    },
+    {
+      "name": "StartMenuExperienceHost",
+      "pid": 26576,
+      "cpuSeconds": 0.0,
+      "privateMB": 117.17,
+      "workingMB": 181.06,
+      "handles": 1731,
+      "handleDelta": 0,
+      "gdi": 0,
+      "gdiDelta": 0,
+      "user": 52,
+      "userDelta": 0
+    },
+    {
+      "name": "windhawk",
+      "pid": 23784,
+      "cpuSeconds": 0.0,
+      "privateMB": 1.94,
+      "workingMB": 11.94,
+      "handles": 158,
+      "handleDelta": 0,
+      "gdi": null,
+      "gdiDelta": null,
+      "user": null,
+      "userDelta": null
+    },
+    {
+      "name": "windhawk",
+      "pid": 44596,
+      "cpuSeconds": 0.0,
+      "privateMB": 2.35,
+      "workingMB": 15.19,
+      "handles": 178,
+      "handleDelta": 0,
+      "gdi": 20,
+      "gdiDelta": 0,
+      "user": 8,
+      "userDelta": 0
+    }
+  ]
+}

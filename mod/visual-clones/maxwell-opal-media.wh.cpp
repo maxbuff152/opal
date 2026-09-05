@@ -952,7 +952,8 @@ GlobalSystemMediaTransportControlsSession PickSession() {
     auto current = g_manager.GetCurrentSession();
     if (current) {
         try {
-            if (current.GetPlaybackInfo().PlaybackStatus() ==
+            auto playback = current.GetPlaybackInfo();
+            if (playback && playback.PlaybackStatus() ==
                 GlobalSystemMediaTransportControlsSessionPlaybackStatus::Playing) {
                 return current;
             }
@@ -960,7 +961,8 @@ GlobalSystemMediaTransportControlsSession PickSession() {
     }
     for (auto const& session : sessions) {
         try {
-            if (session.GetPlaybackInfo().PlaybackStatus() ==
+            auto playback = session.GetPlaybackInfo();
+            if (playback && playback.PlaybackStatus() ==
                 GlobalSystemMediaTransportControlsSessionPlaybackStatus::Playing) {
                 return session;
             }
@@ -989,6 +991,12 @@ bool RefreshMediaSnapshot() {
         auto properties = session.TryGetMediaPropertiesAsync().get();
         auto playback = session.GetPlaybackInfo();
         auto timeline = session.GetTimelineProperties();
+        // A media session can disappear between enumeration and this refresh.
+        // C++/WinRT represents that race as a null interface; calling through
+        // it raises a native access violation before the catch below can run.
+        if (!playback) {
+            return false;
+        }
 
         MediaSnapshot next;
         next.hasSession = true;
@@ -1001,9 +1009,11 @@ bool RefreshMediaSnapshot() {
             next.title = next.source.empty() ? L"Now Playing" : next.source;
         }
         auto controls = playback.Controls();
-        next.canPrevious = controls.IsPreviousEnabled();
-        next.canToggle = controls.IsPlayPauseToggleEnabled();
-        next.canNext = controls.IsNextEnabled();
+        if (controls) {
+            next.canPrevious = controls.IsPreviousEnabled();
+            next.canToggle = controls.IsPlayPauseToggleEnabled();
+            next.canNext = controls.IsNextEnabled();
+        }
         next.start100ns = timeline.StartTime().count();
         next.position100ns = timeline.Position().count();
         next.end100ns = timeline.EndTime().count();
@@ -1573,6 +1583,8 @@ void ApplyMediaReservedSpace(bool visible) {
     margin.Left += g_reservedMargin;
     g_taskItemsRepeater.Margin(margin);
 }
+
+void ApplyDensity(double width);
 
 void UpdateWidgetVisibility() {
     if (!g_widget) {

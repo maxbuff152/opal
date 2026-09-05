@@ -88,13 +88,13 @@ inline constexpr Prop kBorderlessContainer[] = {
 };
 
 inline constexpr Prop kFloatingTaskbarRoot[] = {
-    // The taskbar root is only a layout host. Media, System Info, tray, and
-    // Clock own their intentional materials; regular applications must not be
-    // enclosed by an additional shared rectangle.
-    { L"Background", nullptr, L"Transparent", false },
+    // The app lane is a first-class 50-DIP capsule, matching the tray, clock,
+    // Media, and Computer stats instead of leaving its icons ungrounded.
+    { L"Background", nullptr, L"$OpalTaskbarSurface", true },
     { L"BorderThickness", nullptr, L"0", false },
     { L"BorderBrush", nullptr, L"Transparent", false },
-    { L"CornerRadius", nullptr, L"0", false },
+    { L"Margin", nullptr, L"10,9,10,9", false },
+    { L"CornerRadius", nullptr, L"25", false },
     { L"Clip", nullptr, L"None", false },
 };
 
@@ -119,7 +119,8 @@ inline constexpr Prop kFrostedTraySurface[] = {
     // inside Opal's 68-DIP taskbar produce the same 50-DIP visible envelope
     // without a competing Height constraint or a XAML measure loop.
     { L"Margin", nullptr, L"8,9,8,9", false },
-    { L"CornerRadius", nullptr, L"13", false },
+    { L"Padding", nullptr, L"8,0,8,0", false },
+    { L"CornerRadius", nullptr, L"25", false },
 };
 
 inline constexpr Prop kFrostedHardwareSurface[] = {
@@ -128,7 +129,7 @@ inline constexpr Prop kFrostedHardwareSurface[] = {
     { L"BorderBrush", nullptr, L"Transparent", false },
     { L"Height", nullptr, L"50", false },
     { L"VerticalAlignment", nullptr, L"Center", false },
-    { L"CornerRadius", nullptr, L"13", false },
+    { L"CornerRadius", nullptr, L"25", false },
 };
 
 inline constexpr Prop kFrostedMediaSurface[] = {
@@ -137,7 +138,7 @@ inline constexpr Prop kFrostedMediaSurface[] = {
     { L"BorderBrush", nullptr, L"Transparent", false },
     { L"Height", nullptr, L"50", false },
     { L"VerticalAlignment", nullptr, L"Center", false },
-    { L"CornerRadius", nullptr, L"13", false },
+    { L"CornerRadius", nullptr, L"25", false },
 };
 
 inline constexpr Prop kInvisibleButtonChrome[] = {

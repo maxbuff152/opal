@@ -53,6 +53,7 @@ inline constexpr Constant kConstants[] = {
     { Host::Explorer, L"TrayPadding", L"2,4,2,4" },
     { Host::Explorer, L"Height", L"68" },
     { Host::Explorer, L"TaskbarFrameMaxWidth", L"1895" },
+    { Host::Explorer, L"OpalTaskbarSurface", L"<WindhawkBlur BlurAmount=\"28\" TintColor=\"#16181D\" TintOpacity=\"0.58\" TintLuminosityOpacity=\"0.20\" TintSaturation=\"0.0\" NoiseOpacity=\"0.010\" FallbackColor=\"#D916181D\" />" },
     { Host::StartMenu, L"Translucent", L"<WindhawkBlur BlurAmount=\"15\" TintColor=\"#10808080\"/>" },
     { Host::StartMenu, L"Glass", L"<WindhawkBlur BlurAmount=\"5\" TintColor=\"{ThemeResource SystemChromeMediumColor}\" TintOpacity=\"0.7\" />" },
     { Host::StartMenu, L"Frosted", L"<WindhawkBlur BlurAmount=\"20\" TintColor=\"{ThemeResource SystemChromeMediumColor}\" TintOpacity=\"0.7\" />" },
@@ -115,7 +116,7 @@ inline constexpr Constant kConstants[] = {
     { Host::ShellFlyout, L"overlay", L"<SolidColorBrush Color=\"#000000\" Opacity=\"0.32\" />" },
     { Host::ShellFlyout, L"BorderBrush", L"<LinearGradientBrush StartPoint=\"0,0\" EndPoint=\"0,1\"><GradientStop Color=\"#3CFFFFFF\" Offset=\"0\" /><GradientStop Color=\"#14FFFFFF\" Offset=\"0.55\" /><GradientStop Color=\"#06FFFFFF\" Offset=\"1\" /></LinearGradientBrush>" },
 };
-inline constexpr int kConstantCount = 81;
+inline constexpr int kConstantCount = 82;
 
 inline constexpr Prop kProps0[] = {
     { L"MaxWidth", nullptr, L"{{containerGridWidth>0?min($TaskbarFrameMaxWidth,containerGridWidth):$TaskbarFrameMaxWidth}}", false },
@@ -132,11 +133,11 @@ inline constexpr Prop kProps0[] = {
 // now agree. Padding is symmetric: the right side had none, so the last app
 // button sat flush against the frame's clip edge and its hover zoom was cut.
 inline constexpr Prop kProps1[] = {
-    { L"Margin", nullptr, L"10,2,10,2", false },
+    { L"Margin", nullptr, L"10,9,10,9", false },
     { L"BorderThickness", nullptr, L"0", false },
     { L"BorderBrush", nullptr, L"Transparent", false },
-    { L"CornerRadius", nullptr, L"0", false },
-    { L"Background", nullptr, L"Transparent", false },
+    { L"CornerRadius", nullptr, L"25", false },
+    { L"Background", nullptr, L"$OpalTaskbarSurface", true },
     { L"Padding", nullptr, L"14,0,14,0", false },
 };
 inline constexpr Prop kProps2[] = {
@@ -161,18 +162,18 @@ inline constexpr Prop kProps5[] = {
     { L"Margin", nullptr, L"0", false },
 };
 inline constexpr Prop kProps6[] = {
-    { L"Margin", nullptr, L"0,2,0,2", false },
-    { L"Padding", nullptr, L"0,0,8,0", false },
-    { L"Background", nullptr, L"$Background", true },
-    { L"BorderThickness", nullptr, L"0,1,0.5,1", false },
-    { L"CornerRadius", nullptr, L"0,$CornerRadius,$CornerRadius,0", false },
+    { L"Margin", nullptr, L"8,9,8,9", false },
+    { L"Padding", nullptr, L"8,0,8,0", false },
+    { L"Background", nullptr, L"$OpalTaskbarSurface", true },
+    { L"BorderThickness", nullptr, L"0", false },
+    { L"CornerRadius", nullptr, L"25", false },
 };
 inline constexpr Prop kProps7[] = {
-    { L"Margin", nullptr, L"0,2,0,2", false },
-    { L"Padding", nullptr, L"0,0,8,0", false },
-    { L"Background", nullptr, L"$Background", true },
-    { L"BorderThickness", nullptr, L"0,1,0.5,1", false },
-    { L"CornerRadius", nullptr, L"0,$CornerRadius,$CornerRadius,0", false },
+    { L"Margin", nullptr, L"8,9,8,9", false },
+    { L"Padding", nullptr, L"8,0,8,0", false },
+    { L"Background", nullptr, L"$OpalTaskbarSurface", true },
+    { L"BorderThickness", nullptr, L"0", false },
+    { L"CornerRadius", nullptr, L"25", false },
 };
 inline constexpr Prop kProps8[] = {
     { L"ColumnDefinitions", nullptr, L"<ColumnDefinitionCollection><ColumnDefinition Width=\"*\"/><ColumnDefinition Width=\"Auto\"/><ColumnDefinition Width=\"Auto\"/><ColumnDefinition Width=\"*\"/></ColumnDefinitionCollection>", true },
@@ -1037,16 +1038,17 @@ inline constexpr Prop kProps193[] = {
     { L"BorderBrush", nullptr, L"Transparent", false },
     { L"BorderThickness", nullptr, L"0", false },
     { L"Padding", nullptr, L"14,0,14,0", false },
-    { L"CornerRadius", nullptr, L"0", false },
-    { L"Background", nullptr, L"Transparent", false },
+    { L"Margin", nullptr, L"10,9,10,9", false },
+    { L"CornerRadius", nullptr, L"25", false },
+    { L"Background", nullptr, L"$OpalTaskbarSurface", true },
 };
 inline constexpr Prop kProps194[] = {
-    { L"BorderBrush", nullptr, L"$BorderBrush", true },
-    { L"BorderThickness", nullptr, L"1", false },
-    { L"Padding", nullptr, L"0", false },
-    { L"Margin", nullptr, L"8,2,8,2", false },
+    { L"BorderBrush", nullptr, L"Transparent", false },
+    { L"BorderThickness", nullptr, L"0", false },
+    { L"Padding", nullptr, L"8,0,8,0", false },
+    { L"Margin", nullptr, L"8,9,8,9", false },
     { L"CornerRadius", nullptr, L"25", false },
-    { L"Background", nullptr, L"<SolidColorBrush Color=\"#F7050505\" />", true },
+    { L"Background", nullptr, L"$OpalTaskbarSurface", true },
 };
 inline constexpr Prop kProps195[] = {
     { L"Background", nullptr, L"Transparent", false },

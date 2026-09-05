@@ -50,9 +50,25 @@ New-Item -ItemType Directory -Path (Join-Path $root 'shortcuts') -Force | Out-Nu
 
 $files = [Collections.Generic.List[object]]::new()
 
-function Copy-Tree([string]$from, [string]$to, [string]$kind) {
+function Copy-Tree(
+    [string]$from,
+    [string]$to,
+    [string]$kind,
+    [string[]]$excludePathPrefixes = @()
+) {
     if (-not (Test-Path -LiteralPath $from)) { return }
+    $normalizedExclusions = @($excludePathPrefixes | ForEach-Object {
+        [IO.Path]::GetFullPath($_).TrimEnd('\') + '\'
+    })
     foreach ($f in Get-ChildItem -LiteralPath $from -File -Recurse -ErrorAction SilentlyContinue) {
+        $excluded = $false
+        foreach ($prefix in $normalizedExclusions) {
+            if ($f.FullName.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) {
+                $excluded = $true
+                break
+            }
+        }
+        if ($excluded) { continue }
         $rel  = $f.FullName.Substring($from.Length).TrimStart('\')
         $dest = Join-Path $to $rel
         New-Item -ItemType Directory -Path (Split-Path $dest -Parent) -Force | Out-Null
@@ -82,7 +98,9 @@ $opalApp = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal'
 $opalShortcut = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Opal.lnk'
 $opalAppPresent = Test-Path -LiteralPath $opalApp -PathType Container
 $opalShortcutPresent = Test-Path -LiteralPath $opalShortcut -PathType Leaf
-Copy-Tree $opalApp (Join-Path $root 'apps\opal') 'opalApp'
+$rollbackRoots = @(Get-ChildItem -LiteralPath $opalApp -Directory -Filter 'rollback-*' -ErrorAction SilentlyContinue |
+    ForEach-Object FullName)
+Copy-Tree $opalApp (Join-Path $root 'apps\opal') 'opalApp' $rollbackRoots
 Copy-One $opalShortcut (Join-Path $root 'shortcuts\Opal.lnk') 'opalShortcut'
 
 $profile = 'C:\ProgramData\Windhawk\userprofile.json'

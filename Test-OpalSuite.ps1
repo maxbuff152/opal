@@ -65,6 +65,8 @@ $performance = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clone
 $control = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'mod\visual-clones\opal-control.h'))
 $builder = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Build-OpalSuite.ps1'))
 $installer = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Install-OpalSuite.ps1'))
+$restore = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Restore-MaxwellShellRollbackPoint.ps1'))
+$elevatedInstall = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Run-OpalSuiteInstallElevatedJob.ps1'))
 $coreInstaller = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Install-MaxwellShellCore.ps1'))
 foreach ($setting in @('leanMode','layoutMode','mediaEnabled','mediaMonitor','mediaFullDisplay','mediaSize','performanceEnabled','performanceMonitor','performanceFullDisplay','performanceSize','mirrorStyle','widgetTextSize','widgetBackgroundStrength','showArtwork','showArtist','hideWithoutSession','smoothProgress','temperatureUnit','showInlineGraphs','commandCenterEnabled','clockSize','resetWidgetPositions','resetCrashQuarantine')) {
     Assert-Opal ($shell -match "(?m)^\s*- ${setting}:") "Windhawk Opal settings are missing $setting."
@@ -76,7 +78,13 @@ Assert-Opal ($media -match 'Wh_GetIntSetting\(L"media\.mediaEnabled"\)' -and $me
 Assert-Opal ($performance -match 'Wh_GetIntSetting\(L"performance\.performanceEnabled"\)' -and $performance -notmatch 'InstallControlListener') 'Performance still uses a second control plane.'
 Assert-Opal ($media -match 'stream\.Close\(\)' -and $media -match 'targetPixels') 'Media artwork allocation improvements are missing.'
 Assert-Opal ($performance -match 'PdhCollectQueryDataEx' -and $performance -match 'PerformanceSuspensionReason') 'Event-driven or suspension-aware performance sampling is missing.'
+Assert-Opal ($performance -match 'WidgetIsMounted' -and $performance -match 'AttachRootLayoutWatchers') 'Performance no longer remounts Computer stats or remeasures after taskbar layout.'
+Assert-Opal ($performance -notmatch 'ContentPriority::Hidden') 'Computer stats still collapses itself when the left lane is tight.'
 Assert-Opal ($performance -match 'ResetCommandCenterView\(\)' -and $performance -match 'g_commandCenterFlyout = nullptr') 'Command center is not destroyed on close.'
+Assert-Opal ($installer -match "'-restart', '-tray-only'" -and $installer -match 'Windhawk user runtime did not restart') 'Installer still restarts only the Windhawk service and can leave Explorer stock.'
+Assert-Opal ($restore -match "child\.Name -like 'rollback-\*'" -and $restore -match 'Refusing to remove path outside Opal runtime') 'Rollback restore can still delete its own source bundle.'
+Assert-Opal ($restore -match 'function Invoke-RegExe' -and $restore -notmatch '& reg\.exe import') 'Rollback restore still lets reg.exe success text abort registry recovery.'
+Assert-Opal ($elevatedInstall -match 'recoveredFrom' -and $elevatedInstall -match 'Restore-MaxwellShellRollbackPoint\.ps1') 'Elevated install does not recover an incomplete live Opal before retrying.'
 Assert-Opal ($media -match 'OtherTaskbarWindows' -and $performance -match 'OtherTaskbarWindows') 'Both-display mode does not inject compact mirrors on every other taskbar.'
 Assert-Opal ($media -match 'VisibleFullViewWindow' -and $performance -match 'VisibleFullViewWindow') 'Visible-display attach is missing; fullscreen on the primary bar would still blank the second screen.'
 Assert-Opal ($performance -match 'ContentPriority::Essential' -and $performance -notmatch 'return ContentPriority::Hidden') 'Computer stats still disappear when the left zone is tight.'

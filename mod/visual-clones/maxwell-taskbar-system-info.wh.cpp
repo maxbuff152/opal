@@ -593,7 +593,6 @@ enum class ContentPriority {
     Full,
     Balanced,
     Essential,
-    Hidden,
 };
 
 struct ModSettings {
@@ -697,6 +696,7 @@ double g_widgetDragStartX = 0.0;
 double g_widgetDragStartLeft = 0.0;
 [[clang::no_destroy]] DispatcherTimer g_timer{nullptr};
 event_token g_timerToken{};
+event_token g_rootSizeChangedToken{};
 [[clang::no_destroy]]
 std::optional<std::list<FrameworkElement::Loaded_revoker>> g_loadedRevokers{
     std::in_place};
@@ -992,6 +992,7 @@ bool TryReadExternalTelemetry(MetricsSnapshot& snapshot) {
                 Wh_Log(L"External telemetry publisher %u is gone",
                        wire.publisherPid);
                 CloseExternalTelemetry();
+                EnsureShellCoreProcess();
                 return false;
             }
         } else {
@@ -1001,6 +1002,7 @@ bool TryReadExternalTelemetry(MetricsSnapshot& snapshot) {
                 Wh_Log(L"External telemetry publisher %u exited",
                        wire.publisherPid);
                 CloseExternalTelemetry();
+                EnsureShellCoreProcess();
                 return false;
             }
         }
@@ -3800,6 +3802,9 @@ ContentPriority ResolveContentPriority(double available,
     if (!settings.contentPriorityEnabled) {
         return ContentPriority::Full;
     }
+    // Never treat a tight left lane as "no widget". Compact CPU/RAM at
+    // kCompactHardwareWidth is the floor; overlap is handled by reserved
+    // space, not by collapsing Computer stats off the taskbar.
     double effective = std::min(available, requested);
     if (effective < kCompactHardwareWidth) {
         return ContentPriority::Essential;
@@ -3824,12 +3829,11 @@ void ApplyWidgetGeometry(const ModSettings& settings, FocusScene scene) {
                            : requestedWidth;
     g_contentPriority = ResolveContentPriority(available, requestedWidth, settings);
     g_lastAvailableWidth = available;
-    if (g_contentPriority == ContentPriority::Hidden) {
-        g_contentPriority = ContentPriority::Essential;
-    }
     g_widget.Visibility(Visibility::Visible);
-
-    g_effectiveWidgetWidth = std::clamp(std::min(requestedWidth, available),
+    double boundedAvailable =
+        available > 0.0 ? std::max(available, kCompactHardwareWidth)
+                        : requestedWidth;
+    g_effectiveWidgetWidth = std::clamp(std::min(requestedWidth, boundedAvailable),
                                         kCompactHardwareWidth,
                                         requestedWidth);
     double columnGap = g_contentPriority == ContentPriority::Full
@@ -3884,8 +3888,7 @@ void ApplyReservedSpace(const ModSettings& settings) {
 
     Thickness margin = g_taskItemsRepeater.Margin();
     margin.Left -= g_reservedMargin;
-    g_reservedMargin = g_userLeft < 0 && settings.reserveSpace &&
-                               g_contentPriority != ContentPriority::Hidden
+    g_reservedMargin = g_userLeft < 0 && settings.reserveSpace
                             ? EffectiveLeftOffset(settings) +
                                   g_effectiveWidgetWidth +
                                   settings.reserveGap
@@ -6045,6 +6048,55 @@ void AttachWidgetDragHandlers(Grid widget) {
         });
 }
 
+void DetachRootLayoutWatchers() {
+    if (g_rootGrid && g_rootSizeChangedToken) {
+        try {
+            g_rootGrid.SizeChanged(g_rootSizeChangedToken);
+        } catch (...) {
+        }
+        g_rootSizeChangedToken = {};
+    }
+}
+
+void AttachRootLayoutWatchers(Grid root) {
+    DetachRootLayoutWatchers();
+    if (!root) {
+        return;
+    }
+    g_rootSizeChangedToken = root.SizeChanged(
+        [](IInspectable const&, SizeChangedEventArgs const&) {
+            if (g_unloading || !g_widget) {
+                return;
+            }
+            try {
+                ModSettings settings = CurrentSettings();
+                MetricsSnapshot latest;
+                uint64_t sequence = 0;
+                FocusScene scene = GetLatestMetrics(latest, sequence)
+                                       ? latest.scene
+                                       : FocusScene::Normal;
+                ApplyAdaptiveOverlapGovernor(settings, scene);
+                ApplyReservedSpace(settings);
+            } catch (...) {
+            }
+        });
+}
+
+bool WidgetIsMounted() {
+    if (!g_widget || !g_rootGrid) {
+        return false;
+    }
+    try {
+        uint32_t index = 0;
+        if (!g_rootGrid.Children().IndexOf(g_widget, index)) {
+            return false;
+        }
+        return g_widget.Visibility() != Visibility::Collapsed;
+    } catch (...) {
+        return false;
+    }
+}
+
 void RemoveWidget() {
     if (g_timer) {
         g_timer.Stop();
@@ -6052,6 +6104,7 @@ void RemoveWidget() {
         g_timer = nullptr;
         g_timerToken = {};
     }
+    DetachRootLayoutWatchers();
 
     // A rebuilt widget starts with unpainted elements; drop the write cache so
     // the first tick repaints instead of skipping as unchanged.
@@ -6160,6 +6213,8 @@ bool InjectWidget(FrameworkElement taskbarFrame) {
         uint32_t currentWidgetIndex = 0;
         if (g_widget && children.IndexOf(g_widget, currentWidgetIndex) &&
             currentWidgetIndex == index) {
+            AttachRootLayoutWatchers(root);
+            OpalControl::MarkPackageSessionLive(L"performance");
             ApplyWidgetSettings();
             if (!StartMetricsWorker()) {
                 Wh_Log(L"Metrics worker unavailable");
@@ -6316,6 +6371,7 @@ bool InjectWidget(FrameworkElement taskbarFrame) {
 
     g_rootGrid = root;
     g_widget = widget;
+    AttachRootLayoutWatchers(root);
     g_taskItemsRepeater =
         FindDirectChildByName(root, L"TaskbarFrameRepeater");
     g_reservedMargin = 0.0;
@@ -6934,18 +6990,18 @@ bool OpalPerformance_EnsureAttached() {
     }
     HWND visible = FindCurrentProcessTaskbarWindow();
     HWND current = g_taskbarWindow.load();
-    if (g_widget && current && visible && visible != current &&
+    if (WidgetIsMounted() && current && visible && visible != current &&
         OpalControl::TaskbarOccluded(current)) {
         ApplyOnTaskbarThread();
-        return g_widget != nullptr || !g_performanceMirrors.empty();
+        return WidgetIsMounted() || !g_performanceMirrors.empty();
     }
-    if (g_widget) return true;
+    if (WidgetIsMounted()) return true;
     if (!visible) {
         visible = OpalControl::VisibleFullViewWindow(
             OpalControl::MonitorTarget::Both, !g_fullViewOnPrimary);
     }
     if (!visible) return false;
     ApplyOnTaskbarThread();
-    return g_widget != nullptr || !g_performanceMirrors.empty();
+    return WidgetIsMounted() || !g_performanceMirrors.empty();
 }
 #endif
