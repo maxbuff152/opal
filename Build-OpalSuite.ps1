@@ -22,7 +22,7 @@ foreach ($path in @($outputRoot, $objectRoot, $packageRoot)) {
     New-Item -ItemType Directory -Path $path -Force | Out-Null
 }
 
-$version = '4.4.0'
+$version = '4.5.0'
 $metadataId = 'opal'
 $localId = 'local@opal'
 $include = 'explorer.exe|StartMenuExperienceHost.exe|SearchHost.exe|SearchApp.exe|ShellExperienceHost.exe|ShellHost.exe'
@@ -119,6 +119,9 @@ $receipt = [pscustomobject]@{
     sha256 = (Get-FileHash -LiteralPath $item.FullName -Algorithm SHA256).Hash
     source = $shellSource
     sourceSha256 = (Get-FileHash -LiteralPath $shellSource -Algorithm SHA256).Hash
+    sourceInputs = @(Get-ChildItem -LiteralPath $sourceRoot -File | Where-Object Extension -in @('.h','.cpp') | Sort-Object Name | ForEach-Object {
+        [pscustomobject]@{ path=$_.FullName; sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
+    })
     components = @($objects | ForEach-Object {
         [pscustomobject]@{ name=$_.Name; source=$_.Source; sha256=(Get-FileHash -LiteralPath $_.Source -Algorithm SHA256).Hash }
     })

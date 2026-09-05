@@ -678,6 +678,13 @@ struct WeatherContext {
     HANDLE stopEvent = nullptr;
 };
 
+bool WeatherFetchDue(std::uint64_t now, std::uint64_t lastFetchTick,
+                     bool lastFetchSucceeded, bool changed) {
+    const std::uint64_t interval = lastFetchSucceeded ? 600000ull : 30000ull;
+    return changed || lastFetchTick == 0 || now < lastFetchTick ||
+           now - lastFetchTick >= interval;
+}
+
 DWORD WINAPI WeatherLoop(void* rawContext) {
     auto* context = static_cast<WeatherContext*>(rawContext);
     const HANDLE waits[2] = {context->stopEvent, context->wakeEvent};
@@ -686,6 +693,7 @@ DWORD WINAPI WeatherLoop(void* rawContext) {
     wchar_t lastFormat[192]{};
     std::uint32_t lastUnits = 0xFFFFFFFFu;
     std::uint64_t lastFetchTick = 0;
+    bool lastFetchSucceeded = false;
     while (true) {
         const DWORD result =
             WaitForMultipleObjects(waitCount, waits, FALSE, 15000);
@@ -705,9 +713,7 @@ DWORD WINAPI WeatherLoop(void* rawContext) {
             lastUnits != request.units ||
             wcscmp(lastLocation, request.location) != 0 ||
             wcscmp(lastFormat, request.format) != 0;
-        const bool due =
-            lastFetchTick == 0 || now - lastFetchTick > 10ull * 60ull * 1000ull;
-        if (!changed && !due) {
+        if (!WeatherFetchDue(now, lastFetchTick, lastFetchSucceeded, changed)) {
             continue;
         }
         const std::wstring url = BuildWeatherUrl(request);
@@ -716,7 +722,8 @@ DWORD WINAPI WeatherLoop(void* rawContext) {
         msw::CopyBounded(lastLocation, ARRAYSIZE(lastLocation),
                          request.location);
         msw::CopyBounded(lastFormat, ARRAYSIZE(lastFormat), request.format);
-        lastFetchTick = now;
+        lastFetchTick = GetTickCount64();
+        lastFetchSucceeded = body.has_value();
         if (!body) {
             PublishWeather(context->snapshot, context->changedEvent,
                            msw::StatusError, L"");

@@ -13,7 +13,7 @@ $sourceRoot = 'C:\ProgramData\Windhawk\ModsSource'
 $profilePath = 'C:\ProgramData\Windhawk\userprofile.json'
 $expectedId = 'local@opal'
 $expectedMetadataId = 'opal'
-$expectedVersion = '4.4.0'
+$expectedVersion = '4.5.0'
 $failures = [Collections.Generic.List[string]]::new()
 
 function Assert-Opal([bool] $Condition, [string] $Message) {
@@ -44,6 +44,7 @@ if ($build.Count -eq 1) {
     }
     Assert-Opal (Test-Path -LiteralPath $item.packageSource) 'Packaged Opal source is missing.'
     if (Test-Path -LiteralPath $item.packageSource) {
+        Assert-Opal ([IO.File]::ReadAllText($item.packageSource) -match '#error Opal requires Build-OpalSuite.ps1') 'Packaged shell excerpt can silently compile without Media and Performance.'
         Assert-Opal ((Metadata $item.packageSource 'id') -eq $expectedMetadataId) 'Packaged metadata ID is not opal.'
         Assert-Opal ((Metadata $item.packageSource 'version') -eq $expectedVersion) 'Packaged version mismatch.'
         Assert-Opal (-not [regex]::IsMatch([IO.File]::ReadAllText($item.packageSource), '(?m)^\s*#include\s+"[^"]+"')) 'Packaged source has a local include.'

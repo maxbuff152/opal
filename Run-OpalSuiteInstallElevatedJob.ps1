@@ -6,7 +6,10 @@ $resultPath = Join-Path $PSScriptRoot 'build\opal-suite\elevated-install-result.
 try {
     $recoveredFrom = $null
     $liveModKey = 'HKLM:\SOFTWARE\Windhawk\Engine\Mods\local@opal'
-    $liveDll = 'C:\ProgramData\Windhawk\Engine\Mods\64\local_at_opal_4.4.0_owned.dll'
+    $liveLibrary = if (Test-Path -LiteralPath $liveModKey) {
+        (Get-ItemProperty -LiteralPath $liveModKey).LibraryFileName
+    } else { '' }
+    $liveDll = Join-Path 'C:\ProgramData\Windhawk\Engine\Mods\64' ([IO.Path]::GetFileName([string]$liveLibrary))
     if (-not (Test-Path -LiteralPath $liveModKey) -or
         -not (Test-Path -LiteralPath $liveDll -PathType Leaf)) {
         $rollbackRoot = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal'

@@ -1,12 +1,11 @@
 <#
 .SYNOPSIS
-    Assembles the multi-header Opal source into ONE self-contained .wh.cpp.
+    Assembles the shell portion for the unified Opal build and source inspection.
 
 .DESCRIPTION
-    Windhawk marketplace mods are a single file - they cannot #include local
-    headers. Opal is developed as a main source plus its shell and taskbar-
-    geometry headers for sanity; this inlines all of them into one publishable
-    file and strips the optional Maxhawk standalone scaffolding.
+    This is not a standalone release. Build-OpalSuite.ps1 links Media and
+    Performance into the same DLL. The generated source rejects standalone
+    compilation so Windhawk cannot silently replace Opal with a shell-only mod.
 
     Output: dist\Opal\opal.wh.cpp
 #>
@@ -86,11 +85,12 @@ if ($stray.Count -gt 0) {
 }
 if ($text -match 'maxhawk-runtime') { throw 'Maxhawk reference survived the strip.' }
 
+$text = "#ifndef OPAL_UNIFIED_BUILD`r`n#error Opal requires Build-OpalSuite.ps1; compiling this shell excerpt alone would remove Media and Performance.`r`n#endif`r`n" + $text
 [System.IO.File]::WriteAllText($out, $text)
 
 $lines = ([regex]::Matches($text, "`n")).Count + 1
 Write-Host ''
-Write-Host "  assembled single-file Opal" -ForegroundColor Green
+Write-Host "  assembled Opal shell source for the unified suite" -ForegroundColor Green
 Write-Host ("  output : {0}" -f $out)
 Write-Host ("  lines  : {0}" -f $lines)
 Write-Host ("  size   : {0} KB" -f [math]::Round((Get-Item $out).Length / 1KB))

@@ -102,8 +102,9 @@ inline HWND FullViewWindow(MonitorTarget target, bool preferSecondaryForBoth) {
     return windows.primary ? windows.primary : windows.secondary;
 }
 
-// Prefer a taskbar that is actually on screen. Exclusive fullscreen on the
-// primary monitor must not blank the second display's full capsule.
+// Keep display ownership stable while a fullscreen window covers a taskbar.
+// The other display already has a mirror; moving the full XAML tree on focus
+// changes creates duplicate/stale views. Fall back only when a bar is absent.
 inline HWND VisibleFullViewWindow(MonitorTarget target,
                                   bool preferSecondaryForBoth) {
     const auto windows = CurrentProcessTaskbars();
@@ -130,12 +131,7 @@ inline HWND VisibleFullViewWindow(MonitorTarget target,
         consider(windows.secondary);
         for (HWND secondary : windows.secondaries) consider(secondary);
     }
-    HWND fallback = nullptr;
-    for (HWND window : candidates) {
-        if (!fallback) fallback = window;
-        if (!TaskbarOccluded(window)) return window;
-    }
-    return fallback;
+    return candidates.empty() ? nullptr : candidates.front();
 }
 
 inline std::vector<HWND> OtherTaskbarWindows(MonitorTarget target, HWND fullWindow) {
@@ -358,6 +354,25 @@ inline void ResetPackageQuarantine(const wchar_t* package) {
     WritePrivateProfileStringW(L"Health", L"CrashCount", L"0", path.c_str());
     WritePrivateProfileStringW(L"Health", L"Quarantined", L"0", path.c_str());
     WritePrivateProfileStringW(L"Health", L"Reason", L"", path.c_str());
+}
+
+inline void PublishAttachmentProof(const wchar_t* component, HWND fullWindow,
+                                   unsigned expected, unsigned attached) {
+    wchar_t leaf[64]{};
+    swprintf_s(leaf, L"runtime-%lu.ini", GetCurrentProcessId());
+    std::wstring path;
+    if (!BuildLocalAppDataPath(leaf, &path)) return;
+    FILETIME now{};
+    GetSystemTimeAsFileTime(&now);
+    ULARGE_INTEGER stamp{};
+    stamp.LowPart = now.dwLowDateTime;
+    stamp.HighPart = now.dwHighDateTime;
+    wchar_t proof[160]{};
+    swprintf_s(proof, L"%llu|%llu|%u|%u", stamp.QuadPart,
+               static_cast<unsigned long long>(reinterpret_cast<uintptr_t>(fullWindow)),
+               expected, attached);
+    const std::wstring key = std::wstring(component) + L"Attachment";
+    WritePrivateProfileStringW(L"Runtime", key.c_str(), proof, path.c_str());
 }
 
 inline void PublishRuntimeState(const wchar_t* activeName, const wchar_t* pidName,

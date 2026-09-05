@@ -15,7 +15,7 @@ $benchmark = [IO.File]::ReadAllText((Join-Path $root 'Measure-OpalPackageCost.ps
 Check ($shell -match '(?m)^//\s+@id\s+opal\s*$') 'Windhawk owner is not the single Opal mod.'
 foreach($setting in @('leanMode','layoutMode','mediaEnabled','mediaMonitor','mediaFullDisplay','mediaSize','performanceEnabled','performanceMonitor','performanceFullDisplay','performanceSize','mirrorStyle','widgetTextSize','widgetBackgroundStrength','showArtwork','showArtist','hideWithoutSession','smoothProgress','temperatureUnit','showInlineGraphs','commandCenterEnabled','clockSize','resetWidgetPositions')){ Check ($shell -match "(?m)^\s*- ${setting}:") "Missing Windhawk setting $setting." }
 Check ($shell -match 'OpalMedia_ModSettingsChanged' -and $shell -match 'OpalPerformance_ModSettingsChanged') 'Settings do not fan out live to both internal components.'
-Check ($shell -match '\$name: Screens' -and $shell -match 'mediaMonitor: both' -and $shell -match 'performanceMonitor: both') 'Windhawk does not expose shared-data dual-monitor defaults.'
+Check ($shell -match '\$name: Screens' -and $shell -match 'mediaMonitor: primary' -and $shell -match 'performanceMonitor: primary') 'Windhawk defaults must keep the full widgets on the main screen without duplicate mirrors.'
 Check ($shell -notmatch '(?m)^\s*- enableTaskbar:') 'The taskbar is still a separate look toggle instead of Opal itself.'
 Check ($shell -match 'case Host::Explorer:\s+return true;' -and $shell -match 'The Explorer taskbar is Opal') 'Explorer can still disable the Opal bar.'
 Check ($shell -match '\$name: Start, Search, and notifications' -and $shell -notmatch '\$name: Windows look') 'Windows look still treats the taskbar as an optional skin.'

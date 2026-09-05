@@ -10,7 +10,7 @@
     Any failure after mutation triggers automatic restore.
 #>
 [CmdletBinding(SupportsShouldProcess)]
-param()
+param([switch] $MainScreenWidgets)
 
 $ErrorActionPreference = 'Stop'
 
@@ -54,6 +54,13 @@ if ($build.Count -ne 1 -or @($build | Where-Object localId -notin $expectedIds).
     throw 'Build receipt is not the single unified Opal mod.'
 }
 foreach ($item in $build) {
+    if (-not $item.sourceInputs) { throw 'Rebuild Opal with source provenance before installing.' }
+    foreach ($inputFile in $item.sourceInputs) {
+        if (-not (Test-Path -LiteralPath $inputFile.path) -or
+            (Get-FileHash -LiteralPath $inputFile.path -Algorithm SHA256).Hash -ne $inputFile.sha256) {
+            throw "Source changed since the build: $($inputFile.path). Rebuild before installing."
+        }
+    }
     if (-not (Test-Path -LiteralPath $item.output)) { throw "Built DLL is missing: $($item.output)" }
     if ((Get-FileHash -LiteralPath $item.output -Algorithm SHA256).Hash -ne $item.sha256) {
         throw "Built DLL hash mismatch: $($item.output)"
@@ -119,9 +126,9 @@ $opalSettings = [ordered]@{
     'everyday.layoutMode' = (Get-OldOrLegacyValue 'everyday.layoutMode' 'layoutMode' 'automatic')
     'everyday.widgetTextSize' = (Get-OldOrLegacyValue 'everyday.widgetTextSize' 'widgetTextSize' 'standard')
     'everyday.widgetBackgroundStrength' = (Get-OldOrLegacyValue 'everyday.widgetBackgroundStrength' 'widgetBackgroundStrength' 'glass')
-    'screens.mediaMonitor' = 'both'
-    'screens.mediaFullDisplay' = (Get-OldOrLegacyValue 'screens.mediaFullDisplay' 'mediaFullDisplay' 'secondary')
-    'screens.performanceMonitor' = 'both'
+    'screens.mediaMonitor' = 'primary'
+    'screens.mediaFullDisplay' = (Get-OldOrLegacyValue 'screens.mediaFullDisplay' 'mediaFullDisplay' 'primary')
+    'screens.performanceMonitor' = 'primary'
     'screens.performanceFullDisplay' = (Get-OldOrLegacyValue 'screens.performanceFullDisplay' 'performanceFullDisplay' 'primary')
     'screens.mirrorStyle' = (Get-OldOrLegacyValue 'screens.mirrorStyle' 'mirrorStyle' 'detailed')
     'media.mediaEnabled' = (Get-OldOrLegacyValue 'media.mediaEnabled' 'mediaEnabled' 1)
@@ -226,6 +233,14 @@ if ($oldSettings) {
     }
 }
 foreach ($name in $oneShotSettings) { $opalSettings[$name] = 0 }
+if ($MainScreenWidgets) {
+    $opalSettings['screens.mediaMonitor'] = 'primary'
+    $opalSettings['screens.performanceMonitor'] = 'primary'
+    $opalSettings['screens.mediaFullDisplay'] = 'primary'
+    $opalSettings['screens.performanceFullDisplay'] = 'primary'
+    $opalSettings['everyday.layoutMode'] = 'automatic'
+    $opalSettings['performance.performanceSize'] = 'standard'
+}
 
 $settingsById = @{ 'local@opal' = $opalSettings }
 
@@ -450,6 +465,13 @@ try {
     if (Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue) {
         throw 'Leftover MaxwellShell.exe is still running after Opal install.'
     }
+    $attachmentDeadline = (Get-Date).AddSeconds(35)
+    $attachment = $null
+    do {
+        try { $attachment = & (Join-Path $PSScriptRoot 'tests\Test-OpalAttachment.ps1') } catch { $attachment = $null }
+        if (-not $attachment) { Start-Sleep -Seconds 2 }
+    } until ($attachment -or (Get-Date) -ge $attachmentDeadline)
+    if (-not $attachment) { throw 'Opal loaded but its enabled widgets did not attach; restoring the previous installation.' }
 
     $liveIds = @(Get-ChildItem -LiteralPath $modsRoot | ForEach-Object PSChildName | Sort-Object)
     if (Compare-Object ($expectedIds | Sort-Object) $liveIds) { throw 'Live registry is not exactly one Opal mod.' }
@@ -464,6 +486,8 @@ try {
         leftoverMaxwellShellRetired = $true
         coreInstall = $coreInstall
         settingsOwner = 'Windhawk local@opal'
+        attachment = $attachment
+        mainScreenWidgets = [bool]$MainScreenWidgets
         preservedSettingCount = $preservedSettingNames.Count
         preservedSettingNames = @($preservedSettingNames)
     }

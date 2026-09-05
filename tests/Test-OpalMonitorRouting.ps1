@@ -4,7 +4,7 @@ $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $source = [IO.File]::ReadAllText((Join-Path $root 'mod\visual-clones\opal-control.h'))
 $start = $source.IndexOf('inline HWND VisibleFullViewWindow(')
-$end = $source.IndexOf('inline std::vector<HWND> OtherTaskbarWindows', $start)
+$end = $source.IndexOf('inline HWND MirrorViewWindow', $start)
 if ($start -lt 0 -or $end -lt 0) { throw 'Production monitor routing function not found.' }
 $preamble = @'
 #include <vector>
@@ -26,13 +26,26 @@ int main() {
         if (VisibleFullViewWindow(MonitorTarget::Secondary, true) != &b) return 2;
     }
     covered = &a;
-    if (VisibleFullViewWindow(MonitorTarget::Both, false) != &b) return 3;
+    if (VisibleFullViewWindow(MonitorTarget::Both, false) != &a) return 3;
     covered = &b;
-    if (VisibleFullViewWindow(MonitorTarget::Both, true) != &a) return 4;
+    if (VisibleFullViewWindow(MonitorTarget::Both, true) != &b) return 4;
     windows = {&a, nullptr, {}};
     if (VisibleFullViewWindow(MonitorTarget::Secondary, true) != &a) return 5;
     windows = {nullptr, &b, {&b}};
     if (VisibleFullViewWindow(MonitorTarget::Primary, false) != &b) return 6;
+    windows = {nullptr, nullptr, {}};
+    if (VisibleFullViewWindow(MonitorTarget::Both, false) != nullptr) return 7;
+    windows = {&a, &b, {&b}};
+    auto mirrors = OtherTaskbarWindows(MonitorTarget::Both, &a);
+    if (mirrors.size() != 1 || mirrors[0] != &b) return 8;
+    if (!OtherTaskbarWindows(MonitorTarget::Primary, &a).empty()) return 9;
+    windows = {&a, nullptr, {}};
+    if (!OtherTaskbarWindows(MonitorTarget::Both, &a).empty()) return 10;
+    int replacement;
+    windows = {&a, &replacement, {&replacement, &replacement}};
+    mirrors = OtherTaskbarWindows(MonitorTarget::Both, &a);
+    if (mirrors.size() != 1 || mirrors[0] != &replacement) return 11;
+    if (VisibleFullViewWindow(MonitorTarget::Both, true) != &replacement) return 12;
     return 0;
 }
 '@
@@ -45,4 +58,4 @@ $exe = Join-Path $build 'routing.exe'
 if ($LASTEXITCODE -ne 0) { throw 'Monitor routing regression test did not compile.' }
 & $exe
 if ($LASTEXITCODE -ne 0) { throw "Monitor routing regression failed: $LASTEXITCODE" }
-[pscustomobject]@{passed=$true; cases=10; evidence='Production routing under fullscreen and disconnected-display scenarios.'}
+[pscustomobject]@{passed=$true; cases=16; evidence='Production routing: fullscreen stability, missing bars, reconnect, mirror ownership and deduplication.'}

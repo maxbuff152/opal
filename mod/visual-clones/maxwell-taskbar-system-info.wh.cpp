@@ -4,7 +4,7 @@
 // @name:uk-UA      Системний монітор панелі завдань
 // @description     A readable CPU/RAM-first taskbar glance with a full hardware command center for Opal.
 // @description:uk-UA Компактний монітор CPU, GPU, RAM і VRAM із 60-секундними графіками для панелі завдань Windows 11.
-// @version         4.4.0
+// @version         4.5.0
 // @author          Maxbuff152
 // @github          https://github.com/Maxbuff152
 // @homepage        https://github.com/starychenko/windhawk-taskbar-system-info
@@ -661,6 +661,8 @@ struct PerformanceMirrorSlot {
     HWND window = nullptr;
     Grid rootGrid{nullptr};
     Grid widget{nullptr};
+    FrameworkElement repeater{nullptr};
+    double reservedMargin = 0.0;
     TextBlock cpuText{nullptr};
     TextBlock ramText{nullptr};
     Border surfaceBorder{nullptr};
@@ -1109,7 +1111,7 @@ void LoadSettings() {
                                   : (backgroundStrength == L"strong"
                                          ? 0xD0 : 0x9C);
     g_monitorTarget = OpalControl::ReadMonitorSetting(
-        L"screens.performanceMonitor", OpalControl::MonitorTarget::Both);
+        L"screens.performanceMonitor", OpalControl::MonitorTarget::Primary);
     g_highContrast = OpalControl::HighContrast();
     g_reducedMotion = OpalControl::ReducedMotion();
     ModSettings settings;
@@ -1252,9 +1254,7 @@ void LoadUserPosition() {
 
 double EffectiveLeftOffset(const ModSettings& settings) {
     if (g_userLeft >= 0) return static_cast<double>(g_userLeft);
-    return static_cast<double>(settings.leftOffset) +
-           (g_monitorTarget == OpalControl::MonitorTarget::Both
-                ? kDualMirrorLaneReserve : 0.0);
+    return static_cast<double>(settings.leftOffset);
 }
 
 std::wstring ToLower(std::wstring value) {
@@ -5487,6 +5487,15 @@ RowDefinition PixelRow(double height);
 TextBlock CreateCellText(PCWSTR name, TextAlignment alignment);
 
 void RemovePerformanceMirrorSlot(PerformanceMirrorSlot& slot) {
+    if (slot.repeater && slot.reservedMargin != 0.0) {
+        try {
+            auto margin = slot.repeater.Margin();
+            margin.Left -= slot.reservedMargin;
+            slot.repeater.Margin(margin);
+        } catch (...) {}
+    }
+    slot.repeater = nullptr;
+    slot.reservedMargin = 0.0;
     if (slot.rootGrid && slot.widget) {
         try {
             uint32_t index = 0;
@@ -5548,6 +5557,13 @@ bool InjectPerformanceMirror(FrameworkElement taskbarFrame, HWND window) {
     ModSettings settings = CurrentSettings();
     Grid widget;
     widget.Name(kMirrorWidgetName);
+    slot.repeater = FindDirectChildByName(root, L"TaskbarFrameRepeater");
+    if (slot.repeater) {
+        slot.reservedMargin = (g_mirrorDetailed ? kCompactHardwareWidth : 140.0) + 16.0;
+        auto margin = slot.repeater.Margin();
+        margin.Left += slot.reservedMargin;
+        slot.repeater.Margin(margin);
+    }
     widget.Height(kWidgetHeight);
     widget.Width(g_mirrorDetailed ? kCompactHardwareWidth : 140.0);
     widget.Margin(Thickness{static_cast<double>(settings.leftOffset), 0, 0, 0});
@@ -5566,7 +5582,7 @@ bool InjectPerformanceMirror(FrameworkElement taskbarFrame, HWND window) {
     widget.RowDefinitions().Append(PixelRow(kRowHeight));
     slot.surfaceBorder = Border();
     slot.surfaceBorder.Name(L"PerformanceMirrorSurface");
-    slot.surfaceBorder.CornerRadius(CornerRadius{13, 13, 13, 13});
+    slot.surfaceBorder.CornerRadius(CornerRadius{25, 25, 25, 25});
     slot.surfaceBorder.Background(SolidColorBrush(g_highContrast
         ? MakeColor(0xFF, 0x00, 0x00, 0x00)
         : MakeColor(g_widgetBackgroundAlpha, 0x16, 0x18, 0x1D)));
@@ -5696,7 +5712,7 @@ void UpdateWidgetText() {
     // and the ambient edge carry state so warnings stay clear without noise.
 
     if (g_cpuUsageText) {
-        SetTextIfChanged(g_cpuUsageText, FormatLoadPercent(snapshot.cpu));
+        SetTextIfChanged(g_cpuUsageText, FormatPercent(snapshot.cpu));
         if (g_cpuUsageAlert != previousCpuUsageAlert) {
             SetMetricForeground(g_cpuUsageText, g_cpuUsageAlert, settings);
         }
@@ -5726,7 +5742,7 @@ void UpdateWidgetText() {
         }
     }
     if (g_ramPercentText) {
-        SetTextIfChanged(g_ramPercentText, FormatUsedPercent(snapshot.ram));
+        SetTextIfChanged(g_ramPercentText, FormatPercent(snapshot.ram));
         if (g_ramAlert != previousRamAlert) {
             SetMetricForeground(g_ramPercentText, g_ramAlert, settings);
         }
@@ -6640,6 +6656,8 @@ XamlRoot GetTaskbarXamlRoot(HWND taskbarWindow) {
 struct PerformanceApplyContext {
     HWND window;
     bool mirror;
+    bool repairOnly = false;
+    bool attached = false;
 };
 
 void ApplyToCurrentTaskbar(void* value) {
@@ -6661,12 +6679,31 @@ void ApplyToCurrentTaskbar(void* value) {
             return winrt::get_class_name(child) == L"Taskbar.TaskbarFrame";
         });
         if (taskbarFrame) {
+            auto root = FindDirectChildByName(taskbarFrame, L"RootGrid").try_as<Grid>();
+            if (context && context->repairOnly && root) {
+                uint32_t index = 0;
+                if (context->mirror) {
+                    for (auto const& slot : g_performanceMirrors) {
+                        if (slot.window == taskbarWindow && slot.rootGrid == root &&
+                            slot.widget && root.Children().IndexOf(slot.widget, index)) {
+                            context->attached = true;
+                            return;
+                        }
+                    }
+                } else if (g_taskbarWindow.load() == taskbarWindow &&
+                           g_rootGrid == root && WidgetIsMounted()) {
+                    context->attached = true;
+                    return;
+                }
+            }
             if (context && context->mirror) {
-                InjectPerformanceMirror(taskbarFrame, taskbarWindow);
+                context->attached = InjectPerformanceMirror(taskbarFrame, taskbarWindow);
             } else {
                 RememberTaskbarWindow(taskbarWindow);
                 g_userLeftLoaded = false;
-                if (!InjectWidget(taskbarFrame)) {
+                bool attached = InjectWidget(taskbarFrame);
+                if (context) context->attached = attached;
+                if (!attached) {
                     g_taskbarWindow = nullptr;
                     g_taskbarThreadId = 0;
                 }
@@ -6698,17 +6735,19 @@ void RemoveFromCurrentTaskbar(void*) {
     g_taskbarThreadId = 0;
 }
 
-void ApplyOnTaskbarThread() {
+bool ApplyOnTaskbarThread(bool repairOnly = false) {
     HWND fullWindow = FindCurrentProcessTaskbarWindow();
     if (!fullWindow) {
         Wh_Log(L"Taskbar window not found");
-        return;
+        OpalControl::PublishAttachmentProof(L"Performance", nullptr, 1, 0);
+        return false;
     }
-    RememberTaskbarWindow(fullWindow);
-    PerformanceApplyContext full{fullWindow, false};
+    PerformanceApplyContext full{fullWindow, false, repairOnly};
     if (!RunFromWindowThread(fullWindow, ApplyToCurrentTaskbar, &full)) {
         Wh_Log(L"Applying widget on taskbar thread failed");
     }
+    bool attached = full.attached;
+    unsigned attachedViews = full.attached ? 1 : 0;
     auto mirrors = OpalControl::OtherTaskbarWindows(g_monitorTarget, fullWindow);
     std::vector<HWND> leftover;
     for (auto const& slot : g_performanceMirrors) {
@@ -6719,13 +6758,18 @@ void ApplyOnTaskbarThread() {
         if (!wanted && slot.window) leftover.push_back(slot.window);
     }
     for (HWND window : leftover) {
-        RunFromWindowThread(window, RemovePerformanceMirrorForWindow,
+        RunFromWindowThread(IsWindow(window) ? window : fullWindow, RemovePerformanceMirrorForWindow,
                             reinterpret_cast<void*>(window));
     }
     for (HWND mirrorWindow : mirrors) {
-        PerformanceApplyContext mirror{mirrorWindow, true};
+        PerformanceApplyContext mirror{mirrorWindow, true, repairOnly};
         RunFromWindowThread(mirrorWindow, ApplyToCurrentTaskbar, &mirror);
+        attached = attached && mirror.attached;
+        attachedViews += mirror.attached ? 1 : 0;
     }
+    OpalControl::PublishAttachmentProof(L"Performance", fullWindow,
+        static_cast<unsigned>(1 + mirrors.size()), attachedViews);
+    return attached;
 }
 
 using TaskbarFrame_Constructor_t = void*(WINAPI*)(void* pThis);
@@ -6988,19 +7032,6 @@ bool OpalPerformance_EnsureAttached() {
             }
         }
     }
-    HWND visible = FindCurrentProcessTaskbarWindow();
-    if (!visible) return false;
-    // The shell poll runs on a worker. XAML Children/Visibility reads must run
-    // on the taskbar's UI thread, just like injection.
-    bool mounted = false;
-    auto readMounted = [](void* value) {
-        *static_cast<bool*>(value) = WidgetIsMounted();
-    };
-    if (g_taskbarWindow.load() == visible &&
-        RunFromWindowThread(visible, readMounted, &mounted) && mounted) {
-        return true;
-    }
-    ApplyOnTaskbarThread();
-    return RunFromWindowThread(visible, readMounted, &mounted) && mounted;
+    return ApplyOnTaskbarThread(true);
 }
 #endif

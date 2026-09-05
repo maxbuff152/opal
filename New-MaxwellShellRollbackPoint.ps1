@@ -60,7 +60,21 @@ function Copy-Tree(
     $normalizedExclusions = @($excludePathPrefixes | ForEach-Object {
         [IO.Path]::GetFullPath($_).TrimEnd('\') + '\'
     })
-    foreach ($f in Get-ChildItem -LiteralPath $from -File -Recurse -ErrorAction SilentlyContinue) {
+    # Prune exclusions before descent. Filtering files after -Recurse still
+    # walks every historical rollback and even the new destination inside Opal.
+    $pending = [Collections.Generic.Stack[string]]::new()
+    $pending.Push([IO.Path]::GetFullPath($from))
+    while ($pending.Count) {
+        $directory = $pending.Pop()
+        foreach ($child in Get-ChildItem -LiteralPath $directory -Directory -ErrorAction Stop) {
+            $childPath = [IO.Path]::GetFullPath($child.FullName).TrimEnd('\') + '\'
+            $skip = ($child.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0
+            foreach ($prefix in $normalizedExclusions) {
+                if ($childPath.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) { $skip = $true; break }
+            }
+            if (-not $skip) { $pending.Push($child.FullName) }
+        }
+    foreach ($f in Get-ChildItem -LiteralPath $directory -File -ErrorAction Stop) {
         $excluded = $false
         foreach ($prefix in $normalizedExclusions) {
             if ($f.FullName.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) {
@@ -77,6 +91,7 @@ function Copy-Tree(
             Kind = $kind; Relative = $rel; Bytes = $f.Length
             Sha256 = (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash
         })
+    }
     }
 }
 

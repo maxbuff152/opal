@@ -1,11 +1,11 @@
-// Historical filenames (maxwell-shell*.h/.cpp) are the Opal 4.4 sources.
+// Historical filenames (maxwell-shell*.h/.cpp) are the Opal 4.5 sources.
 // Product name is Opal; Windhawk id is local@opal.
 
 // ==WindhawkMod==
 // @id              opal
 // @name            Opal
 // @description     The Windows 11 taskbar as one Windhawk mod: bar, clock, media, and computer stats
-// @version         4.4.0
+// @version         4.5.0
 // @author          Maxbuff152
 // @github          https://github.com/Maxbuff152
 // @include         explorer.exe
@@ -83,20 +83,20 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
   $name: Start here
   $description: Opal is the taskbar. One Windhawk mod. These are the everyday choices.
 - screens:
-  - mediaMonitor: both
+  - mediaMonitor: primary
     $name: Show Media on
     $description: Both screens reuse the same media connection, so the extra view is lightweight.
     $options:
     - primary: Main screen only
     - secondary: Second screen only
     - both: Both screens
-  - mediaFullDisplay: secondary
+  - mediaFullDisplay: primary
     $name: Put the big Media widget on
-    $description: Only matters when Media is on both screens. The other screen gets a smaller view.
+    $description: The other screen gets a compact view. Fullscreen apps do not move your widgets.
     $options:
     - primary: Main screen
     - secondary: Second screen
-  - performanceMonitor: both
+  - performanceMonitor: primary
     $name: Show Computer stats on
     $description: Both screens reuse one collector; Opal does not measure your computer twice.
     $options:
@@ -1716,68 +1716,41 @@ static bool TaskbarViewPresent() {
 }
 
 static DWORD WINAPI LateAttachProc(LPVOID) {
-    bool clockDone = !g_clockInit || OpalAddonClock::g_systemTrayModuleHooked.load();
-#ifdef OPAL_UNIFIED_BUILD
-    bool mediaDone = !g_mediaComponentInit;
-    bool perfDone  = !g_performanceComponentInit;
-#else
-    bool mediaDone = true;
-    bool perfDone  = true;
-#endif
-    for (int tick = 0; tick < 120; ++tick) {                 // ~60s at 500ms
-        if (!SleepUnlessUnloading(500)) { return 0; }
-        if (!TaskbarViewPresent()) { continue; }
-
-        if (!clockDone) {
-            try {
-                if (!OpalAddonClock::g_systemTrayModuleHooked &&
-                    OpalAddonClock::GetSystemTrayModuleHandle()) {
-                    OpalAddonClock::AfterInit();   // hooks SystemTray and re-applies
-                }
-                clockDone = OpalAddonClock::g_systemTrayModuleHooked.load();
-            } catch (...) {
-            }
-            if (clockDone) { AttachLog(L"clock hooked (tick %d)", tick); }
-        }
-#ifdef OPAL_UNIFIED_BUILD
-        if (!mediaDone) {
-            try { mediaDone = OpalMedia_EnsureAttached(); } catch (...) {}
-            if (mediaDone) { AttachLog(L"media attached (tick %d)", tick); }
-        }
-        if (!perfDone) {
-            try { perfDone = OpalPerformance_EnsureAttached(); } catch (...) {}
-            if (perfDone) { AttachLog(L"performance attached (tick %d)", tick); }
-        }
-#endif
-        if (clockDone && mediaDone && perfDone) { return 0; }
-    }
-    AttachLog(L"late attach still waiting: clock=%d media=%d performance=%d",
-              clockDone ? 1 : 0, mediaDone ? 1 : 0, perfDone ? 1 : 0);
-    while (!clockDone || !mediaDone || !perfDone) {
-        if (!SleepUnlessUnloading(15000)) { return 0; }
-        if (!TaskbarViewPresent()) { continue; }
-#ifdef OPAL_UNIFIED_BUILD
-        if (!mediaDone) {
-            try { mediaDone = OpalMedia_EnsureAttached(); } catch (...) {}
-        }
-        if (!perfDone) {
-            try { perfDone = OpalPerformance_EnsureAttached(); } catch (...) {}
-        }
-#endif
-        if (!clockDone) {
+    // Fast boot retries, then a low-frequency health check. Do not latch a
+    // historical success: Windows can replace either taskbar after docking,
+    // scaling, sleep, or a display reconnect without restarting Explorer.
+    unsigned tick = 0;
+    bool healthy = false;
+    for (;;) {
+        if (!SleepUnlessUnloading(healthy ? 5000 : (tick < 120 ? 500 : 5000))) return 0;
+        ++tick;
+        if (!TaskbarViewPresent()) { healthy = false; continue; }
+        bool clockDone = !g_clockInit;
+        if (g_clockInit) {
             try {
                 if (!OpalAddonClock::g_systemTrayModuleHooked &&
                     OpalAddonClock::GetSystemTrayModuleHandle()) {
                     OpalAddonClock::AfterInit();
                 }
                 clockDone = OpalAddonClock::g_systemTrayModuleHooked.load();
-            } catch (...) {
-            }
+            } catch (...) {}
         }
+        bool mediaDone = true, perfDone = true;
+#ifdef OPAL_UNIFIED_BUILD
+        if (g_mediaComponentInit) {
+            try { mediaDone = OpalMedia_EnsureAttached(); } catch (...) { mediaDone = false; }
+        }
+        if (g_performanceComponentInit) {
+            try { perfDone = OpalPerformance_EnsureAttached(); } catch (...) { perfDone = false; }
+        }
+#endif
+        bool next = clockDone && mediaDone && perfDone;
+        if (next != healthy) {
+            AttachLog(L"attachment health: clock=%d media=%d performance=%d", clockDone, mediaDone, perfDone);
+        }
+        healthy = next;
     }
-    return 0;
 }
-
 void Wh_ModAfterInit() {
     // Geometry and Clock can operate without shell styling. Opal 3 has no
     // accent watcher: the material is one fixed monochrome palette.
@@ -1820,6 +1793,18 @@ void Wh_ModSettingsChanged() {
 }
 
 void Wh_ModBeforeUninit() {
+    // Stop and drain recovery before any component destroys its XAML state.
+    // Process pending sent messages if Windhawk invokes teardown on a UI thread.
+    g_unloading.store(true, std::memory_order_release);
+    if (g_lateAttachThread) {
+        while (MsgWaitForMultipleObjects(1, &g_lateAttachThread, FALSE, INFINITE,
+                                         QS_SENDMESSAGE) == WAIT_OBJECT_0 + 1) {
+            MSG message{};
+            PeekMessageW(&message, nullptr, 0, 0, PM_NOREMOVE | PM_QS_SENDMESSAGE);
+        }
+        CloseHandle(g_lateAttachThread);
+        g_lateAttachThread = nullptr;
+    }
 #ifdef OPAL_UNIFIED_BUILD
     if (g_mediaComponentInit) OpalMedia_ModBeforeUninit();
     if (g_performanceComponentInit) OpalPerformance_ModBeforeUninit();

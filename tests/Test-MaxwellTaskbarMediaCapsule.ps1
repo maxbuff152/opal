@@ -17,8 +17,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $modId = 'local@opal'
 $metadataId = 'opal-addon-media'
-$expectedComponentVersion = '4.4.0'
-$expectedUnifiedVersion = '4.4.0'
+$expectedComponentVersion = '4.5.0'
+$expectedUnifiedVersion = '4.5.0'
 $root = Split-Path -Parent $PSScriptRoot
 $master = Join-Path $root 'mod\visual-clones\maxwell-opal-media.wh.cpp'
 $deployed = "C:\ProgramData\Windhawk\ModsSource\$modId.wh.cpp"

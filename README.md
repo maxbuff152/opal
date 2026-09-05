@@ -8,7 +8,7 @@ See `OPAL-START-HERE.md` for the short project map.
 ## Supported architecture
 
 Opal is the only supported Windhawk visual runtime in this tree. Windhawk shows
-exactly one Maxwell-owned mod: `local@opal` 4.4.0. That mod **is** the taskbar:
+exactly one Maxwell-owned mod: `local@opal` 4.5.0. That mod **is** the taskbar:
 its DLL contains internally isolated Shell, Clock, Media, and Performance
 components. There is no separate taskbar skin, widget pack, or Opal app.
 
@@ -56,8 +56,8 @@ raw dimensions remain in the advanced section. Text size changes affect the
 full widgets and compact mirrors without creating more collectors or processes.
 
 Windhawk applies Media and Performance changes live through the single mod's
-settings-change callback. There is no Opal executable, Start-menu shortcut,
-tray resident, control mirror, message hook, polling watcher, or ordinary
+settings-change callback. The five-second attachment check verifies current taskbar roots without rebuilding healthy widgets. There is no Opal executable, Start-menu shortcut,
+tray resident, control mirror, message hook, external polling watcher, or ordinary
 Explorer restart. Per-Explorer runtime INI files are diagnostics only.
 
 The old modular Windhawk stack, monolithic Maxwell shell, ChatGPT glass,
@@ -101,14 +101,14 @@ telemetry experience. Absolute CPU was elevated by the active desktop workload,
 so the same-run paired difference is more meaningful than either absolute value.
 Opal 4.1 adds lazy loaded-frame revokers, releases dormant history capacity and
 external-telemetry PDH fallbacks, and adds shared-data dual-monitor mirrors.
-Re-run the 4.4 ABBA receipt after installing this tree:
+The historical 4.4 ABBA procedure below remains available. Measure 4.5 separately; these historical figures do not establish its overhead:
 
 ```powershell
 .\Measure-OpalPackageCost.ps1 -Label opal-4.4-20260902-abba -AbbaRounds 2 -RandomSeed 3 -Scenario @('Stock','FullSuite') -Samples 2 -SampleSeconds 8 -SettleSeconds 6
 ```
 
 Until that file exists under `measurements\`, the 4.0 receipt remains the honest
-numerical baseline. Do not invent 4.4 CPU/RAM numbers.
+numerical baseline. Do not treat historical numbers as 4.5 measurements.
 
 ## Legacy stack reduction
 

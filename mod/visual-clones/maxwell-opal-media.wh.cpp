@@ -2,7 +2,7 @@
 // @id              opal-addon-media
 // @name            Opal Media
 // @description     Maxwell-owned adaptive Windows-native media controls for the Opal taskbar
-// @version         4.4.0
+// @version         4.5.0
 // @author          Maxbuff152
 // @github          https://github.com/Maxbuff152
 // @license         GPL-3.0
@@ -204,6 +204,8 @@ struct MediaMirrorSlot {
     winrt::weak_ref<FrameworkElement> taskbarFrame;
     Grid parent{nullptr};
     Grid widget{nullptr};
+    FrameworkElement repeater{nullptr};
+    double reservedMargin = 0.0;
     TextBlock title{nullptr};
     TextBlock status{nullptr};
 };
@@ -334,9 +336,7 @@ void LoadSettings() {
     g_manualLayout = OpalControl::ReadStringSetting(
         L"everyday.layoutMode", L"automatic") == L"custom";
     g_fullViewOnPrimary = OpalControl::ReadStringSetting(
-        L"screens.mediaFullDisplay", L"secondary") == L"primary";
-    const bool performanceFullOnPrimary = OpalControl::ReadStringSetting(
-        L"screens.performanceFullDisplay", L"primary") != L"secondary";
+        L"screens.mediaFullDisplay", L"primary") == L"primary";
     g_mirrorDetailed = OpalControl::ReadStringSetting(
         L"screens.mirrorStyle", L"detailed") != L"minimal";
     const std::wstring textSize = OpalControl::ReadStringSetting(
@@ -348,14 +348,7 @@ void LoadSettings() {
     g_widgetBackgroundAlpha = background == L"subtle" ? 0x70
                                 : (background == L"strong" ? 0xD0 : 0x9C);
     g_monitorTarget = OpalControl::ReadMonitorSetting(
-        L"screens.mediaMonitor", OpalControl::MonitorTarget::Both);
-    if (!g_manualLayout &&
-        g_monitorTarget == OpalControl::MonitorTarget::Both &&
-        g_fullViewOnPrimary == performanceFullOnPrimary) {
-        // Automatic layout always keeps the two rich capsules on opposite
-        // screens. Custom layout honors the user's exact choices.
-        g_fullViewOnPrimary = !performanceFullOnPrimary;
-    }
+        L"screens.mediaMonitor", OpalControl::MonitorTarget::Primary);
     g_highContrast = OpalControl::HighContrast();
     g_reducedMotion = OpalControl::ReducedMotion();
     g_settings.minimumWidth = std::clamp(Wh_GetIntSetting(L"minimumWidth"), 150, 240);
@@ -1304,7 +1297,7 @@ Grid BuildWidget() {
     g_shell.BorderBrush(g_highContrast ? Brush(0xFF, 0xFF) : Brush(0x00, 0x00));
     g_shell.BorderThickness(g_highContrast ? Thickness{1, 1, 1, 1}
                                            : Thickness{0, 0, 0, 0});
-    g_shell.CornerRadius(CornerRadius{13, 13, 13, 13});
+    g_shell.CornerRadius(CornerRadius{25, 25, 25, 25});
     g_shell.Padding(Thickness{3, 2, 3, 2});
 
     Grid content;
@@ -1560,9 +1553,7 @@ void ApplyMediaReservedSpace(bool visible) {
         mediaLaneReserve = std::min(mediaLaneReserve, kAutomaticLaneReserve + 8.0);
     }
     double next = visible && g_userLeft < 0
-        ? mediaLaneReserve +
-              (g_monitorTarget == OpalControl::MonitorTarget::Both
-                   ? kDualMirrorLaneReserve : 0.0)
+        ? mediaLaneReserve
         : 0.0;
     if (std::abs(next - g_reservedMargin) < 0.5) {
         return;
@@ -2108,6 +2099,15 @@ bool AttachMediaVisuals(Grid root) {
 }
 
 void RemoveMediaMirrorSlot(MediaMirrorSlot& slot, bool keepFrame) {
+    if (slot.repeater && slot.reservedMargin != 0.0) {
+        try {
+            auto margin = slot.repeater.Margin();
+            margin.Left -= slot.reservedMargin;
+            slot.repeater.Margin(margin);
+        } catch (...) {}
+    }
+    slot.repeater = nullptr;
+    slot.reservedMargin = 0.0;
     if (slot.parent && slot.widget) {
         try {
             uint32_t index = 0;
@@ -2200,6 +2200,13 @@ bool InjectMediaMirror(FrameworkElement taskbarFrame, HWND window) {
     auto root = FindNamedChild(taskbarFrame, L"RootGrid").try_as<Grid>();
     if (!root) return false;
     RemoveMediaMirrorSlot(slot, true);
+    slot.repeater = FindNamedChild(root, L"TaskbarFrameRepeater");
+    if (slot.repeater) {
+        slot.reservedMargin = (g_mirrorDetailed ? 196.0 : 140.0) + 16.0;
+        auto margin = slot.repeater.Margin();
+        margin.Left += slot.reservedMargin;
+        slot.repeater.Margin(margin);
+    }
     for (uint32_t i = 0; i < root.Children().Size();) {
         auto child = root.Children().GetAt(i).try_as<FrameworkElement>();
         if (child && (child.Name() == kMirrorWidgetName ||
@@ -2223,7 +2230,7 @@ bool InjectMediaMirror(FrameworkElement taskbarFrame, HWND window) {
     Canvas::SetZIndex(widget, 10001);
 
     Border shell;
-    shell.CornerRadius(CornerRadius{13, 13, 13, 13});
+    shell.CornerRadius(CornerRadius{25, 25, 25, 25});
     shell.Padding(Thickness{12, 4, 12, 4});
     shell.Background(SolidColorBrush(g_highContrast
         ? MakeColor(0xFF, 0x00, 0x00, 0x00)
@@ -2460,6 +2467,8 @@ bool RunFromWindowThread(HWND window, WindowCallback callback, void* context) {
 struct MediaApplyContext {
     HWND window;
     bool mirror;
+    bool repairOnly = false;
+    bool attached = false;
 };
 
 void ApplyPreferredTaskbar(void* value) {
@@ -2476,13 +2485,34 @@ void ApplyPreferredTaskbar(void* value) {
             return winrt::get_class_name(element) == L"Taskbar.TaskbarFrame";
         });
         if (frame) {
+            auto root = FindNamedChild(frame, L"RootGrid").try_as<Grid>();
+            if (context && context->repairOnly && root) {
+                uint32_t index = 0;
+                if (context->mirror) {
+                    for (auto const& slot : g_mediaMirrors) {
+                        if (slot.window == window && slot.parent == root &&
+                            slot.widget && root.Children().IndexOf(slot.widget, index)) {
+                            context->attached = true;
+                            return;
+                        }
+                    }
+                } else if (g_taskbarWindow.load() == window && g_parent == root &&
+                           ((g_widget && root.Children().IndexOf(g_widget, index)) ||
+                            (g_leanMode && !g_uiSnapshot.hasSession &&
+                             g_settings.hideWithoutSession))) {
+                    context->attached = true;
+                    return;
+                }
+            }
             if (context && context->mirror) {
-                InjectMediaMirror(frame, window);
+                context->attached = InjectMediaMirror(frame, window);
             } else {
                 g_taskbarWindow = window;
                 g_taskbarThreadId = GetWindowThreadProcessId(window, nullptr);
                 g_userLeftLoaded = false;
-                if (!InjectWidget(frame)) {
+                bool attached = InjectWidget(frame);
+                if (context) context->attached = attached;
+                if (!attached) {
                     g_taskbarWindow = nullptr;
                     g_taskbarThreadId = 0;
                 }
@@ -2504,11 +2534,16 @@ void RemoveMediaMirrorForWindow(void* value) {
     }
 }
 
-void ApplyOnTaskbarThread() {
+bool ApplyOnTaskbarThread(bool repairOnly = false) {
     HWND fullWindow = FindPreferredTaskbarWindow();
-    if (!fullWindow) return;
-    MediaApplyContext full{fullWindow, false};
+    if (!fullWindow) {
+        OpalControl::PublishAttachmentProof(L"Media", nullptr, 1, 0);
+        return false;
+    }
+    MediaApplyContext full{fullWindow, false, repairOnly};
     RunFromWindowThread(fullWindow, ApplyPreferredTaskbar, &full);
+    bool attached = full.attached;
+    unsigned attachedViews = full.attached ? 1 : 0;
     auto mirrors = OpalControl::OtherTaskbarWindows(g_monitorTarget, fullWindow);
     std::vector<HWND> leftover;
     for (auto const& slot : g_mediaMirrors) {
@@ -2519,13 +2554,18 @@ void ApplyOnTaskbarThread() {
         if (!wanted && slot.window) leftover.push_back(slot.window);
     }
     for (HWND window : leftover) {
-        RunFromWindowThread(window, RemoveMediaMirrorForWindow,
+        RunFromWindowThread(IsWindow(window) ? window : fullWindow, RemoveMediaMirrorForWindow,
                             reinterpret_cast<void*>(window));
     }
     for (HWND mirrorWindow : mirrors) {
-        MediaApplyContext mirror{mirrorWindow, true};
+        MediaApplyContext mirror{mirrorWindow, true, repairOnly};
         RunFromWindowThread(mirrorWindow, ApplyPreferredTaskbar, &mirror);
+        attached = attached && mirror.attached;
+        attachedViews += mirror.attached ? 1 : 0;
     }
+    OpalControl::PublishAttachmentProof(L"Media", fullWindow,
+        static_cast<unsigned>(1 + mirrors.size()), attachedViews);
+    return attached;
 }
 
 void RemoveOnTaskbarThread(void*) {
@@ -2722,18 +2762,8 @@ bool OpalMedia_EnsureAttached() {
             }
         }
     }
-    if (g_parent) return true;
-    if (!FindPreferredTaskbarWindow()) {
-        if (!OpalControl::VisibleFullViewWindow(
-                OpalControl::MonitorTarget::Both, !g_fullViewOnPrimary)) {
-            return false;
-        }
-    }
-    ApplyOnTaskbarThread();
-    if (g_parent) return true;
-    for (auto const& slot : g_mediaMirrors) {
-        if (slot.widget) return true;
-    }
-    return false;
+    // Resolve the current XAML root and every expected view on its UI thread.
+    // A non-null parent from an old taskbar is not attachment evidence.
+    return ApplyOnTaskbarThread(true);
 }
 #endif
