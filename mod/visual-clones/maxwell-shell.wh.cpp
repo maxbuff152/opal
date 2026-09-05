@@ -1609,6 +1609,9 @@ static void TaskbarClockUninit() {
 }
 
 BOOL Wh_ModInit() {
+    // XAML can retain the DLL across a Windhawk reload in the same Explorer.
+    // Static initializers do not run again in that case.
+    g_unloading.store(false, std::memory_order_release);
     g_host = DetectHost();
     if (g_host == Host::Unknown) {
         Wh_Log(L"Unrecognised host, not initialising.");
@@ -1626,6 +1629,9 @@ BOOL Wh_ModInit() {
         }
         g_mediaComponentInit = OpalMedia_ModInit() != FALSE;
         g_performanceComponentInit = OpalPerformance_ModInit() != FALSE;
+        AttachLog(L"component init pid=%lu: media=%d performance=%d",
+                  GetCurrentProcessId(), g_mediaComponentInit ? 1 : 0,
+                  g_performanceComponentInit ? 1 : 0);
     }
 #endif
     CompileRules();

@@ -9,6 +9,14 @@ That alias is a Windows junction, not a copy. The product and repository are
 **Opal 4.4**. Runtime state, diagnostic logs, and installer rollbacks belong
 under `%LOCALAPPDATA%\Maxwell\Opal`. Older SafeDock snapshots may still exist
 under `%LOCALAPPDATA%\Maxwell\WindhawkChatGPTGuard` for compatibility.
+The recovery safety latch is machine-wide at
+`%ProgramData%\Windhawk\Opal\safedock`; interactive checks and scheduled tasks
+must use that same path. Shell recovery runs in the signed-in user session.
+
+Explicit Primary/Secondary widget assignments stay on their chosen display
+while a fullscreen app is open. Only Both mode chooses another visible bar.
+Run `tests\Test-OpalAttachment.ps1` after reload: a mapped DLL and active runtime
+flags alone do not prove that the widgets attached. Follow with visual QA.
 
 ## What Opal is
 

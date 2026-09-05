@@ -1,7 +1,10 @@
 ﻿Set-StrictMode -Version 2.0
 
 $script:ToolRoot = Split-Path -Parent $PSCommandPath
-$script:StateRoot = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal\safedock'
+# The mod registry is machine-wide, so its safety latch must be machine-wide
+# too. LOCALAPPDATA split interactive checks from the SYSTEM startup task and
+# allowed a stale, invisible SYSTEM latch to disable Opal on every logon.
+$script:StateRoot = Join-Path ([Environment]::GetFolderPath('CommonApplicationData')) 'Windhawk\Opal\safedock'
 $script:CanonicalRoot = Join-Path $env:LOCALAPPDATA 'Maxwell\WindhawkChatGPTGuard\backup-20260820-003318-before-source-owned-visual-stack'
 # Historical snapshot name only. New Opal source and rollbacks use the Opal name.
 
@@ -409,10 +412,25 @@ function Start-WindhawkServiceReliable {
 function Restart-WindhawkExplorerOnce {
     param([switch]$DryRun)
     if ($DryRun) { return }
+    $sessionId = (Get-Process -Id $PID).SessionId
+    if ($sessionId -eq 0) { throw 'Run Opal shell recovery in the signed-in desktop session, not SYSTEM session 0.' }
+    $opalRuntime = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal'
+    New-Item -ItemType Directory -Path $opalRuntime -Force | Out-Null
+    New-Item -ItemType File -Path (Join-Path $opalRuntime 'planned-explorer-restart') -Force | Out-Null
+    foreach ($component in @('media','performance')) {
+        $health = Join-Path $opalRuntime "health-$component.ini"
+        if (Test-Path -LiteralPath $health) {
+            $text = [IO.File]::ReadAllText($health) -replace '(?m)^Dirty=1\r?$', 'Dirty=0'
+            [IO.File]::WriteAllText($health, $text)
+        }
+    }
     Start-WindhawkServiceReliable -Restart
-    Get-Process explorer -ErrorAction SilentlyContinue | Stop-Process -Force
+    $windhawkExe = Join-Path $env:ProgramFiles 'Windhawk\windhawk.exe'
+    $restart = Start-Process -FilePath $windhawkExe -ArgumentList @('-restart', '-tray-only') -WindowStyle Hidden -PassThru
+    if (-not $restart.WaitForExit(15000)) { throw 'Windhawk user runtime restart timed out.' }
+    Get-Process explorer -ErrorAction SilentlyContinue | Where-Object SessionId -eq $sessionId | Stop-Process -Force
     $deadline = (Get-Date).AddSeconds(15)
-    do { Start-Sleep -Milliseconds 400; $explorer = Get-Process explorer -ErrorAction SilentlyContinue | Sort-Object StartTime | Select-Object -First 1 } while (-not $explorer -and (Get-Date) -lt $deadline)
+    do { Start-Sleep -Milliseconds 400; $explorer = Get-Process explorer -ErrorAction SilentlyContinue | Where-Object SessionId -eq $sessionId | Sort-Object StartTime | Select-Object -First 1 } while (-not $explorer -and (Get-Date) -lt $deadline)
     if (-not $explorer) { Start-Process 'C:\Windows\explorer.exe'; Start-Sleep -Seconds 3 }
 }
 
@@ -420,9 +438,15 @@ function Invoke-WindhawkSafeDockRepair {
     [CmdletBinding()]
     param([switch]$DryRun, [switch]$AllowExplorerRestart)
     $config = Get-WindhawkSafeDockConfig
-    $before = Test-WindhawkSafeDockState
+    $before = Test-WindhawkSafeDockState -RequireLoaded
     $actions = [Collections.Generic.List[string]]::new()
-    if ($before.Healthy) { return [pscustomobject]@{ Changed = $false; Actions = @(); Before = $before; After = $before } }
+    if ($before.Healthy) {
+        if (-not $DryRun) {
+            New-Item -ItemType Directory -Path $config.StateRoot -Force | Out-Null
+            $before | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $config.StatePath -Encoding UTF8
+        }
+        return [pscustomobject]@{ Changed = $false; Actions = @(); Before = $before; After = $before }
+    }
     if (-not $DryRun -and -not (Test-WindhawkAdministrator)) { throw 'Administrator access is required for repair.' }
     $expectedStableDisabled = if ($before.CircuitBreakerLatched) { 1 } else { 0 }
     $now = [int][DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
@@ -487,9 +511,17 @@ function Invoke-WindhawkSafeDockRepair {
     $service = Get-Service Windhawk -ErrorAction Stop
     if ($service.StartType -ne 'Automatic') { $actions.Add('Set Windhawk service Automatic'); if (-not $DryRun) { Set-Service Windhawk -StartupType Automatic } }
     if ($service.Status -ne 'Running') { $actions.Add('Start Windhawk service with bounded retry'); if (-not $DryRun) { Start-WindhawkServiceReliable } }
-    if ($liveModChange -and $AllowExplorerRestart) { $actions.Add('Restart Windhawk and Explorer once'); Restart-WindhawkExplorerOnce -DryRun:$DryRun }
+    $missingRuntime = -not $before.CircuitBreakerLatched -and @($config.StableMods | Where-Object { $_.Library -notin $before.LoadedModules }).Count -gt 0
+    if (($liveModChange -or $missingRuntime) -and $AllowExplorerRestart) { $actions.Add('Restart Windhawk and Explorer once'); Restart-WindhawkExplorerOnce -DryRun:$DryRun }
     if (-not $DryRun) { Start-Sleep -Seconds 4 }
     $after = if ($DryRun) { $before } else { Test-WindhawkSafeDockState -RequireLoaded:(-not $before.CircuitBreakerLatched) }
+    if (-not $DryRun -and $AllowExplorerRestart -and -not $before.CircuitBreakerLatched) {
+        $loadDeadline = (Get-Date).AddSeconds(30)
+        while (-not $after.Healthy -and (Get-Date) -lt $loadDeadline) {
+            Start-Sleep -Seconds 2
+            $after = Test-WindhawkSafeDockState -RequireLoaded
+        }
+    }
     if (-not $DryRun) { New-Item -ItemType Directory -Path $config.StateRoot -Force | Out-Null; $after | ConvertTo-Json -Depth 8 | Set-Content $config.StatePath -Encoding UTF8; Write-WindhawkSafeDockLog ("Repair changed={0}; actions={1}; mode={2}" -f ($actions.Count -gt 0),$actions.Count,$after.Mode) }
     [pscustomobject]@{ Changed = $actions.Count -gt 0; Actions = @($actions); Before = $before; After = $after }
 }

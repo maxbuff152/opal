@@ -5,7 +5,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $guardPath = Join-Path $PSScriptRoot 'Ensure-WindhawkSafeDock.ps1'
-$receiptPath = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal\safedock\install-last-run.json'
+$receiptPath = Join-Path ([Environment]::GetFolderPath('CommonApplicationData')) 'Windhawk\Opal\safedock\install-last-run.json'
 $receiptRoot = Split-Path -Parent $receiptPath
 New-Item -ItemType Directory -Path $receiptRoot -Force | Out-Null
 trap {
@@ -19,6 +19,7 @@ $retiredTasks = @('Maxwell Windhawk ChatGPT Guard','Maxwell Windhawk Material Sy
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principalCheck = [Security.Principal.WindowsPrincipal]::new($identity)
 if (-not $principalCheck.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Administrator access is required.' }
+if ((Get-Process -Id $PID).SessionId -eq 0) { throw 'Install recovery from the signed-in desktop session so shell restarts use the correct user.' }
 
 if ($ExistingRollbackRoot) {
     $allowedRoots = @(
@@ -56,16 +57,17 @@ if ($LASTEXITCODE -ne 0) { throw "Initial repair failed: $LASTEXITCODE" }
 $powershellPath = 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
 $repairArgs = '-NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -WindowStyle Hidden -File "{0}" -Mode Repair -AllowExplorerRestart -Quiet' -f $guardPath
 $repairAction = New-ScheduledTaskAction -Execute $powershellPath -Argument $repairArgs
-$startup = New-ScheduledTaskTrigger -AtStartup; $startup.Delay='PT30S'
-$logon = New-ScheduledTaskTrigger -AtLogOn -User 'MSI\maxwe'; $logon.Delay='PT20S'
-$principal = New-ScheduledTaskPrincipal -UserId SYSTEM -LogonType ServiceAccount -RunLevel Highest
+$desktopUser = $identity.Name
+$desktopSid = $identity.User.Value
+$logon = New-ScheduledTaskTrigger -AtLogOn -User $desktopUser; $logon.Delay='PT20S'
+$principal = New-ScheduledTaskPrincipal -UserId $desktopUser -LogonType Interactive -RunLevel Highest
 $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -RestartCount 2 -RestartInterval (New-TimeSpan -Minutes 1) -ExecutionTimeLimit (New-TimeSpan -Minutes 2)
-Register-ScheduledTask -TaskName $repairTaskName -Action $repairAction -Trigger @($startup,$logon) -Principal $principal -Settings $settings -Description 'Drift-aware modular dock repair. Startup and logon only; healthy runs perform no writes.' -Force -ErrorAction Stop | Out-Null
+Register-ScheduledTask -TaskName $repairTaskName -Action $repairAction -Trigger $logon -Principal $principal -Settings $settings -Description 'Opal recovery in the signed-in desktop session at logon. Shared machine safety state; no repeating repair loop.' -Force -ErrorAction Stop | Out-Null
 
 $circuitArgs = '-NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -WindowStyle Hidden -File "{0}" -Mode CircuitBreak -Quiet' -f $guardPath
 $xml = @"
 <?xml version="1.0" encoding="UTF-16"?>
-<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"><RegistrationInfo><Description>Fails closed after a WER-confirmed Explorer XAML/taskbar crash containing a stable dock DLL.</Description></RegistrationInfo><Triggers><EventTrigger><Enabled>true</Enabled><Subscription>&lt;QueryList&gt;&lt;Query Id="0" Path="Application"&gt;&lt;Select Path="Application"&gt;*[System[Provider[@Name='Application Error'] and EventID=1000]]&lt;/Select&gt;&lt;/Query&gt;&lt;/QueryList&gt;</Subscription></EventTrigger></Triggers><Principals><Principal id="Author"><UserId>S-1-5-18</UserId><RunLevel>HighestAvailable</RunLevel></Principal></Principals><Settings><MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy><DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries><StopIfGoingOnBatteries>false</StopIfGoingOnBatteries><StartWhenAvailable>true</StartWhenAvailable><Enabled>true</Enabled><ExecutionTimeLimit>PT2M</ExecutionTimeLimit><Priority>6</Priority></Settings><Actions Context="Author"><Exec><Command>$([Security.SecurityElement]::Escape($powershellPath))</Command><Arguments>$([Security.SecurityElement]::Escape($circuitArgs))</Arguments></Exec></Actions></Task>
+<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"><RegistrationInfo><Description>Fails closed after a WER-confirmed Explorer XAML/taskbar crash containing a stable dock DLL.</Description></RegistrationInfo><Triggers><EventTrigger><Enabled>true</Enabled><Subscription>&lt;QueryList&gt;&lt;Query Id="0" Path="Application"&gt;&lt;Select Path="Application"&gt;*[System[Provider[@Name='Application Error'] and EventID=1000]]&lt;/Select&gt;&lt;/Query&gt;&lt;/QueryList&gt;</Subscription></EventTrigger></Triggers><Principals><Principal id="Author"><UserId>$desktopSid</UserId><LogonType>InteractiveToken</LogonType><RunLevel>HighestAvailable</RunLevel></Principal></Principals><Settings><MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy><DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries><StopIfGoingOnBatteries>false</StopIfGoingOnBatteries><StartWhenAvailable>true</StartWhenAvailable><Enabled>true</Enabled><ExecutionTimeLimit>PT2M</ExecutionTimeLimit><Priority>6</Priority></Settings><Actions Context="Author"><Exec><Command>$([Security.SecurityElement]::Escape($powershellPath))</Command><Arguments>$([Security.SecurityElement]::Escape($circuitArgs))</Arguments></Exec></Actions></Task>
 "@
 Register-ScheduledTask -TaskName $circuitTaskName -Xml $xml -Force -ErrorAction Stop | Out-Null
 Start-ScheduledTask -TaskName $repairTaskName

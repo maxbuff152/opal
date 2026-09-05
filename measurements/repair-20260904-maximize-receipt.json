@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-04T21:56:16.8294448-05:00",
+  "runtime": "maximize-control-plane",
+  "task": "Repair Opal loading, reload lifecycle, display assignment, and taskbar layout",
+  "pack": "windows-hardware",
+  "model_adapter": "codex-frontier",
+  "status": "partial",
+  "evidence": [
+    "measurements/repair-20260904-startup-and-display-layout.json",
+    "Current Explorer 21332 initialized twice and attached Media plus Performance at tick 0; all relevant runtime tests passed."
+  ],
+  "changed_paths": [
+    {
+      "path": "D:\\CODEX SPINE, PLUGINS AND AGENTS\\06-LOCAL TOOLS\\Windhawk ChatGPT Guard\\WindhawkSafeDock.Core.psm1",
+      "exists": true,
+      "sha256": "D4EC2FB523A42B49CBF2789448D209FDB81D4B9AC833F45DB301CEE00313EB55"
+    },
+    {
+      "path": "D:\\CODEX SPINE, PLUGINS AND AGENTS\\06-LOCAL TOOLS\\Windhawk ChatGPT Guard\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+      "exists": true,
+      "sha256": "EB0563D1B8AF6549F4340321047CC8C41B58E6904521E22A0505E7F038C670D8"
+    }
+  ],
+  "limitations": [
+    "Primary taskbar is obscured by fullscreen game; final unobscured visual inspection pending."
+  ]
+}

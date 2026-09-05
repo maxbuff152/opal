@@ -3699,7 +3699,7 @@ void ApplyTextStyle(TextBlock text,
         Typography::SetNumeralStyle(text, FontNumeralStyle::Lining);
     }
     text.TextWrapping(TextWrapping::NoWrap);
-    text.TextTrimming(TextTrimming::None);
+    text.TextTrimming(TextTrimming::CharacterEllipsis);
     SetTextForeground(text, AlertLevel::Normal, settings, label);
 }
 
@@ -3799,9 +3799,8 @@ double AvailableLeftZoneWidth(const ModSettings& settings) {
 ContentPriority ResolveContentPriority(double available,
                                        double requested,
                                        const ModSettings& settings) {
-    if (!settings.contentPriorityEnabled) {
-        return ContentPriority::Full;
-    }
+    // Geometry is a safety constraint even when an old profile disables
+    // adaptive content. Two metric columns cannot fit inside a 260-DIP lane.
     // Never treat a tight left lane as "no widget". Compact CPU/RAM at
     // kCompactHardwareWidth is the floor; overlap is handled by reserved
     // space, not by collapsing Computer stats off the taskbar.
@@ -5822,7 +5821,7 @@ TextBlock CreateCellText(PCWSTR name, TextAlignment alignment) {
     text.VerticalAlignment(VerticalAlignment::Center);
     text.TextAlignment(alignment);
     text.TextWrapping(TextWrapping::NoWrap);
-    text.TextTrimming(TextTrimming::None);
+    text.TextTrimming(TextTrimming::CharacterEllipsis);
     text.IsHitTestVisible(false);
     return text;
 }
@@ -6394,7 +6393,7 @@ bool RunFromWindowThread(HWND window,
                          RunFromWindowThreadProc callback,
                          void* context) {
     static const UINT message =
-        RegisterWindowMessageW(L"Windhawk_RunFromWindowThread_" WH_MOD_ID);
+        RegisterWindowMessageW(L"Windhawk_RunFromWindowThread_Performance_" WH_MOD_ID);
     struct CallbackContext {
         RunFromWindowThreadProc callback;
         void* context;
@@ -6880,6 +6879,7 @@ void ApplyPerformanceControlChange(DWORD) {
 }  // namespace
 
 BOOL Wh_ModInit() {
+    g_unloading = false;
     g_uiTornDown = false;
     LoadSettings();
     g_quarantine = OpalControl::BeginPackageSession(L"performance");
@@ -6989,19 +6989,18 @@ bool OpalPerformance_EnsureAttached() {
         }
     }
     HWND visible = FindCurrentProcessTaskbarWindow();
-    HWND current = g_taskbarWindow.load();
-    if (WidgetIsMounted() && current && visible && visible != current &&
-        OpalControl::TaskbarOccluded(current)) {
-        ApplyOnTaskbarThread();
-        return WidgetIsMounted() || !g_performanceMirrors.empty();
-    }
-    if (WidgetIsMounted()) return true;
-    if (!visible) {
-        visible = OpalControl::VisibleFullViewWindow(
-            OpalControl::MonitorTarget::Both, !g_fullViewOnPrimary);
-    }
     if (!visible) return false;
+    // The shell poll runs on a worker. XAML Children/Visibility reads must run
+    // on the taskbar's UI thread, just like injection.
+    bool mounted = false;
+    auto readMounted = [](void* value) {
+        *static_cast<bool*>(value) = WidgetIsMounted();
+    };
+    if (g_taskbarWindow.load() == visible &&
+        RunFromWindowThread(visible, readMounted, &mounted) && mounted) {
+        return true;
+    }
     ApplyOnTaskbarThread();
-    return WidgetIsMounted() || !g_performanceMirrors.empty();
+    return RunFromWindowThread(visible, readMounted, &mounted) && mounted;
 }
 #endif

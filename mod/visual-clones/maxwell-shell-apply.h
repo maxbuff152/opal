@@ -224,6 +224,7 @@ inline bool ApplyProperty(const wux::DependencyObject& obj,
     // "just a Panel" makes every border and corner rule on Grid#RootGrid fail,
     // which is most of the taskbar's shape.
     auto grid = obj.try_as<wuxc::Grid>();
+    auto stack = obj.try_as<wuxc::StackPanel>();
 
     // ContentPresenter grew the same chrome properties in 1809. Tooltips
     // template their entire visible surface on one (ToolTip >
@@ -252,6 +253,7 @@ inline bool ApplyProperty(const wux::DependencyObject& obj,
         if (!b) { return false; }
         if (border)    { border.BorderBrush(b);    return true; }
         if (grid)      { grid.BorderBrush(b);      return true; }
+        if (stack)     { stack.BorderBrush(b);     return true; }
         if (control)   { control.BorderBrush(b);   return true; }
         if (shape)     { shape.Stroke(b);          return true; }
         if (presenter) { presenter.BorderBrush(b); return true; }
@@ -270,6 +272,7 @@ inline bool ApplyProperty(const wux::DependencyObject& obj,
         const auto t = ParseThickness(value);
         if (border)    { border.BorderThickness(t);    return true; }
         if (grid)      { grid.BorderThickness(t);      return true; }
+        if (stack)     { stack.BorderThickness(t);     return true; }
         if (control)   { control.BorderThickness(t);   return true; }
         if (presenter) { presenter.BorderThickness(t); return true; }
         return false;
@@ -278,6 +281,7 @@ inline bool ApplyProperty(const wux::DependencyObject& obj,
         const auto r = ParseCornerRadius(value);
         if (border)    { border.CornerRadius(r);    return true; }
         if (grid)      { grid.CornerRadius(r);      return true; }
+        if (stack)     { stack.CornerRadius(r);     return true; }
         if (control)   { control.CornerRadius(r);   return true; }
         if (presenter) { presenter.CornerRadius(r); return true; }
         return false;
@@ -286,6 +290,7 @@ inline bool ApplyProperty(const wux::DependencyObject& obj,
         const auto t = ParseThickness(value);
         if (border)    { border.Padding(t);    return true; }
         if (grid)      { grid.Padding(t);      return true; }
+        if (stack)     { stack.Padding(t);     return true; }
         if (control)   { control.Padding(t);   return true; }
         if (text)      { text.Padding(t);      return true; }
         if (presenter) { presenter.Padding(t); return true; }

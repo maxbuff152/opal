@@ -1548,20 +1548,14 @@ void ApplyMediaReservedSpace(bool visible) {
         return;
     }
 
-    // Reserve the width that is actually on screen. The old fixed 240-DIP
-    // contribution only covered the compact media capsule, so the Wide preset
-    // could extend underneath native taskbar items. In Both mode this taskbar
-    // also owns the compact CPU/RAM mirror immediately before Media.
-    double mediaLaneReserve = kAutomaticLaneReserve;
-    if (g_widget) {
-        double width = g_widget.Width();
-        if (!std::isfinite(width) || width <= 0.0) {
-            width = g_widget.ActualWidth();
-        }
-        if (std::isfinite(width) && width > 0.0) {
-            mediaLaneReserve = width + 8.0;
-        }
-    }
+    // Reserve the requested lane independently of the measured capsule. Using
+    // its temporarily compressed width here fed the next layout measurement
+    // back into the reservation and stranded Media at artwork/play-only width
+    // after startup. Native taskbar layout owns the remaining app space.
+    double mediaLaneReserve = std::clamp(
+        static_cast<double>(g_settings.preferredWidth),
+        static_cast<double>(g_settings.minimumWidth),
+        static_cast<double>(g_settings.maximumWidth)) + 16.0;
     if (g_settings.wideInsideCapsule) {
         mediaLaneReserve = std::min(mediaLaneReserve, kAutomaticLaneReserve + 8.0);
     }
@@ -2091,6 +2085,9 @@ bool AttachMediaVisuals(Grid root) {
         return g_widget != nullptr;
     }
     g_widget = BuildWidget();
+    // A remounted visual must consume the current snapshot even if playback
+    // has not changed since the old tree was removed.
+    g_uiSequence = UINT64_MAX;
     Grid::SetColumn(g_widget, 0);
     Grid::SetColumnSpan(g_widget,
                         std::max(1, static_cast<int>(root.ColumnDefinitions().Size())));
@@ -2424,7 +2421,7 @@ using WindowCallback = void (*)(void*);
 
 bool RunFromWindowThread(HWND window, WindowCallback callback, void* context) {
     static const UINT message = RegisterWindowMessageW(
-        L"Windhawk_RunFromWindowThread_" WH_MOD_ID);
+        L"Windhawk_RunFromWindowThread_Media_" WH_MOD_ID);
     struct CallbackContext {
         WindowCallback callback;
         void* context;

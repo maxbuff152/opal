@@ -422,13 +422,18 @@ try {
     if (-not $windhawkRuntime) {
         throw 'Windhawk user runtime did not restart.'
     }
-    Start-Process explorer.exe
+    $interactiveSession = (Get-Process -Id $PID).SessionId
+    if (-not (Get-Process -Name explorer -ErrorAction SilentlyContinue |
+            Where-Object SessionId -eq $interactiveSession)) {
+        Start-Process -FilePath "$env:WINDIR\explorer.exe"
+    }
 
     $deadline = (Get-Date).AddSeconds(25)
     $loadedNames = @()
     do {
         Start-Sleep -Seconds 2
-        $explorer = Get-Process -Name explorer -ErrorAction SilentlyContinue | Select-Object -First 1
+        $explorer = Get-Process -Name explorer -ErrorAction SilentlyContinue |
+            Where-Object SessionId -eq $interactiveSession | Select-Object -First 1
         if ($explorer) {
             try { $loadedNames = @($explorer.Modules | ForEach-Object ModuleName) } catch { $loadedNames = @() }
         }

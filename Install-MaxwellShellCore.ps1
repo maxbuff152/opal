@@ -134,19 +134,31 @@ if (Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue) {
     throw 'Leftover MaxwellShell.exe is still running; Opal telemetry is Maxwell.Shell.Core only.'
 }
 $probe = Join-Path $stateRoot 'shell-core-probe.json'
-$probeProcess = Start-Process -FilePath $installedExe -ArgumentList @('--probe',('"' + $probe + '"')) -WindowStyle Hidden -Wait -PassThru
-if ($probeProcess.ExitCode -ne 0 -or -not (Test-Path -LiteralPath $probe -PathType Leaf)) {
-    throw "Maxwell.Shell.Core shared-state probe failed with exit code $($probeProcess.ExitCode)."
-}
-$sample = Get-Content -LiteralPath $probe -Raw | ConvertFrom-Json
-# The flags test needs the parentheses: PowerShell binds -ne tighter than
-# -band, so the original `flags -band 3 -ne 3` evaluated as `flags -band ($false)`
-# = 0, which is falsy for every input. The CPU/RAM presence check never fired.
-if ([int]$sample.protocolVersion -ne 1 -or
-    [int64]$sample.sampleAgeMs -gt 15000 -or
-    (([int]$sample.flags -band 3) -ne 3)) {
-    throw 'Maxwell.Shell.Core returned an invalid or stale CPU/RAM sample.'
-}
+# PDH initialization can exceed the old 900-ms sleep. A mapped buffer is not
+# necessarily published yet (probe exit 3). Wait for an actual sample from the
+# current publisher, and never accept a leftover probe file from the old core.
+$readyDeadline = (Get-Date).AddSeconds(30)
+$ready = $false
+$sample = $null
+do {
+    $probeProcess = Start-Process -FilePath $installedExe -ArgumentList @('--probe',('"' + $probe + '"')) -WindowStyle Hidden -PassThru
+    if (-not $probeProcess.WaitForExit(5000)) {
+        Stop-Process -Id $probeProcess.Id -Force -ErrorAction SilentlyContinue
+        throw 'Maxwell.Shell.Core readiness probe timed out.'
+    }
+    if ($probeProcess.ExitCode -eq 0 -and (Test-Path -LiteralPath $probe -PathType Leaf)) {
+        $sample = Get-Content -LiteralPath $probe -Raw | ConvertFrom-Json
+        $process = @(Get-OwnedCoreProcess | Select-Object -First 1)
+        $maximumAgeMs = [math]::Max(15000, [int64]$sample.sampleIntervalMs + 5000)
+        $ready = $process.Count -eq 1 -and
+            [int]$sample.publisherPid -eq [int]$process[0].ProcessId -and
+            [int]$sample.protocolVersion -eq 1 -and
+            [int64]$sample.sampleAgeMs -le $maximumAgeMs -and
+            (([int]$sample.flags -band 3) -eq 3)
+    }
+    if (-not $ready) { Start-Sleep -Milliseconds 500 }
+} until ($ready -or (Get-Date) -ge $readyDeadline)
+if (-not $ready) { throw 'Maxwell.Shell.Core did not publish valid current CPU/RAM data within 30 seconds.' }
 $result = [ordered]@{
     succeeded = $true
     completedAt = [DateTimeOffset]::Now.ToString('o')

@@ -185,7 +185,15 @@ leaves crash quarantine armed for ordinary sessions.
 .\New-MaxwellShellRollbackPoint.ps1 -Note 'manual checkpoint'
 ```
 
-The circuit breaker provides stock fallback. Tooling backups retain only the
+The circuit breaker provides stock fallback. Its machine-wide state lives in
+`%ProgramData%\Windhawk\Opal\safedock`, shared by checks and scheduled recovery.
+Recovery runs at user logon in the interactive desktop session; it verifies the
+DLL is actually loaded and refreshes both Windhawk and Explorer when needed.
+Older per-user and SYSTEM-profile latch files are historical recovery evidence,
+not active safety state. Clearing a latch now affects the same state every
+recovery entry point reads. Crash protection remains armed for new WER evidence.
+
+Tooling backups retain only the
 current supported surface; live installer rollback bundles remain under
 `%LOCALAPPDATA%\Maxwell\Opal\rollback-*` (older bundles may still exist under
 `%LOCALAPPDATA%\Maxwell\WindhawkChatGPTGuard\rollback-*`).

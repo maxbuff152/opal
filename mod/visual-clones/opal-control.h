@@ -117,10 +117,10 @@ inline HWND VisibleFullViewWindow(MonitorTarget target,
     };
     if (target == MonitorTarget::Primary) {
         consider(windows.primary);
-        consider(windows.secondary);
+        if (!windows.primary) consider(windows.secondary);
     } else if (target == MonitorTarget::Secondary) {
         consider(windows.secondary);
-        consider(windows.primary);
+        if (!windows.secondary) consider(windows.primary);
     } else if (preferSecondaryForBoth) {
         consider(windows.secondary);
         consider(windows.primary);

@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-09-04T21:56:16.4041555-05:00",
+  "routeId": "95fdc765838c49a5a30a689e60510c44",
+  "installedDllHash": "C7BD998A39FFAC10475EB881FB558EF70769AD0A31C8807254358C52AB8B73C1",
+  "attachment": {
+    "passed": true,
+    "explorerPid": 21332,
+    "attached": [
+      "Media",
+      "Performance"
+    ],
+    "limitation": "Attachment evidence does not replace visual inspection of an unobscured taskbar."
+  },
+  "safeDock": {
+    "Healthy": true,
+    "Mode": "opal-unified",
+    "CircuitBreakerLatched": false,
+    "Latch": null,
+    "ModDrift": [],
+    "SafetyDrift": [],
+    "SystemDrift": [],
+    "Drift": [],
+    "ExplorerPid": 21332,
+    "LoadedModules": [
+      "local_at_opal_4.4.0_owned.dll",
+      "libc++.whl",
+      "libunwind.whl"
+    ],
+    "CheckedAt": "2026-09-05T02:55:16.063Z"
+  },
+  "scheduledRecovery": {
+    "LastRunTime": "2026-09-04T21:55:13-05:00",
+    "LastTaskResult": 0
+  },
+  "arrangement": {
+    "primary": "Media",
+    "secondary": "Computer stats",
+    "clock": "Both"
+  },
+  "passedChecks": [
+    "Opal suite live",
+    "SafeDock 15 assertions",
+    "Shell Core 28 assertions",
+    "Media live",
+    "Recovery 4 scenarios",
+    "Density 8 cases",
+    "Monitor routing 10 cases",
+    "Current-session attachment after same-process reinitialization"
+  ],
+  "visual": {
+    "primary": "Fullscreen game covers taskbar; attachment verified, unobscured visual inspection pending",
+    "secondary": "Computer stats and rounded clock verified; no overlap in captured lane"
+  },
+  "rollback": "C:\\Users\\maxwe\\AppData\\Local\\Maxwell\\Opal\\rollback-20260904-215358",
+  "limitations": [
+    "No reboot performed. Interactive scheduled logon recovery ran successfully without restarting healthy Explorer.",
+    "Native single-file Assemble-Opal output is shell-only; full-suite changes must use Build-OpalSuite.ps1 and Install-OpalSuite.ps1.",
+    "No dependency versions changed; native compile and relevant local tests passed. Existing DllGetClassObject export redeclaration warning remains."
+  ]
+}

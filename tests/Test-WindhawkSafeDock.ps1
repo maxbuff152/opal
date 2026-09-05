@@ -25,6 +25,10 @@ $safeDockModule = Get-Module | Where-Object Path -eq $module | Select-Object -Fi
 $config = Get-WindhawkSafeDockConfig
 $expectedIds = @('local@opal')
 Assert-True (@($config.StableMods).Count -eq 1) 'Exactly one unified Opal mod is required.'
+Assert-True ($config.StateRoot -eq (Join-Path ([Environment]::GetFolderPath('CommonApplicationData')) 'Windhawk\Opal\safedock')) 'Recovery safety state must not vary with the executing account.'
+$repairTask = Get-ScheduledTask -TaskName $config.RepairTaskName
+Assert-True ([string]$repairTask.Principal.LogonType -eq 'Interactive') 'Shell recovery must run in the signed-in desktop session.'
+Assert-True (@($repairTask.Triggers | Where-Object { $_.CimClass.CimClassName -eq 'MSFT_TaskBootTrigger' }).Count -eq 0) 'Session-zero boot recovery must not return.'
 Assert-True (-not (Compare-Object $expectedIds @($config.StableMods.Id))) 'Safe-dock owner is not local@opal.'
 Assert-True (($config.StableMods | Select-Object -First 1).Include -match 'StartMenuExperienceHost') 'Unified Opal must own the shared shell hosts.'
 Assert-True ((@($config.EvidenceRetryDelaysSeconds) -join ',') -eq '2,3,5,8,13') 'WER retry backoff changed.'
@@ -55,6 +59,6 @@ if ($failures.Count) {
     exit 1
 }
 [pscustomobject]@{
-    passed=$true; assertions=12; liveMode=$state.Mode; explorerPid=$state.ExplorerPid
+    passed=$true; assertions=15; liveMode=$state.Mode; explorerPid=$state.ExplorerPid
     loadedModules=$state.LoadedModules; checkedAt=[DateTimeOffset]::Now
 } | ConvertTo-Json -Depth 6
