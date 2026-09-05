@@ -1,0 +1,66 @@
+{
+  "AtUtc": "2026-09-05T09:13:28.1860737Z",
+  "Explorer": {
+    "Pid": 51888,
+    "StartedAtUtc": "2026-09-05T09:08:19.8469674Z",
+    "SameLifetime": true
+  },
+  "DllName": "local_at_opal_4.5.0_owned.dll",
+  "DllSha256": "CD4D8D7B9A4CFEE7AB1DD5179E8AD163078271A4E2103F7960AE43B369978F8D",
+  "BuildMatches": true,
+  "SourceDrift": [],
+  "CoreSha256": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2",
+  "Settings": {
+    "Disabled": 0,
+    "Media": 1,
+    "Performance": 1,
+    "LeanMode": 0,
+    "Artwork": 1,
+    "PerformanceDiagnosticsPresent": true,
+    "PerformanceDiagnosticsValue": 1
+  },
+  "Attachment": {
+    "passed": true,
+    "explorerPid": 51888,
+    "attached": [
+      "Media",
+      "Performance"
+    ],
+    "views": [
+      {
+        "component": "Media",
+        "expected": 1,
+        "attached": 1,
+        "fullWindow": 10552672,
+        "ageSeconds": 4.7
+      },
+      {
+        "component": "Performance",
+        "expected": 1,
+        "attached": 1,
+        "fullWindow": 10552672,
+        "ageSeconds": 4.72
+      }
+    ],
+    "limitation": "Attachment evidence does not replace visual inspection of an unobscured taskbar."
+  },
+  "Recorders": [
+    {
+      "Instance": "OpalAllocationInvestigation",
+      "NotRecording": true,
+      "Output": "Microsoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\r\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\r\n\r\nWPR is not recording"
+    },
+    {
+      "Instance": "OpalCpuInvestigation",
+      "NotRecording": true,
+      "Output": "Microsoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\r\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\r\n\r\nWPR is not recording"
+    },
+    {
+      "Instance": "OpalAllocationRebound",
+      "NotRecording": true,
+      "Output": "Microsoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\r\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\r\n\r\nWPR is not recording"
+    }
+  ],
+  "ExplorerErrorEventsSinceAcceptanceStart": [],
+  "Limitation": "Current loaded artifact, settings, attachment and scoped event readback. Does not erase prior startup crashes, certify latency, or prove indefinite stability."
+}

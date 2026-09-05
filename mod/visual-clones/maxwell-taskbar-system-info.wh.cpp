@@ -1118,6 +1118,11 @@ void LoadSettings() {
     g_widgetBackgroundAlpha = backgroundStrength == L"subtle" ? 0x70
                                   : (backgroundStrength == L"strong"
                                          ? 0xD0 : 0x9C);
+#ifdef OPAL_UNIFIED_BUILD
+    // The owned Grid style supplies Opal's compositor glass. A second solid
+    // fill on PerformanceSurface would cover it with a dark inner capsule.
+    g_widgetBackgroundAlpha = 0;
+#endif
     g_monitorTarget = OpalControl::ReadMonitorSetting(
         L"screens.performanceMonitor", OpalControl::MonitorTarget::Primary);
     g_highContrast = OpalControl::HighContrast();
@@ -3407,17 +3412,21 @@ void SetTemperatureForeground(TextBlock text,
     SetAlertWeight(text, alert);
 }
 
-SolidColorBrush AlertBrush(AlertLevel alert, const ModSettings& settings) {
+Color AlertColor(AlertLevel alert, const ModSettings& settings) {
     if (alert == AlertLevel::Critical) {
-        return BrushFromSetting(settings.criticalColor,
-                                MakeColor(0xFF, 0xFF, 0x6B, 0x6B));
+        return ParseColor(settings.criticalColor)
+            .value_or(MakeColor(0xFF, 0xFF, 0x6B, 0x6B));
     }
     if (alert == AlertLevel::Warning) {
-        return BrushFromSetting(settings.warningColor,
-                                MakeColor(0xFF, 0xFF, 0xB9, 0x00));
+        return ParseColor(settings.warningColor)
+            .value_or(MakeColor(0xFF, 0xFF, 0xB9, 0x00));
     }
-    return BrushFromSetting(settings.graphColor,
-                            MakeColor(0xFF, 0x78, 0xA8, 0xFF));
+    return ParseColor(settings.graphColor)
+        .value_or(MakeColor(0xFF, 0x78, 0xA8, 0xFF));
+}
+
+SolidColorBrush AlertBrush(AlertLevel alert, const ModSettings& settings) {
+    return SolidColorBrush(AlertColor(alert, settings));
 }
 
 AlertLevel OverallAlert() {
@@ -3683,6 +3692,28 @@ void UpdateMemoryBar(XamlRectangle fill,
 void SetTextIfChanged(TextBlock text, const std::wstring& value) {
     if (text && wcscmp(text.Text().c_str(), value.c_str()) != 0) {
         text.Text(value);
+    }
+}
+
+void SetTextColorIfChanged(TextBlock text, const Color& color) {
+    if (!text) {
+        return;
+    }
+    // Read the actual brush so theme changes and rebuilt elements do not need
+    // a separate cache invalidation path. Non-solid/null brushes are replaced.
+    auto current = text.Foreground().try_as<SolidColorBrush>();
+    if (!current || !SameColor(current.Color(), color)) {
+        text.Foreground(SolidColorBrush(color));
+    }
+}
+
+void SetAutomationNameIfChanged(FrameworkElement element,
+                                const std::wstring& value) {
+    using winrt::Windows::UI::Xaml::Automation::AutomationProperties;
+    if (element &&
+        wcscmp(AutomationProperties::GetName(element).c_str(), value.c_str()) !=
+            0) {
+        AutomationProperties::SetName(element, value);
     }
 }
 
@@ -4588,15 +4619,15 @@ void CcUpdateTile(CommandCenterTile& tile,
     if (!tile.value) {
         return;
     }
-    tile.value.Text(value);
+    SetTextIfChanged(tile.value, value);
     tile.value.Foreground(SolidColorBrush(CcValueColor(alert, settings)));
     if (tile.detail) {
-        tile.detail.Text(detail);
+        SetTextIfChanged(tile.detail, detail);
     }
     if (tile.badge) {
-        tile.badge.Text(badge);
-        tile.badge.Visibility(badge.empty() ? Visibility::Collapsed
-                                            : Visibility::Visible);
+        SetTextIfChanged(tile.badge, badge);
+        SetVisibilityIfChanged(tile.badge, badge.empty() ? Visibility::Collapsed
+                                                       : Visibility::Visible);
         tile.badge.Foreground(
             SolidColorBrush(badgeAlert == AlertLevel::Normal
                                 ? CcHealthColor(AlertLevel::Normal, settings)
@@ -4656,7 +4687,8 @@ void CcUpdateTrace(CommandCenterTrace& trace,
     }
 
     if (trace.value) {
-        trace.value.Text(available ? FormatPercent(current) : L"--%");
+        SetTextIfChanged(trace.value,
+                         available ? FormatPercent(current) : L"--%");
         trace.value.Foreground(
             SolidColorBrush(CcValueColor(alert, settings)));
     }
@@ -4989,13 +5021,14 @@ void RefreshCommandCenter(const MetricsSnapshot& snapshot,
         OpalPerformanceDiagnostics::Metric::HardwareRefresh);
     try {
         if (g_commandCenter.subtitle) {
-            g_commandCenter.subtitle.Text(
+            SetTextIfChanged(g_commandCenter.subtitle,
                 CommandCenterSubtitle(snapshot, settings));
         }
         AlertLevel health = OverallAlert();
         Color healthColor = CcHealthColor(health, settings);
         if (g_commandCenter.statusText) {
-            g_commandCenter.statusText.Text(SystemHealthName(health));
+            SetTextIfChanged(g_commandCenter.statusText,
+                             SystemHealthName(health));
             g_commandCenter.statusText.Foreground(
                 SolidColorBrush(healthColor));
         }
@@ -5038,23 +5071,23 @@ void RefreshCommandCenter(const MetricsSnapshot& snapshot,
                       snapshot.gpuAvailable, g_gpuUsageAlert, settings);
 
         if (g_commandCenter.thermalValue) {
-            g_commandCenter.thermalValue.Text(FormatThermalHeadroom(
+            SetTextIfChanged(g_commandCenter.thermalValue, FormatThermalHeadroom(
                 snapshot.cpuTemp, settings.cpuWarningTemp, settings));
             g_commandCenter.thermalValue.Foreground(SolidColorBrush(
                 CcValueColor(g_cpuTemperatureAlert, settings)));
         }
         if (g_commandCenter.gpuThermalValue) {
-            g_commandCenter.gpuThermalValue.Text(FormatThermalHeadroom(
+            SetTextIfChanged(g_commandCenter.gpuThermalValue, FormatThermalHeadroom(
                 snapshot.gpuTemp, settings.gpuWarningTemp, settings));
             g_commandCenter.gpuThermalValue.Foreground(SolidColorBrush(
                 CcValueColor(g_gpuTemperatureAlert, settings)));
         }
         if (g_commandCenter.sensorValue) {
-            g_commandCenter.sensorValue.Text(
+            SetTextIfChanged(g_commandCenter.sensorValue,
                 CommandCenterSensorSummary(snapshot));
         }
         if (g_commandCenter.postureValue) {
-            g_commandCenter.postureValue.Text(
+            SetTextIfChanged(g_commandCenter.postureValue,
                 NotificationPostureName(snapshot.scene));
         }
     } catch (...) {
@@ -5689,11 +5722,9 @@ void UpdatePerformanceMirror(const MetricsSnapshot& snapshot,
                   FormatPercent(snapshot.ram));
         SetTextIfChanged(slot.ramText,
                          L"RAM  " + FormatUsedPercent(snapshot.ram));
-        if (slot.cpuText)
-            slot.cpuText.Foreground(AlertBrush(g_cpuUsageAlert, settings));
-        if (slot.ramText)
-            slot.ramText.Foreground(AlertBrush(g_ramAlert, settings));
-        winrt::Windows::UI::Xaml::Automation::AutomationProperties::SetName(
+        SetTextColorIfChanged(slot.cpuText, AlertColor(g_cpuUsageAlert, settings));
+        SetTextColorIfChanged(slot.ramText, AlertColor(g_ramAlert, settings));
+        SetAutomationNameIfChanged(
             slot.widget,
             L"CPU " + FormatLoadPercent(snapshot.cpu) + L", RAM " +
                 FormatUsedPercent(snapshot.ram));
@@ -5704,7 +5735,6 @@ void UpdateWidgetText() {
     if (!g_widget || g_unloading) {
         return;
     }
-    ModSettings settings = CurrentSettings();
     MetricsSnapshot snapshot;
     uint64_t metricsSequence = 0;
     if (!GetLatestMetrics(snapshot, metricsSequence)) {
@@ -5716,6 +5746,7 @@ void UpdateWidgetText() {
     if (metricsSequence == g_lastRenderedMetricsSequence) {
         return;
     }
+    ModSettings settings = CurrentSettings();
 
     AlertLevel previousCpuTemperatureAlert = g_cpuTemperatureAlert;
     AlertLevel previousGpuTemperatureAlert = g_gpuTemperatureAlert;
@@ -6313,9 +6344,9 @@ bool InjectWidget(FrameworkElement taskbarFrame) {
     AttachWidgetDragHandlers(widget);
     winrt::Windows::UI::Xaml::Automation::AutomationProperties::SetHelpText(
         widget, L"Drag to move this hardware capsule. Click a row for Hardware Command Center. Right-click to switch taskbar mode.");
-    // The shell itself stays transparent. A rounded child surface supplies the
-    // neutral fallback without leaving square CPU/RAM corners visible around
-    // the capsule.
+    // The Grid receives Opal's owned glass style in the unified build. Keep
+    // its child surface transparent there; standalone and high-contrast modes
+    // retain their rounded fallback without square CPU/RAM corners.
     widget.Background(SolidColorBrush(Colors::Transparent()));
     widget.RightTapped([](IInspectable const&, RightTappedRoutedEventArgs const& args) {
         CycleExperienceMode();

@@ -1425,11 +1425,9 @@ static constexpr CLSID kMaxwellTapClsid =
     { 0x6e2d9f41, 0x4c3a, 0x4c2e, { 0x9e, 0x7b, 0x1f, 0x0a, 0x5c, 0x8d, 0x2b, 0x10 } };
 // The tap CLSID XAML CoCreates. Named for the mod's internal namespace.
 
-// __declspec(dllexport) is required even though the build passes
-// -Wl,--export-all-symbols: that flag is ignored once a DLL has any explicit
-// export, and Windhawk's own Wh_Mod* entry points are explicitly exported.
-// Without it XAML's GetProcAddress returns null and the tap never loads, while
-// the mod happily reports that it initialised.
+// XAML activates this COM entrypoint by name. Keep its explicit export and
+// its entry in OpalExports.def; the build verifies the actual PE export table.
+// Without it, the mod can initialize while XAML's tap activation fails.
 extern "C" __declspec(dllexport)
 HRESULT __stdcall DllGetClassObject(REFCLSID rclsid, REFIID riid, void** ppv) {
     if (!ppv) { return E_POINTER; }
@@ -1537,42 +1535,10 @@ static void LoadSettings() {
 // ---------------------------------------------------------------------
 static bool g_geometryInit = false;
 
-// Ensure the taskbar view module is loaded before any addon initialises.
-//
-// Each addon otherwise installs a LoadLibraryExW fallback to catch that DLL
-// loading later - and several components hooking the same LoadLibraryExW inside
-// one mod would risk a missing widget on a cold boot. With the module already
-// present, every addon takes the direct symbol-hook path and NO LoadLibraryExW
-// hook is installed at all. Returns immediately in the common case (after a shell
-// restart the module is already loaded); the short retry only bites on a cold
-// boot where it appears a beat late.
-static void PreloadTaskbarView() {
-    // Taskbar.View.dll is a packaged DLL under SystemApps, which is NOT on the
-    // default search path - a bare-name LoadLibraryW quietly fails, the preload
-    // gives up, and whichever explorer wins the shell race runs with no icon
-    // geometry at all (stock oversized icons upscaled from small bitmaps).
-    // Resolve the full path first; the bare names stay as a fallback for
-    // builds where the DLL lives elsewhere.
-    wchar_t windowsDir[MAX_PATH] = {};
-    std::wstring packagedPath;
-    if (GetWindowsDirectoryW(windowsDir, MAX_PATH)) {
-        packagedPath = std::wstring(windowsDir) +
-            L"\\SystemApps\\MicrosoftWindows.Client.Core_cw5n1h2txyewy"
-            L"\\Taskbar.View.dll";
-    }
-    for (int i = 0; i < 15; ++i) {
-        if (GetModuleHandleW(L"Taskbar.View.dll") ||
-            GetModuleHandleW(L"ExplorerExtensions.dll")) { return; }
-        if (!packagedPath.empty() && LoadLibraryW(packagedPath.c_str())) { return; }
-        if (LoadLibraryW(L"Taskbar.View.dll") ||
-            LoadLibraryW(L"ExplorerExtensions.dll")) { return; }
-        Sleep(100);
-    }
-}
-
 static void TaskbarGeometryInit() {
     if (g_host != Host::Explorer) { return; }
-    PreloadTaskbarView();
+    // Let Explorer load its packaged taskbar modules in its own startup order.
+    // The addon installs its loader callback and polls for natural module arrival.
     try { g_geometryInit = OpalAddonIcons::Init(); }
     catch (...) { g_geometryInit = false; }
 }

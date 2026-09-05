@@ -1,0 +1,7 @@
+{
+  "AtUtc": "2026-09-05T09:05:27.4713644Z",
+  "Name": "everyday.performanceDiagnostics",
+  "OriginallyPresent": false,
+  "OriginalValue": null,
+  "Purpose": "User-assisted real taskbar latency capture; restore after report capture"
+}

@@ -1,0 +1,15 @@
+; Windhawk x64 engine LoadedMod: GetProcAddress lifecycle/data contract.
+; https://github.com/ramensoftware/windhawk/blob/main/src/windhawk/engine/mod.cpp
+; Cross-checked against installed Engine/2.0/64/windhawk.dll and SDK headers.
+; Opal implements the void settings overload; BOOL* overload is absent already.
+; DllGetClassObject is XAML's existing COM activation entrypoint. No
+; DllCanUnloadNow is implemented/exported in the baseline; none is invented.
+; Component callbacks and C++ helpers are reached internally, not by exports.
+EXPORTS
+    InternalWhModPtr DATA
+    _Z10Wh_ModInitv
+    _Z15Wh_ModAfterInitv
+    _Z18Wh_ModBeforeUninitv
+    _Z12Wh_ModUninitv
+    _Z21Wh_ModSettingsChangedv
+    DllGetClassObject

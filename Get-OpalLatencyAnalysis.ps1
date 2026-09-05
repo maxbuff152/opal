@@ -13,8 +13,8 @@
     diagnostic row must nevertheless be present and structurally valid.
 
     A Passed verdict means only that eligible, rounded statistics in the supplied
-    export meet the caller's budgets. The export has no build, PID, timestamp, or
-    raw samples, so this helper cannot verify a current live build or recompute
+    export meet the caller's budgets. New exports include process/time provenance,
+    but no build hash or raw samples, so this helper cannot verify a live build or recompute
     percentiles. It is not a release gate. Media's next update is not provider
     acknowledgment, panel Opened is not pixel presentation, and attachment pass
     timing excludes earlier retry/backoff time.
@@ -70,10 +70,29 @@ if ($PSCmdlet.ParameterSetName -eq 'File') {
 $header = 'Opal latency diagnostics (milliseconds; latest 64 samples per metric)'
 $issues = [Collections.Generic.List[string]]::new()
 $parsed = @{}
+$provenance = $null
+$provenanceCount = 0
 $section = $false
 $headerCount = 0
 foreach ($rawLine in [regex]::Split($ExportText,'\r\n|\n|\r')) {
     $line = $rawLine.Trim()
+    if ($line.StartsWith('Opal latency provenance:',[StringComparison]::Ordinal)) {
+        ++$provenanceCount
+        if ($section -or $provenanceCount -ne 1 -or $line -cnotmatch '^Opal latency provenance: version=1 pid=(?<pid>[0-9]+) processStartFileTime=(?<start>[0-9]+) capturedFileTime=(?<capture>[0-9]+) epoch=(?<epoch>[0-9]+)$') {
+            $issues.Add('Malformed, misplaced or duplicate latency provenance.')
+            continue
+        }
+        $tokens = $Matches.Clone()
+        try {
+            $processIdValue=[uint32]::Parse($tokens['pid'],$culture)
+            $epochValue=[uint64]::Parse($tokens['epoch'],$culture)
+            $startValue=[int64]::Parse($tokens['start'],$culture)
+            $captureValue=[int64]::Parse($tokens['capture'],$culture)
+            if (-not $processIdValue -or -not $epochValue -or $startValue -le 0 -or $captureValue -lt $startValue) { throw 'Invalid provenance values.' }
+            $provenance=[pscustomobject]@{Version=1;Pid=$processIdValue;ProcessStartUtc=[datetime]::FromFileTimeUtc($startValue).ToString('o');CapturedAtUtc=[datetime]::FromFileTimeUtc($captureValue).ToString('o');Epoch=$epochValue;VerifiedAgainstRuntime=$false}
+        } catch { $issues.Add('Invalid process identity or file time in latency provenance.') }
+        continue
+    }
     if ($line -ceq $header) {
         $section = $true
         ++$headerCount
@@ -185,12 +204,14 @@ $verdict = if (-not $evidenceValid) { 'InvalidEvidence' }
     MinimumSamples = $MinimumSamples
     RequestedBudgetCount = $requestedRows.Count
     RuntimeVerified = $false
+    Provenance = $provenance
     AcceptanceScope = 'Supplied rounded statistics against caller-provided p95 budgets only; no default SLA or release acceptance.'
     Metrics = @($rows)
     Issues = @($issues)
     Limitations = @(
         'The export contains rounded summary values, not raw samples; percentiles cannot be independently recomputed.'
-        'No build, process identity, collection timestamp, or interaction provenance is present; current runtime and evidence freshness are unverified.'
+        $(if ($null -eq $provenance) {'Legacy export lacks process/time provenance; current runtime and evidence freshness are unverified.'} else {'Process/time provenance is self-reported, not independently verified against an installed build or interaction log.'})
+        'No build hash or input-action provenance is included; this is not a current-build release gate.'
         'Media command-to-next-update is an observation, not provider acknowledgment or confirmed command success.'
         'Hardware panel Opened is not pixel presentation; actual visible-frame latency is unavailable.'
         'Shell successful attachment/recovery pass excludes preceding retry/backoff time.'

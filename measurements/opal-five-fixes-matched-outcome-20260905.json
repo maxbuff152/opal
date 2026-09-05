@@ -1,0 +1,45 @@
+{
+  "AtUtc": "2026-09-05T09:10:53.8519347Z",
+  "ReceiptSha256": "B9AAAF1C969A2C0029A143C7926684D58E8E61F924800B248303955B28BF8EE8",
+  "Valid": false,
+  "Complete": false,
+  "CompletedLegs": 2,
+  "Failure": {
+    "Kind": "RuntimeObservation",
+    "Scenario": "Stock",
+    "Pid": 44784,
+    "StartedAtUtc": "2026-09-05T08:59:20.6381596Z",
+    "SessionId": 1,
+    "ObservedAtUtc": "2026-09-05T04:02:15.6275844-05:00",
+    "Disabled": 0,
+    "MediaEnabled": 0,
+    "PerformanceEnabled": 0,
+    "ActualAliases": [
+      {
+        "Name": "local_at_opal_4.5.0_owned.dll",
+        "Path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll"
+      }
+    ],
+    "ExpectedDisabled": 1,
+    "ExpectedAliasCount": 0,
+    "ExpectedDllName": "local_at_opal_4.5.0_owned.dll",
+    "ExpectedDllSha256": "B5F0646E1018E3075E13C38F1061EEB3A8E33B5FBE9B1E4478C6E3DC8F757597",
+    "HashReadbackRequested": false
+  },
+  "Restoration": {
+    "Verified": true,
+    "AtUtc": "2026-09-05T04:02:19.4431668-05:00",
+    "Pid": 22716,
+    "StartedAtUtc": "2026-09-05T09:02:15.7515351Z",
+    "Settings": {
+      "Disabled": 0,
+      "Media": 1,
+      "Performance": 1
+    },
+    "ObservationAttempts": 6,
+    "LastObservationError": "Media initialized but has not attached in the current Explorer session."
+  },
+  "AnalyzerAccepted": false,
+  "Limitation": "Unexpected Disabled=0 with Opal loaded during third Stock leg invalidated comparison. No attribution for the setting change. Source later changed only for the user-requested glass correction; this experiment does not qualify the final build.",
+  "AnalyzerRejection": "Incomplete, failed or unrestored experiment cannot be analyzed as valid."
+}

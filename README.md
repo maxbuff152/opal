@@ -128,6 +128,10 @@ each leg; this descriptive experiment does not replace the acceptance gate.
 The **Collect performance timings** setting is off by default. When enabled,
 Opal keeps only the latest 64 numeric timings per metric in memory. Open Hardware
 Command Center and choose **Copy hardware report** to export the current samples.
+New exports include process ID, process birth time, report-export time and the
+collection epoch. The analyzer validates that metadata and continues to accept
+legacy summaries with explicitly absent provenance. These fields do not prove
+an installed DLL hash or identify the individual user actions.
 Disabling the setting clears them. Collection creates no background writer or
 new asynchronous callbacks. Timings cover successful attachment/recovery work,
 media dispatch and the next applied update, snapshot-to-UI delay, UI work, and
@@ -149,6 +153,14 @@ also releases retained snapshot artwork; enabling it requests a fresh update.
 Compact mirrors reuse unchanged metadata while continuing attachment and geometry
 checks. Recovery workers wait on a shared stop event, preserving their health
 check interval without 100-ms unload polling.
+Missing media properties/playback clear stale controls and retry; a missing
+timeline preserves metadata and transport controls with seeking disabled.
+Performance mirrors and panel rows avoid rewriting unchanged colors, text,
+accessibility names and visibility. Explorer loads its taskbar modules naturally;
+Opal retains its existing loader callback and bounded late-module recovery.
+In the unified build, Performance uses the root capsule's compositor glass
+without a second dark child fill. Its background-strength setting therefore
+does not add an inner tint; standalone fallback and high-contrast fills remain.
 
 ## Legacy stack reduction
 
@@ -193,7 +205,12 @@ Run from this directory:
 ```
 
 `Build-OpalSuite.ps1` is the only release build. It produces deterministic DLLs
-and hashes. `Install-OpalSuite.ps1` creates a complete live rollback bundle before
+and hashes. Its default `Required` export mode retains only the seven verified
+Windhawk/XAML exports in `config/OpalExports.def`. `-ExportMode LegacyAllSymbols`
+preserves the preceding link behavior for comparison/rollback; `-CandidateName`
+isolates candidate DLLs and receipts. Actual PE-table checks run before acceptance,
+and the build receipt hashes the export definition and build script as inputs.
+`Install-OpalSuite.ps1` creates a complete live rollback bundle before
 changing Windhawk and automatically restores it if Explorer or a package fails.
 The same pass marks the Explorer restart as planned, stops leftover
 `MaxwellShell.exe` (Adaptive Dock / old shell), and installs

@@ -1,0 +1,12 @@
+{
+  "AtUtc": "2026-09-05T09:16:40.1866945Z",
+  "GitleaksExitCode": 0,
+  "Findings": 0,
+  "ScanReportSha256": "37517E5F3DC66819F61F5A7BB8ACE1921282415F10551D2DEFA5C3EB0985B570",
+  "DiffCheckPassed": true,
+  "PreexistingUntrackedCount": 21,
+  "PreexistingFilesUntouchedAndExcluded": true,
+  "DependencyChange": "No added third-party dependency; final PE import DLL list unchanged",
+  "ImportEvidence": "opal-five-fixes-glass-imports-20260905.json",
+  "Limitation": "Scoped code/artifact scan and direct PE imports, not an operating-system vulnerability audit"
+}

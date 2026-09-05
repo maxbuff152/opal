@@ -1,0 +1,170 @@
+{
+  "key": "opal",
+  "metadataId": "opal",
+  "localId": "local@opal",
+  "version": "4.5.0",
+  "include": "explorer.exe|StartMenuExperienceHost.exe|SearchHost.exe|SearchApp.exe|ShellExperienceHost.exe|ShellHost.exe",
+  "dllName": "local_at_opal_4.5.0_owned.dll",
+  "output": "D:\\Opal\\build\\opal-suite\\local_at_opal_4.5.0_owned.dll",
+  "bytes": 944640,
+  "sha256": "CD4D8D7B9A4CFEE7AB1DD5179E8AD163078271A4E2103F7960AE43B369978F8D",
+  "source": "D:\\Opal\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+  "sourceSha256": "6304E671FC752D5110F58211BC8D220A5F2729DD132877DE2BC7358798932F75",
+  "sourceInputs": [
+    {
+      "path": "D:\\Opal\\Build-OpalSuite.ps1",
+      "sha256": "EECCB082C1B7839D6F74407A53890E4381F97A683B63A8AE36172A69813ABE2E"
+    },
+    {
+      "path": "D:\\Opal\\config\\OpalExports.def",
+      "sha256": "FFCD051FB4E768F69402A17857E28B4B04AA8CC7E67E359CFC411971139E2949"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxhawk-runtime.h",
+      "sha256": "334CD9BC628FE70762C05E120BDCF2EA90519D6E9AEBE65081896A6F34B7C75B"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-opal-media.wh.cpp",
+      "sha256": "81D26F0DF2EBCBCC2B2B4DB8EB72A9E160EEAF371F354EA8B15BBFA828FC652C"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-apply.h",
+      "sha256": "5EEF9B8EE6C7EDD45330F83F82C294635E390CEE469B0B9A3E248E4F3018A2F4"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-owned-overrides.h",
+      "sha256": "CAA68D58F1DD448EE23F7F06147DAD892A397850B1FB6860094B9F2D2263F86F"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-rules.h",
+      "sha256": "C4235C623B98CCB1098BA2F1AFE864ACF913F4B5F2B5E17473EC0434E8C25793"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-selector.h",
+      "sha256": "8DDCCD2A9E99AAFAF5DE295AA36F0538E5BB3AF58A5D97555CBC10B20922CC59"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-style.h",
+      "sha256": "EBC1AD32BCDA97410E0EC4AB8826EA7C90523DF768C9F324DDAA0DBBC450E520"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-telemetry-protocol.h",
+      "sha256": "78521727AD3F3A2E8ECBCBA4B27403D53D78F5E37E5ECA46DA1834A85F9368D5"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell-weather-protocol.h",
+      "sha256": "457FA4FCD97A9C82341387437D384DE3D0A8C52D6A93158E46AA1E777848427C"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+      "sha256": "6304E671FC752D5110F58211BC8D220A5F2729DD132877DE2BC7358798932F75"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-taskbar-system-info.wh.cpp",
+      "sha256": "E003734649AD54FC9B9F2F4C2D1FA9990745ECB6511781A38DD9114C56982527"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-xaml-tap.h",
+      "sha256": "54E8DCD41F81997BEBF7ADB284C2003459EE43B01FDE19970ECCAF5D884A6680"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\opal-addon-clock.h",
+      "sha256": "520E6E7E0141F353679BCAF5DC9DB8A8638A9E48742DADD3C95E9EAC1CBBC613"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\opal-addon-icons.h",
+      "sha256": "CE1838F571080E9FD16BE81B00207E4D6D49F4A14C718E755DA3F589AEAFE9B2"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\opal-control.h",
+      "sha256": "D1387BA2947D5821BF189689A60F1CDE936BD1324EB5A12C756DCF3414DB1FCD"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\opal-performance-diagnostics.h",
+      "sha256": "7494F01E85C908C65CCA6529915956E280F876D932BADFFEBF7325139C65FF4D"
+    }
+  ],
+  "components": [
+    {
+      "name": "shell",
+      "source": "D:\\Opal\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+      "sha256": "6304E671FC752D5110F58211BC8D220A5F2729DD132877DE2BC7358798932F75"
+    },
+    {
+      "name": "media",
+      "source": "D:\\Opal\\mod\\visual-clones\\maxwell-opal-media.wh.cpp",
+      "sha256": "81D26F0DF2EBCBCC2B2B4DB8EB72A9E160EEAF371F354EA8B15BBFA828FC652C"
+    },
+    {
+      "name": "performance",
+      "source": "D:\\Opal\\mod\\visual-clones\\maxwell-taskbar-system-info.wh.cpp",
+      "sha256": "E003734649AD54FC9B9F2F4C2D1FA9990745ECB6511781A38DD9114C56982527"
+    }
+  ],
+  "packageSource": "D:\\Opal\\build\\opal-suite\\sources\\opal.wh.cpp",
+  "packageSourceSha256": "E1AE703D65E442BDD2E7E599E24F8A26A7EEA68F84E0EEEDFD09F6001A01E26F",
+  "compilerVersion": "clang version 20.1.3 (https://github.com/llvm/llvm-project.git 923a5c4f83d2b3675bb88e9fe441daeaa4d69488)",
+  "engineVersion": "2.0",
+  "exportMode": "Required",
+  "exportDefinitionSha256": "FFCD051FB4E768F69402A17857E28B4B04AA8CC7E67E359CFC411971139E2949",
+  "exports": [
+    "DllGetClassObject",
+    "InternalWhModPtr",
+    "_Z10Wh_ModInitv",
+    "_Z12Wh_ModUninitv",
+    "_Z15Wh_ModAfterInitv",
+    "_Z18Wh_ModBeforeUninitv",
+    "_Z21Wh_ModSettingsChangedv"
+  ],
+  "imageSize": 991232,
+  "imageSections": [
+    {
+      "Name": ".text",
+      "VirtualSize": 588230,
+      "Rva": 4096,
+      "RawSize": 588288,
+      "RawOffset": 1024,
+      "Characteristics": 1610612768
+    },
+    {
+      "Name": ".rdata",
+      "VirtualSize": 322440,
+      "Rva": 593920,
+      "RawSize": 322560,
+      "RawOffset": 589312,
+      "Characteristics": 1073741888
+    },
+    {
+      "Name": ".data",
+      "VirtualSize": 31728,
+      "Rva": 917504,
+      "RawSize": 1024,
+      "RawOffset": 911872,
+      "Characteristics": 3221225536
+    },
+    {
+      "Name": ".pdata",
+      "VirtualSize": 20604,
+      "Rva": 950272,
+      "RawSize": 20992,
+      "RawOffset": 912896,
+      "Characteristics": 1073741888
+    },
+    {
+      "Name": ".tls",
+      "VirtualSize": 96,
+      "Rva": 974848,
+      "RawSize": 512,
+      "RawOffset": 933888,
+      "Characteristics": 3221225536
+    },
+    {
+      "Name": ".reloc",
+      "VirtualSize": 9956,
+      "Rva": 978944,
+      "RawSize": 10240,
+      "RawOffset": 934400,
+      "Characteristics": 1107296320
+    }
+  ]
+}

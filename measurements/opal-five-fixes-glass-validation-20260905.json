@@ -1,0 +1,18 @@
+{
+  "RecordedAtUtc": "2026-09-05T09:14:46.2510721Z",
+  "InstalledBuildSha256": "CD4D8D7B9A4CFEE7AB1DD5179E8AD163078271A4E2103F7960AE43B369978F8D",
+  "FullValidationReceipt": "opal-five-fixes-tests-20260905.json",
+  "FullScriptCount": 33,
+  "PostGlassChecks": [
+    "tests/Test-OpalRenderWrites.ps1: 18 assertions passed",
+    "tests/Test-OpalTaskbarResilience.ps1: passed",
+    "Test-OpalSuite.ps1: passed"
+  ],
+  "PostGlassEvidence": "Direct tool execution following final installation and before user interaction instructions; integrated build and install passed",
+  "VisualEvidence": [
+    "opal-five-fixes-taskbar-primary-20260905.png",
+    "opal-five-fixes-taskbar-secondary-20260905.png"
+  ],
+  "VisualFinding": "Dark child fill removed; root glass and both taskbar layouts visibly intact",
+  "UserVisualConfirmation": "pending"
+}

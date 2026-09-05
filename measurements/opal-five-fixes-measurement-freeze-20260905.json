@@ -1,0 +1,37 @@
+[
+  {
+    "Algorithm": "SHA256",
+    "Hash": "54AF1202B8D4CD7FE8DD13AAD2A8B48BB5B361AA65FA668FB8A7BFA91E61A8CF",
+    "Path": "D:\\Opal\\Measure-OpalMatchedSoak.ps1"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "A80965E149B6C5A3B9CDA79FA381830D6B0B22694727AF0D31315D83E0FDFC3D",
+    "Path": "D:\\Opal\\Get-OpalMemoryRegions.ps1"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "2155702A4B93307C4462314BC0971EE21903E54AE13DD47DD358B7484096256C",
+    "Path": "D:\\Opal\\Get-OpalMatchedSoakAnalysis.ps1"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "C6F268B95075EBF753BFAB39C85B941D23547908C1430614404AB7328D33343B",
+    "Path": "D:\\Opal\\Get-OpalMeasuredProcessCost.ps1"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "3C6775298218FEC21BDEE618FDEF4222703AC60529F0EE89EC6C33C4FE3DF4CD",
+    "Path": "D:\\Opal\\tests\\Test-OpalAttachment.ps1"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "EECCB082C1B7839D6F74407A53890E4381F97A683B63A8AE36172A69813ABE2E",
+    "Path": "D:\\Opal\\Build-OpalSuite.ps1"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "FFCD051FB4E768F69402A17857E28B4B04AA8CC7E67E359CFC411971139E2949",
+    "Path": "D:\\Opal\\config\\OpalExports.def"
+  }
+]

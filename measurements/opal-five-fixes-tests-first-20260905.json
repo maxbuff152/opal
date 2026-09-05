@@ -1,0 +1,200 @@
+[
+  {
+    "test": "Test-OpalSuite.ps1",
+    "exitCode": 0,
+    "output": "passed     : True\r\nstaticOnly : False\r\ncheckedUtc : 2026-09-05T08:41:38.4834529Z\r\nfailures   : {}\r\nlive       : @{registryIds=local@opal; profileModIds=System.Object[]; explorerPid=15432; \r\n             module=local_at_opal_4.5.0_owned.dll}",
+    "checkedUtc": "2026-09-05T08:41:38.6204565Z"
+  },
+  {
+    "test": "tests\\Test-OpalAttachment.ps1",
+    "exitCode": 0,
+    "output": "passed      : True\r\nexplorerPid : 15432\r\nattached    : {Media, Performance}\r\nviews       : {@{component=Media; expected=1; attached=1; fullWindow=9438258; ageSeconds=4.37}, \r\n              @{component=Performance; expected=1; attached=1; fullWindow=9438258; ageSeconds=4.39}}\r\nlimitation  : Attachment evidence does not replace visual inspection of an unobscured taskbar.",
+    "checkedUtc": "2026-09-05T08:41:41.0546256Z"
+  },
+  {
+    "test": "tests\\Test-MaxwellShellCore.ps1",
+    "exitCode": 0,
+    "output": "{\r\n  \"passed\": true,\r\n  \"assertions\": 28,\r\n  \"failures\": [],\r\n  \"surface\": \"telemetry-and-weather\",\r\n  \"processId\": 34076,\r\n  \"checkedAt\": \"2026-09-05T03:41:42.3041577-05:00\"\r\n}",
+    "checkedUtc": "2026-09-05T08:41:42.4073432Z"
+  },
+  {
+    "test": "tests\\Test-OpalWeatherRetry.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True     7 Production weather scheduling: cold start, failed and successful interval boundaries, changed location, c…",
+    "checkedUtc": "2026-09-05T08:41:43.7649757Z"
+  },
+  {
+    "test": "tests\\Test-OpalMonitorRouting.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    16 Production routing: fullscreen stability, missing bars, reconnect, mirror ownership and deduplication.",
+    "checkedUtc": "2026-09-05T08:41:45.4418282Z"
+  },
+  {
+    "test": "tests\\Test-OpalTaskbarResilience.ps1",
+    "exitCode": 1,
+    "output": "Exception: D:\\Opal\\tests\\Test-OpalTaskbarResilience.ps1:71\r\nLine |\r\n  71 |  … es.Count) { throw \"Taskbar resilience validation failed: $($failures  …\r\n     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     | Taskbar resilience validation failed: Media refresh can still dereference a vanished playback-info or controls\r\n     | interface.",
+    "checkedUtc": "2026-09-05T08:41:46.1821397Z"
+  },
+  {
+    "test": "tests\\Test-OpalRecovery.ps1",
+    "exitCode": 0,
+    "output": "passed scenarios\r\n------ ---------\r\n  True {shared machine state, healthy idempotence, enabled but unloaded recovery, latched stock fallback}",
+    "checkedUtc": "2026-09-05T08:41:46.9851354Z"
+  },
+  {
+    "test": "tests\\Test-OpalRollbackTraversal.ps1",
+    "exitCode": 0,
+    "output": "passed assertions evidence\r\n------ ---------- --------\r\n  True          4 Excluded directories are never enumerated; nested destination cannot recurse; active data and hash p…",
+    "checkedUtc": "2026-09-05T08:41:47.7612987Z"
+  },
+  {
+    "test": "tests\\Test-OpalDensity.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True     8 Compiled production density function with enabled and disabled adaptive profiles.",
+    "checkedUtc": "2026-09-05T08:41:48.9659971Z"
+  },
+  {
+    "test": "tests\\Test-OpalUnifiedControl.ps1",
+    "exitCode": 0,
+    "output": "passed staticOnly failures\r\n------ ---------- --------\r\n  True      False {}",
+    "checkedUtc": "2026-09-05T08:41:49.6082157Z"
+  },
+  {
+    "test": "tests\\Test-WindhawkSafeDock.ps1",
+    "exitCode": 0,
+    "output": "{\r\n  \"passed\": true,\r\n  \"assertions\": 15,\r\n  \"liveMode\": \"opal-unified\",\r\n  \"explorerPid\": 15432,\r\n  \"loadedModules\": [\r\n    \"local_at_opal_4.5.0_owned.dll\",\r\n    \"libunwind.whl\",\r\n    \"libc++.whl\"\r\n  ],\r\n  \"checkedAt\": \"2026-09-05T03:41:55.2757946-05:00\"\r\n}",
+    "checkedUtc": "2026-09-05T08:41:55.3477534Z"
+  },
+  {
+    "test": "tests\\Test-OpalAsyncReliability.ps1",
+    "exitCode": 0,
+    "output": "17 regression assertions passed: complete/error/oversize/empty/cancelled/deadline weather; media completion/error/cancellation/timeout; silent publisher deadline.\r\n\r\npassed assertions evidence\r\n------ ---------- --------\r\n  True         20 Extracted production code, deterministic I/O and provider mocks, real Win32 wait. Shutdown lifetime,…",
+    "checkedUtc": "2026-09-05T08:41:58.8756142Z"
+  },
+  {
+    "test": "tests\\Test-OpalPerformanceEvidence.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    16 Synthetic valid control plus malformed, stale, unrelated, duplicate, short and numerically inconsistent r…",
+    "checkedUtc": "2026-09-05T08:41:59.9210968Z"
+  },
+  {
+    "test": "tests\\Test-OpalSoakEvidence.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True     8 Stable/jitter control; growth with occasional releases, process replacement, unavailable counters, duplic…",
+    "checkedUtc": "2026-09-05T08:42:00.8408287Z"
+  },
+  {
+    "test": "tests\\Test-OpalStartupHooks.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True     2 Compiled production cold-start branch; unified startup survives unavailable/redundant loader hook, standa…",
+    "checkedUtc": "2026-09-05T08:42:02.9530504Z"
+  },
+  {
+    "test": "tests\\Test-OpalRuntimePublication.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    10 Compiled production cache and settings callback: unchanged suppression, refresh/transition writes, suspen…",
+    "checkedUtc": "2026-09-05T08:42:04.7663878Z"
+  },
+  {
+    "test": "tests\\Test-OpalPdhDemand.ps1",
+    "exitCode": 0,
+    "output": "22 production PDH-demand assertions passed.\r\n\r\npassed cases evidence\r\n------ ----- --------\r\n  True    22 Compiled production query setup/cleanup with deterministic PDH failures, exact counter sets, source trans…",
+    "checkedUtc": "2026-09-05T08:42:07.1536228Z"
+  },
+  {
+    "test": "tests\\Test-OpalPairedAnalysis.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    14 Known ABBA/BAAB means, round median/range and distinct pooled median; malformed metric and paired-slot re…",
+    "checkedUtc": "2026-09-05T08:42:08.0932327Z"
+  },
+  {
+    "test": "tests\\Test-OpalMeasuredProcessCost.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    11 Correct CPU/private aggregation; per-process working sets; rejects membership/PID reuse/duplicate/counter…",
+    "checkedUtc": "2026-09-05T08:42:08.8166221Z"
+  },
+  {
+    "test": "tests\\Test-OpalRecoveryWait.ps1",
+    "exitCode": 0,
+    "output": "32 recovery wait/lifecycle assertions passed.\r\n\r\npassed evidence\r\n------ --------\r\n  True Compiled production event wait, lifecycle, and teardown with real Win32 threads/events; creation/wait failures,…",
+    "checkedUtc": "2026-09-05T08:42:10.7369309Z"
+  },
+  {
+    "test": "tests\\Test-OpalPerformanceDiagnostics.ps1",
+    "exitCode": 0,
+    "output": "17 diagnostics assertions passed.\r\n\r\npassed cases evidence\r\n------ ----- --------\r\n  True    17 Production diagnostics header with deterministic QPC, concurrent writers, two linked translation units, b…",
+    "checkedUtc": "2026-09-05T08:42:13.8708645Z"
+  },
+  {
+    "test": "tests\\Test-OpalMediaDemand.ps1",
+    "exitCode": 0,
+    "output": "14 media demand assertions passed.\r\n\r\npassed cases evidence\r\n------ ----- --------\r\n  True    14 Compiled production artwork demand helper and mirror update function: provider suppression/retry/reuse an…",
+    "checkedUtc": "2026-09-05T08:42:15.3530826Z"
+  },
+  {
+    "test": "tests\\Test-OpalMatchedSoakEvidence.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    40 Matched windows/steps and invalid-evidence rejection; actual serialized empty alias proof; actual restart…",
+    "checkedUtc": "2026-09-05T08:42:19.5664028Z"
+  },
+  {
+    "test": "tests\\Test-OpalLatencyEvidence.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    42 Actual C++ producer/parser format contract; complete/partial exports, missing/malformed/duplicate rows, n…",
+    "checkedUtc": "2026-09-05T08:42:20.6568988Z"
+  },
+  {
+    "test": "tests\\Test-OpalAllocationProfile.ps1",
+    "exitCode": 0,
+    "output": "Determining projects to restore...\r\n  Restored D:\\Opal\\tools\\OpalAllocationTrace\\OpalAllocationTrace.csproj (in 479 ms).\r\n  OpalAllocationTrace -> D:\\Opal\\tools\\OpalAllocationTrace\\bin\\Release\\net10.0\\OpalAllocationTrace.dll\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:03.48\r\nD:\\Opal\\build\\allocation-profile-test\\ce9a815bd8054d0fa6088f87daf2dac8\\explorer.summary.json\r\nD:\\Opal\\build\\allocation-profile-test\\ce9a815bd8054d0fa6088f87daf2dac8\\pid.summary.json\r\n\r\npassed     : True\r\nassertions : 18\r\nreport     : D:\\Opal\\build\\allocation-profile-test\\ce9a815bd8054d0fa6088f87daf2dac8\\explorer.summary.json\r\nevents     : 40\r\nstacked    : 23\r\nlost       : 0\r\nevidence   : Read-only existing ETL, all-size aggregation reconciliation, independent PID filter, evidence \r\n             preservation, local-only input.",
+    "checkedUtc": "2026-09-05T08:42:31.5695229Z"
+  },
+  {
+    "test": "tests\\Test-OpalCpuProfile.ps1",
+    "exitCode": 0,
+    "output": "Determining projects to restore...\r\n  All projects are up-to-date for restore.\r\n  OpalAllocationTrace -> D:\\Opal\\tools\\OpalAllocationTrace\\bin\\Release\\net10.0\\OpalAllocationTrace.dll\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.74\r\n19 deterministic CPU aggregation assertions passed (synthetic counts; no live capture claim).\r\nD:\\Opal\\build\\cpu-profile-test\\44f01b18e0774b1b88e8c8f668563feb\\cpu.summary.json\r\n\r\npassed                 : True\r\nsyntheticAssertions    : 19\r\nprofile                : Installed WPR metadata validation only; 64 MiB collector buffers\r\nexistingCpuTraceReport : D:\\Opal\\build\\cpu-profile-test\\44f01b18e0774b1b88e8c8f668563feb\\cpu.summary.json\r\ncaptureStarted         : False",
+    "checkedUtc": "2026-09-05T08:42:38.8416251Z"
+  },
+  {
+    "test": "tests\\Test-OpalPackageRestart.ps1",
+    "exitCode": 0,
+    "output": "Passed Assertions ProductionSource                    LiveRestartPerformed\r\n------ ---------- ----------------                    --------------------\r\n  True         29 D:\\Opal\\Measure-OpalPackageCost.ps1                False",
+    "checkedUtc": "2026-09-05T08:42:39.7363949Z"
+  },
+  {
+    "test": "tests\\Test-OpalAllocationRebound.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    12 Real runner control flow with stubbed WPR/process/time: rebound, deadline, PID/DLL drift, region-scan lif…",
+    "checkedUtc": "2026-09-05T08:42:40.5019210Z"
+  },
+  {
+    "test": "tests\\Test-OpalExportContract.ps1",
+    "exitCode": 0,
+    "output": "Passed Cases Evidence\r\n------ ----- --------\r\n  True    17 Actual production PE parser and export validator; paired fixture links; malformed/missing/unexpected expo…",
+    "checkedUtc": "2026-09-05T08:42:43.3929338Z"
+  },
+  {
+    "test": "tests\\Test-OpalLatencyProvenance.ps1",
+    "exitCode": 0,
+    "output": "passed cases scope\r\n------ ----- -----\r\n  True    15 Actual production Summary and parser with independently observed process PID/birth/capture window; malfor…",
+    "checkedUtc": "2026-09-05T08:42:45.5871177Z"
+  },
+  {
+    "test": "tests\\Test-OpalMediaProviderNulls.ps1",
+    "exitCode": 0,
+    "output": "12 actual RefreshMediaSnapshot provider assertions passed.\r\n\r\npassed cases scope\r\n------ ----- -----\r\n  True    12 Extracted production RefreshMediaSnapshot with disappearing/null provider interfaces, recovery and artwor…",
+    "checkedUtc": "2026-09-05T08:42:47.0563258Z"
+  },
+  {
+    "test": "tests\\Test-OpalNaturalModuleStartup.ps1",
+    "exitCode": 0,
+    "output": "23 assertions passed\r\n\r\nPassed              : True\r\nAssertions          : 23\r\nEvidence            : Compiled actual shell geometry wrappers and icon Init/AfterInit, loader callback and late \r\n                      polling; mocked OS/module/symbol operations only.\r\nLiveExplorerRestart : False\r\nLimitation          : Preserves existing 30-second poll and existing hook-failure behavior; does not prove crash \r\n                      causality or live geometry.",
+    "checkedUtc": "2026-09-05T08:42:48.4426383Z"
+  },
+  {
+    "test": "tests\\Test-OpalRenderWrites.ps1",
+    "exitCode": 0,
+    "output": "18 production renderer assertions passed.\r\n\r\npassed cases evidence\r\n------ ----- --------\r\n  True    18 Complete production mirror/tile update and unchanged-value helpers with counted XAML stubs, plus exact re…",
+    "checkedUtc": "2026-09-05T08:42:50.0368914Z"
+  }
+]

@@ -178,9 +178,9 @@ struct MediaSnapshot {
     uint64_t sequence = 0;
     bool hasSession = false;
     bool playing = false;
-    bool canPrevious = true;
-    bool canToggle = true;
-    bool canNext = true;
+    bool canPrevious = false;
+    bool canToggle = false;
+    bool canNext = false;
     bool canSeek = false;
     std::wstring title;
     std::wstring description;
@@ -1038,12 +1038,17 @@ bool RefreshMediaSnapshot() {
         }
 
         auto properties = AwaitMediaOperation(session.TryGetMediaPropertiesAsync(), g_workerStop);
+        if (!properties) {
+            PublishEmptySnapshot();
+            return false;
+        }
         auto playback = session.GetPlaybackInfo();
         auto timeline = session.GetTimelineProperties();
         // A media session can disappear between enumeration and this refresh.
         // C++/WinRT represents that race as a null interface; calling through
         // it raises a native access violation before the catch below can run.
         if (!playback) {
+            PublishEmptySnapshot();
             return false;
         }
 
@@ -1063,9 +1068,14 @@ bool RefreshMediaSnapshot() {
             next.canToggle = controls.IsPlayPauseToggleEnabled();
             next.canNext = controls.IsNextEnabled();
         }
-        next.start100ns = timeline.StartTime().count();
-        next.position100ns = timeline.Position().count();
-        next.end100ns = timeline.EndTime().count();
+        // Live streams and disappearing sessions may have no timeline. Keep
+        // their valid metadata/transport controls, but do not dereference it
+        // or advertise seeking until a usable range is available.
+        if (timeline) {
+            next.start100ns = timeline.StartTime().count();
+            next.position100ns = timeline.Position().count();
+            next.end100ns = timeline.EndTime().count();
+        }
         next.canSeek = next.end100ns > next.start100ns;
         next.capturedTick = GetTickCount64();
         std::shared_ptr<const std::vector<uint8_t>> previousArtwork;

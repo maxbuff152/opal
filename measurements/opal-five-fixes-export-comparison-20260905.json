@@ -1,0 +1,103 @@
+{
+  "SchemaVersion": 1,
+  "ComparedAtUtc": "2026-09-05T08:29:28.8564018Z",
+  "FrozenCommit": "cedd3348e7bdf59bffd3965f8be53049e0c5bd31",
+  "SameProductionSourceHashes": true,
+  "Baseline": {
+    "Path": "D:\\Opal\\build\\export-demand-probe\\baseline.dll",
+    "Sha256": "5389ACBE2F1DDB7BD5876D8DBE4B592E6685490B9BBBE42B862E444596662E05",
+    "Bytes": 1426432,
+    "SizeOfImage": 1474560,
+    "ExportCount": 4603
+  },
+  "Control": {
+    "Path": "D:\\Opal\\build\\export-demand-probe\\frozen\\build\\opal-suite-candidates\\legacy\\local_at_opal_4.5.0_owned.dll",
+    "Sha256": "639C0189873C06C32E67AB79C529BD11E9A006986CC893EDE9BAE242AB9E990E",
+    "Bytes": 1426432,
+    "SizeOfImage": 1474560,
+    "ExportCount": 4603,
+    "TlsCallbackCount": 3,
+    "EntryPointRva": 4576
+  },
+  "Candidate": {
+    "Path": "D:\\Opal\\build\\export-demand-probe\\frozen\\build\\opal-suite-candidates\\required\\local_at_opal_4.5.0_owned.dll",
+    "Sha256": "AD6CFCD7E8F2EAAA8A6147BB96545C26D710DBE380C2252A3834F9091A6E4B5E",
+    "Bytes": 944128,
+    "SizeOfImage": 991232,
+    "ExportCount": 7,
+    "TlsCallbackCount": 3,
+    "EntryPointRva": 4576
+  },
+  "DeltaFileBytes": -482304,
+  "DeltaImageBytes": -483328,
+  "FileReductionPercent": 33.811916726489585,
+  "ExactImportedFunctionsUnchanged": false,
+  "ImportedDllsUnchanged": true,
+  "Sections": [
+    {
+      "Name": ".text",
+      "BeforeVirtualBytes": 643926,
+      "AfterVirtualBytes": 587526,
+      "BeforeRawBytes": 644096,
+      "AfterRawBytes": 587776
+    },
+    {
+      "Name": ".rdata",
+      "BeforeVirtualBytes": 740036,
+      "AfterVirtualBytes": 322136,
+      "BeforeRawBytes": 740352,
+      "AfterRawBytes": 322560
+    },
+    {
+      "Name": ".data",
+      "BeforeVirtualBytes": 31824,
+      "AfterVirtualBytes": 31760,
+      "BeforeRawBytes": 1024,
+      "AfterRawBytes": 1024
+    },
+    {
+      "Name": ".pdata",
+      "BeforeVirtualBytes": 29148,
+      "AfterVirtualBytes": 20532,
+      "BeforeRawBytes": 29184,
+      "AfterRawBytes": 20992
+    },
+    {
+      "Name": ".tls",
+      "BeforeVirtualBytes": 96,
+      "AfterVirtualBytes": 96,
+      "BeforeRawBytes": 512,
+      "AfterRawBytes": 512
+    },
+    {
+      "Name": ".reloc",
+      "BeforeVirtualBytes": 10008,
+      "AfterVirtualBytes": 9952,
+      "BeforeRawBytes": 10240,
+      "AfterRawBytes": 10240
+    }
+  ],
+  "RequiredExports": [
+    "DllGetClassObject",
+    "InternalWhModPtr",
+    "_Z10Wh_ModInitv",
+    "_Z12Wh_ModUninitv",
+    "_Z15Wh_ModAfterInitv",
+    "_Z18Wh_ModBeforeUninitv",
+    "_Z21Wh_ModSettingsChangedv"
+  ],
+  "Tests": {
+    "Passed": true,
+    "Cases": 15,
+    "Evidence": "Actual production PE parser and export validator; paired fixture links; malformed/missing/unexpected exports; isolated fixture initializer/lookup/data-write test. No Opal DLL load or Explorer interaction."
+  },
+  "InstalledUnchanged": true,
+  "NormalBuildUnchanged": true,
+  "Limit": "Static PE and binary footprint comparison, not resident working set or speed. No actual Opal DLL activation, install or restart. Frozen source control removes concurrent production edits; root integrated build still requires runtime verification.",
+  "ImportFunctionChanges": [
+    {
+      "Name": "libc++.whl!_ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE21__grow_by_and_replaceEyyyyyyPKc",
+      "Direction": "Removed"
+    }
+  ]
+}

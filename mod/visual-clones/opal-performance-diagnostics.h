@@ -82,6 +82,7 @@ inline std::wstring Summary() {
     std::array<Samples, kMetricCount> snapshot{};
     AcquireSRWLockShared(&g_lock);
     const bool enabled = g_enabled.load(std::memory_order_relaxed);
+    const uint64_t epoch = g_epoch.load(std::memory_order_relaxed);
     if (enabled) snapshot = g_samples;
     ReleaseSRWLockShared(&g_lock);
     if (!enabled) return {};
@@ -105,6 +106,23 @@ inline std::wstring Summary() {
                                : (s.milliseconds[s.count / 2 - 1] + s.milliseconds[s.count / 2]) / 2,
                    s.milliseconds[p95], s.milliseconds[s.count - 1]);
         result += row;
+    }
+    // Export provenance is gathered only on the existing report action. It
+    // identifies the process lifetime and capture time without a watcher,
+    // file writer, module enumeration or additional hot-path work.
+    FILETIME created{}, exited{}, kernel{}, user{}, captured{};
+    if (GetProcessTimes(GetCurrentProcess(), &created, &exited, &kernel, &user)) {
+        GetSystemTimeAsFileTime(&captured);
+        const auto ticks = [](FILETIME value) -> unsigned long long {
+            return (static_cast<unsigned long long>(value.dwHighDateTime) << 32) |
+                   value.dwLowDateTime;
+        };
+        wchar_t provenance[220]{};
+        swprintf_s(provenance,
+            L"Opal latency provenance: version=1 pid=%lu processStartFileTime=%llu capturedFileTime=%llu epoch=%llu\r\n",
+            GetCurrentProcessId(), ticks(created), ticks(captured),
+            static_cast<unsigned long long>(epoch));
+        result.insert(0, provenance);
     }
     return result;
 }

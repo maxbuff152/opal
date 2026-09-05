@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-05T04:16:40.4989693-05:00",
+  "runtime": "maximize-control-plane",
+  "task": "Implement five Opal improvements and correct the reported black performance capsule",
+  "pack": "windows-hardware",
+  "model_adapter": "codex-frontier",
+  "status": "partial",
+  "evidence": [
+    "D:\\Opal\\measurements\\Opal-4.5-five-gap-fixes-20260905.md",
+    "D:\\Opal\\measurements\\opal-five-fixes-tests-20260905.json",
+    "D:\\Opal\\measurements\\opal-five-fixes-glass-validation-20260905.json",
+    "D:\\Opal\\measurements\\opal-five-fixes-final-runtime-20260905.json",
+    "D:\\Opal\\measurements\\opal-five-fixes-matched-outcome-20260905.json",
+    "D:\\CODEX SPINE, PLUGINS AND AGENTS\\07-AUDIT EVIDENCE\\MaximizeControlPlane\\verification\\2026\\2026-09-05.jsonl",
+    "D:\\CODEX SPINE, PLUGINS AND AGENTS\\07-AUDIT EVIDENCE\\MaximizeControlPlane\\outcomes\\2026\\2026-09-05.jsonl"
+  ],
+  "changed_paths": [
+    {
+      "path": "D:\\Opal\\Build-OpalSuite.ps1",
+      "exists": true,
+      "sha256": "EECCB082C1B7839D6F74407A53890E4381F97A683B63A8AE36172A69813ABE2E"
+    },
+    {
+      "path": "D:\\Opal\\config\\OpalExports.def",
+      "exists": true,
+      "sha256": "FFCD051FB4E768F69402A17857E28B4B04AA8CC7E67E359CFC411971139E2949"
+    },
+    {
+      "path": "D:\\Opal\\Get-OpalLatencyAnalysis.ps1",
+      "exists": true,
+      "sha256": "55E0991E2DA21D09A2EA842B36AE3ED03761A042BDE6C2FD44BE46AE7DCED87C"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\Opal-4.5-five-gap-fixes-20260905.md",
+      "exists": true,
+      "sha256": "5FDA25470992BAA1427B33582515E2CB37DBD4BF6E7CDF98C9F838D17DFD89A3"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-build-20260905.json",
+      "exists": true,
+      "sha256": "961D871B51707E8D63F4C4E7B5AF7D99E10A0D8EE5AF8371C4D1B409E2231CF1"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-export-comparison-20260905.json",
+      "exists": true,
+      "sha256": "A57684F8FFA6563F4ED311FE727756F2E5CBACCB973989B22EE67EEA23B8C4BF"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-final-runtime-20260905.json",
+      "exists": true,
+      "sha256": "63312E0FB9C98213C7FF1A0F7812B28E0BA463130EF97E71DEA84EB4629E0812"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-glass-build-20260905.json",
+      "exists": true,
+      "sha256": "8A178EF371E2B6BF1124109B63D6E2A4681F16CCF6A756CA9ABDF06AE3424DA7"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-glass-imports-20260905.json",
+      "exists": true,
+      "sha256": "926758EDCCB14A031441DE68DB35B3C62F2645152DA2D70683137F4805417052"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-glass-install-20260905.json",
+      "exists": true,
+      "sha256": "CA9279455A37AE5BE12BED53E62E67D18BF3CBADFFF7BE5F5115CFDA7D735004"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-glass-validation-20260905.json",
+      "exists": true,
+      "sha256": "5E141F71EB7B8D7FDE0FBFF423236147346E326AF4E813CBE82F44A0E36462C8"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-imports-20260905.json",
+      "exists": true,
+      "sha256": "0EB3012D7BCFEED819A305EFB73FB6DB1D676A3861CDE74E40513FA95C3A57F2"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-initial-runtime-20260905.json",
+      "exists": true,
+      "sha256": "F8F979001A79C0D25454260DE920FEEBBE0C7A06E74CEECF83BEE4C56A01364C"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-install-20260905.json",
+      "exists": true,
+      "sha256": "9F209283AD61AF0CDB46EC27941F09D96B7A4C591C7DD3F7624E828EDF9AC13D"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-latency-enabled-20260905.json",
+      "exists": true,
+      "sha256": "BF4012B09244076ACE27C8FDEF34DF445563E5A54BA0FB849BE60677723EB3F6"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-latency-setting-20260905.json",
+      "exists": true,
+      "sha256": "E0745F3A4F88E7B4831E2ACB374FDA4C26B01B834FF2A68C39E2D5A463B3BDFB"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-matched-outcome-20260905.json",
+      "exists": true,
+      "sha256": "1716876205DF8B4FC49A8CF4E067F08EBA7B77AC624357759E9BCB50288BB390"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-matched-soak-20260905.json",
+      "exists": true,
+      "sha256": "B9AAAF1C969A2C0029A143C7926684D58E8E61F924800B248303955B28BF8EE8"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-measurement-freeze-20260905.json",
+      "exists": true,
+      "sha256": "D0529659DEAD9C243D934A304500329DE847108EA3EDC43142E3BB22190B88F7"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-scans-20260905.json",
+      "exists": true,
+      "sha256": "CBF4D60533CC0BBFB60F968818D32621C7797A7E3FFDC484C28C1DA32208378D"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-taskbar-primary-20260905.png",
+      "exists": true,
+      "sha256": "13A4A3C63FADF4F1E02368B8764073588B8B0926C81A30F3C4B8C96C6C3A24E9"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-taskbar-secondary-20260905.png",
+      "exists": true,
+      "sha256": "B5C5887EF8CC1CB7C79AE77289C173D9D44F9E5CB2F313FA362B3BFB32DF0CED"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-tests-20260905.json",
+      "exists": true,
+      "sha256": "336ED345E5564C2EF0AA12BDBAA5FBE747337AB5F74B93443A543F47F6F9A88C"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\opal-five-fixes-tests-first-20260905.json",
+      "exists": true,
+      "sha256": "8EA827F102F5833DFE4F7E3FF89DC4AC60CC8E5267FD58108E14CFD74FD23342"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-opal-media.wh.cpp",
+      "exists": true,
+      "sha256": "81D26F0DF2EBCBCC2B2B4DB8EB72A9E160EEAF371F354EA8B15BBFA828FC652C"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+      "exists": true,
+      "sha256": "6304E671FC752D5110F58211BC8D220A5F2729DD132877DE2BC7358798932F75"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-taskbar-system-info.wh.cpp",
+      "exists": true,
+      "sha256": "E003734649AD54FC9B9F2F4C2D1FA9990745ECB6511781A38DD9114C56982527"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\opal-performance-diagnostics.h",
+      "exists": true,
+      "sha256": "7494F01E85C908C65CCA6529915956E280F876D932BADFFEBF7325139C65FF4D"
+    },
+    {
+      "path": "D:\\Opal\\README.md",
+      "exists": true,
+      "sha256": "DDF47CDE3E20B5BDD3BFF58EC674C2B18E2A408E2F99F3DC6DD61AB7A925D6F8"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalExportContract.ps1",
+      "exists": true,
+      "sha256": "444F3D096B232EAF1D7C18D95BB5AE056CE02C60A67874ED7509535DB2222977"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalLatencyProvenance.ps1",
+      "exists": true,
+      "sha256": "4B276EBF6C81F7D106A915D03DAC5D7E9E5489D52DF044B3F6D817C320F354DA"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalMediaProviderNulls.ps1",
+      "exists": true,
+      "sha256": "CB91EABF5C406940923147A7BC50D2A5B22F80C328429DA9DC6DC71F54D166ED"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalNaturalModuleStartup.ps1",
+      "exists": true,
+      "sha256": "7304182AD8AED5E90A6B9720A0C8170F3B48535C614C167B66E7A6CC71662C33"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalRenderWrites.ps1",
+      "exists": true,
+      "sha256": "84456046473115BB89A708742BAE0C985077A5ABA6C7B70145F78AEF0197023D"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalTaskbarResilience.ps1",
+      "exists": true,
+      "sha256": "C2B832D1CFE051D12625C41C2AF915469B18D47A1EB77548C58551FE838CBF99"
+    }
+  ],
+  "limitations": [
+    "Final CPU/private/working-set acceptance remains outstanding; prior failed gate is preserved.",
+    "Matched comparison invalidated by unexpected re-enabling during Stock leg; restoration passed, no attribution for setting change.",
+    "Earlier CloudStore crash cause remains unresolved despite no new scoped event observed.",
+    "User-assisted real latency report and visual confirmation pending; diagnostics temporarily enabled in the current Explorer session.",
+    "No push or external deployment; raw traces remain ignored and local."
+  ]
+}
