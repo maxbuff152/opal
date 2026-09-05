@@ -745,6 +745,9 @@ bool UpdateWeatherWebContent() {
             Wh_Log(L"Weather from Maxwell.Shell.Core");
             return true;
         }
+        // The companion owns the request. Do not start a second network fetch
+        // in Explorer while it is pending or retrying a failed request.
+        return false;
     }
 
     Wh_Log(L"Fetching weather from URL: %s", weatherUrl.c_str());
@@ -882,6 +885,8 @@ void UpdateWebContent() {
     if (IsStrInDateTimePatternSettings(L"%weather%") &&
         !UpdateWeatherWebContent()) {
         failed++;
+        std::lock_guard<std::mutex> guard(g_webContentMutex);
+        if (!g_webContentWeather) g_webContentWeather = L"Weather unavailable";
     }
 
     if (failed == 0) {

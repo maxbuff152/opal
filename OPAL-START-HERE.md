@@ -74,6 +74,9 @@ Rollback backup traversal prunes excluded folders before descending, so previous
 rollback bundles cannot make a new backup recursively scan its own history.
 The telemetry companion retries failed weather fetches after 30 seconds while
 keeping the normal ten-minute interval after a successful fetch.
+Explorer does not duplicate a request accepted by the companion. The companion
+sets network timeouts, and a first failed clock attempt displays Weather
+unavailable while retrying instead of leaving Loading indefinitely.
 
 `Assemble-Opal.ps1` emits a shell source excerpt for inspection and the suite
 builder. It is not an installable standalone Opal package. Its compile-time guard

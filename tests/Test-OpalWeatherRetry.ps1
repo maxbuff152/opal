@@ -3,6 +3,17 @@ param()
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $source = [IO.File]::ReadAllText((Join-Path $root 'native\Maxwell.Shell.Core\MaxwellShellCore.cpp'))
+$clock = [IO.File]::ReadAllText((Join-Path $root 'mod\visual-clones\opal-addon-clock.h'))
+$handoffStart = $clock.IndexOf('if (PublishWeatherRequest(g_settings.webContentWeatherLocation,')
+$fallbackStart = $clock.IndexOf('Wh_Log(L"Fetching weather from URL:', $handoffStart)
+if ($handoffStart -lt 0 -or $fallbackStart -lt 0) { throw 'Weather ownership boundary not found.' }
+$handoff = $clock.Substring($handoffStart, $fallbackStart - $handoffStart)
+if ($handoff -notmatch 'return false;\s*}\s*$' -or $handoff -match 'GetUrlContent') {
+    throw 'Explorer must not duplicate a request accepted by the weather companion.'
+}
+if ($source -notmatch 'INTERNET_OPTION_CONNECT_TIMEOUT' -or $source -notmatch 'INTERNET_OPTION_RECEIVE_TIMEOUT') {
+    throw 'Weather companion requires explicit network timeouts.'
+}
 $start = $source.IndexOf('bool WeatherFetchDue(')
 $end = $source.IndexOf('DWORD WINAPI WeatherLoop(', $start)
 if ($start -lt 0 -or $end -lt 0) { throw 'Production weather retry function not found.' }

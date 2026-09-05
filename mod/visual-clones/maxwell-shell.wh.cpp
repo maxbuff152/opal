@@ -92,7 +92,7 @@ attribution in source. Built on the **Windhawk** platform. GPL-3.0.
     - both: Both screens
   - mediaFullDisplay: primary
     $name: Put the big Media widget on
-    $description: The other screen gets a compact view. Fullscreen apps do not move your widgets.
+    $description: Only used with Both screens. The other screen gets a compact view; fullscreen apps do not move it.
     $options:
     - primary: Main screen
     - secondary: Second screen

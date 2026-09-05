@@ -591,6 +591,15 @@ std::optional<std::wstring> FetchUrl(const wchar_t* url) {
     if (!openHandle) {
         return std::nullopt;
     }
+    DWORD timeoutMs = 15000;
+    for (DWORD option : {INTERNET_OPTION_CONNECT_TIMEOUT,
+                         INTERNET_OPTION_SEND_TIMEOUT,
+                         INTERNET_OPTION_RECEIVE_TIMEOUT}) {
+        if (!InternetSetOptionW(openHandle, option, &timeoutMs, sizeof(timeoutMs))) {
+            InternetCloseHandle(openHandle);
+            return std::nullopt;
+        }
+    }
     HINTERNET urlHandle = InternetOpenUrlW(
         openHandle, url, nullptr, 0,
         INTERNET_FLAG_NO_AUTH | INTERNET_FLAG_NO_CACHE_WRITE |
