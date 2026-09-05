@@ -150,6 +150,7 @@ Run from this directory:
 .\tests\Test-OpalPerformanceEvidence.ps1
 .\tests\Test-OpalSoakEvidence.ps1
 .\tests\Test-OpalStartupHooks.ps1
+.\tests\Test-OpalRuntimePublication.ps1
 .\Install-OpalSuite.ps1 -WhatIf
 .\Install-OpalSuite.ps1
 .\Test-OpalSuite.ps1

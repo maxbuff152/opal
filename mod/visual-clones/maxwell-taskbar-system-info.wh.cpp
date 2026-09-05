@@ -2867,6 +2867,29 @@ bool GetLatestMetrics(MetricsSnapshot& snapshot, uint64_t& sequence) {
 void MetricsWorkerProc() {
     ReadCpuUsage();
 
+    // Runtime publication cache: keep status changes immediate, but avoid
+    // rewriting five INI fields and two registry values on every sample.
+    // A periodic refresh repairs a missed write or externally removed state.
+    std::optional<bool> publishedSuspended;
+    bool publishedQuarantined = false;
+    std::wstring publishedReason;
+    ULONGLONG lastRuntimePublish = 0;
+    const auto publishWorkerRuntime = [&](bool suspended, const wchar_t* reason) {
+        const ULONGLONG now = GetTickCount64();
+        if (publishedSuspended && *publishedSuspended == suspended &&
+            publishedQuarantined == g_quarantine.quarantined &&
+            publishedReason == reason && now - lastRuntimePublish < 30000) return;
+        OpalControl::PublishRuntimeState(
+            OpalControl::kPerformanceRuntimeActiveValue,
+            OpalControl::kPerformanceRuntimePidValue, true, suspended, reason,
+            g_quarantine.quarantined);
+        publishedSuspended = suspended;
+        publishedQuarantined = g_quarantine.quarantined;
+        publishedReason = reason;
+        lastRuntimePublish = now;
+    };
+    // End runtime publication cache.
+
     bool firstSample = true;
     bool lastSampleWasExternal = false;
     bool telemetrySourceLogged = false;
@@ -2886,18 +2909,12 @@ void MetricsWorkerProc() {
         if (const wchar_t* reason = PerformanceSuspensionReason(scene)) {
             CloseReaderRequest();
             CloseMetricSources();
-            OpalControl::PublishRuntimeState(
-                OpalControl::kPerformanceRuntimeActiveValue,
-                OpalControl::kPerformanceRuntimePidValue, true, true, reason,
-                g_quarantine.quarantined);
+            publishWorkerRuntime(true, reason);
             WaitForSingleObject(g_metricsWorkerWakeEvent, 15000);
             firstSample = true;
             continue;
         }
-        OpalControl::PublishRuntimeState(
-            OpalControl::kPerformanceRuntimeActiveValue,
-            OpalControl::kPerformanceRuntimePidValue, true, false, L"",
-            g_quarantine.quarantined);
+        publishWorkerRuntime(false, L"");
         int activeInterval = EffectiveUpdateInterval(settings, scene);
         PublishReaderRequest(activeInterval);
         bool pdhCompletionReady = false;
@@ -6911,14 +6928,17 @@ void ApplyPerformanceControlChange(DWORD) {
     }
     LoadSettings();
     if (g_quarantine.quarantined) g_performanceEnabled = false;
-    OpalControl::PublishRuntimeState(
-        OpalControl::kPerformanceRuntimeActiveValue,
-        OpalControl::kPerformanceRuntimePidValue, g_performanceEnabled, false,
-        g_quarantine.reason.c_str(), g_quarantine.quarantined);
     if (!g_performanceEnabled) {
         StopMetricsWorker();
         TearDownTaskbarUi();
         CloseMetricSources();
+        // Publish only after the worker has drained so its last sample cannot
+        // overwrite the inactive state. While enabled, the worker owns status
+        // (including suspension); settings changes must not overwrite its cache.
+        OpalControl::PublishRuntimeState(
+            OpalControl::kPerformanceRuntimeActiveValue,
+            OpalControl::kPerformanceRuntimePidValue, false, false,
+            g_quarantine.reason.c_str(), g_quarantine.quarantined);
         return;
     }
     g_lastRenderedMetricsSequence = 0;

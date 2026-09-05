@@ -67,6 +67,10 @@ Cold unified startup also leaves delayed taskbar attachment to the shell's
 existing poll, avoiding a redundant Performance loader hook. Performance
 runtime status activates after successful initialization, and enabled
 components that fail initialization no longer count as healthy.
+Performance runtime status writes now occur on state transitions, with a
+refresh due after 30 seconds on the next worker iteration. Enabled settings
+changes preserve the worker's suspension status; disable publishes inactive
+only after the worker exits.
 
 For current performance evidence, use the paired command in `README.md`, then
 `Test-OpalPerformanceBudget.ps1` and a separate `Measure-OpalResourceSoak.ps1`
