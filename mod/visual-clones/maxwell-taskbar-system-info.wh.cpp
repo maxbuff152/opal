@@ -971,6 +971,11 @@ bool TryReadExternalTelemetry(MetricsSnapshot& snapshot) {
     // A torn read means the publisher was mid-write. That is expected under
     // load and says nothing about the mapping, so keep it and retry next tick.
     if (!stable) {
+        // A publisher can die after making sequence odd. Do not wait for a
+        // stable snapshot to reach recovery. This helper is throttled and
+        // checks the instance mutex, so an ordinary concurrent write never
+        // starts a duplicate companion or tears down its valid mapping.
+        EnsureShellCoreProcess();
         return false;
     }
 
@@ -6932,8 +6937,16 @@ BOOL Wh_ModInit() {
     if (g_quarantine.quarantined) g_performanceEnabled = false;
     OpalControl::PublishRuntimeState(
         OpalControl::kPerformanceRuntimeActiveValue,
-        OpalControl::kPerformanceRuntimePidValue, g_performanceEnabled, false,
-        g_quarantine.reason.c_str(), g_quarantine.quarantined);
+        OpalControl::kPerformanceRuntimePidValue, false, false,
+        L"Initializing", g_quarantine.quarantined);
+    const auto failInit = [](const wchar_t* reason) -> BOOL {
+        Wh_Log(L"Performance initialization failed: %s", reason);
+        OpalControl::PublishRuntimeState(
+            OpalControl::kPerformanceRuntimeActiveValue,
+            OpalControl::kPerformanceRuntimePidValue, false, false,
+            reason, g_quarantine.quarantined);
+        return FALSE;
+    };
     if (HMODULE gdi32 = GetModuleHandleW(L"gdi32.dll")) {
         g_d3dkmtEnumAdapters2 = reinterpret_cast<D3DKMTEnumAdapters2_t>(
             GetProcAddress(gdi32, "D3DKMTEnumAdapters2"));
@@ -6947,17 +6960,19 @@ BOOL Wh_ModInit() {
             GetProcAddress(gdi32, "D3DKMTCloseAdapter"));
     }
     if (!HookTaskbarDllSymbols()) {
-        Wh_Log(L"taskbar.dll symbols unavailable");
-        return FALSE;
+        return failInit(L"taskbar.dll symbols unavailable");
     }
 
     if (HMODULE module = GetTaskbarViewModule()) {
         g_taskbarViewDllLoaded = true;
         if (!HookTaskbarViewSymbols(module)) {
-            Wh_Log(L"Taskbar.View symbols unavailable");
-            return FALSE;
+            return failInit(L"Taskbar.View symbols unavailable");
         }
     } else {
+#ifndef OPAL_UNIFIED_BUILD
+        // The unified shell owns late attachment. Media may already hook
+        // LoadLibraryExW in the same mod, so a second hook can fail cold init.
+        // Standalone builds still need their own loader fallback.
         HMODULE kernelBase = GetModuleHandleW(L"kernelbase.dll");
         if (!kernelBase) {
             kernelBase = GetModuleHandleW(L"kernel32.dll");
@@ -6970,9 +6985,14 @@ BOOL Wh_ModInit() {
         if (!loadLibraryEx ||
             !WindhawkUtils::SetFunctionHook(loadLibraryEx, LoadLibraryExW_Hook,
                                             &LoadLibraryExW_Original)) {
-            return FALSE;
+            return failInit(L"Loader fallback hook unavailable");
         }
+#endif
     }
+    OpalControl::PublishRuntimeState(
+        OpalControl::kPerformanceRuntimeActiveValue,
+        OpalControl::kPerformanceRuntimePidValue, g_performanceEnabled, false,
+        g_quarantine.reason.c_str(), g_quarantine.quarantined);
     return TRUE;
 }
 

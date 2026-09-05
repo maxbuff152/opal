@@ -40,6 +40,7 @@ $cases=@(
  @{name='false summary';edit={param($r)$r.Scenarios[1].PrivateMB=0}},
  @{name='wrong CPU arithmetic';edit={param($r)$r.Scenarios[0].Samples[0].CpuSeconds=100}},
  @{name='unverified runtime';edit={param($r)$r.Scenarios[0].Samples[0].RuntimeVerified=$false}},
+ @{name='string runtime flag';edit={param($r)$r.Scenarios[0].Samples[0].RuntimeVerified='true'}},
  @{name='short settle';edit={param($r)$r.SettleSeconds=1}},
  @{name='duplicate paired position';edit={param($r)$r.Scenarios[0].Samples[1].Position=$r.Scenarios[0].Samples[0].Position}}
 )

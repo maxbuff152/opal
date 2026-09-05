@@ -1737,6 +1737,9 @@ static DWORD WINAPI LateAttachProc(LPVOID) {
         }
         bool mediaDone = true, perfDone = true;
 #ifdef OPAL_UNIFIED_BUILD
+        // Failed initialization is not a healthy enabled component.
+        mediaDone = g_mediaComponentInit || !Wh_GetIntSetting(L"media.mediaEnabled");
+        perfDone = g_performanceComponentInit || !Wh_GetIntSetting(L"performance.performanceEnabled");
         if (g_mediaComponentInit) {
             try { mediaDone = OpalMedia_EnsureAttached(); } catch (...) { mediaDone = false; }
         }

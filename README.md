@@ -101,21 +101,28 @@ telemetry experience. Absolute CPU was elevated by the active desktop workload,
 so the same-run paired difference is more meaningful than either absolute value.
 Opal 4.1 adds lazy loaded-frame revokers, releases dormant history capacity and
 external-telemetry PDH fallbacks, and adds shared-data dual-monitor mirrors.
-The historical 4.4 ABBA procedure below remains available. Measure 4.5 separately; these historical figures do not establish its overhead:
+Measure the currently installed 4.5 build separately; these historical figures do not establish its overhead. Use the current paired procedure:
 
 ```powershell
-.\Measure-OpalPackageCost.ps1 -Label opal-4.4-20260902-abba -AbbaRounds 2 -RandomSeed 3 -Scenario @('Stock','FullSuite') -Samples 2 -SampleSeconds 8 -SettleSeconds 6
+.\Measure-OpalPackageCost.ps1 -Label opal45-current-abba -AbbaRounds 2 -RandomSeed 3 -Scenario @('Stock','FullSuite') -SampleSeconds 15 -SettleSeconds 45
+.\Test-OpalPerformanceBudget.ps1 -ReceiptPath .\measurements\package-cost-opal45-current-abba.json
+.\Measure-OpalResourceSoak.ps1 -Seconds 300 -IntervalSeconds 15 -OutputPath .\measurements\opal45-current-soak.json
 ```
 
-Until that file exists under `measurements\`, the 4.0 receipt remains the honest
-numerical baseline. Do not treat historical numbers as 4.5 measurements.
+The gate requires a fresh schema-2 receipt tied to the current DLL, companion,
+and source provenance, with valid paired samples and recomputed medians. Old,
+incomplete, stale, or unrelated receipts fail. The original CPU and memory
+budgets remain unchanged. Short-sample object changes are diagnostic; the
+separate same-process soak checks sustained handle/GDI/USER growth. Five
+minutes does not establish indefinite leak freedom, and memory growth is
+reported as an observation rather than automatically labeled a leak.
 
 ## Legacy stack reduction
 
 The archived pre-Opal baseline used 10 enabled mods, 20 process injections,
 20,706 KB of mapped custom DLLs, and 97,130 source lines. Explorer alone mapped
 8 custom mod DLLs totaling 7,276 KB. Current Opal uses one package and one
-1.28-MB DLL; Explorer maps that single DLL instead of three Opal DLLs. Other
+DLL (current size and hash are in the build receipt); Explorer maps that single DLL instead of three Opal DLLs. Other
 shell hosts map the same binary but do not initialize Media or Performance.
 Cross-run Explorer memory snapshots are not used for the reduction claim because
 open windows and shell cache state differ.
@@ -139,7 +146,10 @@ Run from this directory:
 .\Build-OpalSuite.ps1
 .\Test-OpalSuite.ps1 -StaticOnly
 .\tests\Test-OpalTaskbarResilience.ps1
-.\Test-OpalPerformanceBudget.ps1 -ReceiptPath .\measurements\package-cost-opal-4-unified-valid-settled-abba2.json
+.\tests\Test-OpalAsyncReliability.ps1
+.\tests\Test-OpalPerformanceEvidence.ps1
+.\tests\Test-OpalSoakEvidence.ps1
+.\tests\Test-OpalStartupHooks.ps1
 .\Install-OpalSuite.ps1 -WhatIf
 .\Install-OpalSuite.ps1
 .\Test-OpalSuite.ps1

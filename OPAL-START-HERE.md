@@ -56,6 +56,24 @@ Edit the canonical component sources, then build through
 Files under `build`, `dist`, and `measurements` are generated artifacts or
 evidence, not alternate source owners.
 
+The September 5 hardening pass adds timed telemetry fallback/recovery even if
+the publisher exits with an odd sequence, cooperative media cancellation,
+complete-response weather validation with a 16-KiB cap, and weather worker
+drain before shared resources are released. Cancellation and deadlines are
+observed between synchronous provider/network calls; they are not a hard
+shutdown guarantee for a stuck synchronous call.
+
+Cold unified startup also leaves delayed taskbar attachment to the shell's
+existing poll, avoiding a redundant Performance loader hook. Performance
+runtime status activates after successful initialization, and enabled
+components that fail initialization no longer count as healthy.
+
+For current performance evidence, use the paired command in `README.md`, then
+`Test-OpalPerformanceBudget.ps1` and a separate `Measure-OpalResourceSoak.ps1`
+run. The gate rejects historical builds and malformed/missing metrics. The
+hardening results are in
+`measurements\Opal-4.5-hardening-verification-20260905.md`.
+
 ## 4.5 reliability and two-screen release
 
 The main-screen preset places the full Media and Computer stats widgets on Primary only. Secondary keeps its taskbar and clock without duplicate compact widgets. Automatic layout

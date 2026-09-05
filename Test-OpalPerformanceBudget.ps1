@@ -4,7 +4,8 @@
 
 .DESCRIPTION
     Reads a Measure-OpalPackageCost receipt and rejects a release that exceeds
-    the bounded idle CPU, private-commit, working-set, or object-growth gates.
+    the bounded idle CPU, private-commit, or working-set gates.
+    Object growth is checked separately by Test-OpalResourceSoak.ps1.
     Negative deltas are treated as measurement noise, never as negative cost.
 #>
 [CmdletBinding()]
@@ -66,7 +67,7 @@ foreach ($name in @('Stock','FullSuite')) {
     $samples = @($scenario.Samples)
     if ($samples.Count -ne 2*$rounds) { throw "Insufficient or extra $name samples." }
     foreach ($sample in $samples) {
-        if ($sample.Scenario -ne $name -or $sample.RuntimeVerified -ne $true) { throw 'Unverified sample runtime.' }
+        if ($sample.Scenario -ne $name -or $sample.RuntimeVerified -isnot [bool] -or -not $sample.RuntimeVerified) { throw 'Unverified sample runtime.' }
         foreach ($metric in @('CpuSeconds','CpuPercentOneCore','CpuPercentMachine','PrivateMB','WorkingSetMB','Handles','Gdi','User','Threads','Pid')) { $null = Require-Number $sample $metric }
         foreach ($metric in @('HandleDelta','GdiDelta','UserDelta')) { $null = Require-Number $sample $metric ([double]::MinValue) }
         $elapsed = Require-Number $sample ElapsedSeconds $sampleSeconds

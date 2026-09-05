@@ -110,4 +110,6 @@ if($LASTEXITCODE -ne 0){throw 'Reliability regression compilation failed.'}
 if($LASTEXITCODE -ne 0){throw "Reliability regression failed at $LASTEXITCODE"}
 if($core -notmatch 'WaitForSingleObject\(weatherThread, INFINITE\) != WAIT_OBJECT_0' -or $core -match 'WaitForSingleObject\(weatherThread, 8000\)'){throw 'Weather shutdown must confirm exit before cleanup.'}
 if($media -match '(RequestAsync|OpenReadAsync|TryGetMediaPropertiesAsync)\(\)\.get\(\)' -or $media -match 'InputStreamOptions::None\)\.get\(\)'){throw 'Unbounded media async wait returned.'}
-[pscustomobject]@{passed=$true;assertions=19;evidence='Extracted production code, deterministic I/O and provider mocks, real Win32 wait. Shutdown lifetime and call-site integration assertions.'}
+$unstable=Extract $perf '    if (!stable) {' '    // A structurally wrong mapping'
+if($unstable -notmatch 'EnsureShellCoreProcess\(\);\s*return false;'){throw 'An abandoned odd sequence must reach companion recovery.'}
+[pscustomobject]@{passed=$true;assertions=20;evidence='Extracted production code, deterministic I/O and provider mocks, real Win32 wait. Shutdown lifetime, abandoned sequence recovery, and call-site integration assertions.'}
