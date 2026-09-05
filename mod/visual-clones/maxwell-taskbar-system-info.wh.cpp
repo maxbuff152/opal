@@ -2317,9 +2317,26 @@ bool NeedsWindowsThermalZones(const ModSettings& settings) {
            settings.temperatureSource == TemperatureSource::WindowsNative;
 }
 
-void EnsurePdhQuery(const ModSettings& settings) {
+enum class PdhQueryDemand { None, ThermalOnly, FullMetrics };
+PdhQueryDemand g_pdhQueryDemand = PdhQueryDemand::FullMetrics;
+
+void EnsurePdhQuery(
+    const ModSettings& settings,
+    PdhQueryDemand demand = PdhQueryDemand::FullMetrics) {
     auto now = std::chrono::steady_clock::now();
     bool thermalZonesRequired = NeedsWindowsThermalZones(settings);
+    if (demand == PdhQueryDemand::ThermalOnly && !thermalZonesRequired) {
+        demand = PdhQueryDemand::None;
+    }
+    if (demand != g_pdhQueryDemand) {
+        // Provider demand changes invalidate both the counter set and its
+        // retry deadline. A failed thermal probe must not delay GPU fallback.
+        ClosePdhQuery();
+        g_nextPdhCounterRetry = {};
+        g_pdhQueryDemand = demand;
+    }
+    if (demand == PdhQueryDemand::None) return;
+    const bool gpuCountersRequired = demand == PdhQueryDemand::FullMetrics;
     if (!thermalZonesRequired && g_thermalZoneCounter) {
         PdhRemoveCounter(g_thermalZoneCounter);
         g_thermalZoneCounter = nullptr;
@@ -2336,7 +2353,8 @@ void EnsurePdhQuery(const ModSettings& settings) {
             return;
         }
         queryCreated = true;
-    } else if (g_gpuCounter && g_vramCounter && g_sharedVramCounter &&
+    } else if ((!gpuCountersRequired ||
+                (g_gpuCounter && g_vramCounter && g_sharedVramCounter)) &&
                (!thermalZonesRequired || g_thermalZoneCounter)) {
         return;
     }
@@ -2346,14 +2364,16 @@ void EnsurePdhQuery(const ModSettings& settings) {
     }
 
     bool counterAdded = false;
-    counterAdded |= AddPdhCounter(
-        g_gpuCounter, L"\\GPU Engine(*)\\Utilization Percentage", L"GPU usage");
-    counterAdded |= AddPdhCounter(
-        g_vramCounter, L"\\GPU Adapter Memory(*)\\Dedicated Usage",
-        L"VRAM usage");
-    counterAdded |= AddPdhCounter(
-        g_sharedVramCounter, L"\\GPU Adapter Memory(*)\\Shared Usage",
-        L"shared GPU-memory usage");
+    if (gpuCountersRequired) {
+        counterAdded |= AddPdhCounter(
+            g_gpuCounter, L"\\GPU Engine(*)\\Utilization Percentage", L"GPU usage");
+        counterAdded |= AddPdhCounter(
+            g_vramCounter, L"\\GPU Adapter Memory(*)\\Dedicated Usage",
+            L"VRAM usage");
+        counterAdded |= AddPdhCounter(
+            g_sharedVramCounter, L"\\GPU Adapter Memory(*)\\Shared Usage",
+            L"shared GPU-memory usage");
+    }
     if (thermalZonesRequired) {
         counterAdded |= AddPdhCounter(
             g_thermalZoneCounter,
@@ -2369,7 +2389,8 @@ void EnsurePdhQuery(const ModSettings& settings) {
         return;
     }
 
-    if (!g_gpuCounter || !g_vramCounter || !g_sharedVramCounter ||
+    if ((gpuCountersRequired &&
+         (!g_gpuCounter || !g_vramCounter || !g_sharedVramCounter)) ||
         (thermalZonesRequired && !g_thermalZoneCounter)) {
         g_nextPdhCounterRetry = now + kPdhCounterRetryInterval;
     }
@@ -2963,10 +2984,9 @@ void MetricsWorkerProc() {
             }
             auto now = std::chrono::steady_clock::now();
             if (now >= nextExternalTemperatureRefresh) {
-                // Native Windows CPU temperature fallback is a PDH counter.
-                // Refresh it only with the slower temperature cadence; the
-                // companion owns frequent CPU/GPU/memory sampling.
-                EnsurePdhQuery(settings);
+                // Only Windows thermal-zone sources need PDH here. Do not
+                // recreate GPU wildcard counters already owned by the companion.
+                EnsurePdhQuery(settings, PdhQueryDemand::ThermalOnly);
                 if (g_pdhQuery) {
                     PdhCollectQueryData(g_pdhQuery);
                 }

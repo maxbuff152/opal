@@ -1,0 +1,12 @@
+{
+  "CapturedAt": "2026-09-05T01:22:54.4907545-05:00",
+  "OldPid": 37580,
+  "NewPid": 28860,
+  "GracefulExit": true,
+  "ExitMilliseconds": 7,
+  "RecoveryMilliseconds": 381,
+  "RecoveredAutomatically": true,
+  "DllSha256": "83EE94A762C62CF983FA9F3E8B0A24480BA9A6841244367E42518465EE31D475",
+  "CoreSha256": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2",
+  "Limitation": "Graceful companion restart; not a forced prolonged provider stall or sleep/display stress test."
+}

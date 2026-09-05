@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "explorerPid": 46508,
+  "attached": [
+    "Media",
+    "Performance"
+  ],
+  "views": [
+    {
+      "component": "Media",
+      "expected": 1,
+      "attached": 1,
+      "fullWindow": 13897476,
+      "ageSeconds": 2.25
+    },
+    {
+      "component": "Performance",
+      "expected": 1,
+      "attached": 1,
+      "fullWindow": 13897476,
+      "ageSeconds": 2.26
+    }
+  ],
+  "limitation": "Attachment evidence does not replace visual inspection of an unobscured taskbar."
+}

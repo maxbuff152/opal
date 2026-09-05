@@ -16,6 +16,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'Get-OpalMeasuredProcessCost.ps1')
 $sessionId = (Get-Process -Id $PID).SessionId
 $build = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'build\opal-suite\build-receipt.json') -Raw | ConvertFrom-Json
 $corePath = Join-Path $env:LOCALAPPDATA 'Maxwell\Shell\Core\Maxwell.Shell.Core.exe'
@@ -120,16 +121,20 @@ function Measure-ExplorerSample {
         Where-Object SessionId -eq $sessionId |
         Sort-Object StartTime -Descending | Select-Object -First 1
     $process.Refresh()
-    $startCpu = $process.CPU
     $startHandles = $process.HandleCount
     $startGdi = Get-GuiResourceCount -Process $process -Kind 0
     $startUser = Get-GuiResourceCount -Process $process -Kind 1
+    $measuredBefore = @(Get-OpalMeasuredProcessSnapshot -SessionId $sessionId)
     $timer = [Diagnostics.Stopwatch]::StartNew()
     Start-Sleep -Seconds $SampleSeconds
+    $measuredAfter = @(Get-OpalMeasuredProcessSnapshot -SessionId $sessionId)
     $elapsed = $timer.Elapsed.TotalSeconds
+    $measuredCost = Compare-OpalMeasuredProcessSnapshot -Before $measuredBefore -After $measuredAfter -ElapsedSeconds $elapsed
+    $explorerCost = @($measuredCost.Processes | Where-Object Pid -eq $process.Id)
+    if ($explorerCost.Count -ne 1) { throw 'Sampled Explorer missing from measured process set.' }
     $process = Get-Process -Id $process.Id -ErrorAction Stop
     $process.Refresh()
-    $cpuSeconds = $process.CPU - $startCpu
+    $cpuSeconds = $explorerCost[0].CpuSeconds
     $gdi = Get-GuiResourceCount -Process $process -Kind 0
     $user = Get-GuiResourceCount -Process $process -Kind 1
     [pscustomobject]@{
@@ -140,8 +145,8 @@ function Measure-ExplorerSample {
         CpuPercentOneCore = [math]::Round($cpuSeconds / $elapsed * 100.0, 3)
         CpuPercentMachine = [math]::Round(
             $cpuSeconds / $elapsed * 100.0 / [Environment]::ProcessorCount, 4)
-        PrivateMB = [math]::Round($process.PrivateMemorySize64 / 1MB, 2)
-        WorkingSetMB = [math]::Round($process.WorkingSet64 / 1MB, 2)
+        PrivateMB = [math]::Round($explorerCost[0].PrivateMB, 2)
+        WorkingSetMB = [math]::Round($explorerCost[0].WorkingSetMB, 2)
         Handles = $process.HandleCount
         HandleDelta = $process.HandleCount - $startHandles
         Gdi = $gdi
@@ -153,6 +158,7 @@ function Measure-ExplorerSample {
             $user - $startUser
         } else { $null }
         Threads = $process.Threads.Count
+        MeasuredProcessCost = $measuredCost
     }
 }
 
@@ -203,6 +209,7 @@ try {
                     User = $sample.User
                     UserDelta = $sample.UserDelta
                     Threads = $sample.Threads
+                    MeasuredProcessCost = $sample.MeasuredProcessCost
                 }
             }
         }

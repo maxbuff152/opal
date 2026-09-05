@@ -1,0 +1,97 @@
+[
+  {
+    "test": "Test-OpalSuite.ps1",
+    "exitCode": 0,
+    "output": "passed     : True\r\nstaticOnly : False\r\ncheckedUtc : 2026-09-05T06:10:56.9356517Z\r\nfailures   : {}\r\nlive       : @{registryIds=local@opal; profileModIds=System.Object[]; explorerPid=44760; \r\n             module=local_at_opal_4.5.0_owned.dll}"
+  },
+  {
+    "test": "tests\\Test-OpalAttachment.ps1",
+    "exitCode": 0,
+    "output": "passed      : True\r\nexplorerPid : 44760\r\nattached    : {Media, Performance}\r\nviews       : {@{component=Media; expected=1; attached=1; fullWindow=8326544; ageSeconds=3.57}, \r\n              @{component=Performance; expected=1; attached=1; fullWindow=8326544; ageSeconds=3.59}}\r\nlimitation  : Attachment evidence does not replace visual inspection of an unobscured taskbar."
+  },
+  {
+    "test": "tests\\Test-MaxwellShellCore.ps1",
+    "exitCode": 0,
+    "output": "{\r\n  \"passed\": true,\r\n  \"assertions\": 28,\r\n  \"failures\": [],\r\n  \"surface\": \"telemetry-and-weather\",\r\n  \"processId\": 48360,\r\n  \"checkedAt\": \"2026-09-05T01:10:59.8234601-05:00\"\r\n}"
+  },
+  {
+    "test": "tests\\Test-OpalWeatherRetry.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True     7 Production weather scheduling: cold start, failed and successful interval boundaries, changed location, c…"
+  },
+  {
+    "test": "tests\\Test-OpalMonitorRouting.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    16 Production routing: fullscreen stability, missing bars, reconnect, mirror ownership and deduplication."
+  },
+  {
+    "test": "tests\\Test-OpalTaskbarResilience.ps1",
+    "exitCode": 0,
+    "output": "passed failures\r\n------ --------\r\n  True {}"
+  },
+  {
+    "test": "tests\\Test-OpalRecovery.ps1",
+    "exitCode": 0,
+    "output": "passed scenarios\r\n------ ---------\r\n  True {shared machine state, healthy idempotence, enabled but unloaded recovery, latched stock fallback}"
+  },
+  {
+    "test": "tests\\Test-OpalRollbackTraversal.ps1",
+    "exitCode": 0,
+    "output": "passed assertions evidence\r\n------ ---------- --------\r\n  True          4 Excluded directories are never enumerated; nested destination cannot recurse; active data and hash p…"
+  },
+  {
+    "test": "tests\\Test-OpalDensity.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True     8 Compiled production density function with enabled and disabled adaptive profiles."
+  },
+  {
+    "test": "tests\\Test-OpalUnifiedControl.ps1",
+    "exitCode": 0,
+    "output": "passed staticOnly failures\r\n------ ---------- --------\r\n  True      False {}"
+  },
+  {
+    "test": "tests\\Test-WindhawkSafeDock.ps1",
+    "exitCode": 0,
+    "output": "{\r\n  \"passed\": true,\r\n  \"assertions\": 15,\r\n  \"liveMode\": \"opal-unified\",\r\n  \"explorerPid\": 29396,\r\n  \"loadedModules\": [\r\n    \"local_at_opal_4.5.0_owned.dll\",\r\n    \"libunwind.whl\",\r\n    \"libc++.whl\"\r\n  ],\r\n  \"checkedAt\": \"2026-09-05T01:13:08.0674882-05:00\"\r\n}"
+  },
+  {
+    "test": "tests\\Test-OpalAsyncReliability.ps1",
+    "exitCode": 0,
+    "output": "17 regression assertions passed: complete/error/oversize/empty/cancelled/deadline weather; media completion/error/cancellation/timeout; silent publisher deadline.\r\n\r\npassed assertions evidence\r\n------ ---------- --------\r\n  True         20 Extracted production code, deterministic I/O and provider mocks, real Win32 wait. Shutdown lifetime,…"
+  },
+  {
+    "test": "tests\\Test-OpalPerformanceEvidence.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    16 Synthetic valid control plus malformed, stale, unrelated, duplicate, short and numerically inconsistent r…"
+  },
+  {
+    "test": "tests\\Test-OpalSoakEvidence.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True     8 Stable/jitter control; growth with occasional releases, process replacement, unavailable counters, duplic…"
+  },
+  {
+    "test": "tests\\Test-OpalStartupHooks.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True     2 Compiled production cold-start branch; unified startup survives unavailable/redundant loader hook, standa…"
+  },
+  {
+    "test": "tests\\Test-OpalRuntimePublication.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    10 Compiled production cache and settings callback: unchanged suppression, refresh/transition writes, suspen…"
+  },
+  {
+    "test": "tests\\Test-OpalPdhDemand.ps1",
+    "exitCode": 0,
+    "output": "22 production PDH-demand assertions passed.\r\n\r\npassed cases evidence\r\n------ ----- --------\r\n  True    22 Compiled production query setup/cleanup with deterministic PDH failures, exact counter sets, source trans…"
+  },
+  {
+    "test": "tests\\Test-OpalPairedAnalysis.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    14 Known ABBA/BAAB means, round median/range and distinct pooled median; malformed metric and paired-slot re…"
+  },
+  {
+    "test": "tests\\Test-OpalMeasuredProcessCost.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    11 Correct CPU/private aggregation; per-process working sets; rejects membership/PID reuse/duplicate/counter…"
+  }
+]

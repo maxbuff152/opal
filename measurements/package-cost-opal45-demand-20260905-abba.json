@@ -1,0 +1,510 @@
+{
+  "SchemaVersion": 2,
+  "Build": {
+    "Version": "4.5.0",
+    "DllSha256": "83EE94A762C62CF983FA9F3E8B0A24480BA9A6841244367E42518465EE31D475",
+    "CoreSha256": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2"
+  },
+  "Label": "opal45-demand-20260905-abba",
+  "CapturedAt": "2026-09-05T01:21:15.1106593-05:00",
+  "LogicalProcessors": 24,
+  "SampleSeconds": 15,
+  "SettleSeconds": 45,
+  "TestDesign": "Randomized paired ABBA/BAAB",
+  "AbbaRounds": 2,
+  "RandomSeed": 3,
+  "Scenarios": [
+    {
+      "Scenario": "Stock",
+      "Configuration": {
+        "Enabled": false,
+        "Media": 0,
+        "Performance": 0
+      },
+      "CpuPercentOneCore": 36.693,
+      "CpuPercentMachine": 1.5289,
+      "PrivateMB": 329.86,
+      "WorkingSetMB": 384.48,
+      "Handles": 5436.5,
+      "Gdi": 305.5,
+      "User": 464.0,
+      "Threads": 211.0,
+      "Samples": [
+        {
+          "Round": 1,
+          "Order": "ABBA",
+          "Position": 1,
+          "Scenario": "Stock",
+          "Pid": 41968,
+          "ElapsedSeconds": 15.0425614,
+          "RuntimeVerified": true,
+          "CpuSeconds": 4.125,
+          "CpuPercentOneCore": 27.422,
+          "CpuPercentMachine": 1.1426,
+          "PrivateMB": 325.87,
+          "WorkingSetMB": 381.98,
+          "Handles": 5413,
+          "HandleDelta": -11,
+          "Gdi": 304,
+          "GdiDelta": 0,
+          "User": 465,
+          "UserDelta": 0,
+          "Threads": 212,
+          "MeasuredProcessCost": {
+            "Scope": "All interactive-session Explorer, Maxwell.Shell.Core and Windhawk processes; excludes other shell hosts and services.",
+            "CpuSeconds": 4.125,
+            "CpuPercentOneCore": 27.422191542458986,
+            "PrivateMB": 334.80078125,
+            "Processes": [
+              {
+                "Name": "explorer",
+                "Pid": 41968,
+                "StartedAtUtc": "2026-09-05T06:13:08.7041420Z",
+                "CpuSeconds": 4.125,
+                "CpuPercentOneCore": 27.422191542458986,
+                "PrivateMB": 325.8671875,
+                "WorkingSetMB": 381.98046875
+              },
+              {
+                "Name": "Maxwell.Shell.Core",
+                "Pid": 37580,
+                "StartedAtUtc": "2026-09-05T06:12:09.1298315Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 6.71484375,
+                "WorkingSetMB": 15.0234375
+              },
+              {
+                "Name": "windhawk",
+                "Pid": 37940,
+                "StartedAtUtc": "2026-09-05T06:12:05.7239077Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 2.21875,
+                "WorkingSetMB": 14.58984375
+              }
+            ],
+            "Limitation": "Observed process-set cost, not attribution of all machine work to Opal. Per-process working sets are not summed."
+          }
+        },
+        {
+          "Round": 1,
+          "Order": "ABBA",
+          "Position": 4,
+          "Scenario": "Stock",
+          "Pid": 608,
+          "ElapsedSeconds": 15.0284793,
+          "RuntimeVerified": true,
+          "CpuSeconds": 6.0312,
+          "CpuPercentOneCore": 40.132,
+          "CpuPercentMachine": 1.6722,
+          "PrivateMB": 328.28,
+          "WorkingSetMB": 381.43,
+          "Handles": 5422,
+          "HandleDelta": -12,
+          "Gdi": 307,
+          "GdiDelta": 0,
+          "User": 462,
+          "UserDelta": 2,
+          "Threads": 207,
+          "MeasuredProcessCost": {
+            "Scope": "All interactive-session Explorer, Maxwell.Shell.Core and Windhawk processes; excludes other shell hosts and services.",
+            "CpuSeconds": 6.03125,
+            "CpuPercentOneCore": 40.13213765414043,
+            "PrivateMB": 339.37890625,
+            "Processes": [
+              {
+                "Name": "explorer",
+                "Pid": 608,
+                "StartedAtUtc": "2026-09-05T06:16:11.4371376Z",
+                "CpuSeconds": 6.03125,
+                "CpuPercentOneCore": 40.13213765414043,
+                "PrivateMB": 328.27734375,
+                "WorkingSetMB": 381.43359375
+              },
+              {
+                "Name": "Maxwell.Shell.Core",
+                "Pid": 37580,
+                "StartedAtUtc": "2026-09-05T06:12:09.1298315Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 8.734375,
+                "WorkingSetMB": 21.6796875
+              },
+              {
+                "Name": "windhawk",
+                "Pid": 37940,
+                "StartedAtUtc": "2026-09-05T06:12:05.7239077Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 2.3671875,
+                "WorkingSetMB": 14.96875
+              }
+            ],
+            "Limitation": "Observed process-set cost, not attribution of all machine work to Opal. Per-process working sets are not summed."
+          }
+        },
+        {
+          "Round": 2,
+          "Order": "BAAB",
+          "Position": 2,
+          "Scenario": "Stock",
+          "Pid": 29756,
+          "ElapsedSeconds": 15.0508884,
+          "RuntimeVerified": true,
+          "CpuSeconds": 6.2812,
+          "CpuPercentOneCore": 41.733,
+          "CpuPercentMachine": 1.7389,
+          "PrivateMB": 331.44,
+          "WorkingSetMB": 386.98,
+          "Handles": 5451,
+          "HandleDelta": 15,
+          "Gdi": 304,
+          "GdiDelta": 0,
+          "User": 463,
+          "UserDelta": 4,
+          "Threads": 210,
+          "MeasuredProcessCost": {
+            "Scope": "All interactive-session Explorer, Maxwell.Shell.Core and Windhawk processes; excludes other shell hosts and services.",
+            "CpuSeconds": 6.28125,
+            "CpuPercentOneCore": 41.733416879232195,
+            "PrivateMB": 342.41015625,
+            "Processes": [
+              {
+                "Name": "explorer",
+                "Pid": 29756,
+                "StartedAtUtc": "2026-09-05T06:18:12.9069844Z",
+                "CpuSeconds": 6.28125,
+                "CpuPercentOneCore": 41.733416879232195,
+                "PrivateMB": 331.4375,
+                "WorkingSetMB": 386.9765625
+              },
+              {
+                "Name": "Maxwell.Shell.Core",
+                "Pid": 37580,
+                "StartedAtUtc": "2026-09-05T06:12:09.1298315Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 8.69140625,
+                "WorkingSetMB": 21.6953125
+              },
+              {
+                "Name": "windhawk",
+                "Pid": 37940,
+                "StartedAtUtc": "2026-09-05T06:12:05.7239077Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 2.28125,
+                "WorkingSetMB": 14.9765625
+              }
+            ],
+            "Limitation": "Observed process-set cost, not attribution of all machine work to Opal. Per-process working sets are not summed."
+          }
+        },
+        {
+          "Round": 2,
+          "Order": "BAAB",
+          "Position": 3,
+          "Scenario": "Stock",
+          "Pid": 11320,
+          "ElapsedSeconds": 15.0356198,
+          "RuntimeVerified": true,
+          "CpuSeconds": 5.0,
+          "CpuPercentOneCore": 33.254,
+          "CpuPercentMachine": 1.3856,
+          "PrivateMB": 348.56,
+          "WorkingSetMB": 403.69,
+          "Handles": 5533,
+          "HandleDelta": -8,
+          "Gdi": 311,
+          "GdiDelta": -2,
+          "User": 469,
+          "UserDelta": -2,
+          "Threads": 215,
+          "MeasuredProcessCost": {
+            "Scope": "All interactive-session Explorer, Maxwell.Shell.Core and Windhawk processes; excludes other shell hosts and services.",
+            "CpuSeconds": 5.0,
+            "CpuPercentOneCore": 33.25436574287413,
+            "PrivateMB": 359.5390625,
+            "Processes": [
+              {
+                "Name": "explorer",
+                "Pid": 11320,
+                "StartedAtUtc": "2026-09-05T06:19:13.5942532Z",
+                "CpuSeconds": 5.0,
+                "CpuPercentOneCore": 33.25436574287413,
+                "PrivateMB": 348.5625,
+                "WorkingSetMB": 403.69140625
+              },
+              {
+                "Name": "Maxwell.Shell.Core",
+                "Pid": 37580,
+                "StartedAtUtc": "2026-09-05T06:12:09.1298315Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 8.6953125,
+                "WorkingSetMB": 21.69921875
+              },
+              {
+                "Name": "windhawk",
+                "Pid": 37940,
+                "StartedAtUtc": "2026-09-05T06:12:05.7239077Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 2.28125,
+                "WorkingSetMB": 14.98046875
+              }
+            ],
+            "Limitation": "Observed process-set cost, not attribution of all machine work to Opal. Per-process working sets are not summed."
+          }
+        }
+      ]
+    },
+    {
+      "Scenario": "FullSuite",
+      "Configuration": {
+        "Enabled": true,
+        "Media": 1,
+        "Performance": 1
+      },
+      "CpuPercentOneCore": 22.752,
+      "CpuPercentMachine": 0.948,
+      "PrivateMB": 345.79,
+      "WorkingSetMB": 402.72,
+      "Handles": 5542.0,
+      "Gdi": 305.5,
+      "User": 491.0,
+      "Threads": 218.0,
+      "Samples": [
+        {
+          "Round": 1,
+          "Order": "ABBA",
+          "Position": 2,
+          "Scenario": "FullSuite",
+          "Pid": 47648,
+          "ElapsedSeconds": 15.0545382,
+          "RuntimeVerified": true,
+          "CpuSeconds": 2.25,
+          "CpuPercentOneCore": 14.946,
+          "CpuPercentMachine": 0.6227,
+          "PrivateMB": 348.91,
+          "WorkingSetMB": 404.93,
+          "Handles": 5537,
+          "HandleDelta": 0,
+          "Gdi": 307,
+          "GdiDelta": 0,
+          "User": 492,
+          "UserDelta": 1,
+          "Threads": 220,
+          "MeasuredProcessCost": {
+            "Scope": "All interactive-session Explorer, Maxwell.Shell.Core and Windhawk processes; excludes other shell hosts and services.",
+            "CpuSeconds": 2.25,
+            "CpuPercentOneCore": 14.945659375988033,
+            "PrivateMB": 359.99609375,
+            "Processes": [
+              {
+                "Name": "explorer",
+                "Pid": 47648,
+                "StartedAtUtc": "2026-09-05T06:14:09.5041027Z",
+                "CpuSeconds": 2.25,
+                "CpuPercentOneCore": 14.945659375988033,
+                "PrivateMB": 348.91015625,
+                "WorkingSetMB": 404.9296875
+              },
+              {
+                "Name": "Maxwell.Shell.Core",
+                "Pid": 37580,
+                "StartedAtUtc": "2026-09-05T06:12:09.1298315Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 8.80859375,
+                "WorkingSetMB": 21.51171875
+              },
+              {
+                "Name": "windhawk",
+                "Pid": 37940,
+                "StartedAtUtc": "2026-09-05T06:12:05.7239077Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 2.27734375,
+                "WorkingSetMB": 14.6484375
+              }
+            ],
+            "Limitation": "Observed process-set cost, not attribution of all machine work to Opal. Per-process working sets are not summed."
+          }
+        },
+        {
+          "Round": 1,
+          "Order": "ABBA",
+          "Position": 3,
+          "Scenario": "FullSuite",
+          "Pid": 49544,
+          "ElapsedSeconds": 15.0339403,
+          "RuntimeVerified": true,
+          "CpuSeconds": 7.0312,
+          "CpuPercentOneCore": 46.769,
+          "CpuPercentMachine": 1.9487,
+          "PrivateMB": 335.66,
+          "WorkingSetMB": 399.16,
+          "Handles": 5431,
+          "HandleDelta": -9,
+          "Gdi": 305,
+          "GdiDelta": 0,
+          "User": 490,
+          "UserDelta": 3,
+          "Threads": 215,
+          "MeasuredProcessCost": {
+            "Scope": "All interactive-session Explorer, Maxwell.Shell.Core and Windhawk processes; excludes other shell hosts and services.",
+            "CpuSeconds": 7.046875,
+            "CpuPercentOneCore": 46.87310751127568,
+            "PrivateMB": 346.64453125,
+            "Processes": [
+              {
+                "Name": "explorer",
+                "Pid": 49544,
+                "StartedAtUtc": "2026-09-05T06:15:10.5993439Z",
+                "CpuSeconds": 7.03125,
+                "CpuPercentOneCore": 46.76917600903337,
+                "PrivateMB": 335.6640625,
+                "WorkingSetMB": 399.16015625
+              },
+              {
+                "Name": "Maxwell.Shell.Core",
+                "Pid": 37580,
+                "StartedAtUtc": "2026-09-05T06:12:09.1298315Z",
+                "CpuSeconds": 0.015625,
+                "CpuPercentOneCore": 0.1039315022422964,
+                "PrivateMB": 8.703125,
+                "WorkingSetMB": 21.48046875
+              },
+              {
+                "Name": "windhawk",
+                "Pid": 37940,
+                "StartedAtUtc": "2026-09-05T06:12:05.7239077Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 2.27734375,
+                "WorkingSetMB": 14.7578125
+              }
+            ],
+            "Limitation": "Observed process-set cost, not attribution of all machine work to Opal. Per-process working sets are not summed."
+          }
+        },
+        {
+          "Round": 2,
+          "Order": "BAAB",
+          "Position": 1,
+          "Scenario": "FullSuite",
+          "Pid": 13900,
+          "ElapsedSeconds": 15.0329961,
+          "RuntimeVerified": true,
+          "CpuSeconds": 0.0312,
+          "CpuPercentOneCore": 0.208,
+          "CpuPercentMachine": 0.0087,
+          "PrivateMB": 342.67,
+          "WorkingSetMB": 400.52,
+          "Handles": 5547,
+          "HandleDelta": -12,
+          "Gdi": 304,
+          "GdiDelta": 0,
+          "User": 496,
+          "UserDelta": -2,
+          "Threads": 221,
+          "MeasuredProcessCost": {
+            "Scope": "All interactive-session Explorer, Maxwell.Shell.Core and Windhawk processes; excludes other shell hosts and services.",
+            "CpuSeconds": 0.03125,
+            "CpuPercentOneCore": 0.20787606004900114,
+            "PrivateMB": 353.78125,
+            "Processes": [
+              {
+                "Name": "explorer",
+                "Pid": 13900,
+                "StartedAtUtc": "2026-09-05T06:17:12.0879682Z",
+                "CpuSeconds": 0.03125,
+                "CpuPercentOneCore": 0.20787606004900114,
+                "PrivateMB": 342.671875,
+                "WorkingSetMB": 400.5234375
+              },
+              {
+                "Name": "Maxwell.Shell.Core",
+                "Pid": 37580,
+                "StartedAtUtc": "2026-09-05T06:12:09.1298315Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 8.73828125,
+                "WorkingSetMB": 21.69921875
+              },
+              {
+                "Name": "windhawk",
+                "Pid": 37940,
+                "StartedAtUtc": "2026-09-05T06:12:05.7239077Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 2.37109375,
+                "WorkingSetMB": 15.015625
+              }
+            ],
+            "Limitation": "Observed process-set cost, not attribution of all machine work to Opal. Per-process working sets are not summed."
+          }
+        },
+        {
+          "Round": 2,
+          "Order": "BAAB",
+          "Position": 4,
+          "Scenario": "FullSuite",
+          "Pid": 3404,
+          "ElapsedSeconds": 15.0326164,
+          "RuntimeVerified": true,
+          "CpuSeconds": 4.5938,
+          "CpuPercentOneCore": 30.559,
+          "CpuPercentMachine": 1.2733,
+          "PrivateMB": 437.56,
+          "WorkingSetMB": 439.28,
+          "Handles": 5641,
+          "HandleDelta": -12,
+          "Gdi": 306,
+          "GdiDelta": 0,
+          "User": 476,
+          "UserDelta": 0,
+          "Threads": 216,
+          "MeasuredProcessCost": {
+            "Scope": "All interactive-session Explorer, Maxwell.Shell.Core and Windhawk processes; excludes other shell hosts and services.",
+            "CpuSeconds": 4.59375,
+            "CpuPercentOneCore": 30.558552668183562,
+            "PrivateMB": 448.46875,
+            "Processes": [
+              {
+                "Name": "explorer",
+                "Pid": 3404,
+                "StartedAtUtc": "2026-09-05T06:20:14.2784048Z",
+                "CpuSeconds": 4.59375,
+                "CpuPercentOneCore": 30.558552668183562,
+                "PrivateMB": 437.5625,
+                "WorkingSetMB": 439.27734375
+              },
+              {
+                "Name": "Maxwell.Shell.Core",
+                "Pid": 37580,
+                "StartedAtUtc": "2026-09-05T06:12:09.1298315Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 8.625,
+                "WorkingSetMB": 21.6640625
+              },
+              {
+                "Name": "windhawk",
+                "Pid": 37940,
+                "StartedAtUtc": "2026-09-05T06:12:05.7239077Z",
+                "CpuSeconds": 0.0,
+                "CpuPercentOneCore": 0.0,
+                "PrivateMB": 2.28125,
+                "WorkingSetMB": 15.01953125
+              }
+            ],
+            "Limitation": "Observed process-set cost, not attribution of all machine work to Opal. Per-process working sets are not summed."
+          }
+        }
+      ]
+    }
+  ]
+}

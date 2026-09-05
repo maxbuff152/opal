@@ -1,0 +1,30 @@
+{
+  "CapturedAt": "2026-09-05T01:22:56.3021471-05:00",
+  "Source": "package-cost-opal45-demand-20260905-abba.json",
+  "Scope": "Interactive Explorer, Maxwell.Shell.Core and Windhawk; other hosts/services excluded",
+  "PooledMedians": [
+    {
+      "Scenario": "Stock",
+      "CpuPercentOneCore": 36.69325169850728,
+      "PrivateMB": 340.89453125
+    },
+    {
+      "Scenario": "FullSuite",
+      "CpuPercentOneCore": 22.752106022085798,
+      "PrivateMB": 356.888671875
+    }
+  ],
+  "Rounds": [
+    {
+      "Round": 1,
+      "CpuPercentOneCoreDelta": -2.8677811546678527,
+      "PrivateMBDelta": 16.23046875
+    },
+    {
+      "Round": 2,
+      "CpuPercentOneCoreDelta": -22.110676946936877,
+      "PrivateMBDelta": 50.150390625
+    }
+  ],
+  "Limitation": "Descriptive only. High variable Explorer activity prevents an idle-CPU speedup conclusion. No aggregate working-set total."
+}

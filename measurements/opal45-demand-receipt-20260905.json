@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-05T01:24:54.2692083-05:00",
+  "runtime": "maximize-control-plane",
+  "task": "Opal performance architecture debate and demand-specific counter optimization",
+  "pack": "code-systems",
+  "model_adapter": "codex-frontier",
+  "status": "partial",
+  "evidence": [
+    "Native Cursor Slack critique plus three explicitly relayed Codex child reviewers; thread 1788588305.446069",
+    "19 validation scripts pass after installation; 22 PDH-demand assertions, 14 paired-analysis cases and 11 process-cost cases",
+    "Frozen real PDH microprobe proves unnecessary counter acquisition removed; full-shell speedup not established",
+    "8 current-build paired legs complete; pooled working-set overhead18.24MB exceeds16MB budget; paired22.45MB",
+    "Companion graceful recovery381ms; final DLL/attachment/dual-monitor visible proof",
+    "No staged secrets; direct PE import set unchanged"
+  ],
+  "changed_paths": [
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-taskbar-system-info.wh.cpp",
+      "exists": true,
+      "sha256": "3A1CF56F2DF1024438347C8631CC48E6370965DCD8B07DEB302D44F47F3A1948"
+    },
+    {
+      "path": "D:\\Opal\\Measure-OpalPackageCost.ps1",
+      "exists": true,
+      "sha256": "A0E867CB5CC28FB17E3379BFD749DDCB0B0C4E5E70B004E3AE42F3A230347781"
+    },
+    {
+      "path": "D:\\Opal\\Get-OpalMeasuredProcessCost.ps1",
+      "exists": true,
+      "sha256": "C6F268B95075EBF753BFAB39C85B941D23547908C1430614404AB7328D33343B"
+    },
+    {
+      "path": "D:\\Opal\\Get-OpalPairedAnalysis.ps1",
+      "exists": true,
+      "sha256": "B6B76B92C3999FCFD2BB9197EF3624C20A9496893089E10965CF602FA898BD38"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalPdhDemand.ps1",
+      "exists": true,
+      "sha256": "E3772E941D95742D95ECD996C9CED8FDC21C701E5D17334B8CFD2521546DAD46"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalMeasuredProcessCost.ps1",
+      "exists": true,
+      "sha256": "E5F4D814254AE28303DB178B0CDD1D0BEC4AB8D5622EECFC3D214D745D5DDDE4"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalPairedAnalysis.ps1",
+      "exists": true,
+      "sha256": "64C5C8724277EE6120AEAD8E769B8363D0842AFA3B8C5A1C04D9CEF7F6288024"
+    }
+  ],
+  "limitations": [
+    "High variable Explorer CPU including Stock prevents an idle speedup conclusion",
+    "Late large allocation is not attributed; total memory budget remains unresolved",
+    "No prolonged provider stall, sleep/display stress or new long matched stock/full soak",
+    "No Media broker migration; measured process set excludes other shell hosts/services"
+  ]
+}

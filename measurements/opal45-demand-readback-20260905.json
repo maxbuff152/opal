@@ -1,0 +1,12 @@
+{
+  "CapturedAt": "2026-09-05T01:22:55.2616464-05:00",
+  "ExplorerPid": 46508,
+  "DllSha256": "83EE94A762C62CF983FA9F3E8B0A24480BA9A6841244367E42518465EE31D475",
+  "Disabled": 0,
+  "MediaEnabled": 1,
+  "PerformanceEnabled": 1,
+  "LeanMode": 0,
+  "TemperatureSource": "auto",
+  "ExplorerPrivateMB": 345.0078125,
+  "ExplorerWorkingSetMB": 402.796875
+}
