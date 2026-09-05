@@ -2908,8 +2908,10 @@ void MetricsWorkerProc() {
             }
             waitResult = WaitForMultipleObjects(
                 waitCount, waits, FALSE,
-                waitCount > 1 ? INFINITE
-                              : static_cast<DWORD>(activeInterval) * 1000);
+                // A named event stays alive in this reader after its publisher
+                // exits. A deadline is required to reach liveness/freshness
+                // checks even if the companion never signals again.
+                static_cast<DWORD>(activeInterval) * 1000);
             pdhCompletionReady = g_pdhCompletionEvent &&
                 waitResult == WAIT_OBJECT_0 + waitCount - 1 &&
                 waits[waitCount - 1] == g_pdhCompletionEvent;

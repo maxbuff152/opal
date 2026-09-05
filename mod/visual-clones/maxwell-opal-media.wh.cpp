@@ -599,6 +599,30 @@ WriteableBitmap DecodeArtwork(const std::vector<uint8_t>& bytes) {
     return bitmap;
 }
 
+// Poll only while a provider operation is outstanding. Do not register a
+// Completed delegate: a provider can finish after cancellation or DLL unload.
+// GetResults is called only after a terminal status, never while Started.
+template <typename Operation>
+auto AwaitMediaOperation(const Operation& operation, HANDLE stopEvent,
+                         DWORD timeoutMs = 5000) {
+    const ULONGLONG started = GetTickCount64();
+    for (;;) {
+        if (WaitForSingleObject(stopEvent, 0) == WAIT_OBJECT_0 ||
+            GetTickCount64() - started >= timeoutMs) {
+            try { operation.Cancel(); } catch (...) {}
+            throw winrt::hresult_canceled();
+        }
+        if (operation.Status() != winrt::Windows::Foundation::AsyncStatus::Started) {
+            return operation.GetResults();
+        }
+        const DWORD result = WaitForSingleObject(stopEvent, 25);
+        if (result == WAIT_FAILED) {
+            try { operation.Cancel(); } catch (...) {}
+            throw winrt::hresult_canceled();
+        }
+    }
+}
+
 std::vector<uint8_t> ReadArtwork(
     const winrt::Windows::Storage::Streams::IRandomAccessStreamReference& reference) {
     std::vector<uint8_t> bytes;
@@ -606,16 +630,16 @@ std::vector<uint8_t> ReadArtwork(
         return bytes;
     }
     try {
-        auto stream = reference.OpenReadAsync().get();
+        auto stream = AwaitMediaOperation(reference.OpenReadAsync(), g_workerStop);
         uint64_t size64 = stream.Size();
         if (!size64 || size64 > kMaximumArtworkBytes) {
             return bytes;
         }
         auto buffer = winrt::Windows::Storage::Streams::Buffer(
             static_cast<uint32_t>(size64));
-        auto result = stream.ReadAsync(
+        auto result = AwaitMediaOperation(stream.ReadAsync(
             buffer, static_cast<uint32_t>(size64),
-            winrt::Windows::Storage::Streams::InputStreamOptions::None).get();
+            winrt::Windows::Storage::Streams::InputStreamOptions::None), g_workerStop);
         bytes.resize(result.Length());
         auto reader = winrt::Windows::Storage::Streams::DataReader::FromBuffer(result);
         reader.ReadBytes(bytes);
@@ -873,8 +897,9 @@ bool EnsureSessionManager() {
         return true;
     }
     try {
-        g_manager = GlobalSystemMediaTransportControlsSessionManager::
-            RequestAsync().get();
+        g_manager = AwaitMediaOperation(
+            GlobalSystemMediaTransportControlsSessionManager::RequestAsync(),
+            g_workerStop);
         g_managerCurrentToken = g_manager.CurrentSessionChanged(
             [](auto&&, auto&&) {
                 g_followSystemSession = true;
@@ -981,7 +1006,7 @@ bool RefreshMediaSnapshot() {
             return true;
         }
 
-        auto properties = session.TryGetMediaPropertiesAsync().get();
+        auto properties = AwaitMediaOperation(session.TryGetMediaPropertiesAsync(), g_workerStop);
         auto playback = session.GetPlaybackInfo();
         auto timeline = session.GetTimelineProperties();
         // A media session can disappear between enumeration and this refresh.
@@ -1091,9 +1116,9 @@ void StopWorker() {
     }
     if (g_workerThread) {
         // The DLL must not unload while the worker is still executing one of
-        // its callbacks. Media providers normally return immediately; waiting
-        // for the real thread exit is safer than closing a timed-out handle and
-        // leaving code running in an unloaded module.
+        // its callbacks. AwaitMediaOperation observes this stop event and
+        // cancels outstanding work without leaving a Completed delegate in
+        // the provider. Drain the worker before releasing module state.
         WaitForSingleObject(g_workerThread, INFINITE);
         CloseHandle(g_workerThread);
         g_workerThread = nullptr;

@@ -584,14 +584,24 @@ std::wstring EscapeUrlComponent(const wchar_t* input) {
     return out;
 }
 
-std::optional<std::wstring> FetchUrl(const wchar_t* url) {
+std::optional<std::wstring> FetchUrl(const wchar_t* url, HANDLE stopEvent = nullptr) {
+    constexpr size_t maximumBodyBytes = 16 * 1024;
+    constexpr ULONGLONG deadlineMs = 15000;
+    const ULONGLONG started = GetTickCount64();
+    const auto cancelled = [&] {
+        return (stopEvent && WaitForSingleObject(stopEvent, 0) == WAIT_OBJECT_0) ||
+               GetTickCount64() - started >= deadlineMs;
+    };
+    if (cancelled()) return std::nullopt;
     HINTERNET openHandle = InternetOpenW(
         L"Maxwell.Shell.Core", INTERNET_OPEN_TYPE_PRECONFIG, nullptr, nullptr,
         0);
     if (!openHandle) {
         return std::nullopt;
     }
-    DWORD timeoutMs = 15000;
+    // Bound each synchronous operation; observe cancellation between calls.
+    // The overall deadline also bounds a server that continually trickles data.
+    DWORD timeoutMs = 3000;
     for (DWORD option : {INTERNET_OPTION_CONNECT_TIMEOUT,
                          INTERNET_OPTION_SEND_TIMEOUT,
                          INTERNET_OPTION_RECEIVE_TIMEOUT}) {
@@ -606,7 +616,8 @@ std::optional<std::wstring> FetchUrl(const wchar_t* url) {
             INTERNET_FLAG_NO_COOKIES | INTERNET_FLAG_NO_UI |
             INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_RELOAD,
         0);
-    if (!urlHandle) {
+    if (!urlHandle || cancelled()) {
+        if (urlHandle) InternetCloseHandle(urlHandle);
         InternetCloseHandle(openHandle);
         return std::nullopt;
     }
@@ -623,12 +634,17 @@ std::optional<std::wstring> FetchUrl(const wchar_t* url) {
     std::string bytes;
     char chunk[1024];
     DWORD read = 0;
-    while (InternetReadFile(urlHandle, chunk, sizeof(chunk), &read) && read) {
+    bool complete = false;
+    while (!cancelled()) {
+        const BOOL ok = InternetReadFile(urlHandle, chunk, sizeof(chunk), &read);
+        if (!ok || cancelled()) break;
+        if (!read) { complete = true; break; }
+        if (read > maximumBodyBytes - bytes.size()) break;
         bytes.append(chunk, read);
     }
     InternetCloseHandle(urlHandle);
     InternetCloseHandle(openHandle);
-    if (bytes.empty()) {
+    if (!complete || bytes.empty() || cancelled()) {
         return std::nullopt;
     }
     int wideCount = MultiByteToWideChar(CP_UTF8, 0, bytes.data(),
@@ -726,7 +742,8 @@ DWORD WINAPI WeatherLoop(void* rawContext) {
             continue;
         }
         const std::wstring url = BuildWeatherUrl(request);
-        const auto body = FetchUrl(url.c_str());
+        const auto body = FetchUrl(url.c_str(), context->stopEvent);
+        if (WaitForSingleObject(context->stopEvent, 0) == WAIT_OBJECT_0) return 0;
         lastUnits = request.units;
         msw::CopyBounded(lastLocation, ARRAYSIZE(lastLocation),
                          request.location);
@@ -837,8 +854,11 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
     TelemetryContext context{view, readerView, changedEvent, readerWakeEvent,
                              stopEvent};
     const int telemetryResult = static_cast<int>(TelemetryLoop(&context));
+    SetEvent(stopEvent);
     if (weatherThread) {
-        WaitForSingleObject(weatherThread, 8000);
+        // A timeout is not thread completion. FetchUrl observes stop/deadline
+        // between bounded network calls; mappings remain valid until it exits.
+        if (WaitForSingleObject(weatherThread, INFINITE) != WAIT_OBJECT_0) return 1;
         CloseHandle(weatherThread);
     }
     if (weatherView) UnmapViewOfFile(weatherView);

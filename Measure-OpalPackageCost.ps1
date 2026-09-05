@@ -16,6 +16,15 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+$sessionId = (Get-Process -Id $PID).SessionId
+$build = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'build\opal-suite\build-receipt.json') -Raw | ConvertFrom-Json
+$corePath = Join-Path $env:LOCALAPPDATA 'Maxwell\Shell\Core\Maxwell.Shell.Core.exe'
+$builtCorePath = Join-Path $PSScriptRoot 'build\maxwell-shell-core\Maxwell.Shell.Core.exe'
+if ((Get-FileHash -LiteralPath $corePath).Hash -ne (Get-FileHash -LiteralPath $builtCorePath).Hash) { throw 'Installed companion does not match build.' }
+$buildIdentity = [pscustomobject]@{Version=$build.version;DllSha256=$build.sha256;CoreSha256=(Get-FileHash -LiteralPath $corePath).Hash}
+foreach ($source in $build.sourceInputs) {
+    if ((Get-FileHash -LiteralPath $source.path).Hash -ne $source.sha256) { throw 'Source changed since build.' }
+}
 
 $modRegistryRoot = 'HKLM:\SOFTWARE\Windhawk\Engine\Mods'
 $modId = 'local@opal'
@@ -65,8 +74,12 @@ function Clear-IntentionalRestartMarkers {
     $healthRoot = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal'
     foreach ($package in @('media', 'performance')) {
         $path = Join-Path $healthRoot "health-$package.ini"
-        @('[Health]', 'Dirty=0', 'CrashCount=0', 'Quarantined=0', 'Reason=') |
-            Set-Content -LiteralPath $path -Encoding ASCII
+        # Mark only this intentional exit as clean. Preserve crash counts and
+        # quarantine decisions; benchmarking must not reset crash protection.
+        if (Test-Path -LiteralPath $path) {
+            $text = [IO.File]::ReadAllText($path)
+            [IO.File]::WriteAllText($path, [regex]::Replace($text, '(?m)^Dirty=\d+\r?$', 'Dirty=0'))
+        }
     }
 }
 
@@ -81,28 +94,39 @@ function Set-Scenario {
 
     Clear-IntentionalRestartMarkers
     Get-Process -Name explorer -ErrorAction SilentlyContinue |
+        Where-Object SessionId -eq $sessionId |
         Stop-Process -Force -ErrorAction Stop
-    Start-Process -FilePath "$env:WINDIR\explorer.exe"
+    Start-Process -FilePath "$env:WINDIR\explorer.exe" -WindowStyle Hidden
 
     $deadline = (Get-Date).AddSeconds(20)
     do {
         Start-Sleep -Milliseconds 500
         $explorer = Get-Process -Name explorer -ErrorAction SilentlyContinue |
+            Where-Object SessionId -eq $sessionId |
             Sort-Object StartTime -Descending | Select-Object -First 1
     } until ($explorer -or (Get-Date) -ge $deadline)
     if (-not $explorer) { throw 'Explorer did not restart within 20 seconds.' }
     Start-Sleep -Seconds $SettleSeconds
+    $explorer.Refresh()
+    $mapped = @($explorer.Modules | Where-Object ModuleName -eq $build.dllName)
+    if ($Configuration.Enabled) {
+        if ($mapped.Count -ne 1 -or (Get-FileHash -LiteralPath $mapped[0].FileName).Hash -ne $build.sha256) { throw 'Expected Opal DLL not loaded.' }
+        & (Join-Path $PSScriptRoot 'tests\Test-OpalAttachment.ps1') | Out-Null
+    } elseif ($mapped.Count) { throw 'Stock scenario still has Opal loaded.' }
 }
 
 function Measure-ExplorerSample {
     $process = Get-Process -Name explorer -ErrorAction Stop |
+        Where-Object SessionId -eq $sessionId |
         Sort-Object StartTime -Descending | Select-Object -First 1
     $process.Refresh()
     $startCpu = $process.CPU
     $startHandles = $process.HandleCount
     $startGdi = Get-GuiResourceCount -Process $process -Kind 0
     $startUser = Get-GuiResourceCount -Process $process -Kind 1
+    $timer = [Diagnostics.Stopwatch]::StartNew()
     Start-Sleep -Seconds $SampleSeconds
+    $elapsed = $timer.Elapsed.TotalSeconds
     $process = Get-Process -Id $process.Id -ErrorAction Stop
     $process.Refresh()
     $cpuSeconds = $process.CPU - $startCpu
@@ -110,10 +134,12 @@ function Measure-ExplorerSample {
     $user = Get-GuiResourceCount -Process $process -Kind 1
     [pscustomobject]@{
         Pid = $process.Id
+        ElapsedSeconds = $elapsed
+        RuntimeVerified = $true
         CpuSeconds = [math]::Round($cpuSeconds, 4)
-        CpuPercentOneCore = [math]::Round($cpuSeconds / $SampleSeconds * 100.0, 3)
+        CpuPercentOneCore = [math]::Round($cpuSeconds / $elapsed * 100.0, 3)
         CpuPercentMachine = [math]::Round(
-            $cpuSeconds / $SampleSeconds * 100.0 / [Environment]::ProcessorCount, 4)
+            $cpuSeconds / $elapsed * 100.0 / [Environment]::ProcessorCount, 4)
         PrivateMB = [math]::Round($process.PrivateMemorySize64 / 1MB, 2)
         WorkingSetMB = [math]::Round($process.WorkingSet64 / 1MB, 2)
         Handles = $process.HandleCount
@@ -163,6 +189,8 @@ try {
                     Position = $position + 1
                     Scenario = $scenarioName
                     Pid = $sample.Pid
+                    ElapsedSeconds = $sample.ElapsedSeconds
+                    RuntimeVerified = $sample.RuntimeVerified
                     CpuSeconds = $sample.CpuSeconds
                     CpuPercentOneCore = $sample.CpuPercentOneCore
                     CpuPercentMachine = $sample.CpuPercentMachine
@@ -233,11 +261,14 @@ try {
     Set-ItemProperty -LiteralPath $settingsPath -Name 'performance.performanceEnabled' -Type DWord -Value $originalState.Performance
     Clear-IntentionalRestartMarkers
     Get-Process -Name explorer -ErrorAction SilentlyContinue |
+        Where-Object SessionId -eq $sessionId |
         Stop-Process -Force -ErrorAction SilentlyContinue
-    Start-Process -FilePath "$env:WINDIR\explorer.exe"
+    Start-Process -FilePath "$env:WINDIR\explorer.exe" -WindowStyle Hidden
 }
 
 $receipt = [ordered]@{
+    SchemaVersion = 2
+    Build = $buildIdentity
     Label = $Label
     CapturedAt = [DateTimeOffset]::Now.ToString('o')
     LogicalProcessors = [Environment]::ProcessorCount
