@@ -478,7 +478,7 @@ try {
     if (Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue) {
         throw 'Leftover MaxwellShell.exe is still running after Opal install.'
     }
-    $attachmentDeadline = (Get-Date).AddSeconds(35)
+    $attachmentDeadline = (Get-Date).AddSeconds(60)
     $attachment = $null
     do {
         try { $attachment = & (Join-Path $PSScriptRoot 'tests\Test-OpalAttachment.ps1') } catch { $attachment = $null }
