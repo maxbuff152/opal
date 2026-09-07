@@ -1,0 +1,4 @@
+{
+  "name": "Opal PowerShell tooling + Linux cross-build",
+  "install": "bash ./.cursor/install.sh"
+}

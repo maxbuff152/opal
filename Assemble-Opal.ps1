@@ -36,7 +36,7 @@ $headers = @(
     'opal-unified-exports.h'
 )
 
-function Strip-Header([string]$path) {
+function Get-StrippedHeader([string]$path) {
     $lines = [System.IO.File]::ReadAllLines($path)
     $keep = [System.Collections.Generic.List[string]]::new()
     foreach ($l in $lines) {
@@ -68,13 +68,13 @@ while ($pending) {
         if (-not [regex]::IsMatch($text, $pattern, [Text.RegularExpressions.RegexOptions]::Multiline)) {
             continue
         }
-        $body = Strip-Header (Join-Path $dir $h)
+        $body = Get-StrippedHeader (Join-Path $dir $h)
         $banner = "// ===== inlined: $h =====`r`n"
         $replacement = $banner + $body
         $text = [regex]::Replace(
             $text,
             $pattern,
-            [Text.RegularExpressions.MatchEvaluator]{ param($match) $replacement },
+            [Text.RegularExpressions.MatchEvaluator]{ param($match) $null = $match; $replacement },
             [Text.RegularExpressions.RegexOptions]::Multiline)
         $pending = $true
     }

@@ -509,12 +509,12 @@ function Get-WindhawkLatestCrashEvidence {
     param([datetime]$Since = (Get-Date).AddMinutes(-5))
     $events = Get-WinEvent -FilterHashtable @{LogName='Application';Id=1000;StartTime=$Since} -ErrorAction SilentlyContinue | Where-Object { $_.ProviderName -eq 'Application Error' -and $_.Message -match '(?i)Faulting application name:\s*Explorer\.EXE' } | Sort-Object TimeCreated -Descending
     $reports = Get-ChildItem 'C:\ProgramData\Microsoft\Windows\WER\ReportArchive' -Directory -Filter 'AppCrash_Explorer.EXE*' -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
-    foreach ($event in $events) {
-        if ($event.Message -notmatch '(?i)Faulting module name:\s*(Windows\.UI\.Xaml\.dll|Microsoft\.UI\.Xaml\.dll|Taskbar\.View\.dll)') { continue }
+    foreach ($appEvent in $events) {
+        if ($appEvent.Message -notmatch '(?i)Faulting module name:\s*(Windows\.UI\.Xaml\.dll|Microsoft\.UI\.Xaml\.dll|Taskbar\.View\.dll)') { continue }
         foreach ($report in $reports) {
-            if ($report.LastWriteTime -lt $event.TimeCreated.AddMinutes(-2) -or $report.LastWriteTime -gt $event.TimeCreated.AddMinutes(3)) { continue }
+            if ($report.LastWriteTime -lt $appEvent.TimeCreated.AddMinutes(-2) -or $report.LastWriteTime -gt $appEvent.TimeCreated.AddMinutes(3)) { continue }
             $path = Join-Path $report.FullName 'Report.wer'; if (-not (Test-Path $path)) { continue }; $text = Get-Content $path -Raw -ErrorAction SilentlyContinue
-            if ($text -and (Test-WindhawkCrashEvidence $event.Message $text)) { return [pscustomobject]@{ EventMessage=$event.Message; WerText=$text; WerPath=$path } }
+            if ($text -and (Test-WindhawkCrashEvidence $appEvent.Message $text)) { return [pscustomobject]@{ EventMessage=$appEvent.Message; WerText=$text; WerPath=$path } }
         }
     }
     $null
