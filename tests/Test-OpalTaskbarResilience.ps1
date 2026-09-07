@@ -43,6 +43,7 @@ Check ($installer -match 'Stop-LeftoverMaxwellShell' -and $installer -match 'Max
 Check ($installer -match "Install-MaxwellShellCore\.ps1") 'Installer does not install Maxwell.Shell.Core autostart.'
 Check ($installer -notmatch 'Start-Process[^\r\n]*MaxwellShell\.exe') 'Installer must not start leftover MaxwellShell.exe.'
 Check ($shell -match 'healthy \? 5000' -and $shell -match 'attachment health:') 'Attachment recovery stops after startup instead of checking replaced taskbars.'
+Check ($shell -match 'barsChanged' -and $shell -match 'CurrentProcessTaskbars' -and $shell -match 'healthy && !barsChanged' -and $control -match 'TouchAttachmentProof' -and $shell -match 'TouchAttachmentProof') 'Healthy recovery still walks XAML every five seconds on unchanged taskbar windows.'
 Check ($shell.IndexOf('g_unloading.store(true', $shell.IndexOf('void Wh_ModBeforeUninit')) -lt $shell.IndexOf('OpalMedia_ModBeforeUninit();', $shell.IndexOf('void Wh_ModBeforeUninit() {'))) 'Component teardown can race recovery.'
 Check ($media -notmatch 'g_fullViewOnPrimary = !performanceFullOnPrimary') 'Automatic placement silently splits full views across monitors.'
 foreach ($component in @($media,$performance)) {

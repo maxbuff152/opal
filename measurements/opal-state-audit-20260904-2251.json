@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-04T22:52:44.1666720-05:00",
+  "runtime": "maximize-control-plane",
+  "task": "Opal current-state inspection",
+  "pack": "general-operations",
+  "model_adapter": "codex-frontier",
+  "status": "verified",
+  "evidence": [
+    "One clean Opal worktree at 0942a36; D:\\Opal is a junction to the canonical source.",
+    "Live GitHub main is 3d295119cddac88e7926ac62ec4db0eca58e99b3; local main is six commits ahead.",
+    "Test-OpalSuite live passed; one enabled local@opal 4.4.0 loaded in Explorer 21332.",
+    "Installed DLL and build SHA256 match C7BD998A39FFAC10475EB881FB558EF70769AD0A31C8807254358C52AB8B73C1.",
+    "Test-OpalAttachment passed Media and Performance for current Explorer.",
+    "Test-MaxwellShellCore passed 28 assertions; exactly one Core process 25704; no MaxwellShell.exe running.",
+    "Registry: media primary; performance secondary; automatic layout; Resource Saver off.",
+    "Separate D:\\Repos\\maxwell-shell repository remains on disk; its README describes an independent command palette and tray companion."
+  ],
+  "changed_paths": [],
+  "limitations": [
+    "No current visual inspection; attachment checks do not prove appearance.",
+    "Did not run performance benchmarking or change installation, settings, recovery tasks, or GitHub.",
+    "Legacy MaxwellShell startup supervisor was not exhaustively audited."
+  ]
+}

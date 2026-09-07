@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-09-05T00:10:52.7769285-05:00",
+  "gracefulExit": true,
+  "exitMilliseconds": 6,
+  "oldPid": 22752,
+  "newPid": 27792,
+  "recoveredAutomatically": true,
+  "recoveryMilliseconds": 2084,
+  "coreHash": "CC167B72241E37A504B2A460F8A7A421937F75B669753A299198C31D7FE9CAA2",
+  "limitation": "Graceful publisher exit with existing mapping; not a live odd-sequence corruption test."
+}

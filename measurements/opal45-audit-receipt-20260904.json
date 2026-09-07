@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-04T23:46:15.4053237-05:00",
+  "runtime": "maximize-control-plane",
+  "task": "Opal 4.5 performance and reliability audit",
+  "pack": "code-systems",
+  "model_adapter": "codex-frontier",
+  "status": "verified",
+  "evidence": [
+    "D:\\Opal\\measurements\\Opal-4.5-performance-reliability-audit-20260904.md",
+    "D:\\Opal\\measurements\\opal45-audit-adversarial-20260904.json",
+    "D:\\Opal\\measurements\\opal45-audit-tests-20260904.json"
+  ],
+  "changed_paths": [
+    {
+      "path": "D:\\Opal\\measurements\\Opal-4.5-performance-reliability-audit-20260904.md",
+      "exists": true,
+      "sha256": "6C7907B04360C9D362BD4F0D8889E540DA1ED805F78E70E5432FE0D02E3266D9"
+    },
+    {
+      "path": "D:\\Opal\\measurements\\Invoke-Opal45AuditProbes.ps1",
+      "exists": true,
+      "sha256": "DED17B900D6D0352FD643E14B2E776C8B66787F00E3EEF09452A9B1AAEB67A1B"
+    }
+  ],
+  "limitations": [
+    "Audit completed; defects remain unfixed. No production code, installed binaries, settings or Explorer process changed.",
+    "Short observational samples do not prove overhead or leak freedom; no live fault injection, display reconnect or reboot."
+  ]
+}

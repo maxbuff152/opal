@@ -1,0 +1,29 @@
+{
+  "capturedAt": "2026-09-04T23:41:39.4471964-05:00",
+  "purpose": "Adversarial audit; true fault flags mean defects reproduced, not a release pass.",
+  "sourceCommit": "1797d8d5158c220c531f592439707e8e4a73bb47",
+  "sourceHashes": [
+    {
+      "Path": "D:\\Opal\\native\\Maxwell.Shell.Core\\MaxwellShellCore.cpp",
+      "Hash": "14B492F403FAA904A72368B27E9F6C77628767243613F2EA8C1C0643129DA691"
+    },
+    {
+      "Path": "D:\\Opal\\mod\\visual-clones\\maxwell-taskbar-system-info.wh.cpp",
+      "Hash": "265336254985CA83E35F627BCC82B656DF0187A78458A42FFFBB12C8163104B8"
+    },
+    {
+      "Path": "D:\\Opal\\Test-OpalPerformanceBudget.ps1",
+      "Hash": "02FACA5393C6B5E2A56FF6E89DED678A779FD21F5D0B9E487D988A9739667157"
+    }
+  ],
+  "nativeProbes": {
+    "partialReadAcceptedAsSuccess": true,
+    "acceptedResponseChars": 2097152,
+    "publisherSilentWaitExceededInterval": true,
+    "manualWakeRecovered": true
+  },
+  "missingMetricsReceiptAccepted": true,
+  "historical40ReceiptAcceptedForCurrent45": true,
+  "boundaries": "No network traffic; production FetchUrl with deterministic WinINet mocks. Actual Win32 wait block extracted from production, isolated private events, 1250ms silence then deliberate wake. No live process stops, settings changes, or Explorer restart.",
+  "limitations": "Not an end-to-end live publisher crash or real network fault injection. Media cancellation and weather shutdown race are source-review findings."
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "test": "Test-OpalSuite.ps1",
+    "exitCode": 0,
+    "output": "passed     : True\r\nstaticOnly : False\r\ncheckedUtc : 2026-09-05T04:37:59.9732909Z\r\nfailures   : {}\r\nlive       : @{registryIds=local@opal; profileModIds=System.Object[]; explorerPid=40912; \r\n             module=local_at_opal_4.5.0_owned.dll}"
+  },
+  {
+    "test": "tests\\Test-OpalAttachment.ps1",
+    "exitCode": 0,
+    "output": "passed      : True\r\nexplorerPid : 40912\r\nattached    : {Media, Performance}\r\nviews       : {@{component=Media; expected=1; attached=1; fullWindow=3737480; ageSeconds=1.81}, \r\n              @{component=Performance; expected=1; attached=1; fullWindow=3737480; ageSeconds=1.83}}\r\nlimitation  : Attachment evidence does not replace visual inspection of an unobscured taskbar."
+  },
+  {
+    "test": "tests\\Test-MaxwellShellCore.ps1",
+    "exitCode": 0,
+    "output": "{\r\n  \"passed\": true,\r\n  \"assertions\": 28,\r\n  \"failures\": [],\r\n  \"surface\": \"telemetry-and-weather\",\r\n  \"processId\": 41636,\r\n  \"checkedAt\": \"2026-09-04T23:38:02.2128863-05:00\"\r\n}"
+  },
+  {
+    "test": "tests\\Test-OpalWeatherRetry.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True     7 Production weather scheduling: cold start, failed and successful interval boundaries, changed location, c…"
+  },
+  {
+    "test": "tests\\Test-OpalMonitorRouting.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True    16 Production routing: fullscreen stability, missing bars, reconnect, mirror ownership and deduplication."
+  },
+  {
+    "test": "tests\\Test-OpalTaskbarResilience.ps1",
+    "exitCode": 0,
+    "output": "passed failures\r\n------ --------\r\n  True {}"
+  },
+  {
+    "test": "tests\\Test-OpalRecovery.ps1",
+    "exitCode": 0,
+    "output": "passed scenarios\r\n------ ---------\r\n  True {shared machine state, healthy idempotence, enabled but unloaded recovery, latched stock fallback}"
+  },
+  {
+    "test": "tests\\Test-OpalRollbackTraversal.ps1",
+    "exitCode": 0,
+    "output": "passed assertions evidence\r\n------ ---------- --------\r\n  True          4 Excluded directories are never enumerated; nested destination cannot recurse; active data and hash p…"
+  },
+  {
+    "test": "tests\\Test-OpalDensity.ps1",
+    "exitCode": 0,
+    "output": "passed cases evidence\r\n------ ----- --------\r\n  True     8 Compiled production density function with enabled and disabled adaptive profiles."
+  },
+  {
+    "test": "tests\\Test-OpalUnifiedControl.ps1",
+    "exitCode": 0,
+    "output": "passed staticOnly failures\r\n------ ---------- --------\r\n  True      False {}"
+  },
+  {
+    "test": "tests\\Test-WindhawkSafeDock.ps1",
+    "exitCode": 0,
+    "output": "{\r\n  \"passed\": true,\r\n  \"assertions\": 15,\r\n  \"liveMode\": \"opal-unified\",\r\n  \"explorerPid\": 40912,\r\n  \"loadedModules\": [\r\n    \"local_at_opal_4.5.0_owned.dll\",\r\n    \"libunwind.whl\",\r\n    \"libc++.whl\"\r\n  ],\r\n  \"checkedAt\": \"2026-09-04T23:38:13.3654819-05:00\"\r\n}"
+  }
+]

@@ -323,10 +323,23 @@ function Restart-OpalShell {
     New-Item -ItemType Directory -Path $controlInstallRoot -Force | Out-Null
     New-Item -ItemType File -Force -Path (Join-Path $controlInstallRoot 'planned-explorer-restart') | Out-Null
     Stop-Service -Name Windhawk -Force -ErrorAction SilentlyContinue
-    foreach ($name in @('explorer', 'StartMenuExperienceHost', 'SearchHost', 'SearchApp', 'ShellExperienceHost', 'ShellHost')) {
+    foreach ($name in @('explorer', 'StartMenuExperienceHost', 'SearchHost', 'SearchApp', 'ShellExperienceHost', 'ShellHost', 'windhawk')) {
         Stop-Process -Name $name -Force -ErrorAction SilentlyContinue
     }
-    Start-Sleep -Seconds 2
+    $dllDest = Join-Path $dll64Root 'local_at_opal_4.5.0_owned.dll'
+    $deadline = (Get-Date).AddSeconds(20)
+    do {
+        Start-Sleep -Milliseconds 400
+        $locked = $false
+        if (Test-Path -LiteralPath $dllDest) {
+            try {
+                $stream = [IO.File]::Open($dllDest, [IO.FileMode]::Open, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
+                $stream.Dispose()
+            } catch {
+                $locked = $true
+            }
+        }
+    } while ($locked -and (Get-Date) -lt $deadline)
 }
 
 $oldInventory = [pscustomobject]@{

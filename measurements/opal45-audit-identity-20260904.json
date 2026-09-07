@@ -1,0 +1,13 @@
+{
+  "version": "4.5.0",
+  "head": "1797d8d5158c220c531f592439707e8e4a73bb47",
+  "sourceInputCount": 15,
+  "sourceMismatches": [],
+  "mapped": [
+    {
+      "path": "C:\\ProgramData\\Windhawk\\Engine\\Mods\\64\\local_at_opal_4.5.0_owned.dll",
+      "sha256": "D7A5366D62F8D928FB2714C25E5F198011373AEB5D3878A818D0186B5B3D714E",
+      "matchesBuild": true
+    }
+  ]
+}

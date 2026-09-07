@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-04T23:29:06.1207762-05:00",
+  "runtime": "maximize-control-plane",
+  "task": "Opal 4.5 reliability and main-screen layout",
+  "pack": "code-systems",
+  "model_adapter": "codex-frontier",
+  "status": "verified",
+  "evidence": [
+    "Local source checkpoint: 1797d8d5158c220c531f592439707e8e4a73bb47; no push performed.",
+    "Installed Opal 4.5.0 DLL SHA256: D7A5366D62F8D928FB2714C25E5F198011373AEB5D3878A818D0186B5B3D714E; Explorer 40912.",
+    "Build, static suite, unified controls, taskbar resilience, 16 routing cases, 8 density cases, 4 recovery scenarios, 4 backup assertions, 7 weather scheduling cases and ownership checks passed.",
+    "Telemetry core: 28 assertions passed; live suite and fresh attachment checks passed. SafeDock healthy.",
+    "Live readback: one Opal mod, one telemetry companion, Media and Performance each expected=1 attached=1 on Primary.",
+    "Visually inspected native 1920x70 taskbar captures for each monitor: full widgets main/right, no Media or stats duplicate on left; RAM percentage readable.",
+    "Evidence: build\\opal45-verification; build\\opal45-live-suite.json; build\\opal45-attachment.json; build\\opal45-safedock.json; measurements\\opal45-final-live-performance.json.",
+    "Secret scans passed for changed code and native companion. No new dependencies; existing Windhawk compiler and libraries retained.",
+    "Original 4.4 recovery bundle: C:\\Users\\maxwe\\AppData\\Local\\Maxwell\\Opal\\rollback-20260904-231002.",
+    "Weather timeout API reference: https://learn.microsoft.com/en-us/windows/win32/wininet/option-flags and https://learn.microsoft.com/en-us/windows/win32/api/wininet/nf-wininet-internetsetoptionw; retrieved 2026-09-04 via web.run."
+  ],
+  "changed_paths": [
+    {
+      "path": "D:\\Opal\\Assemble-Opal.ps1",
+      "exists": true,
+      "sha256": "5295C39B95E7EBB71C451548076793A1D279F9300ACC2110D5111DCC709FA3EF"
+    },
+    {
+      "path": "D:\\Opal\\Build-OpalSuite.ps1",
+      "exists": true,
+      "sha256": "4FB200872582F26975A9C62636581F25CD6366458380CAD072052B23C4443F23"
+    },
+    {
+      "path": "D:\\Opal\\Install-OpalSuite.ps1",
+      "exists": true,
+      "sha256": "6CFE90A9D8EA08804717826FE806F7C3362C833E09DDA9A117CFD47F776EEF83"
+    },
+    {
+      "path": "D:\\Opal\\New-MaxwellShellRollbackPoint.ps1",
+      "exists": true,
+      "sha256": "006BFC62E34212DD60311816FB9CBC9249BF85EC02A431C0D2DB03C251833716"
+    },
+    {
+      "path": "D:\\Opal\\OPAL-START-HERE.md",
+      "exists": true,
+      "sha256": "94CC6C0AA7A34F1E585D85C386BAB7334CB5EB1088638A8E9567BAF40E4AB4FD"
+    },
+    {
+      "path": "D:\\Opal\\README.md",
+      "exists": true,
+      "sha256": "5546A8CCC48AB5BCF4D19D745F089B78069C5604F9DFCFEADE4A789BD207078C"
+    },
+    {
+      "path": "D:\\Opal\\Run-OpalSuiteInstallElevatedJob.ps1",
+      "exists": true,
+      "sha256": "A1A4FAD47FA6A234AD6563D4EC8367A1BB3FD531F3AA4BE62B1CAC61C3967212"
+    },
+    {
+      "path": "D:\\Opal\\Test-OpalSuite.ps1",
+      "exists": true,
+      "sha256": "386EE5B7C643D08448A31DE636E72EDE13B6AB115AD943FEA60E9460B1BF8DAB"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-opal-media.wh.cpp",
+      "exists": true,
+      "sha256": "CAF9F66DD0B2D544905F330DAFCF642A3403BC11BDF7FDE014E91F70CE8A7970"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-shell.wh.cpp",
+      "exists": true,
+      "sha256": "951D68BB3858C2419167CCD9E9A8624A6DB2452C2DDDA1FDBBA3B68A61EACE7E"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\maxwell-taskbar-system-info.wh.cpp",
+      "exists": true,
+      "sha256": "265336254985CA83E35F627BCC82B656DF0187A78458A42FFFBB12C8163104B8"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\opal-addon-clock.h",
+      "exists": true,
+      "sha256": "520E6E7E0141F353679BCAF5DC9DB8A8638A9E48742DADD3C95E9EAC1CBBC613"
+    },
+    {
+      "path": "D:\\Opal\\mod\\visual-clones\\opal-control.h",
+      "exists": true,
+      "sha256": "D1387BA2947D5821BF189689A60F1CDE936BD1324EB5A12C756DCF3414DB1FCD"
+    },
+    {
+      "path": "D:\\Opal\\native\\Maxwell.Shell.Core\\MaxwellShellCore.cpp",
+      "exists": true,
+      "sha256": "14B492F403FAA904A72368B27E9F6C77628767243613F2EA8C1C0643129DA691"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-MaxwellTaskbarMediaCapsule.ps1",
+      "exists": true,
+      "sha256": "35AADD1468EB25B64857C0CBA20CD4FCB42CA6568EC2822C999623C2A3779806"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalAttachment.ps1",
+      "exists": true,
+      "sha256": "3C6775298218FEC21BDEE618FDEF4222703AC60529F0EE89EC6C33C4FE3DF4CD"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalMonitorRouting.ps1",
+      "exists": true,
+      "sha256": "A1B8C1061A0404B0AC874781F59FF19C2122CFA3D933D90C6541192E95CC8E2C"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalRollbackTraversal.ps1",
+      "exists": true,
+      "sha256": "43F094FAAC3A2C98BD2A7AD8DA0986E80F03D8F200EBE08E99F7D3DA6112FD09"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalTaskbarResilience.ps1",
+      "exists": true,
+      "sha256": "4883F60BA5BFE1798DB4845ADB9C38EE17559ACD356328FAC97208E893868971"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalUnifiedControl.ps1",
+      "exists": true,
+      "sha256": "8BCF147CE4126A5D33F4060EC3825B94ECAB0BDDCE422E66D77F55459B4B45BE"
+    },
+    {
+      "path": "D:\\Opal\\tests\\Test-OpalWeatherRetry.ps1",
+      "exists": true,
+      "sha256": "664865E22D5FB9D4526DFDAB5BA5A5789543E1F81B77E05C51FCBF1352B335B1"
+    }
+  ],
+  "limitations": [
+    "Physical monitor unplug/replug and reboot were not performed. Routing replacement and fullscreen cases were compiled simulations; actual Explorer restart and installed two-screen layout were checked.",
+    "Thirty-second resource samples are observational and not a controlled overhead, thermal, or long-run leak benchmark.",
+    "Existing DllGetClassObject redeclaration warning remains. External weather availability cannot be guaranteed."
+  ]
+}

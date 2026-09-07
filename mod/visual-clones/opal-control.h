@@ -375,6 +375,32 @@ inline void PublishAttachmentProof(const wchar_t* component, HWND fullWindow,
     WritePrivateProfileStringW(L"Runtime", key.c_str(), proof, path.c_str());
 }
 
+// Refresh the proof timestamp without walking XAML. Returns false when the
+// stored HWND is gone so the caller can run a real attach pass.
+inline bool TouchAttachmentProof(const wchar_t* component) {
+    wchar_t leaf[64]{};
+    swprintf_s(leaf, L"runtime-%lu.ini", GetCurrentProcessId());
+    std::wstring path;
+    if (!component || !BuildLocalAppDataPath(leaf, &path)) return false;
+    const std::wstring key = std::wstring(component) + L"Attachment";
+    wchar_t existing[160]{};
+    GetPrivateProfileStringW(L"Runtime", key.c_str(), L"", existing,
+                             ARRAYSIZE(existing), path.c_str());
+    unsigned long long stamp = 0;
+    unsigned long long hwndValue = 0;
+    unsigned expected = 0;
+    unsigned attached = 0;
+    if (swscanf_s(existing, L"%llu|%llu|%u|%u", &stamp, &hwndValue, &expected,
+                  &attached) != 4 ||
+        !hwndValue || !expected || attached != expected) {
+        return false;
+    }
+    HWND window = reinterpret_cast<HWND>(static_cast<uintptr_t>(hwndValue));
+    if (!IsWindow(window)) return false;
+    PublishAttachmentProof(component, window, expected, attached);
+    return true;
+}
+
 inline void PublishRuntimeState(const wchar_t* activeName, const wchar_t* pidName,
                                 bool active, bool suspended = false,
                                 const wchar_t* reason = L"", bool quarantined = false) {

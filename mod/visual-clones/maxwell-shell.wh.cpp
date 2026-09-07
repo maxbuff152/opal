@@ -1738,12 +1738,36 @@ static DWORD WINAPI LateAttachProc(LPVOID) {
     // Fast boot retries, then a low-frequency health check. Do not latch a
     // historical success: Windows can replace either taskbar after docking,
     // scaling, sleep, or a display reconnect without restarting Explorer.
+    // A healthy 5s XAML walk can RoFailFast (0xc000027b) even inside try/catch,
+    // so skip EnsureAttached while the same Shell_TrayWnd HWNDs remain alive.
+    // TaskbarFrame Loaded still repairs in-place XAML replacement.
     unsigned tick = 0;
     bool healthy = false;
+    HWND attachedPrimary = nullptr;
+    HWND attachedSecondary = nullptr;
     for (;;) {
         if (!SleepUnlessUnloading(healthy ? 5000 : (tick < 120 ? 500 : 5000))) return 0;
         ++tick;
         if (!TaskbarViewPresent()) { healthy = false; continue; }
+        const auto bars = OpalControl::CurrentProcessTaskbars();
+        const bool barsChanged =
+            bars.primary != attachedPrimary ||
+            bars.secondary != attachedSecondary ||
+            (attachedPrimary && !IsWindow(attachedPrimary)) ||
+            (attachedSecondary && !IsWindow(attachedSecondary));
+        if (healthy && !barsChanged) {
+#ifdef OPAL_UNIFIED_BUILD
+            bool touched = true;
+            if (g_mediaComponentInit)
+                touched = OpalControl::TouchAttachmentProof(L"Media") && touched;
+            if (g_performanceComponentInit)
+                touched = OpalControl::TouchAttachmentProof(L"Performance") &&
+                          touched;
+            if (touched) continue;
+#else
+            continue;
+#endif
+        }
         // Time only a successful first/recovery pass, not routine healthy
         // watchdog checks. This excludes the preceding retry/backoff delay.
         const auto attachmentStart = !healthy
@@ -1779,6 +1803,13 @@ static DWORD WINAPI LateAttachProc(LPVOID) {
         }
         if (next != healthy) {
             AttachLog(L"attachment health: clock=%d media=%d performance=%d", clockDone, mediaDone, perfDone);
+        }
+        if (next) {
+            attachedPrimary = bars.primary;
+            attachedSecondary = bars.secondary;
+        } else {
+            attachedPrimary = nullptr;
+            attachedSecondary = nullptr;
         }
         healthy = next;
     }
