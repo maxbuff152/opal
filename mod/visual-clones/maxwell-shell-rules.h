@@ -1592,15 +1592,16 @@ inline constexpr Rule kRules[] = {
     { Host::StartMenu, L"Windows.UI.Xaml.Controls.Border#LayerBorder", kProps221, 2 },
     { Host::StartMenu, L"Windows.UI.Xaml.Controls.Border#AccentLayerBorder", kProps222, 2 },
     { Host::StartMenu, L"Windows.UI.Xaml.Controls.Border#AcrylicBorder", kProps223, 5 },
-    { Host::StartMenu, L"Cortana.UI.Views.TaskbarSearchPage > Windows.UI.Xaml.Controls.Grid", kProps224, 2 },
     { Host::StartMenu, L"Windows.UI.Xaml.Controls.Grid#CompanionRoot", kProps225, 2 },
     { Host::StartMenu, L"Cortana.UI.Views.TaskbarSearchPage > Windows.UI.Xaml.Controls.Grid#RootGrid", kProps226, 3 },
     { Host::StartMenu, L"Windows.UI.Xaml.Controls.Grid#RootGrid@SearchBoxLocationStates", kProps227, 2 },
     { Host::StartMenu, L"Windows.UI.Xaml.Controls.Border#TaskbarSearchBackground", kProps228, 5 },
+    // Do not restyle every Grid under TaskbarSearchPage. Matching is descendant,
+    // not parent, so a bare "> Grid" rule paints HostedWebView2Control hosts and
+    // SearchHost shows an error when results load. Chrome stays on named roots.
     { Host::Search, L"Cortana.UI.Views.TaskbarSearchPage", kProps229, 3 },
-    { Host::Search, L"Cortana.UI.Views.TaskbarSearchPage > Windows.UI.Xaml.Controls.Grid", kProps230, 1 },
     { Host::Search, L"Cortana.UI.Views.TaskbarSearchPage > Windows.UI.Xaml.Controls.Grid#RootGrid", kProps231, 2 },
-    { Host::Search, L"Windows.UI.Xaml.Controls.Grid#RootGrid@SearchBoxLocationStates", kProps232, 1 },
+    { Host::Search, L"Cortana.UI.Views.TaskbarSearchPage > Windows.UI.Xaml.Controls.Grid#RootGrid@SearchBoxLocationStates", kProps232, 1 },
     { Host::Search, L"Windows.UI.Xaml.Controls.Border#TaskbarSearchBackground", kProps233, 4 },
     { Host::Search, L"Cortana.UI.Views.TaskbarSearchPage > Windows.UI.Xaml.Controls.Grid#RootGrid > Windows.UI.Xaml.Controls.Grid#OuterBorderGrid", kProps234, 4 },
     { Host::Search, L"Cortana.UI.Views.TaskbarSearchPage > Windows.UI.Xaml.Controls.AutoSuggestBox > Windows.UI.Xaml.Controls.Grid > Windows.UI.Xaml.Controls.Border", kProps235, 1 },
@@ -1611,6 +1612,6 @@ inline constexpr Rule kRules[] = {
     { Host::ShellFlyout, L"Windows.UI.Xaml.Controls.Grid#ControlCenterRegion", kProps240, 5 },
     { Host::ShellFlyout, L"Border#ToastBackgroundBorder", kProps241, 5 },
 };
-inline constexpr int kRuleCount = 242;
+inline constexpr int kRuleCount = static_cast<int>(sizeof(kRules) / sizeof(kRules[0]));
 
 }  // namespace MaxwellRules

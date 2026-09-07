@@ -19,6 +19,10 @@ Check ($shell -match '\$name: Screens' -and $shell -match 'mediaMonitor: primary
 Check ($shell -notmatch '(?m)^\s*- enableTaskbar:') 'The taskbar is still a separate look toggle instead of Opal itself.'
 Check ($shell -match 'case Host::Explorer:\s+return true;' -and $shell -match 'The Explorer taskbar is Opal') 'Explorer can still disable the Opal bar.'
 Check ($shell -match '\$name: Start, Search, and notifications' -and $shell -notmatch '\$name: Windows look') 'Windows look still treats the taskbar as an optional skin.'
+$rules = [IO.File]::ReadAllText((Join-Path $root 'mod\visual-clones\maxwell-shell-rules.h'))
+Check ($rules -notmatch 'TaskbarSearchPage > Windows.UI.Xaml.Controls.Grid"') 'Search still restyles every descendant Grid, which breaks WebView2 results.'
+Check ($rules -match 'sizeof\(kRules\)' -and $rules -notmatch 'kRuleCount = 24\d') 'Search rule count is a stale literal instead of the table size.'
+Check ($shell -match 'ShouldSkipSearchWebViewElement' -and $shell -match 'HostedWebView') 'Search WebView elements are still inspected by the XAML tap.'
 Check ($shell -match 'hideWithoutSession: false' -and $shell -match 'Reset layout' -and $shell -match 'IconSizeSmall: 28') 'Stable idle media, one-click reset, or one-scale tray defaults are missing.'
 Check ($media -match 'VisibleFullViewWindow' -and $performance -match 'VisibleFullViewWindow') 'Visible-display attach is missing.'
 Check ($control -match 'planned-explorer-restart' -and $performance -match 'EnsureShellCoreProcess') 'Planned Explorer restart or Core relaunch recovery is missing.'

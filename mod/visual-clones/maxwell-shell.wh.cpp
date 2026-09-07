@@ -1322,13 +1322,21 @@ static void AttachTaskbarPillDrag(
 // ---------------------------------------------------------------------
 static int g_applied = 0;
 
+static bool ShouldSkipSearchWebViewElement(const wchar_t* type) {
+    if (!type || !*type) { return false; }
+    return wcsstr(type, L"WebView") != nullptr ||
+           wcsstr(type, L"HostedWebView") != nullptr;
+}
+
 static void OnElementAdded(IXamlDiagnostics* diagnostics,
                            InstanceHandle handle,
                            const wchar_t* type,
                            const wchar_t* name) {
     if (g_unloading.load(std::memory_order_acquire)) { return; }
-    (void)type;
     (void)name;
+    // SearchHost's results live in HostedWebView2Control. Inspecting or restyling
+    // that subtree RoFailFasts (0xc000027b) and the flyout shows a search error.
+    if (ShouldSkipSearchWebViewElement(type)) { return; }
 
     wux::DependencyObject element{nullptr};
     {
@@ -1339,6 +1347,7 @@ static void OnElementAdded(IXamlDiagnostics* diagnostics,
         element = insp.try_as<wux::DependencyObject>();
     }
     if (!element) { return; }
+    if (ShouldSkipSearchWebViewElement(ElementTypeName(element).c_str())) { return; }
 
     // What the tap reports vs what we resolve the object to - if these disagree
     // the selector will never match no matter how correct the rule table is.
