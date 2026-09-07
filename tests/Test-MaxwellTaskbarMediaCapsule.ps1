@@ -71,7 +71,7 @@ if (Test-Path -LiteralPath $master) {
         $text -match 'g_progressHost\.PointerMoved' -and
         $text -match 'g_progressHost\.PointerReleased' -and $text -match 'CapturePointer') `
         'The progress rail no longer supports direct pointer scrubbing.'
-    Assert-True ($text -match 'bool transport = width >= 176' -and
+    Assert-True ($text -match 'bool transport = width >= \(g_settings\.wideInsideCapsule \? 160\.0 : 176\.0\)' -and
         $text -match 'bool artwork = g_settings\.showArtwork && width >= kMinimumSafeWidth' -and
         $text -match 'g_artworkHost\.Width\(46\)' -and
         $text -match 'g_title\.FontSize\(14\.0 \* g_widgetTextScale\)' -and
@@ -93,7 +93,7 @@ if (Test-Path -LiteralPath $master) {
         $text -match 'contentInset \+ width \+ 8\.0' -and
         $text -match 'point\.X\) - zoneLeft - 8\.0') `
         'Media no longer reserves a live non-overlapping lane after System Info.'
-    Assert-True ($text -match 'OpalControl::FullViewWindow\(g_monitorTarget,\s*!g_fullViewOnPrimary\)' -and
+    Assert-True ($text -match 'OpalControl::VisibleFullViewWindow\(g_monitorTarget,\s*!g_fullViewOnPrimary\)' -and
         $text -match 'OpalControl::OtherTaskbarWindows\(g_monitorTarget, fullWindow\)') `
         'Media no longer honors the configured full-view taskbar and other-display mirrors.'
     Assert-True ($text -match 'g_sessionCycleRequest' -and $text -match 'RequestSessionCycle') `

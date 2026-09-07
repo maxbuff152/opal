@@ -53,6 +53,45 @@ inline TaskbarWindows CurrentProcessTaskbars() {
     return result;
 }
 
+inline bool MonitorCoveredByExclusiveFullscreen(HMONITOR monitor) {
+    if (!monitor) return false;
+    HWND foreground = GetForegroundWindow();
+    if (!foreground || IsIconic(foreground)) return false;
+    DWORD processId = 0;
+    if (!GetWindowThreadProcessId(foreground, &processId) ||
+        processId == GetCurrentProcessId()) {
+        return false;
+    }
+    if (MonitorFromWindow(foreground, MONITOR_DEFAULTTONULL) != monitor) {
+        return false;
+    }
+    RECT windowRect{};
+    MONITORINFO monitorInfo{sizeof(monitorInfo)};
+    if (!GetWindowRect(foreground, &windowRect) ||
+        !GetMonitorInfoW(monitor, &monitorInfo)) {
+        return false;
+    }
+    constexpr LONG tolerance = 2;
+    return windowRect.left <= monitorInfo.rcMonitor.left + tolerance &&
+           windowRect.top <= monitorInfo.rcMonitor.top + tolerance &&
+           windowRect.right >= monitorInfo.rcMonitor.right - tolerance &&
+           windowRect.bottom >= monitorInfo.rcMonitor.bottom - tolerance;
+}
+
+inline bool ForegroundIsExclusiveFullscreen() {
+    HWND foreground = GetForegroundWindow();
+    if (!foreground) return false;
+    return MonitorCoveredByExclusiveFullscreen(
+        MonitorFromWindow(foreground, MONITOR_DEFAULTTONULL));
+}
+
+inline bool TaskbarOccluded(HWND window) {
+    if (!window || !IsWindow(window)) return true;
+    if (!IsWindowVisible(window)) return true;
+    return MonitorCoveredByExclusiveFullscreen(
+        MonitorFromWindow(window, MONITOR_DEFAULTTONULL));
+}
+
 inline HWND FullViewWindow(MonitorTarget target, bool preferSecondaryForBoth) {
     const auto windows = CurrentProcessTaskbars();
     if (target == MonitorTarget::Primary)
@@ -61,6 +100,42 @@ inline HWND FullViewWindow(MonitorTarget target, bool preferSecondaryForBoth) {
         return windows.secondary ? windows.secondary : windows.primary;
     if (preferSecondaryForBoth && windows.secondary) return windows.secondary;
     return windows.primary ? windows.primary : windows.secondary;
+}
+
+// Prefer a taskbar that is actually on screen. Exclusive fullscreen on the
+// primary monitor must not blank the second display's full capsule.
+inline HWND VisibleFullViewWindow(MonitorTarget target,
+                                  bool preferSecondaryForBoth) {
+    const auto windows = CurrentProcessTaskbars();
+    std::vector<HWND> candidates;
+    auto consider = [&](HWND window) {
+        if (!window) return;
+        for (HWND existing : candidates) {
+            if (existing == window) return;
+        }
+        candidates.push_back(window);
+    };
+    if (target == MonitorTarget::Primary) {
+        consider(windows.primary);
+        consider(windows.secondary);
+    } else if (target == MonitorTarget::Secondary) {
+        consider(windows.secondary);
+        consider(windows.primary);
+    } else if (preferSecondaryForBoth) {
+        consider(windows.secondary);
+        consider(windows.primary);
+        for (HWND secondary : windows.secondaries) consider(secondary);
+    } else {
+        consider(windows.primary);
+        consider(windows.secondary);
+        for (HWND secondary : windows.secondaries) consider(secondary);
+    }
+    HWND fallback = nullptr;
+    for (HWND window : candidates) {
+        if (!fallback) fallback = window;
+        if (!TaskbarOccluded(window)) return window;
+    }
+    return fallback;
 }
 
 inline std::vector<HWND> OtherTaskbarWindows(MonitorTarget target, HWND fullWindow) {
@@ -205,12 +280,29 @@ inline QuarantineState BeginPackageSession(const wchar_t* package) {
     GetPrivateProfileStringW(L"Health", L"LiveSince", L"0", liveSinceText,
                              ARRAYSIZE(liveSinceText), path.c_str());
     const unsigned long long liveSince = _wcstoui64(liveSinceText, nullptr, 10);
+    std::wstring plannedRestartPath;
+    const bool plannedRestart =
+        BuildLocalAppDataPath(L"planned-explorer-restart", &plannedRestartPath) &&
+        GetFileAttributesW(plannedRestartPath.c_str()) != INVALID_FILE_ATTRIBUTES;
+    if (plannedRestart) {
+        DeleteFileW(plannedRestartPath.c_str());
+    }
     if (dirty) {
         const unsigned long long now = NowFileTime100ns();
+        // A session that never injected UI cannot have crashed because of it.
+        // Planned Explorer restarts and exclusive-fullscreen game coverage are
+        // also not widget crash loops.
+        const bool neverLived = liveSince == 0;
         const bool shortSession =
-            liveSince == 0 || now < liveSince || (now - liveSince) < kCrashWindow100ns;
-        if (shortSession) state.crashCount++;
-        else state.crashCount = 0;
+            !neverLived &&
+            (now < liveSince || (now - liveSince) < kCrashWindow100ns);
+        if (neverLived || plannedRestart || ForegroundIsExclusiveFullscreen()) {
+            // Keep the existing count; do not treat this as a new crash.
+        } else if (shortSession) {
+            state.crashCount++;
+        } else {
+            state.crashCount = 0;
+        }
     } else {
         state.crashCount = 0;
     }
@@ -247,6 +339,15 @@ inline void EndPackageSession(const wchar_t* package) {
     const std::wstring path = HealthPath(package);
     if (!path.empty())
         WritePrivateProfileStringW(L"Health", L"Dirty", L"0", path.c_str());
+}
+
+inline void MarkPlannedExplorerRestart() {
+    EnsureLocalDirectory();
+    std::wstring path;
+    if (!BuildLocalAppDataPath(L"planned-explorer-restart", &path)) return;
+    HANDLE file = CreateFileW(path.c_str(), GENERIC_WRITE, 0, nullptr,
+                              CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
 }
 
 inline void ResetPackageQuarantine(const wchar_t* package) {

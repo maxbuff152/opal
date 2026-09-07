@@ -115,16 +115,16 @@ $opalSettings = [ordered]@{
     'everyday.layoutMode' = (Get-OldOrLegacyValue 'everyday.layoutMode' 'layoutMode' 'automatic')
     'everyday.widgetTextSize' = (Get-OldOrLegacyValue 'everyday.widgetTextSize' 'widgetTextSize' 'standard')
     'everyday.widgetBackgroundStrength' = (Get-OldOrLegacyValue 'everyday.widgetBackgroundStrength' 'widgetBackgroundStrength' 'glass')
-    'screens.mediaMonitor' = (Get-OldOrLegacyValue 'screens.mediaMonitor' 'mediaMonitor' 'both')
+    'screens.mediaMonitor' = 'both'
     'screens.mediaFullDisplay' = (Get-OldOrLegacyValue 'screens.mediaFullDisplay' 'mediaFullDisplay' 'secondary')
-    'screens.performanceMonitor' = (Get-OldOrLegacyValue 'screens.performanceMonitor' 'performanceMonitor' 'both')
+    'screens.performanceMonitor' = 'both'
     'screens.performanceFullDisplay' = (Get-OldOrLegacyValue 'screens.performanceFullDisplay' 'performanceFullDisplay' 'primary')
     'screens.mirrorStyle' = (Get-OldOrLegacyValue 'screens.mirrorStyle' 'mirrorStyle' 'detailed')
     'media.mediaEnabled' = (Get-OldOrLegacyValue 'media.mediaEnabled' 'mediaEnabled' 1)
     'media.mediaSize' = (Get-OldOrLegacyValue 'media.mediaSize' 'mediaSize' 'standard')
     'media.showArtwork' = (Get-OldOrLegacyValue 'media.showArtwork' 'showArtwork' 1)
     'media.showArtist' = (Get-OldOrLegacyValue 'media.showArtist' 'showArtist' 1)
-    'media.hideWithoutSession' = (Get-OldOrLegacyValue 'media.hideWithoutSession' 'hideWithoutSession' 1)
+    'media.hideWithoutSession' = 0
     'media.smoothProgress' = (Get-OldOrLegacyValue 'media.smoothProgress' 'smoothProgress' 1)
     'performance.performanceEnabled' = (Get-OldOrLegacyValue 'performance.performanceEnabled' 'performanceEnabled' 1)
     'performance.performanceSize' = (Get-OldOrLegacyValue 'performance.performanceSize' 'performanceSize' 'standard')
@@ -145,10 +145,10 @@ $opalSettings = [ordered]@{
     'advanced.clockFormatting.BottomLine' = (Get-OldOrLegacyValue 'advanced.clockFormatting.BottomLine' 'BottomLine' '%date%  %weather%')
     'advanced.clockFormatting.TooltipLine' = (Get-OldOrLegacyValue 'advanced.clockFormatting.TooltipLine' 'TooltipLine' '%date% | %time% | BAT %battery% %battery_time% | DOWN %download_speed% UP %upload_speed%')
     'advanced.taskbarSizing.TaskbarHeight' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.TaskbarHeight' 'TaskbarHeight' 68)
-    'advanced.taskbarSizing.IconSize' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.IconSize' 'IconSize' 48)
-    'advanced.taskbarSizing.TaskbarButtonWidth' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.TaskbarButtonWidth' 'TaskbarButtonWidth' 58)
-    'advanced.taskbarSizing.IconSizeSmall' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.IconSizeSmall' 'IconSizeSmall' 18)
-    'advanced.taskbarSizing.TaskbarButtonWidthSmall' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.TaskbarButtonWidthSmall' 'TaskbarButtonWidthSmall' 34)
+    'advanced.taskbarSizing.IconSize' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.IconSize' 'IconSize' 38)
+    'advanced.taskbarSizing.TaskbarButtonWidth' = (Get-OldOrLegacyValue 'advanced.taskbarSizing.TaskbarButtonWidth' 'TaskbarButtonWidth' 50)
+    'advanced.taskbarSizing.IconSizeSmall' = 28
+    'advanced.taskbarSizing.TaskbarButtonWidthSmall' = 42
     'advanced.repair.resetWidgetPositions' = 0
     'advanced.repair.resetCrashQuarantine' = 0
     'advanced.troubleshooting.diagnose' = (Get-OldOrLegacyValue 'advanced.troubleshooting.diagnose' 'diagnose' 0)
@@ -183,7 +183,7 @@ $systemInfoSettings = [ordered]@{
     width = 184; leftOffset = 10; reserveSpace = 1; reserveGap = 8
     updateInterval = 2; gamingUpdateInterval = 10; batterySaverUpdateInterval = 15
     performanceAuraEnabled = 0; activityRailEnabled = 1
-    focusSceneEngineEnabled = 1; adaptiveOverlapEnabled = 1; contentPriorityEnabled = 1
+    adaptiveOverlapEnabled = 1; contentPriorityEnabled = 1
     experienceMode = 'auto'; historySeconds = 60
     fontSize = 13; fontFamily = 'Segoe UI Variable Text'; textColor = '#FFF5F5F7'
     graphColor = '#D6D6D8'; safeColor = '#FFA8A8AD'; warningColor = '#FFC7C7CC'
@@ -261,7 +261,48 @@ function Clear-OpalIntentionalRestartMarkers {
     }
 }
 
+function Stop-LeftoverMaxwellShell {
+    # Adaptive Dock / old MaxwellShell.exe is not Opal. Never stop Maxwell.Shell.Core.exe.
+    foreach ($process in @(Get-CimInstance Win32_Process -Filter "Name='MaxwellShell.exe'" -ErrorAction SilentlyContinue)) {
+        $path = [string]$process.ExecutablePath
+        if ($path -and ([IO.Path]::GetFileName($path) -ieq 'Maxwell.Shell.Core.exe')) { continue }
+        Stop-Process -Id $process.ProcessId -Force -ErrorAction SilentlyContinue
+        Wait-Process -Id $process.ProcessId -Timeout 8 -ErrorAction SilentlyContinue
+    }
+    Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+
+    $runKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
+    if (Test-Path -LiteralPath $runKey) {
+        foreach ($name in @((Get-Item -LiteralPath $runKey).Property)) {
+            if ($name -eq 'MaxwellShellCore') { continue }
+            $value = [string](Get-ItemPropertyValue -LiteralPath $runKey -Name $name -ErrorAction SilentlyContinue)
+            if ($value -match '(?i)MaxwellShell\.exe' -and $value -notmatch '(?i)Maxwell\.Shell\.Core\.exe') {
+                Remove-ItemProperty -LiteralPath $runKey -Name $name -ErrorAction SilentlyContinue
+            }
+        }
+    }
+
+    foreach ($dir in @(
+        (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Startup'),
+        (Join-Path $env:ProgramData 'Microsoft\Windows\Start Menu\Programs\StartUp')
+    )) {
+        if (-not (Test-Path -LiteralPath $dir)) { continue }
+        foreach ($item in @(Get-ChildItem -LiteralPath $dir -File -ErrorAction SilentlyContinue)) {
+            $leftover = $item.Name -match '(?i)MaxwellShell'
+            if (-not $leftover -and $item.Extension -eq '.lnk') {
+                try {
+                    $shortcut = (New-Object -ComObject WScript.Shell).CreateShortcut($item.FullName)
+                    $leftover = [string]$shortcut.TargetPath -match '(?i)(?:^|[\\/])MaxwellShell\.exe$'
+                } catch { }
+            }
+            if ($leftover) { Remove-Item -LiteralPath $item.FullName -Force -ErrorAction SilentlyContinue }
+        }
+    }
+}
+
 function Restart-OpalShell {
+    New-Item -ItemType Directory -Path $controlInstallRoot -Force | Out-Null
+    New-Item -ItemType File -Force -Path (Join-Path $controlInstallRoot 'planned-explorer-restart') | Out-Null
     Stop-Service -Name Windhawk -Force -ErrorAction SilentlyContinue
     foreach ($name in @('explorer', 'StartMenuExperienceHost', 'SearchHost', 'SearchApp', 'ShellExperienceHost', 'ShellHost')) {
         Stop-Process -Name $name -Force -ErrorAction SilentlyContinue
@@ -306,6 +347,7 @@ try {
     $mutationStarted = $true
     Remove-RetiredOpalControlSurface
     Clear-OpalIntentionalRestartMarkers
+    Stop-LeftoverMaxwellShell
     Restart-OpalShell
 
     foreach ($root in @($modsRoot, $writableRoot)) {
@@ -378,6 +420,18 @@ try {
     $missing = @($build | Where-Object { $_.dllName -notin $loadedNames } | ForEach-Object dllName)
     if ($missing.Count) { throw "Opal DLLs did not load in Explorer: $($missing -join ', ')" }
 
+    $coreInstall = & (Join-Path $PSScriptRoot 'Install-MaxwellShellCore.ps1') -Action Install
+    if (-not $coreInstall -or -not $coreInstall.succeeded) {
+        throw 'Maxwell.Shell.Core did not install or stay running.'
+    }
+    if (Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue) {
+        throw 'Leftover MaxwellShell.exe is still running after Opal install.'
+    }
+    $systemInit = & (Join-Path $PSScriptRoot 'Initialize-MaxwellSystem.ps1') -Action Repair
+    if (-not $systemInit -or -not $systemInit.succeeded) {
+        throw 'System Initialization did not verify the single local@opal owner after install.'
+    }
+
     $liveIds = @(Get-ChildItem -LiteralPath $modsRoot | ForEach-Object PSChildName | Sort-Object)
     if (Compare-Object ($expectedIds | Sort-Object) $liveIds) { throw 'Live registry is not exactly one Opal mod.' }
 
@@ -388,6 +442,9 @@ try {
         installed = @($build | Select-Object localId, metadataId, version, dllName, sha256)
         explorerPid = $explorer.Id
         verifiedLoaded = @($build | ForEach-Object dllName)
+        leftoverMaxwellShellRetired = $true
+        coreInstall = $coreInstall
+        systemInitialization = $systemInit
         settingsOwner = 'Windhawk local@opal'
         preservedSettingCount = $preservedSettingNames.Count
         preservedSettingNames = @($preservedSettingNames)

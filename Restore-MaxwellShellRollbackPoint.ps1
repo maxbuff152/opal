@@ -142,6 +142,8 @@ if ($PSCmdlet.ShouldProcess('Windhawk shell state', 'restore from bundle')) {
     Start-Service -Name 'Windhawk' -ErrorAction SilentlyContinue
 
     Write-Host "  restarting Explorer so the restored state goes live..." -ForegroundColor Cyan
+    $planned = Join-Path $env:LOCALAPPDATA 'Maxwell\Opal\planned-explorer-restart'
+    New-Item -ItemType File -Force -Path $planned | Out-Null
     Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
     Start-Sleep -Seconds 3
     if (-not (Get-Process -Name explorer -ErrorAction SilentlyContinue)) { Start-Process explorer.exe }

@@ -20,10 +20,15 @@ $probePath = Join-Path $env:LOCALAPPDATA 'Maxwell\Shell\State\shell-core-test-pr
 
 $sourceText = [IO.File]::ReadAllText($source)
 $buildText = [IO.File]::ReadAllText($buildScript)
+$installText = [IO.File]::ReadAllText((Join-Path $root 'Install-MaxwellShellCore.ps1'))
 Assert-True ($sourceText -notmatch 'RunAdaptiveDock|TryHandleAdaptiveDockCommand') 'Telemetry core still invokes the retired Adaptive Dock.'
 Assert-True ($buildText -notmatch 'AdaptiveDock(?:Services)?\.cpp') 'Telemetry build still compiles the retired Adaptive Dock.'
 Assert-True ($buildText -notmatch '-l(?:dwmapi|d2d1|dwrite|gdiplus|oleacc|winmm|windowscodecs|winhttp)') 'Telemetry build still links a retired UI/media dependency.'
 Assert-True ($sourceText -match 'wttr\.in' -and $sourceText -match 'Maxwell.Shell.Weather') 'Telemetry core does not fetch wttr.in weather for the clock.'
+$performance = [IO.File]::ReadAllText((Join-Path $root 'mod\visual-clones\maxwell-taskbar-system-info.wh.cpp'))
+Assert-True ($performance -match 'EnsureShellCoreProcess' -and $performance -match 'kInstanceMutexName') 'Explorer no longer relaunches Maxwell.Shell.Core when the mapping is missing.'
+Assert-True ($installText -match 'Stop-LeftoverMaxwellShell' -and $installText -match 'MaxwellShell\.exe') 'Core install still leaves leftover MaxwellShell.exe running.'
+Assert-True ($installText -notmatch 'Start-Process[^\r\n]*MaxwellShell\.exe') 'Core install must not start leftover MaxwellShell.exe.'
 Assert-True ($buildText -match '-lwininet') 'Weather fetch is not linked with WinINet in Maxwell.Shell.Core.'
 
 foreach ($retired in @(
@@ -53,6 +58,7 @@ Assert-True ([string]$runValue -eq ('"' + $installedExe + '"')) 'Telemetry core 
 $ownedProcess = @(Get-CimInstance Win32_Process -Filter "Name='Maxwell.Shell.Core.exe'" -ErrorAction SilentlyContinue |
     Where-Object { $_.ExecutablePath -and [IO.Path]::GetFullPath($_.ExecutablePath) -eq [IO.Path]::GetFullPath($installedExe) })
 Assert-True ($ownedProcess.Count -eq 1) 'Exactly one telemetry core process is not running.'
+Assert-True (-not (Get-Process -Name MaxwellShell -ErrorAction SilentlyContinue)) 'Leftover MaxwellShell.exe is still running beside Maxwell.Shell.Core.'
 
 if (-not ('MaxwellTelemetryOnly.NativeWindow' -as [type])) {
     Add-Type -TypeDefinition @'

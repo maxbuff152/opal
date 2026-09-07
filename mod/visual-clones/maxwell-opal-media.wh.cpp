@@ -60,7 +60,7 @@ interaction model, adaptive layout, and implementation are Maxwell-owned.
   $name: Show artwork
 - showArtist: true
   $name: Show artist
-- hideWithoutSession: true
+- hideWithoutSession: false
   $name: Hide without media
 - smoothProgress: true
   $name: Smooth progress
@@ -168,8 +168,9 @@ struct Settings {
     int height = 50;
     bool showArtwork = true;
     bool showArtist = true;
-    bool hideWithoutSession = true;
+    bool hideWithoutSession = false;
     bool smoothProgress = true;
+    bool wideInsideCapsule = false;
 };
 
 struct MediaSnapshot {
@@ -347,7 +348,7 @@ void LoadSettings() {
     g_widgetBackgroundAlpha = background == L"subtle" ? 0x70
                                 : (background == L"strong" ? 0xD0 : 0x9C);
     g_monitorTarget = OpalControl::ReadMonitorSetting(
-        L"screens.mediaMonitor", OpalControl::MonitorTarget::Secondary);
+        L"screens.mediaMonitor", OpalControl::MonitorTarget::Both);
     if (!g_manualLayout &&
         g_monitorTarget == OpalControl::MonitorTarget::Both &&
         g_fullViewOnPrimary == performanceFullOnPrimary) {
@@ -375,18 +376,30 @@ void LoadSettings() {
         g_settings.minimumWidth = 176;
         g_settings.preferredWidth = 216;
         g_settings.maximumWidth = 248;
+        g_settings.wideInsideCapsule = false;
     } else if (size == L"wide") {
-        g_settings.minimumWidth = 240;
-        g_settings.preferredWidth = 336;
-        g_settings.maximumWidth = 360;
+        // Wide adds detail inside the capsule. The reserved taskbar lane stays
+        // at the standard width so one click cannot shove the rest of the bar.
+        g_settings.minimumWidth = 232;
+        g_settings.preferredWidth = 304;
+        g_settings.maximumWidth = 336;
+        g_settings.wideInsideCapsule = true;
     } else {
         g_settings.minimumWidth = 232;
         g_settings.preferredWidth = 304;
         g_settings.maximumWidth = 336;
+        g_settings.wideInsideCapsule = false;
     }
     if (Wh_GetIntSetting(L"advanced.repair.resetWidgetPositions") != 0) {
         Wh_SetIntValue(kPrimaryWidgetLeftValue, -1);
         Wh_SetIntValue(kSecondaryWidgetLeftValue, -1);
+        Wh_SetIntValue(L"ForceCanonicalLayout", 1);
+        g_manualLayout = false;
+        g_settings.minimumWidth = 232;
+        g_settings.preferredWidth = 304;
+        g_settings.maximumWidth = 336;
+        g_settings.hideWithoutSession = false;
+        OpalControl::ResetPackageQuarantine(L"media");
     }
     g_userLeftLoaded = false;
 }
@@ -1539,6 +1552,9 @@ void ApplyMediaReservedSpace(bool visible) {
             mediaLaneReserve = width + 8.0;
         }
     }
+    if (g_settings.wideInsideCapsule) {
+        mediaLaneReserve = std::min(mediaLaneReserve, kAutomaticLaneReserve + 8.0);
+    }
     double next = visible && g_userLeft < 0
         ? mediaLaneReserve +
               (g_monitorTarget == OpalControl::MonitorTarget::Both
@@ -1564,15 +1580,24 @@ void UpdateWidgetVisibility() {
     }
     bool sessionVisible = g_uiSnapshot.hasSession ||
                           !g_settings.hideWithoutSession;
-    bool visible = sessionVisible && g_hasLayoutSpace;
+    bool visible = sessionVisible;
+    if (!g_hasLayoutSpace) {
+        ApplyDensity(kMinimumSafeWidth);
+        visible = sessionVisible;
+    }
     Visibility desired = visible ? Visibility::Visible
                                  : Visibility::Collapsed;
     if (g_widget.Visibility() != desired) {
         g_widget.Visibility(desired);
     }
-    // Reserve as soon as a session exists, even if the widget was previously
-    // collapsed for lack of room. PositionWidget then sees the expanded lane
-    // and can make the widget visible again without a visibility/layout cycle.
+    if (visible && !g_uiSnapshot.hasSession && g_title) {
+        if (g_title.Text() != L"Nothing playing") {
+            g_title.Text(L"Nothing playing");
+        }
+        if (g_artist) {
+            g_artist.Text(L"");
+        }
+    }
     ApplyMediaReservedSpace(sessionVisible);
 }
 
@@ -1581,8 +1606,8 @@ void ApplyDensity(double width) {
         !g_seekForward) {
         return;
     }
-    bool transport = width >= 176;
-    bool showIdentity = width >= 220;
+    bool transport = width >= (g_settings.wideInsideCapsule ? 160.0 : 176.0);
+    bool showIdentity = width >= (g_settings.wideInsideCapsule ? 176.0 : 220.0);
     // The secondary line now carries the artist plus a compact smart media
     // description. Keep it visible whenever the identity lane itself fits.
     bool showArtist = showIdentity;
@@ -1644,6 +1669,11 @@ void PositionWidget() {
             if (std::isfinite(rootWidth) && rootWidth > 0.0) {
                 if (rootWidth < kMinimumSafeWidth) {
                     g_hasLayoutSpace = false;
+                    desired = kMinimumSafeWidth;
+                    if (std::abs(g_widget.Width() - desired) > 0.5) {
+                        g_widget.Width(desired);
+                    }
+                    ApplyDensity(desired);
                     UpdateWidgetVisibility();
                     return;
                 }
@@ -1683,6 +1713,11 @@ void PositionWidget() {
                 0.0, static_cast<double>(point.X) - zoneLeft - 8.0);
             if (available < kMinimumSafeWidth) {
                 g_hasLayoutSpace = false;
+                desired = kMinimumSafeWidth;
+                if (std::abs(g_widget.Width() - desired) > 0.5) {
+                    g_widget.Width(desired);
+                }
+                ApplyDensity(desired);
                 UpdateWidgetVisibility();
                 return;
             }
@@ -1770,7 +1805,8 @@ void UpdateUiTick() {
     }
     UpdateMediaMirror();
 
-    if (!g_uiSnapshot.hasSession && g_leanMode) {
+    if (!g_uiSnapshot.hasSession && g_leanMode &&
+        g_settings.hideWithoutSession) {
         if (!g_noSessionSinceTick) {
             g_noSessionSinceTick = GetTickCount64();
         } else if (g_widget &&
@@ -1788,7 +1824,8 @@ void UpdateUiTick() {
     }
 
     if (!g_widget) {
-        if ((!g_leanMode || g_uiSnapshot.hasSession) && g_parent) {
+        if ((!g_leanMode || g_uiSnapshot.hasSession ||
+             !g_settings.hideWithoutSession) && g_parent) {
             if (!AttachMediaVisuals(g_parent)) {
                 return;
             }
@@ -1805,8 +1842,8 @@ void UpdateUiTick() {
     }
 
     if (hasUpdate) {
-        g_title.Text(latest.title);
-        g_artist.Text(latest.description);
+        g_title.Text(latest.hasSession ? latest.title : L"Nothing playing");
+        g_artist.Text(latest.hasSession ? latest.description : L"");
         if (auto glyph = g_playPause.Content().try_as<TextBlock>()) {
             glyph.Text(latest.playing ? L"\uE769" : L"\uE768");
         }
@@ -2149,7 +2186,8 @@ bool InjectMediaMirror(FrameworkElement taskbarFrame, HWND window) {
     auto& slot = MediaMirrorForWindow(window);
     slot.taskbarFrame = taskbarFrame;
     slot.window = window;
-    if (g_leanMode && !g_uiSnapshot.hasSession) return true;
+    if (g_leanMode && !g_uiSnapshot.hasSession &&
+        g_settings.hideWithoutSession) return true;
     auto root = FindNamedChild(taskbarFrame, L"RootGrid").try_as<Grid>();
     if (!root) return false;
     RemoveMediaMirrorSlot(slot, true);
@@ -2366,8 +2404,8 @@ XamlRoot GetTaskbarXamlRoot(HWND taskbarWindow) {
 }
 
 HWND FindPreferredTaskbarWindow() {
-    return OpalControl::FullViewWindow(g_monitorTarget,
-                                       !g_fullViewOnPrimary);
+    return OpalControl::VisibleFullViewWindow(g_monitorTarget,
+                                              !g_fullViewOnPrimary);
 }
 
 using WindowCallback = void (*)(void*);
@@ -2675,9 +2713,19 @@ bool OpalMedia_EnsureAttached() {
             }
         }
     }
+    HWND visible = FindPreferredTaskbarWindow();
+    HWND current = g_taskbarWindow.load();
+    // Exclusive fullscreen on the current bar must remount the full capsule
+    // onto a visible display. InjectWidget tears down and re-arms the
+    // SizeChanged layout watchers, so remount does not drop that work.
+    if ((g_parent || g_widget) && current && visible && visible != current &&
+        OpalControl::TaskbarOccluded(current)) {
+        ApplyOnTaskbarThread();
+        return g_parent != nullptr || !g_mediaMirrors.empty();
+    }
     if (g_parent) return true;
-    if (!FindPreferredTaskbarWindow()) return false;
+    if (!visible) return false;
     ApplyOnTaskbarThread();
-    return g_parent != nullptr;
+    return g_parent != nullptr || !g_mediaMirrors.empty();
 }
 #endif

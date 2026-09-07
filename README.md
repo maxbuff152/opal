@@ -8,8 +8,9 @@ See `OPAL-START-HERE.md` for the short project map.
 ## Supported architecture
 
 Opal is the only supported Windhawk visual runtime in this tree. Windhawk shows
-exactly one Maxwell-owned mod: `local@opal` 4.4.0. Its DLL contains internally
-isolated Shell, Clock, Media, and Performance components.
+exactly one Maxwell-owned mod: `local@opal` 4.4.0. That mod **is** the taskbar:
+its DLL contains internally isolated Shell, Clock, Media, and Performance
+components. There is no separate taskbar skin, widget pack, or Opal app.
 
 Media and Performance initialize only in Explorer. Start, Search, notification,
 and shell-flyout hosts use the shell component without starting the optional
@@ -18,9 +19,10 @@ workers or taskbar UI.
 weather (wttr.in) out of `explorer.exe`. The retired Adaptive Dock
 is not built, installed, or started.
 
-Open **Opal → Settings** in Windhawk. The page is grouped into seven plain
-sections—**Start here, Screens, Media, Computer stats, Windows look, Clock,**
-and **Advanced**—instead of one long list of prefixed technical fields:
+Open **Opal → Settings** in Windhawk. The page is grouped into **Start here,
+Screens, Media, Computer stats, Start/Search/notifications, Clock, and
+Advanced**. The taskbar itself is not a toggle. Start, Search, and notifications
+are the only optional Windows surfaces.
 
 - **Resource Saver**: on by default; releases idle Media XAML, loaded-frame
   subscriptions, histories, closed flyouts, and fallback metric providers while
@@ -44,10 +46,9 @@ and **Advanced**—instead of one long list of prefixed technical fields:
 - **Reset crash protection**: clears an automatic component quarantine after an
   unstable Explorer session.
 
-The everyday choices are in **Start here**. Screen placement, feature-specific
-choices, and Windows styling have their own sections; raw clock formatting,
-taskbar dimensions, repair switches, and diagnostic logging live under
-**Advanced**.
+The everyday choices are in **Start here**. Screen placement and feature-specific
+choices have their own sections; bar size, repair switches, and diagnostic
+logging live under **Advanced**.
 Automatic placement is recommended. Custom placement enables dragging for the
 full Media and Performance widgets and saves separate positions for the main
 and second screens. Size choices use Compact, Standard, and Expanded labels;
@@ -121,13 +122,12 @@ open windows and shell cache state differ.
 
 ## Canonical experience
 
-- 68-DIP taskbar, 38-DIP official app icons, and 50-DIP taskbar cells.
+- 68-DIP taskbar, 38-DIP official app icons, 50-DIP taskbar cells, and 28-DIP tray icons.
 - Fixed graphite/neutral frost with no selectable color themes.
 - 176-DIP two-line clock with date and optional Katy weather.
 - 184-DIP CPU/RAM glance; GPU, VRAM, thermals, history, processes, and native
   Windows tools remain one click away in Hardware Command Center.
-- Adaptive 232-336-DIP media capsule with artwork, previous/play/next, timeline
-  scrubbing, Shift-scroll seeking, volume scrolling, and session switching.
+- Adaptive 232-336-DIP media capsule. Wide adds detail inside that lane instead of shoving the rest of the bar. An idle "Nothing playing" pill keeps the lane stable.
 - Windows continues to own taskbar previews, flyout material, accessibility,
   scrolling, and native transitions where practical.
 
@@ -138,18 +138,23 @@ Run from this directory:
 ```powershell
 .\Build-OpalSuite.ps1
 .\Test-OpalSuite.ps1 -StaticOnly
+.\tests\Test-OpalTaskbarResilience.ps1
 .\Test-OpalPerformanceBudget.ps1 -ReceiptPath .\measurements\package-cost-opal-4-unified-valid-settled-abba2.json
 .\Install-OpalSuite.ps1 -WhatIf
 .\Install-OpalSuite.ps1
 .\Test-OpalSuite.ps1
 .\tests\Test-WindhawkSafeDock.ps1
 .\tests\Test-MaxwellShellCore.ps1
+.\tests\Test-MaxwellSystemInitialization.ps1
 .\tests\Test-OpalUnifiedControl.ps1
 ```
 
 `Build-OpalSuite.ps1` is the only release build. It produces deterministic DLLs
 and hashes. `Install-OpalSuite.ps1` creates a complete live rollback bundle before
 changing Windhawk and automatically restores it if Explorer or a package fails.
+The same pass marks the Explorer restart as planned, stops leftover
+`MaxwellShell.exe` (Adaptive Dock / old shell), and installs
+`Maxwell.Shell.Core.exe` with the `MaxwellShellCore` Run autostart.
 Recognized `local@opal` choices are carried forward across later installs, so a
 DLL update no longer silently replaces the user's appearance or performance
 profile. The two one-shot reset switches are intentionally cleared after an update.
