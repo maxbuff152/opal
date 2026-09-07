@@ -74,7 +74,10 @@ function Get-RuntimeSample {
                     $_.FileName -like "$engineModRoot\*" -and
                     $registeredDllNames.Contains((Split-Path $_.FileName -Leaf))
                 })
-            } catch { }   # access denied on some hosts is expected and non-fatal
+            } catch {
+                # Access denied on some hosts is expected and non-fatal.
+                Write-Verbose "Module enumeration denied for ${name}: $($_.Exception.Message)"
+            }
             $rows += [pscustomobject]@{
                 Process       = $name
                 Pid           = $proc.Id

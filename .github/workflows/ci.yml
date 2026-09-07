@@ -1,0 +1,23 @@
+name: Static checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  static-gate:
+    name: PowerShell static gate (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module PSScriptAnalyzer -Scope CurrentUser -Force
+
+      - name: Run cross-platform static gate
+        shell: pwsh
+        run: ./Test-OpalStatic.ps1
