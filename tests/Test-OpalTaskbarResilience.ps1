@@ -58,13 +58,13 @@ foreach ($propsName in @('kProps6', 'kProps7')) {
         "(?s)inline constexpr Prop $propsName\[\] = \{(?<body>.*?)\r?\n\};"
     ).Groups['body'].Value
     Check ($propsBlock -match 'L"CornerRadius", nullptr, L"25"') "$propsName still leaves boxy corners on the system tray capsule."
-    Check ($propsBlock -match 'L"Padding", nullptr, L"8,0,8,0"') "$propsName still has asymmetric system tray padding."
+    Check ($propsBlock -match 'L"Padding", nullptr, L"10,0,10,0"') "$propsName still has asymmetric system tray padding."
     Check ($propsBlock -match 'L"Background", nullptr, L"\$OpalTaskbarSurface"') "$propsName does not use the canonical taskbar glass."
 }
 Check ($rules -match 'inline constexpr Prop kProps1\[\][\s\S]*?L"Margin", nullptr, L"10,9,10,9"[\s\S]*?L"CornerRadius", nullptr, L"25"[\s\S]*?L"\$OpalTaskbarSurface"') 'The application lane is not a full-radius glass capsule.'
-Check ($rules -match 'inline constexpr Prop kProps194\[\][\s\S]*?L"Padding", nullptr, L"8,0,8,0"[\s\S]*?L"Margin", nullptr, L"8,9,8,9"[\s\S]*?L"CornerRadius", nullptr, L"25"') 'The late tray rule can still restore square or asymmetric geometry.'
+Check ($rules -match 'inline constexpr Prop kProps194\[\][\s\S]*?L"Padding", nullptr, L"10,0,10,0"[\s\S]*?L"Margin", nullptr, L"10,9,10,9"[\s\S]*?L"CornerRadius", nullptr, L"25"') 'The late tray rule can still restore square or asymmetric geometry.'
 Check ($ownedRules -match 'inline constexpr Prop kFloatingTaskbarRoot\[\][\s\S]*?L"\$OpalTaskbarSurface"[\s\S]*?L"Margin", nullptr, L"10,9,10,9"[\s\S]*?L"CornerRadius", nullptr, L"25"') 'The final app-lane invariant is not a 50-DIP pill.'
-Check ($ownedRules -match 'inline constexpr Prop kFrostedTraySurface\[\][\s\S]*?L"Padding", nullptr, L"8,0,8,0"[\s\S]*?L"CornerRadius", nullptr, L"25"') 'The final tray invariant is not a symmetric 50-DIP pill.'
+Check ($ownedRules -match 'inline constexpr Prop kFrostedTraySurface\[\][\s\S]*?L"Padding", nullptr, L"10,0,10,0"[\s\S]*?L"CornerRadius", nullptr, L"25"') 'The final tray invariant is not a symmetric 50-DIP pill.'
 Check ($apply -notmatch 'ApplyCompositionCornerRadius|ElementCompositionPreview|CreateRoundedRectangleGeometry') 'An unsupported compositor clip can still crash Explorer while styling the tray StackPanel.'
 
 $result = [pscustomobject]@{ passed = $failures.Count -eq 0; failures = @($failures) }

@@ -130,8 +130,8 @@ inline constexpr Prop kProps0[] = {
 // rendered - a faint slab behind the app icons with a hard hairline along the
 // top and a square right edge, which read as the taskbar being "cut off". The
 // three rules that target RootGrid (this one, kProps193, and the owned rule)
-// now agree. Padding is symmetric: the right side had none, so the last app
-// button sat flush against the frame's clip edge and its hover zoom was cut.
+// now agree. Inner padding is the shared 10-DIP island grid, matching tray
+// and clock so the floating capsules breathe the same amount.
 inline constexpr Prop kProps1[] = {
     { L"Margin", nullptr, L"10,9,10,9", false },
     { L"BorderThickness", nullptr, L"0", false },
@@ -162,15 +162,15 @@ inline constexpr Prop kProps5[] = {
     { L"Margin", nullptr, L"0", false },
 };
 inline constexpr Prop kProps6[] = {
-    { L"Margin", nullptr, L"8,9,8,9", false },
-    { L"Padding", nullptr, L"8,0,8,0", false },
+    { L"Margin", nullptr, L"10,9,10,9", false },
+    { L"Padding", nullptr, L"10,0,10,0", false },
     { L"Background", nullptr, L"$OpalTaskbarSurface", true },
     { L"BorderThickness", nullptr, L"0", false },
     { L"CornerRadius", nullptr, L"25", false },
 };
 inline constexpr Prop kProps7[] = {
-    { L"Margin", nullptr, L"8,9,8,9", false },
-    { L"Padding", nullptr, L"8,0,8,0", false },
+    { L"Margin", nullptr, L"10,9,10,9", false },
+    { L"Padding", nullptr, L"10,0,10,0", false },
     { L"Background", nullptr, L"$OpalTaskbarSurface", true },
     { L"BorderThickness", nullptr, L"0", false },
     { L"CornerRadius", nullptr, L"25", false },
@@ -1045,8 +1045,8 @@ inline constexpr Prop kProps193[] = {
 inline constexpr Prop kProps194[] = {
     { L"BorderBrush", nullptr, L"Transparent", false },
     { L"BorderThickness", nullptr, L"0", false },
-    { L"Padding", nullptr, L"8,0,8,0", false },
-    { L"Margin", nullptr, L"8,9,8,9", false },
+    { L"Padding", nullptr, L"10,0,10,0", false },
+    { L"Margin", nullptr, L"10,9,10,9", false },
     { L"CornerRadius", nullptr, L"25", false },
     { L"Background", nullptr, L"$OpalTaskbarSurface", true },
 };
@@ -1057,7 +1057,7 @@ inline constexpr Prop kProps195[] = {
     { L"CornerRadius", nullptr, L"0", false },
     { L"Height", nullptr, L"50", false },
     { L"MinWidth", nullptr, L"168", false },
-    { L"Padding", nullptr, L"8,0,8,0", false },
+    { L"Padding", nullptr, L"10,0,10,0", false },
     { L"Margin", nullptr, L"0", false },
     { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"0\" />", true },
 };
@@ -1075,7 +1075,7 @@ inline constexpr Prop kProps197[] = {
     { L"FontWeight", nullptr, L"Medium", false },
     { L"FontSize", nullptr, L"11", false },
     { L"Margin", nullptr, L"0", false },
-    { L"Foreground", nullptr, L"<SolidColorBrush Color=\"#B8F5F5F7\" />", true },
+    { L"Foreground", nullptr, L"<SolidColorBrush Color=\"#B8D1D1D6\" />", true },
     { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"0\" />", true },
 };
 inline constexpr Prop kProps199[] = {

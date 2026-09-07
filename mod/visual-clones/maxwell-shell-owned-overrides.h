@@ -90,10 +90,13 @@ inline constexpr Prop kBorderlessContainer[] = {
 inline constexpr Prop kFloatingTaskbarRoot[] = {
     // The app lane is a first-class 50-DIP capsule, matching the tray, clock,
     // Media, and Computer stats instead of leaving its icons ungrounded.
+    // Shared 10-DIP island grid: 10 outer, 14 inner on the icon lane so the
+    // 25-DIP pill radius cannot clip the first/last glyphs.
     { L"Background", nullptr, L"$OpalTaskbarSurface", true },
     { L"BorderThickness", nullptr, L"0", false },
     { L"BorderBrush", nullptr, L"Transparent", false },
     { L"Margin", nullptr, L"10,9,10,9", false },
+    { L"Padding", nullptr, L"14,0,14,0", false },
     { L"CornerRadius", nullptr, L"25", false },
     { L"Clip", nullptr, L"None", false },
 };
@@ -117,9 +120,10 @@ inline constexpr Prop kFrostedTraySurface[] = {
     { L"BorderBrush", nullptr, L"Transparent", false },
     // Keep the native tray measure contract intact. Nine-DIP vertical margins
     // inside Opal's 68-DIP taskbar produce the same 50-DIP visible envelope
-    // without a competing Height constraint or a XAML measure loop.
-    { L"Margin", nullptr, L"8,9,8,9", false },
-    { L"Padding", nullptr, L"8,0,8,0", false },
+    // without a competing Height constraint or a XAML measure loop. Horizontal
+    // inset matches the app lane so the floating islands share one grid.
+    { L"Margin", nullptr, L"10,9,10,9", false },
+    { L"Padding", nullptr, L"10,0,10,0", false },
     { L"CornerRadius", nullptr, L"25", false },
 };
 
@@ -153,7 +157,7 @@ inline constexpr Prop kClockContainer[] = {
     // content box and clips the second line on a 50-DIP taskbar surface.
     { L"Height", nullptr, L"50", false },
     { L"MinWidth", nullptr, L"168", false },
-    { L"Padding", nullptr, L"8,0,8,0", false },
+    { L"Padding", nullptr, L"10,0,10,0", false },
     { L"Margin", nullptr, L"0", false },
     { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"0\" />", true },
 };
@@ -174,6 +178,7 @@ inline constexpr Prop kClockDateWeather[] = {
     { L"FontFamily", nullptr, L"Segoe UI Variable Text", false },
     { L"FontWeight", nullptr, L"Medium", false },
     { L"FontSize", nullptr, L"11", false },
+    { L"Foreground", nullptr, L"<SolidColorBrush Color=\"#B8D1D1D6\" />", true },
     { L"Margin", nullptr, L"0", false },
     { L"Padding", nullptr, L"0", false },
     { L"RenderTransform", nullptr, L"<TranslateTransform X=\"0\" Y=\"0\" />", true },
@@ -195,13 +200,13 @@ inline constexpr Prop kOverlayIcon[] = {
 };
 
 inline constexpr Prop kAppBadge[] = {
-    { L"MinWidth", nullptr, L"18", false },
+    { L"MinWidth", nullptr, L"16", false },
     { L"Width", nullptr, L"Auto", false },
-    { L"Height", nullptr, L"18", false },
-    { L"MinHeight", nullptr, L"18", false },
+    { L"Height", nullptr, L"16", false },
+    { L"MinHeight", nullptr, L"16", false },
     { L"Padding", nullptr, L"3,0,3,0", false },
     { L"Margin", nullptr, L"0,1,1,0", false },
-    { L"CornerRadius", nullptr, L"9", false },
+    { L"CornerRadius", nullptr, L"8", false },
     { L"HorizontalAlignment", nullptr, L"Right", false },
     { L"VerticalAlignment", nullptr, L"Top", false },
     { L"Canvas.ZIndex", nullptr, L"7", false },
